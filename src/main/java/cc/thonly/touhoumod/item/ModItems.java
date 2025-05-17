@@ -1,0 +1,328 @@
+package cc.thonly.touhoumod.item;
+
+import cc.thonly.touhoumod.Touhou;
+import cc.thonly.touhoumod.item.base.BasicPolymerDiscItem;
+import cc.thonly.touhoumod.item.entry.DanmakuItemEntries;
+import cc.thonly.touhoumod.item.weapon.*;
+import cc.thonly.touhoumod.sound.ModJukeboxSongs;
+import cc.thonly.touhoumod.util.IdentifierGetter;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+public class ModItems {
+    private static final List<Item> ICON_LIST = new ArrayList<>();
+    private static final List<Item> ITEM_LIST = new ArrayList<>();
+    private static final List<Item> DISC_LIST = new ArrayList<>();
+    private static final List<Item> DANMAKU_LIST = new ArrayList<>();
+
+    // 弹幕颜色
+    public static final List<DanmakuItemEntries.ColorEnum> ALL_COLOR = List.of(
+            DanmakuItemEntries.ColorEnum.BLACK,
+            DanmakuItemEntries.ColorEnum.DARK_RED,
+            DanmakuItemEntries.ColorEnum.RED,
+            DanmakuItemEntries.ColorEnum.DARK_PURPLE,
+            DanmakuItemEntries.ColorEnum.PURPLE,
+            DanmakuItemEntries.ColorEnum.DARK_BLUE,
+            DanmakuItemEntries.ColorEnum.BLUE,
+            DanmakuItemEntries.ColorEnum.DARK_CYAN,
+            DanmakuItemEntries.ColorEnum.CYAN,
+            DanmakuItemEntries.ColorEnum.DARK_GREEN,
+            DanmakuItemEntries.ColorEnum.GREEN,
+            DanmakuItemEntries.ColorEnum.DARK_YELLOW_GREEN,
+            DanmakuItemEntries.ColorEnum.YELLOW_GREEN,
+            DanmakuItemEntries.ColorEnum.YELLOW,
+            DanmakuItemEntries.ColorEnum.ORANGE,
+            DanmakuItemEntries.ColorEnum.GREY
+    );
+
+    // 调试
+    public static final Item BATTLE_STICK = registerItemWithNotGroup(new BattleStick("battle_stick", new Item.Settings()));
+    // 图标
+    public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
+    public static final Item FUMO_ICON = registerIconItem(new BasicItem("fumo_icon", new Item.Settings()));
+    public static final Item SPAWN_EGG = registerIconItem(new BasicItem("spawn_egg", new Item.Settings()));
+
+    // 材料
+    public static final Item POINT = registerItem(new BasicItem("point", new Item.Settings()));
+    public static final Item POWER = registerItem(new BasicItem("power", new Item.Settings()));
+    public static final Item UPGRADED_HEALTH_FRAGMENT = registerItem(new BasicItem("upgraded_health_fragment", new Item.Settings()));
+    public static final Item BOMB_FRAGMENT = registerItem(new BasicItem("bomb_fragment", new Item.Settings()));
+    public static final Item SHIDE = registerItem(new ShideItem("shide", new Item.Settings()));
+    public static final Item SHIMENAWA = registerItem(new BasicItem("shimenawa", new Item.Settings()));
+    public static final Item RED_ORB = registerItem(new BasicItem("red_orb", new Item.Settings()));
+    public static final Item BLUE_ORB = registerItem(new BasicItem("blue_orb", new Item.Settings()));
+    public static final Item YELLOW_ORB = registerItem(new BasicItem("yellow_orb", new Item.Settings()));
+    public static final Item GREEN_ORB = registerItem(new BasicItem("green_orb", new Item.Settings()));
+    public static final Item PURPLE_ORB = registerItem(new BasicItem("purple_orb", new Item.Settings()));
+    public static final Item YIN_YANG_ORB = registerItem(new BasicItem("yin-yang_orb", new Item.Settings()));
+
+    // 道具
+    public static final Item TOUHOU_HELPER = registerItem(new TouhouHelperItem("touhou_helper", new Item.Settings()));
+    public static final Item UPGRADED_HEALTH = registerItem(new UpgradedHealthItem("upgraded_health", new Item.Settings()));
+    public static final Item BOMB = registerItem(new BombItem("bomb", new Item.Settings().useCooldown(2.0f)));
+    public static final Item HORAI_DAMA_NO_EDA = registerItem(new BasicItem("horai-dama_no_eda", new Item.Settings()));
+    public static final Item CROSSING_CHISEL = registerItem(new CrossingChisel("crossing_chisel", new Item.Settings()));
+    public static final Item GAP_BALL = registerItem(new GapBall("gap_ball", new Item.Settings()));
+    public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
+    public static final Item TIME_STOP_CLOCK = registerItem(new TimeStopClock("time_stop_clock", new Item.Settings()));
+    // 武器
+    public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
+    public static final Item WIND_BLESSING_CANE = registerItem(new WindBlessingCane("wind_blessing_cane", 0, 0, new Item.Settings()));
+    public static final Item MAGIC_BROOM = registerItem(new MagicBroom("magic_broom", 0, 0, new Item.Settings()));
+    public static final Item KNIFE = registerItem(new Knife("knife", 0f, 0f, new Item.Settings()));
+    public static final Item ROKANKEN = registerItem(new Rokanken("rokanken", 1f, 0.5f, new Item.Settings()));
+    public static final Item HAKUROKEN = registerItem(new Hakuroken("hakuroken", 1f, 1f, new Item.Settings()));
+    public static final Item PAPILIO_PATTERN_FAN = registerItem(new PapilioPatternFan("papilio_pattern_fan", 0f, 1f, new Item.Settings()));
+    public static final Item GUNGNIR = registerItem(new Gungnir("gungnir", 0, 0, new Item.Settings()));
+    public static final Item LEVATIN = registerItem(new Levatin("levatin", 0, 0, new Item.Settings()));
+    public static final Item IBUKIHO = registerItem(new Ibukiho("ibukiho", 0, 0, new Item.Settings()));
+    public static final Item SWORD_OF_HISOU = registerItem(new SwordOfHisou("sword_of_hisou", 0, 0, new Item.Settings()));
+
+    // DISC
+    public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR03_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item TH15_16 = registerDiscItem(new BasicPolymerDiscItem("th15_16", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_16.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item TH15_17 = registerDiscItem(new BasicPolymerDiscItem("th15_17", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_17.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+
+    static {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(itemGroup -> {
+            itemGroup.add(BATTLE_STICK);
+        });
+    }
+
+    // 符卡模板
+//    public static final Item EMPTY_SPELL_CARD = registerItem(new BasicPolymerSpellCardItem("empty_spell_card", new Item.Settings()) {
+//        @Override
+//        public void spellCard(ServerWorld world, PlayerEntity user, Hand hand, ItemStack offHandStack) {
+//        }
+//
+//        @Override
+//        public int getBulletConsumption() {
+//            return 0;
+//        }
+//    });
+
+//    public static final Item DEBUG_SPELL_CARD_ITEM = registerItem(new BasicPolymerSpellCardItem("test_spell_card", new Item.Settings()) {
+//        @Override
+//        public void spellCard(ServerWorld world, PlayerEntity user, Hand hand, ItemStack offHandStack) {
+//            float pitch = user.getPitch();
+//            float yaw = user.getYaw();
+//
+//            spawnDanmakuEntity(world, user, hand, offHandStack, pitch, yaw - 25, 1.4f, 5.0f);
+//            spawnDanmakuEntity(world, user, hand, offHandStack, pitch, yaw, 1.4f, 5.0f);
+//            spawnDanmakuEntity(world, user, hand, offHandStack, pitch, yaw + 25.0f, 1.4f, 5.0f);
+//        }
+//
+//        @Override
+//        public int getBulletConsumption() {
+//            return 3;
+//        }
+//    });
+
+//    public static final Item DEBUG_SPELL_CARD_ITEM2 = registerItem(new BasicPolymerSpellCardItem("test_spell_card2", new Item.Settings()) {
+//        @Override
+//        public void spellCard(ServerWorld world, PlayerEntity user, Hand hand, ItemStack offHandStack) {
+//            ItemStack main = user.getMainHandStack().copy();
+//            ItemStack copy = offHandStack.copy();
+//
+//            SpellCardEntity spellCardEntity = new SpellCardEntity(user, main, offHandStack, hand, 20 * 20) {
+//                @Override
+//                public void apply() {
+//                    Integer tickCount = this.getTickCount();
+//
+//                    // 控制参数
+//                    int bulletCount = 7;  // 弹幕数量
+//                    float speed = 1.0f;   // 子弹的发射速度
+//                    float divergence = 0.05f; // 子弹的发射偏差
+//                    double radius = 2.0; // 发射轨迹的半径
+//                    double angularSpeed = 0.1;  // 旋转速度
+//
+//                    // 旋转一圈后再回到原位
+//                    double totalRotation = 2 * Math.PI;  // 一圈的旋转角度
+//                    double angularStep = totalRotation / bulletCount;  // 每个子弹之间的角度间隔
+//
+//                    // 计算当前旋转方向
+//                    int cycleTicks = 20 * 5; // 一个周期的 tick 数（20秒）
+//                    int halfCycleTicks = cycleTicks / 2; // 半周期 tick 数（10秒）
+//
+//                    // 根据 tickCount 来调整旋转方向
+//                    double currentRotation;
+//                    if (tickCount % cycleTicks < halfCycleTicks) {
+//                        // 顺时针旋转
+//                        currentRotation = angularSpeed * (tickCount % cycleTicks);
+//                    } else {
+//                        // 逆时针旋转
+//                        currentRotation = angularSpeed * (cycleTicks - (tickCount % cycleTicks));
+//                    }
+//
+//                    // 子弹发射
+//                    for (int i = 0; i < bulletCount; i++) {
+//                        // 计算当前子弹的角度，确保它顺时针旋转一圈后转回来
+//                        double angle = i * angularStep + currentRotation;
+//
+//                        // 计算子弹的偏移量
+//                        double xOffset = radius * Math.cos(angle);
+//                        double zOffset = radius * Math.sin(angle);
+//
+//                        // 创建子弹实体
+//                        DanmakuEntity danmaku = new DanmakuEntity(
+//                                (LivingEntity) this.getOwner(),
+//                                copy.copy(),
+//                                Hand.MAIN_HAND,
+//                                (BasicPolymerDanmakuItem) copy.getItem(),
+//                                this.getPitch(),  // 获取物品的俯仰角（pitch）
+//                                this.getYaw(),    // 获取物品的偏航角（yaw）
+//                                speed,            // 发射速度
+//                                divergence        // 发射偏差
+//                        );
+//
+//                        // 设置子弹的初始位置
+//                        danmaku.setPos(this.getX() + xOffset, this.getY(), this.getZ() + zOffset);
+//                        double motionX = speed * Math.cos(angle);
+//                        double motionZ = speed * Math.sin(angle);
+//                        danmaku.setVelocity(motionX, 0, motionZ);
+//
+//                        // 向世界中发射子弹
+//                        if (!this.getWorld().isClient) {
+//                            this.getWorld().spawnEntity(danmaku);
+//                        }
+//                    }
+//                }
+//            };
+//
+//            world.spawnEntity(spellCardEntity);
+//            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), ModSoundEvents.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
+//        }
+//
+//        @Override
+//        public int getBulletConsumption() {
+//            return 0;
+//        }
+//    });
+
+    // 弹幕
+    public static final DanmakuItemEntries AMULET = DanmakuItemEntries.createBuilder("amulet", ALL_COLOR, 2f, 0.5f, 1.0f, false, false).build();
+    public static final DanmakuItemEntries ARROWHEAD = DanmakuItemEntries.createBuilder("arrowhead", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+    public static final DanmakuItemEntries BALL = DanmakuItemEntries.createBuilder("ball", ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+    public static final DanmakuItemEntries BUBBLE = DanmakuItemEntries.createBuilder("bubble", List.of(DanmakuItemEntries.ColorEnum.GREY, DanmakuItemEntries.ColorEnum.RED, DanmakuItemEntries.ColorEnum.PURPLE, DanmakuItemEntries.ColorEnum.DARK_BLUE, DanmakuItemEntries.ColorEnum.BLUE), 2.5f, 1f, 1.0f, true, false).build();
+    public static final DanmakuItemEntries BULLET = DanmakuItemEntries.createBuilder("bullet", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+    public static final DanmakuItemEntries FIREBALL = DanmakuItemEntries.createBuilder("fireball", ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+    public static final DanmakuItemEntries FIREBALL_GLOWY = DanmakuItemEntries.createBuilder("fireball_glowy", ALL_COLOR, 1f, 1f, 1.0f, true, false).build();
+    public static final DanmakuItemEntries KUNAI = DanmakuItemEntries.createBuilder("kunai", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+    //public static final DanmakuItemEntries MENTOS = DanmakuItemEntries.createBuilder("mentos", ALL_COLOR, 2f, 1f, 1.0f, false).build(); // 暂占位
+    public static final DanmakuItemEntries RICE = DanmakuItemEntries.createBuilder("rice", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+    public static final DanmakuItemEntries STAR = DanmakuItemEntries.createBuilder("star", ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+
+
+    public static final List<DanmakuItemEntries> DANMAKU_ITEMS = List.of(
+            AMULET,
+            ARROWHEAD,
+            BALL,
+            BUBBLE,
+            BULLET,
+            FIREBALL,
+            FIREBALL_GLOWY,
+            KUNAI,
+            RICE,
+            STAR
+    );
+
+//    public static final Item DEBUG_DANMAKU_ITEM = registerDanmakuItemNoList(new BasicDanmakuItem(
+//            "debug_danmaku",
+//            new Item.Settings()
+//                    .component(ModDataComponentTypes.Danmaku.DAMAGE, 2.0f)
+//                    .component(ModDataComponentTypes.Danmaku.SCALE, 1.0f)
+//                    .component(ModDataComponentTypes.Danmaku.SPEED, 1.0f)
+//                    .component(ModDataComponentTypes.Danmaku.INFINITE, true)
+//    ));
+
+    static {
+    }
+
+    public static void registerItems() {
+        ArrayList<ItemStack> discStack = new ArrayList<>();
+        for (var disc : DISC_LIST) {
+            discStack.add(disc.getDefaultStack());
+        }
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(itemGroup -> {
+            itemGroup.addAfter(Items.MUSIC_DISC_PIGSTEP, discStack);
+        });
+    }
+
+    public static Item registerItem(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        ITEM_LIST.add((Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerCopyedItem(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        ITEM_LIST.add((Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerItemWithNotGroup(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerIconItem(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        ICON_LIST.add((Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerDiscItem(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        DISC_LIST.add((Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerDanmakuItem(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        DANMAKU_LIST.add((Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerDanmakuItemNoList(IdentifierGetter item) {
+        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
+        return (Item) item;
+    }
+
+    public static Item registerItem(String path, Function<Identifier, Item> itemFactory) {
+        Identifier id = Touhou.id(path);
+        RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, id);
+        Item item = itemFactory.apply(id);
+        Registry.register(Registries.ITEM, itemKey, item);
+        ITEM_LIST.add(item);
+        return item;
+    }
+
+    public static List<Item> getRegisteredItems() {
+        return List.copyOf(ITEM_LIST);
+    }
+
+    public static List<Item> getRegisteredDiscItems() {
+        return List.copyOf(DISC_LIST);
+    }
+
+    public static List<Item> getRegisteredDanmakuItems() {
+        return List.copyOf(DANMAKU_LIST);
+    }
+
+    public static List<Item> getIconItems() {
+        return List.copyOf(ICON_LIST);
+    }
+}

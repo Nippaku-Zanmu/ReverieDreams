@@ -1,0 +1,38 @@
+package cc.thonly.touhoumod.block.entity;
+
+import cc.thonly.touhoumod.Touhou;
+import cc.thonly.touhoumod.block.ModBlocks;
+import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+
+public class ModBlockEntities {
+
+    public static final BlockEntityType<DanmakuCraftingTableBlockEntity> DANMAKU_CRAFTING_TABLE_BLOCK_ENTITY =
+            registerBlockEntity("danmaku_crafting_table", DanmakuCraftingTableBlockEntity::new, ModBlocks.DANMAKU_CRAFTING_TABLE);
+    public static final BlockEntityType<StrengthenTableBlockEntity> STRENGTH_TABLE_BLOCK_ENTITY =
+            registerBlockEntity("strength_table", StrengthenTableBlockEntity::new, ModBlocks.STRENGTH_TABLE);
+    public static final BlockEntityType<GensokyoAltarBlockEntity> GENSOKYO_ALTAR_BLOCK_ENTITY =
+            registerBlockEntity("gensokyo_altar", GensokyoAltarBlockEntity::new, ModBlocks.GENSOKYO_ALTAR);
+
+    public static void registerBlockEntities() {
+
+    }
+
+    private static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(
+            String name,
+            FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory,
+            Block... blocks
+    ) {
+        Identifier id = Touhou.id(name);
+        BlockEntityType<T> entityType = Registry.register(Registries.BLOCK_ENTITY_TYPE, id, FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build());
+        PolymerBlockUtils.registerBlockEntity(entityType);
+        return entityType;
+    }
+
+}

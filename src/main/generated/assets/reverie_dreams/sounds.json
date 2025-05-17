@@ -1,0 +1,82 @@
+{
+  "fumo/0": {
+    "subtitle": "sound.reverie_dreams.fumo/0",
+    "sounds": [
+      "reverie_dreams:fumo/0"
+    ]
+  },
+  "fumo/2": {
+    "subtitle": "sound.reverie_dreams.fumo/2",
+    "sounds": [
+      "reverie_dreams:fumo/2"
+    ]
+  },
+  "fumo/1": {
+    "subtitle": "sound.reverie_dreams.fumo/1",
+    "sounds": [
+      "reverie_dreams:fumo/1"
+    ]
+  },
+  "hr03_01": {
+    "subtitle": "sound.reverie_dreams.hr03_01",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/hr03_01"
+      }
+    ]
+  },
+  "fumo/3": {
+    "subtitle": "sound.reverie_dreams.fumo/3",
+    "sounds": [
+      "reverie_dreams:fumo/3"
+    ]
+  },
+  "up": {
+    "subtitle": "sound.reverie_dreams.up",
+    "sounds": [
+      "reverie_dreams:up"
+    ]
+  },
+  "spell_card": {
+    "subtitle": "sound.reverie_dreams.spell_card",
+    "sounds": [
+      "reverie_dreams:spell_card"
+    ]
+  },
+  "hr01_01": {
+    "subtitle": "sound.reverie_dreams.hr01_01",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/hr01_01"
+      }
+    ]
+  },
+  "fire": {
+    "subtitle": "sound.reverie_dreams.fire",
+    "sounds": [
+      "reverie_dreams:fire"
+    ]
+  },
+  "th15_17": {
+    "subtitle": "sound.reverie_dreams.th15_17",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/th15_17"
+      }
+    ]
+  },
+  "point": {
+    "subtitle": "sound.reverie_dreams.point",
+    "sounds": [
+      "reverie_dreams:point"
+    ]
+  },
+  "th15_16": {
+    "subtitle": "sound.reverie_dreams.th15_16",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/th15_16"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+	"schemaVersion": 1,
+	"id": "reverie_dreams",
+	"version": "${version}",
+	"name": "幻想乡追忆录　～ Reverie of Lost Dreams",
+	"description": "",
+	"authors": [
+		"稀神灵梦"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"cc.thonly.touhoumod.Touhou"
+		],
+		"client": [
+			"cc.thonly.touhoumod.TouhouClient"
+		],
+		"preLaunch": [
+			"cc.thonly.touhoumod.TouhouEarly"
+		],
+		"fabric-datagen": [
+			"cc.thonly.touhoumod.TouhouDataGenerator"
+		]
+	},
+	"mixins": [
+		"reverie_dreams.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "1.21.4",
+		"java": ">=21",
+		"fabric-api": "*",
+		"polymer-core": "*",
+		"polymer-networking": "*",
+		"polymer-virtual-entity": "*",
+		"polymer-resource-pack": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"accessWidener": "reverie_dreams.accesswidener"
+}

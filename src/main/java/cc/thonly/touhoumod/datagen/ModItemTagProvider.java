@@ -1,0 +1,61 @@
+package cc.thonly.touhoumod.datagen;
+
+import cc.thonly.touhoumod.block.FumoBlocks;
+import cc.thonly.touhoumod.data.ModTags;
+import cc.thonly.touhoumod.item.ModItems;
+import cc.thonly.touhoumod.item.base.*;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
+
+import java.util.concurrent.CompletableFuture;
+
+public class ModItemTagProvider extends FabricTagProvider<Item> {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        super(output, RegistryKeys.ITEM, registriesFuture);
+    }
+
+    @Override
+    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        FabricTagProvider<Item>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.Items.EMPTY);
+        empty.add(Items.BEDROCK);
+
+        FabricTagProvider<Item>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.Items.FUMO);
+        for (var item : FumoBlocks.getRegisteredFumoItems()) {
+            fumo.add(item);
+        }
+
+        FabricTagProvider<Item>.FabricTagBuilder creeperDropMusicDisc = getOrCreateTagBuilder(ItemTags.CREEPER_DROP_MUSIC_DISCS);
+        for (var item : ModItems.getRegisteredDiscItems()) {
+            creeperDropMusicDisc.add(item);
+        }
+
+        FabricTagProvider<Item>.FabricTagBuilder swordItem = getOrCreateTagBuilder(ItemTags.SWORDS);
+        BasicPolymerSwordItem.ITEMS.forEach(swordItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder pickaxeItem = getOrCreateTagBuilder(ItemTags.PICKAXES);
+        BasicPolymerPickaxeItem.ITEMS.forEach(pickaxeItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder axeItem = getOrCreateTagBuilder(ItemTags.AXES);
+        BasicPolymerAxeItem.ITEMS.forEach(axeItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder shovelItem = getOrCreateTagBuilder(ItemTags.SHOVELS);
+        BasicPolymerShovelItem.ITEMS.forEach(shovelItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder hoeItem = getOrCreateTagBuilder(ItemTags.HOES);
+        BasicPolymerHoeItem.ITEMS.forEach(hoeItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder headItem = getOrCreateTagBuilder(ItemTags.HEAD_ARMOR);
+        BasicPolymerArmorItem.HEAD_ITEMS.forEach(headItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder chestItem = getOrCreateTagBuilder(ItemTags.CHEST_ARMOR);
+        BasicPolymerArmorItem.CHEST_ITEMS.forEach(chestItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder legItem = getOrCreateTagBuilder(ItemTags.LEG_ARMOR);
+        BasicPolymerArmorItem.LEG_ITEMS.forEach(legItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder feetItem = getOrCreateTagBuilder(ItemTags.FOOT_ARMOR);
+        BasicPolymerArmorItem.FEET_ITEMS.forEach(feetItem::add);
+        FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.Items.ARMOR);
+        BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
+    }
+
+}

@@ -1,0 +1,6 @@
+{
+  "type": "reverie_dreams:dream_world_grid",
+  "config": {
+    "block": "minecraft:obsidian"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "required": true,
+  "package": "cc.thonly.touhoumod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BedBlockMixin",
+    "EntityMixin",
+    "ExampleMixin",
+    "GuiElementBuilderMixin",
+    "ItemStackMixin",
+    "LevelSummaryMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "RegistryLoaderMixin",
+    "SimpleRegistryMixin",
+    "WorldMixin",
+    "accessor.ComponentMapBuilderAccessor",
+    "accessor.EntityAccessor",
+    "accessor.ItemSettingsAccessor",
+    "accessor.LivingEntityAccessor",
+    "accessor.PlayerEntityAccessor",
+    "accessor.ResourceAccessor",
+    "compat.PolymerCommonUtilsMixin",
+    "compat.PolymerItemGroupContentAddS2CPayloadMixin",
+    "server.MinecraftServerMixin",
+    "server.ReloadableRegistriesMixin",
+    "server.ServerAdvancementLoaderAccessor",
+    "server.ServerPlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "IntegratedServerLoaderMixin",
+    "client.AbstractBlockMixin",
+    "client.AbstractSoundInstanceAccessor",
+    "client.MinecraftClientMixin",
+    "client.NoteBlockMixin"
+  ]
+}

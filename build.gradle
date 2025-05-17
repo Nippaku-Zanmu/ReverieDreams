@@ -1,0 +1,162 @@
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+
+repositories {
+    maven { url = 'https://maven.nucleoid.xyz' }
+    maven { url = "https://api.modrinth.com/maven/" }
+
+    maven {
+        name = "Infinituum Mod Resources"
+        url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
+    }
+    maven {
+        name = "Ladysnake Mods"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven { url = "https://api.modrinth.com/maven" }
+    maven { url = uri("https://repo.opencollab.dev/main/") }
+    maven { url = "https://maven.mohistmc.com/" }
+    maven { url = "https://maven.architectury.dev/" }
+    maven { url = "https://cursemaven.com" }
+    maven { url "https://maven.tomalbrc.de" }
+    flatDir {
+        dirs 'libs'
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+    minecraft "net.minecraft:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation("eu.pb4:polymer-core:[${polymer_version}]")
+    modImplementation("eu.pb4:polymer-blocks:[${polymer_version}]")
+    modImplementation("eu.pb4:polymer-resource-pack:[${polymer_version}]")
+    modImplementation("eu.pb4:polymer-resource-pack-extras:[${polymer_version}]")
+    modImplementation("eu.pb4:polymer-virtual-entity:[${polymer_version}]")
+    modImplementation("eu.pb4:polymer-autohost:${polymer_version}")
+    modImplementation("eu.pb4:polymer-networking:[${polymer_version}]")
+
+    modImplementation include("maven.modrinth:pfu:0.2.3+1.21.4")
+    modImplementation include("eu.pb4:factorytools:[${factorytools_version}]")
+    modImplementation include("eu.pb4:sgui:[${sgui_version}]")
+    modImplementation include("xyz.nucleoid:server-translations-api:2.4.0+1.21.2-rc1")
+    modImplementation include ("maven.modrinth:midnightlib:${midnightlib_version}")
+
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-block:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-chunk:${project.cca_version}")
+
+    modImplementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
+
+    modImplementation files('libs/resourceconfigapi-fabric-1.21.4-3.6.1.jar')
+
+
+    compileOnly('org.geysermc.geyser:api:2.6.1-SNAPSHOT')
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    modCompileOnly 'maven.modrinth:polydex:1.2.4+1.21.1'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    implementation include('com.mohistmc:dynamicenum:0.3')
+    implementation include("org.jodd:jodd-petite:6.0.2")
+    implementation include('org.reflections:reflections:0.10.2')
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": inputs.properties.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 21
+}
+
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/reverie_dreams.accesswidener")
+}
+
+jar {
+    inputs.property "archivesName", project.base.archivesName
+
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}" }
+    }
+    from("CREDIT") {
+        rename { "CREDIT" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
+
+afterEvaluate {
+    downloadAssets {
+        downloadThreads = 4
+    }
+    configurations.runtimeClasspath.forEach { file ->
+        if (file.name.startsWith("sponge-mixin")) {
+            tasks.named("runClient", JavaExec) {
+                jvmArgs("-javaagent:${file.absolutePath}")
+            }
+        }
+    }
+}
