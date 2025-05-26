@@ -5,6 +5,12 @@
       "reverie_dreams:fumo/0"
     ]
   },
+  "biu": {
+    "subtitle": "sound.reverie_dreams.biu",
+    "sounds": [
+      "reverie_dreams:biu"
+    ]
+  },
   "fumo/2": {
     "subtitle": "sound.reverie_dreams.fumo/2",
     "sounds": [

@@ -6,7 +6,6 @@ import eu.pb4.polymer.core.api.other.PolymerComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -20,6 +19,8 @@ public class ModDataComponentTypes {
                 ComponentType.<Integer>builder().codec(Codec.INT).build());
         public static final ComponentType<Float> DAMAGE = registerComponent("damage",
                 ComponentType.<Float>builder().codec(Codec.FLOAT).build());
+        public static final ComponentType<String> DAMAGE_TYPE = registerComponent("damage_type",
+                ComponentType.<String>builder().codec(Codec.STRING).build());
         public static final ComponentType<Float> SCALE = registerComponent("scale",
                 ComponentType.<Float>builder().codec(Codec.FLOAT).build());
         public static final ComponentType<Float> SPEED = registerComponent("speed",

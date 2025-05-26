@@ -20,10 +20,10 @@ import java.util.*;
 @Getter
 @ToString
 public class DanmakuRecipes extends CustomRecipes {
-    private static final RegistryInstance<DanmakuRecipe.Entry> INSTANCE = new RegistryInstance<>();
+    private static final RecipeRegistryBase<DanmakuRecipe.Entry> INSTANCE = new RecipeRegistryBase<>();
 
     public static void registerRecipes() {
-        RegistryInstance<DanmakuRecipe.Entry> registry = getRecipeRegistryRef();
+        RecipeRegistryBase<DanmakuRecipe.Entry> registry = getRecipeRegistryRef();
 
         for (DanmakuItemEntries entry : ModItems.DANMAKU_ITEMS) {
             List<BasicDanmakuItem> itemList = entry.getValues();
@@ -47,15 +47,15 @@ public class DanmakuRecipes extends CustomRecipes {
     }
 
 
-    public static RegistryInstance<DanmakuRecipe.Entry> getRecipeRegistryRef() {
+    public static RecipeRegistryBase<DanmakuRecipe.Entry> getRecipeRegistryRef() {
         return INSTANCE;
     }
 
-    public static class RegistryInstance<T extends DanmakuRecipe.Entry> extends SimpleRegistryInstance<T> {
+    public static class RecipeRegistryBase<T extends DanmakuRecipe.Entry> extends SimpleRecipeRegistryBase<T> {
         List<Identifier> keys = new ArrayList<>();
         List<T> entries = new ArrayList<>();
 
-        private RegistryInstance() {
+        private RecipeRegistryBase() {
 
         }
 
@@ -165,8 +165,8 @@ public class DanmakuRecipes extends CustomRecipes {
         }
 
         @Override
-        public List<SimpleRegistryInstance<T>.Key2ValueEntry> toList() {
-            List<SimpleRegistryInstance<T>.Key2ValueEntry> list = new LinkedList<>();
+        public List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> toList() {
+            List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> list = new LinkedList<>();
             int size = this.keys.size();
             for (int i = 0; i < this.entries.size(); i++) {
                 Identifier key = Identifier.of("unknown_key");

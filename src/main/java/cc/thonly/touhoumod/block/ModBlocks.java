@@ -1,17 +1,18 @@
 package cc.thonly.touhoumod.block;
 
-import cc.thonly.touhoumod.block.base.BasicPolymerBlock;
-import cc.thonly.touhoumod.block.base.BasicPolymerCopyedBlock;
+import cc.thonly.touhoumod.block.base.*;
+import cc.thonly.touhoumod.datagen.ModBlockTagProvider;
+import cc.thonly.touhoumod.datagen.ModItemTagProvider;
 import cc.thonly.touhoumod.item.BasicBlockItem;
 import cc.thonly.touhoumod.item.BasicCopyedBlockItem;
 import cc.thonly.touhoumod.item.ModItems;
+import cc.thonly.touhoumod.item.base.BasicPolymerHangingSignItem;
+import cc.thonly.touhoumod.item.base.BasicPolymerSignItem;
 import cc.thonly.touhoumod.util.IdentifierGetter;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.Getter;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -33,6 +34,19 @@ public class ModBlocks {
     public static final Block STRIPPED_SPIRITUAL_LOG = registerBlock(new BasicPillarBlock("stripped_spiritual_log", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));
     public static final Block STRIPPED_SPIRITUAL_WOOD = registerBlock(new BasicPillarBlock("stripped_spiritual_wood", AbstractBlock.Settings.copy(Blocks.OAK_WOOD).nonOpaque()));
     public static final Block SPIRITUAL_PLANKS = registerBlock(new BasicPolymerBlock("spiritual_planks", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+    public static final Block SPIRITUAL_STAIR = registerBlock(new BasicPolymerStairsBlock("spiritual_stair", SPIRITUAL_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_SLAB = registerBlock(new BasicPolymerSlabBlock("spiritual_slab", SPIRITUAL_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_DOOR = registerBlock(new BasicPolymerDoorBlock("spiritual_door", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_TRAPDOOR = registerBlock(new BasicPolymerTrapdoorBlock("spiritual_trapdoor", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_FENCE = registerBlock(new BasicPolymerFenceBlock("spiritual_fence", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_FENCE_GATE = registerBlock(new BasicPolymerFenceGateBlock("spiritual_fence_gate", WoodType.OAK, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final Block SPIRITUAL_BUTTON = registerBlock(new BasicPolymerButtonBlock("spiritual_button", BlockSetType.OAK, 30, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+//    public static final Block SPIRITUAL_SIGN = registerBlock(new BasicPolymerSignBlock("spiritual_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+//    public static final Block SPIRITUAL_WALL_SIGN = registerBlock(new BasicPolymerWallSignBlock("spiritual_wall_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+//    public static final SignBlockGroup SPIRITUAL_SIGN_GROUP = registerSignBlock(SPIRITUAL_SIGN, SPIRITUAL_WALL_SIGN);
+//    public static final Block SPIRITUAL_HANGING_SIGN = registerBlock(new BasicPolymerHangingSignBlock("spiritual_hanging_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+//    public static final Block WALL_SPIRITUAL_HANGING_SIGN = registerBlock(new BasicPolymerWallHangingSignBlock("spiritual_wall_hanging_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+//    public static final HangingSignBlockGroup SPIRITUAL_HANGING_SIGN_GROUP = registerHangSignBlock(SPIRITUAL_HANGING_SIGN, WALL_SPIRITUAL_HANGING_SIGN);
     public static final Block MAGIC_ICE_BLOCK = registerCopyBlock(new MagicIceBlock("magic_ice", Blocks.ICE, AbstractBlock.Settings.copy(Blocks.BLUE_ICE)));
     public static final Block POINT_BLOCK = registerBlock(new BasicPolymerBlock("point_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));
     public static final Block POWER_BLOCK = registerBlock(new BasicPolymerBlock("power_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));
@@ -48,10 +62,55 @@ public class ModBlocks {
     }
 
     public static Block registerBlock(IdentifierGetter block) {
-        Registry.register(Registries.BLOCK, block.getIdentifier(), (Block) block);
-        ModItems.registerItem(new BasicBlockItem(block.getIdentifier(), (Block) block, new Item.Settings()));
+        block = (IdentifierGetter) Registry.register(Registries.BLOCK, block.getIdentifier(), (Block) block);
+        Item blockItem = null;
+        boolean isIgnored = block instanceof SignBlock || block instanceof WallSignBlock || block instanceof HangingSignBlock || block instanceof WallHangingSignBlock;
+        if (!isIgnored) {
+            blockItem = ModItems.registerItem(new BasicBlockItem(block.getIdentifier(), (Block) block, new Item.Settings()));
+        }
+        Block blk = (Block) block;
+        if (blk instanceof FenceBlock) {
+            ModBlockTagProvider.FENCES.add(blk);
+            ModItemTagProvider.FENCES.add(blk.asItem());
+        }
+        if (blk instanceof FenceGateBlock) {
+            ModBlockTagProvider.FENCE_GATES.add(blk);
+            ModItemTagProvider.FENCE_GATES.add(blk.asItem());
+        }
+        if (blk instanceof StairsBlock) {
+            ModBlockTagProvider.STAIRS.add(blk);
+            ModItemTagProvider.STAIRS.add(blk.asItem());
+        }
+        if (blk instanceof SlabBlock) {
+            ModBlockTagProvider.SLABS.add(blk);
+            ModItemTagProvider.SLABS.add(blk.asItem());
+        }
+        if (blk instanceof ButtonBlock) {
+            ModBlockTagProvider.BUTTONS.add(blk);
+            ModItemTagProvider.BUTTONS.add(blk.asItem());
+        }
+        if (blk instanceof PressurePlateBlock) {
+            ModBlockTagProvider.PRESSURE_PLATES.add(blk);
+            ModItemTagProvider.PRESSURE_PLATES.add(blk.asItem());
+        }
+        if (blk instanceof TrapdoorBlock) {
+            ModBlockTagProvider.TRAPDOORS.add(blk);
+            ModItemTagProvider.TRAPDOORS.add(blk.asItem());
+        }
+        if (blk instanceof DoorBlock) {
+            ModBlockTagProvider.DOORS.add(blk);
+            ModItemTagProvider.DOORS.add(blk.asItem());
+        }
         BLOCK_LIST.add((Block) block);
         return (Block) block;
+    }
+
+    public static SignBlockGroup registerSignBlock(Block standingBlock, Block wallBlock) {
+        return new SignBlockGroup(standingBlock, wallBlock, ModItems.registerItem(new BasicPolymerSignItem(((IdentifierGetter) standingBlock).getIdentifier(), standingBlock, wallBlock, new Item.Settings().useBlockPrefixedTranslationKey().maxCount(16))));
+    }
+
+    public static HangingSignBlockGroup registerHangSignBlock(Block standingBlock, Block wallBlock) {
+        return new HangingSignBlockGroup(standingBlock, wallBlock, ModItems.registerItem(new BasicPolymerHangingSignItem(((IdentifierGetter) standingBlock).getIdentifier(), standingBlock, wallBlock, new Item.Settings().useBlockPrefixedTranslationKey().maxCount(16))));
     }
 
     public static Block registerCopyBlock(IdentifierGetter block) {

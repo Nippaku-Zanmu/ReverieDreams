@@ -4,16 +4,12 @@ import cc.thonly.touhoumod.entity.ai.goal.*;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Leashable;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Setter

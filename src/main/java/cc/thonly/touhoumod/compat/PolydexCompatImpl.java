@@ -22,7 +22,7 @@ public class PolydexCompatImpl {
     }
 
     private static void createPages(MinecraftServer minecraftServer, Consumer<PolydexPage> pageConsumer) {
-        DanmakuRecipes.RegistryInstance<DanmakuRecipe.Entry> registryRef = DanmakuRecipes.getRecipeRegistryRef();
+        DanmakuRecipes.RecipeRegistryBase<DanmakuRecipe.Entry> registryRef = DanmakuRecipes.getRecipeRegistryRef();
         Map<Identifier, DanmakuRecipe.Entry> all = registryRef.getAll();
         all.forEach((id, value) -> {
             pageConsumer.accept(new DanmakuPage(id,value));

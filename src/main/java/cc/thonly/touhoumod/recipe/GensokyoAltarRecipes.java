@@ -17,23 +17,23 @@ import java.util.*;
 @Getter
 @ToString
 public class GensokyoAltarRecipes extends CustomRecipes {
-    private static final RegistryInstance<GensokyoAltarRecipe.Entry> INSTANCE = new RegistryInstance<>();
+    private static final RecipeRegistryBase<GensokyoAltarRecipe.Entry> INSTANCE = new RecipeRegistryBase<>();
 
     public static void registerRecipes() {
-        RegistryInstance<GensokyoAltarRecipe.Entry> registry = getRecipeRegistryRef();
+        RecipeRegistryBase<GensokyoAltarRecipe.Entry> registry = getRecipeRegistryRef();
 
 
     }
 
-    public static RegistryInstance<GensokyoAltarRecipe.Entry> getRecipeRegistryRef() {
+    public static RecipeRegistryBase<GensokyoAltarRecipe.Entry> getRecipeRegistryRef() {
         return INSTANCE;
     }
 
-    public static class RegistryInstance<T extends GensokyoAltarRecipe.Entry> extends SimpleRegistryInstance<T> {
+    public static class RecipeRegistryBase<T extends GensokyoAltarRecipe.Entry> extends SimpleRecipeRegistryBase<T> {
         List<Identifier> keys = new ArrayList<>();
         List<T> entries = new ArrayList<>();
 
-        private RegistryInstance() {
+        private RecipeRegistryBase() {
         }
 
         @Override
@@ -152,8 +152,8 @@ public class GensokyoAltarRecipes extends CustomRecipes {
         }
 
         @Override
-        public List<SimpleRegistryInstance<T>.Key2ValueEntry> toList() {
-            List<SimpleRegistryInstance<T>.Key2ValueEntry> list = new LinkedList<>();
+        public List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> toList() {
+            List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> list = new LinkedList<>();
             for (var key: this.keys) {
                 list.add(new Key2ValueEntry(key, this.get(key)));
             }

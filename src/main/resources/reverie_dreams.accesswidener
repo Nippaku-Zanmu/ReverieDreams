@@ -7,3 +7,4 @@ accessible field net/minecraft/entity/LivingEntity SLEEPING_POSITION Lnet/minecr
 accessible method net/minecraft/client/render/entity/model/EntityModelLayers    registerMain    (Ljava/lang/String;)Lnet/minecraft/client/render/entity/model/EntityModelLayer;
 accessible method net/minecraft/entity/passive/BeeEntity setHasStung (Z)V
 accessible field net/minecraft/item/ItemStack components Lnet/minecraft/component/MergedComponentMap;
+accessible method net/minecraft/entity/LivingEntity travelControlled (Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/math/Vec3d;)V

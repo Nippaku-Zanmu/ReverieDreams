@@ -1,7 +1,6 @@
 package cc.thonly.touhoumod.entity;
 
 
-import cc.thonly.touhoumod.item.ModItems;
 import cc.thonly.touhoumod.item.base.BasicPolymerDanmakuItem;
 import lombok.Getter;
 import lombok.Setter;

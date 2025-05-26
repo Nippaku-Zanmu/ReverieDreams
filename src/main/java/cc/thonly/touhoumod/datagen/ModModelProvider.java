@@ -6,29 +6,49 @@ import cc.thonly.touhoumod.block.ModBlocks;
 import cc.thonly.touhoumod.entity.ModEntityHolders;
 import cc.thonly.touhoumod.item.ModGuiItems;
 import cc.thonly.touhoumod.item.ModItems;
+import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.Item;
 
+import java.util.Map;
 import java.util.Optional;
 
 
 public class ModModelProvider extends FabricModelProvider {
+    private final Map<Block, TexturedModel> uniqueModels = ImmutableMap.<Block, TexturedModel>builder()
+            .build();
     public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
+
+    private final BlockFamily SPIRITUAL_PLANKS = BlockFamilies.register(ModBlocks.SPIRITUAL_PLANKS)
+            .slab(ModBlocks.SPIRITUAL_SLAB)
+            .stairs(ModBlocks.SPIRITUAL_STAIR)
+            .fence(ModBlocks.SPIRITUAL_FENCE)
+            .fenceGate(ModBlocks.SPIRITUAL_FENCE_GATE)
+            .button(ModBlocks.SPIRITUAL_BUTTON)
+            .group("wooden").unlockCriterionName("has_planks")
+            .build();
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerCubeWithCustomTextures(ModBlocks.DANMAKU_CRAFTING_TABLE, Blocks.OAK_PLANKS, TextureMap::frontSideWithCustomBottom);
         this.registerSmithingTable(blockStateModelGenerator, ModBlocks.STRENGTH_TABLE);
         blockStateModelGenerator.registerSimpleState(ModBlocks.GENSOKYO_ALTAR);
+
         blockStateModelGenerator.registerLog(ModBlocks.SPIRITUAL_LOG).log(ModBlocks.SPIRITUAL_LOG).wood(ModBlocks.SPIRITUAL_WOOD);
         blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_SPIRITUAL_LOG).log(ModBlocks.STRIPPED_SPIRITUAL_LOG).wood(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
-        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SPIRITUAL_PLANKS);
+        this.registerFamily(blockStateModelGenerator, SPIRITUAL_PLANKS);
+
+        blockStateModelGenerator.registerDoor(ModBlocks.SPIRITUAL_DOOR);
+        blockStateModelGenerator.registerTrapdoor(ModBlocks.SPIRITUAL_TRAPDOOR);
+
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MAGIC_ICE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.POINT_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.POWER_BLOCK);
@@ -72,13 +92,13 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.HORAI_DAMA_NO_EDA, Models.GENERATED);
         itemModelGenerator.register(ModItems.CROSSING_CHISEL, Models.GENERATED);
         itemModelGenerator.register(ModItems.GAP_BALL, Models.GENERATED);
-        itemModelGenerator.register(ModItems.BAGUA_FURNACE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.BAGUA_FURNACE);
         itemModelGenerator.register(ModItems.TIME_STOP_CLOCK, Models.GENERATED);
 
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.WIND_BLESSING_CANE, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.MAGIC_BROOM, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_BROOM);
         itemModelGenerator.register(ModItems.KNIFE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.ROKANKEN, Models.HANDHELD);
         itemModelGenerator.register(ModItems.HAKUROKEN, Models.HANDHELD);
@@ -87,6 +107,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.LEVATIN, Models.HANDHELD);
         itemModelGenerator.register(ModItems.IBUKIHO, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SWORD_OF_HISOU, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAPLE_LEAF_FAN, Models.HANDHELD);
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
@@ -137,6 +158,11 @@ public class ModModelProvider extends FabricModelProvider {
     
     private static Model item(String parent, TextureKey ... requiredTextureKeys) {
         return new Model(Optional.of(Touhou.id("item/" + parent)), Optional.empty(), requiredTextureKeys);
+    }
+
+    private void registerFamily(BlockStateModelGenerator generator, BlockFamily family) {
+        TexturedModel texturedModel = this.uniqueModels.getOrDefault(family.getBaseBlock(), TexturedModel.CUBE_ALL.get(family.getBaseBlock()));
+        generator.new BlockTexturePool(texturedModel.getTextures()).base(family.getBaseBlock(), texturedModel.getModel()).family(family);
     }
 
     @Override

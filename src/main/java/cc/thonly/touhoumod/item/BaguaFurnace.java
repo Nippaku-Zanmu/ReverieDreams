@@ -5,6 +5,6 @@ import net.minecraft.item.Items;
 
 public class BaguaFurnace extends BasicPolymerItem {
     public BaguaFurnace(String path, Settings settings) {
-        super(path, settings, Items.TRIAL_KEY);
+        super(path, settings.maxCount(1), Items.TRIAL_KEY);
     }
 }

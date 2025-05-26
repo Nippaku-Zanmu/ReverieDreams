@@ -1,7 +1,7 @@
 package cc.thonly.touhoumod.entity.ai.goal;
 
 import cc.thonly.touhoumod.entity.npc.NPCEntityImpl;
-import cc.thonly.touhoumod.entity.npc.NpcState;
+import cc.thonly.touhoumod.entity.npc.NPCState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
@@ -43,8 +43,8 @@ public class NpcFollowOwnerGoal extends Goal {
             return false;
         }
         if(this.tameable instanceof NPCEntityImpl impl) {
-            NpcState state = impl.getNpcState();
-            if(state == NpcState.NO_WALK || state == NpcState.SEATED || state == NpcState.WORKING) {
+            NPCState state = impl.getNpcState();
+            if(state == NPCState.NO_WALK || state == NPCState.SEATED || state == NPCState.WORKING) {
                 return false;
             }
         }

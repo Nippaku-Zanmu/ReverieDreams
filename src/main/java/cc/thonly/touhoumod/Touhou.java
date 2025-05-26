@@ -9,11 +9,14 @@ import cc.thonly.touhoumod.effect.ModStatusEffects;
 import cc.thonly.touhoumod.gui.recipe.RecipeTypeCategoryGui;
 import cc.thonly.touhoumod.networking.HelloPayload;
 import cc.thonly.touhoumod.recipe.*;
-import cc.thonly.touhoumod.registry.RegistryLists;
-import cc.thonly.touhoumod.util.BlockPosStorage;
-import cc.thonly.touhoumod.util.DelayedTask;
+import cc.thonly.touhoumod.registry.RegistrySchemas;
+import cc.thonly.touhoumod.server.PlayerInputManager;
+import cc.thonly.touhoumod.world.data.BlockPosStorage;
+import cc.thonly.touhoumod.server.DelayedTask;
 import cc.thonly.touhoumod.util.ImageToTextScanner;
+import eu.pb4.polymer.networking.impl.ServerPackets;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.api.ModInitializer;
@@ -25,6 +28,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +45,10 @@ public class Touhou implements ModInitializer {
     public static final String MOD_NAME = "Gensokyo: Reverie of Lost Dreams";
     public static final String MOD_ID = "reverie_dreams";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final String VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).get().getMetadata().getVersion().getFriendlyString();
+    public static final String VERSION = FabricLoader.getInstance()
+            .getModContainer(MOD_ID)
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("unknown");
     private static final boolean DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment();
     private static final boolean DEV_MODE = VERSION.contains("-dev.") || DEV_ENV;
     private static final boolean HAS_BUKKIT_API = isModLoaded("arclight") || isModLoaded("cardboard") || isModLoaded("banner");
@@ -51,6 +58,11 @@ public class Touhou implements ModInitializer {
     private static String SYSTEM_LANGUAGE = null;
     private static MinecraftServer server;
     private static final List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
+
+    static {
+        Locale locale = Locale.getDefault();
+        SYSTEM_LANGUAGE = (locale.getLanguage() + "_" + locale.getCountry()).toLowerCase();
+    }
 
     @Override
     public void onInitialize() {
@@ -85,7 +97,7 @@ public class Touhou implements ModInitializer {
         GensokyoAltarRecipes.registerRecipes();
         StrengthTableRecipes.registerRecipes();
         ModResourceManager.registerHooks();
-        RegistryLists.bootstrap();
+        RegistrySchemas.bootstrap();
         ModLoots.register();
         RecipeTypeCategoryGui.setup();
 
@@ -105,20 +117,25 @@ public class Touhou implements ModInitializer {
         ServerLivingEntityEvents.ALLOW_DEATH.register((livingEntity, damageSource, v) -> {
             return !livingEntity.hasStatusEffect(ModStatusEffects.ELIXIR_OF_LIFE);
         });
+        ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+            PlayerInputManager inputManager = PlayerInputManager.getInstance();
+            inputManager.reload();
+        });
         ServerLifecycleEvents.SERVER_STARTED.register(BlockPosStorage::loadToFile);
         ServerLifecycleEvents.SERVER_STOPPED.register(BlockPosStorage::saveToFile);
         ServerLifecycleEvents.AFTER_SAVE.register((server, flush, force) -> BlockPosStorage.saveToFile(server));
         ServerTickEvents.END_SERVER_TICK.register(DelayedTask::tick);
+        ServerTickEvents.END_SERVER_TICK.register(PlayerInputManager::tick);
 
         ModCompats.init();
 
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         PolymerResourcePackUtils.markAsRequired();
+        ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"), id("entity"));
     }
 
     private static void preInit() {
-        Locale locale = Locale.getDefault();
-        SYSTEM_LANGUAGE = (locale.getLanguage() + "_" + locale.getCountry()).toLowerCase();
+
     }
 
     public static String getSystemLanguage() {
@@ -148,6 +165,7 @@ public class Touhou implements ModInitializer {
     public static boolean hasForgeApi() {
         return HAS_FORGE_API;
     }
+
     public static boolean hasOptifine() {
         return HAS_OPTIFINE;
     }

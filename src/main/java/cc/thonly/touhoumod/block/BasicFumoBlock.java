@@ -2,6 +2,8 @@ package cc.thonly.touhoumod.block;
 
 import cc.thonly.touhoumod.Touhou;
 import cc.thonly.touhoumod.sound.ModSoundEvents;
+import cc.thonly.touhoumod.state.ModBlockStateTemplates;
+import cc.thonly.touhoumod.state.SixteenDirection;
 import cc.thonly.touhoumod.util.IdentifierGetter;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.block.FactoryBlock;
@@ -24,16 +26,16 @@ import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -43,8 +45,8 @@ import xyz.nucleoid.packettweaker.PacketContext;
 @Setter
 @ToString
 public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBlock, IdentifierGetter {
-    protected static final VoxelShape SHAPE = Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
     public static final MapCodec<BasicFumoBlock> CODEC = createCodec(BasicFumoBlock::new);
+    public static final EnumProperty<SixteenDirection> FACING_16 = ModBlockStateTemplates.FACING_16;
 
     Identifier identifier;
     Vec3d offsets = new Vec3d(0, 0, 0);
@@ -53,7 +55,7 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
         super(settings.nonOpaque().registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = identifier;
         this.offsets = offsets;
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING_16, SixteenDirection.NORTH));
     }
 
     public BasicFumoBlock(String path, Vec3d offsets, Settings settings) {
@@ -71,11 +73,13 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        double yaw = ctx.getPlayerYaw();
+        SixteenDirection direction = SixteenDirection.fromYaw(yaw);
+        return this.getDefaultState().with(FACING_16, direction);
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING_16);
     }
 
     @Override
@@ -112,6 +116,11 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
     }
 
     @Override
+    protected BlockSoundGroup getSoundGroup(BlockState state) {
+        return BlockSoundGroup.WOOL;
+    }
+
+    @Override
     public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {
         return new Model(initialBlockState, offsets);
     }
@@ -125,7 +134,7 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
             this.main.setOffset(offsets);
             this.main.setScale(new Vector3f(1f));
             this.main.setModelTransformation(ModelTransformationMode.NONE);
-            var yaw = state.get(FACING).getPositiveHorizontalDegrees();
+            var yaw = state.get(FACING_16).getYaw();
             this.main.setYaw(yaw);
             this.addElement(this.main);
         }

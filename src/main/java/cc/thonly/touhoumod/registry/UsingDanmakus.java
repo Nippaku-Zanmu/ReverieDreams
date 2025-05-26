@@ -5,13 +5,13 @@ import cc.thonly.touhoumod.item.base.UsingDanmaku;
 import net.minecraft.item.ItemStack;
 
 public class UsingDanmakus {
-    public static final UsingDanmaku SINGLE = RegistryLists.register(RegistryLists.USING_DANMAKU, Touhou.id("single"), (world, user, hand, pThis) -> {
+    public static final UsingDanmaku SINGLE = RegistrySchemas.register(RegistrySchemas.USING_DANMAKU, Touhou.id("single"), (world, user, hand, pThis) -> {
         ItemStack itemStack = user.getStackInHand(hand).copy();
         float pitch = user.getPitch();
         float yaw = user.getYaw();
         UsingDanmaku.spawn(world, user, hand, itemStack, pitch, yaw, 1.4f, 5.0f);
     });
-    public static final UsingDanmaku TRIPLE = RegistryLists.register(RegistryLists.USING_DANMAKU, Touhou.id("triple"), (world, user, hand, pThis) -> {
+    public static final UsingDanmaku TRIPLE = RegistrySchemas.register(RegistrySchemas.USING_DANMAKU, Touhou.id("triple"), (world, user, hand, pThis) -> {
         ItemStack itemStack = user.getStackInHand(hand).copy();
         float pitch = user.getPitch();
         float yaw = user.getYaw();
@@ -21,7 +21,7 @@ public class UsingDanmakus {
 
     });
 
-    public static void bootstrap(RegistryListEntry<UsingDanmaku> registry) {
+    public static void bootstrap(RegistrySchema<UsingDanmaku> registry) {
 
     }
 }

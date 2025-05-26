@@ -60,7 +60,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -68,10 +67,10 @@ import java.util.function.Predicate;
 
 @Getter
 @Setter
-public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob, NpcSettings {
+public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob, NPCSettings {
     protected static final Item TAME_FOOD_ITEM = Items.CAKE;
     protected final Property skin;
-    protected NpcState npcState = NpcState.NORMAL;
+    protected NPCState npcState = NPCState.NORMAL;
     protected boolean isSit = false;
     protected String npcOwner = "";
     protected String seatUUID = "";
@@ -166,10 +165,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         }
 
         int state = 0;
-        if (nbt.contains("NpcState")) {
-            state = nbt.getInt("NpcState");
+        if (nbt.contains("NPCState")) {
+            state = nbt.getInt("NPCState");
         }
-        this.npcState = NpcState.fromInt(state);
+        this.npcState = NPCState.fromInt(state);
 
         if (nbt.contains("NpcOwner")) {
             this.npcOwner = nbt.getString("NpcOwner");
@@ -225,11 +224,11 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
-        DynamicRegistryManager registryManager = this.getRegistryManager();
         super.readCustomDataFromNbt(nbt);
+        DynamicRegistryManager registryManager = this.getRegistryManager();
         nbt.putBoolean("IsSit", this.isSit);
         nbt.putString("NpcOwner", this.npcOwner);
-        nbt.putInt("NpcState", this.npcState.getId());
+        nbt.putInt("NPCState", this.npcState.getId());
         nbt.putFloat("FoodNutrition", this.nutrition);
         nbt.putFloat("FoodSaturation", this.saturation);
         nbt.putFloat("FoodExhaustionLevel", this.exhaustionLevel);
@@ -557,10 +556,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return 40;
     }
 
-    public NpcState getNextState() {
+    public NPCState getNextState() {
         if (this.isSleeping()) return this.npcState;
-        NpcState next = NpcState.fromInt(this.npcState.getId() + 1);
-        return next != null ? next : NpcState.NORMAL;
+        NPCState next = NPCState.fromInt(this.npcState.getId() + 1);
+        return next != null ? next : NPCState.NORMAL;
     }
 
     public void reduceHunger(float value) {
@@ -582,12 +581,12 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     public void updateWorking() {
-        if (this.npcState == NpcState.WORKING && this.workTick < 20) {
+        if (this.npcState == NPCState.WORKING && this.workTick < 20) {
             this.workTick++;
         } else {
             this.workTick = 0;
         }
-        if (this.npcState == NpcState.WORKING && this.workTick >= 20) {
+        if (this.npcState == NPCState.WORKING && this.workTick >= 20) {
             this.workTick = 0;
             BlockPos blockPos = this.getBlockPos();
             if (this.workingPos != null) {
@@ -650,7 +649,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 //            }
 //        }
 
-        if (this.npcState == NpcState.SNAKING) {
+        if (this.npcState == NPCState.SNAKING) {
             this.getNavigation().stop();
             if (this.getPose() != EntityPose.CROUCHING) {
                 this.setPose(EntityPose.CROUCHING);
@@ -659,7 +658,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
             return;
         }
 
-        if (this.npcState == NpcState.SEATED) {
+        if (this.npcState == NPCState.SEATED) {
             if (this.seat == null) {
                 List<ArmorStandEntity> list = world.getEntitiesByClass(
                                 ArmorStandEntity.class,
@@ -708,7 +707,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public float getMovementSpeed() {
-        if (this.npcState == NpcState.NO_WALK || this.npcState == NpcState.SNAKING) return 0;
+        if (this.npcState == NPCState.NO_WALK || this.npcState == NPCState.SNAKING) return 0;
         if (this.isPause) return 0;
         return super.getMovementSpeed();
     }

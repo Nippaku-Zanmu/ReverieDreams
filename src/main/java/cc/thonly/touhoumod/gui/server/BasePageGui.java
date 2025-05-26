@@ -5,7 +5,7 @@ import cc.thonly.touhoumod.gui.recipe.GuiStackGetter;
 import cc.thonly.touhoumod.gui.recipe.RecipeTypeGuiInfo;
 import cc.thonly.touhoumod.gui.recipe.RecipeTypeInfo;
 import cc.thonly.touhoumod.item.ModGuiItems;
-import cc.thonly.touhoumod.recipe.SimpleRegistryInstance;
+import cc.thonly.touhoumod.recipe.SimpleRecipeRegistryBase;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
@@ -41,7 +41,7 @@ public class BasePageGui extends SimpleGui {
     public final List<GuiElementBuilder> displayList = new LinkedList<>();
     public final RecipeTypeGuiInfo<? extends BasePageGui> recipeGuiInfo;
     public final RecipeTypeInfo recipeTypeInfo;
-    public final List<? extends SimpleRegistryInstance<?>.Key2ValueEntry> entries;
+    public final List<? extends SimpleRecipeRegistryBase<?>.Key2ValueEntry> entries;
     public boolean updated = true;
     public GuiOpeningPrevCallback prevGuiCallback;
 
@@ -49,7 +49,7 @@ public class BasePageGui extends SimpleGui {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.recipeGuiInfo = recipeGuiInfo;
         this.recipeTypeInfo = recipeTypeInfo;
-        this.entries = this.recipeTypeInfo.getSimpleRegistryInstance().toList();
+        this.entries = this.recipeTypeInfo.getSimpleRecipeRegistryBase().toList();
         this.maxSize = this.entries.size();
         this.prevGuiCallback = prevGuiCallback;
         this.init();

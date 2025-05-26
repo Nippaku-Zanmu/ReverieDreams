@@ -49,6 +49,7 @@ public class ModItems {
 
     // 调试
     public static final Item BATTLE_STICK = registerItemWithNotGroup(new BattleStick("battle_stick", new Item.Settings()));
+
     // 图标
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
     public static final Item FUMO_ICON = registerIconItem(new BasicItem("fumo_icon", new Item.Settings()));
@@ -77,6 +78,8 @@ public class ModItems {
     public static final Item GAP_BALL = registerItem(new GapBall("gap_ball", new Item.Settings()));
     public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
     public static final Item TIME_STOP_CLOCK = registerItem(new TimeStopClock("time_stop_clock", new Item.Settings()));
+    public static final Item MAPLE_LEAF_FAN = registerItem(new MapleLeafFan("maple_leaf_fan", 0, 0, new Item.Settings()));
+
     // 武器
     public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
     public static final Item WIND_BLESSING_CANE = registerItem(new WindBlessingCane("wind_blessing_cane", 0, 0, new Item.Settings()));
@@ -213,7 +216,7 @@ public class ModItems {
 //    });
 
     // 弹幕
-    public static final DanmakuItemEntries AMULET = DanmakuItemEntries.createBuilder("amulet", ALL_COLOR, 2f, 0.5f, 1.0f, false, false).build();
+    public static final DanmakuItemEntries AMULET = DanmakuItemEntries.createBuilder("amulet", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
     public static final DanmakuItemEntries ARROWHEAD = DanmakuItemEntries.createBuilder("arrowhead", ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
     public static final DanmakuItemEntries BALL = DanmakuItemEntries.createBuilder("ball", ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
     public static final DanmakuItemEntries BUBBLE = DanmakuItemEntries.createBuilder("bubble", List.of(DanmakuItemEntries.ColorEnum.GREY, DanmakuItemEntries.ColorEnum.RED, DanmakuItemEntries.ColorEnum.PURPLE, DanmakuItemEntries.ColorEnum.DARK_BLUE, DanmakuItemEntries.ColorEnum.BLUE), 2.5f, 1f, 1.0f, true, false).build();

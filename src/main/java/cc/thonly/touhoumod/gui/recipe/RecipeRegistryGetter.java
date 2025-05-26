@@ -1,8 +1,8 @@
 package cc.thonly.touhoumod.gui.recipe;
 
-import cc.thonly.touhoumod.recipe.SimpleRegistryInstance;
+import cc.thonly.touhoumod.recipe.SimpleRecipeRegistryBase;
 
 @FunctionalInterface
 public interface RecipeRegistryGetter {
-    SimpleRegistryInstance<?> get();
+    SimpleRecipeRegistryBase<?> get();
 }

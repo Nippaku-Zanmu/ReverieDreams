@@ -15,7 +15,7 @@ import java.util.List;
 public class GapRecorder {
     public static final Codec<GapRecorder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("name").forGetter(GapRecorder::getName),
-            Codec.STRING.fieldOf("world").forGetter(GapRecorder::getWorld),
+            Codec.STRING.optionalFieldOf("world","minecraft:overworld").forGetter(GapRecorder::getWorld),
             BlockPos.CODEC.fieldOf("value").forGetter(GapRecorder::getValue),
             Codec.BOOL.fieldOf("enable").forGetter(GapRecorder::isEnable)
     ).apply(instance, GapRecorder::new));

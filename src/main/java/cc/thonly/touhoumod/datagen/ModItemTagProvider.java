@@ -7,16 +7,27 @@ import cc.thonly.touhoumod.item.base.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends FabricTagProvider<Item> {
+    public static final Set<Item> FENCES = new HashSet<>();
+    public static final Set<Item> FENCE_GATES = new HashSet<>();
+    public static final Set<Item> STAIRS = new HashSet<>();
+    public static final Set<Item> SLABS = new HashSet<>();
+    public static final Set<Item> BUTTONS = new HashSet<>();
+    public static final Set<Item> PRESSURE_PLATES = new HashSet<>();
+    public static final Set<Item> TRAPDOORS = new HashSet<>();
+    public static final Set<Item> DOORS = new HashSet<>();
+
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, RegistryKeys.ITEM, registriesFuture);
     }
@@ -56,6 +67,24 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         BasicPolymerArmorItem.FEET_ITEMS.forEach(feetItem::add);
         FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.Items.ARMOR);
         BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
+
+
+        FabricTagProvider<Item>.FabricTagBuilder fences = getOrCreateTagBuilder(ItemTags.FENCES);
+        FabricTagProvider<Item>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(ItemTags.FENCE_GATES);
+        FabricTagProvider<Item>.FabricTagBuilder stairs = getOrCreateTagBuilder(ItemTags.STAIRS);
+        FabricTagProvider<Item>.FabricTagBuilder slabs = getOrCreateTagBuilder(ItemTags.SLABS);
+        FabricTagProvider<Item>.FabricTagBuilder buttons = getOrCreateTagBuilder(ItemTags.BUTTONS);
+        FabricTagProvider<Item>.FabricTagBuilder trapdoors = getOrCreateTagBuilder(ItemTags.TRAPDOORS);
+        FabricTagProvider<Item>.FabricTagBuilder doors = getOrCreateTagBuilder(ItemTags.DOORS);
+        FENCES.forEach(fences::add);
+        FENCE_GATES.forEach(fenceGates::add);
+        STAIRS.forEach(stairs::add);
+        SLABS.forEach(slabs::add);
+        BUTTONS.forEach(buttons::add);
+        TRAPDOORS.forEach(trapdoors::add);
+        DOORS.forEach(doors::add);
+
+
     }
 
 }

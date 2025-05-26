@@ -4,7 +4,6 @@ import cc.thonly.touhoumod.component.GapRecorder;
 import cc.thonly.touhoumod.component.ModDataComponentTypes;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -126,7 +125,7 @@ public class GapBall extends BasicItem {
                         .setName(Text.literal("传送 " + index + (hasTarget ? (" - " + recorder.getName()) : "（未记录）")))
                         .setLore(List.of(
                                 Text.literal("世界：" + recorder.getWorld()),
-                                Text.literal("世界：" + recorder.getValue().getX()+ " " + recorder.getValue().getY() + " " +recorder.getValue().getZ())
+                                Text.literal("世界：" + recorder.getValue().getX() + " " + recorder.getValue().getY() + " " + recorder.getValue().getZ())
                         ))
                         .setCallback(click -> teleport(index)));
             }

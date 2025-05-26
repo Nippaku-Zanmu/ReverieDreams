@@ -16,6 +16,7 @@ import java.util.Random;
 public class ModSoundEvents {
     public static final List<SoundEvent> SOUND_EVENTS = new LinkedList<>();
     public static final SoundEvent POINT = registerSound("point");
+    public static final SoundEvent BIU = registerSound("biu");
     public static final SoundEvent SPELL_CARD = registerSound("spell_card");
     public static final SoundEvent UP = registerSound("up");
     public static final SoundEvent FIRE = registerSound("fire");

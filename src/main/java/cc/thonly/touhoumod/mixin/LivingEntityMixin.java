@@ -1,7 +1,9 @@
 package cc.thonly.touhoumod.mixin;
 
 import cc.thonly.touhoumod.effect.ModStatusEffects;
+import cc.thonly.touhoumod.entity.DanmakuEntity;
 import cc.thonly.touhoumod.interfaces.LivingEntityImpl;
+import cc.thonly.touhoumod.sound.ModSoundEvents;
 import cc.thonly.touhoumod.world.WorldGetter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -146,11 +148,24 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        this.deathInElixir(world, source, amount, cir);
+        boolean bl1 = this.deathInElixir(world, source, amount, cir);
+        if (!bl1) {
+            this.deathByDanmaku(world, source, amount, cir);
+        }
     }
 
     @Unique
-    public void deathInElixir(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public boolean deathByDanmaku(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if ((this.getHealth() - amount <= 0f) && source.getSource() instanceof DanmakuEntity) {
+            Entity self = (Entity) this;
+            self.playSound(ModSoundEvents.BIU, 0.35F, 1.0F);
+            return true;
+        }
+        return false;
+    }
+
+    @Unique
+    public boolean deathInElixir(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (this.hasStatusEffect(ModStatusEffects.ELIXIR_OF_LIFE) && (this.getHealth() - amount <= 0f)) {
             this.deathCount++;
             this.setHealth(1f);
@@ -164,7 +179,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
                 world.spawnParticles(player, ParticleTypes.TOTEM_OF_UNDYING, true, false, this.getX(), this.getY(), this.getZ(), 250, 1.5, 2, 1.5, 0.5);
             }
             cir.cancel();
+            return true;
         }
+        return false;
     }
 
     @Inject(method = "onDeath", at = @At("HEAD"), cancellable = true)

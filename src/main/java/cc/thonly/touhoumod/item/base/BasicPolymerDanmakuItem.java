@@ -40,6 +40,8 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
         ItemStack itemStack = user.getStackInHand(hand);
         Boolean isInfinite = itemStack.getOrDefault(ModDataComponentTypes.Danmaku.INFINITE, false);
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
+            var cooldownManager = user.getItemCooldownManager();
+            cooldownManager.set(itemStack, 10);
             for (int i = 0; i < itemStack.getOrDefault(ModDataComponentTypes.Danmaku.COUNT, DEFAULT_COUNT); i++) {
                 this.shoot(serverWorld, user, hand);
             }
@@ -65,12 +67,13 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
         String templateType = stack.getOrDefault(ModDataComponentTypes.Danmaku.TEMPLATE, Touhou.id("single").toString());
         DanmakuItemEntries.ColorEnum colorEnum = DanmakuItemEntries.ColorEnum.fromIndex(colorId);
 
+        tooltip.add(Text.of(""));
         tooltip.add(Text.of("Color: " + colorEnum.getEnglishTranslation()));
         tooltip.add(Text.of("Damage: " + damage));
         tooltip.add(Text.of("Speed: " + speed));
         tooltip.add(Text.of("Infinite: " + infinite));
         tooltip.add(Text.of("Count: " + count));
-        tooltip.add(Text.of("Type: " + templateType));
+        tooltip.add(Text.of("Base Type: " + templateType));
 
     }
 

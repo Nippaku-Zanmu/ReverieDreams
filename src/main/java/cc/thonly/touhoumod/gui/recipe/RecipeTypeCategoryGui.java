@@ -10,7 +10,7 @@ import cc.thonly.touhoumod.gui.server.BasePageGui;
 import cc.thonly.touhoumod.item.ModItems;
 import cc.thonly.touhoumod.recipe.DanmakuRecipes;
 import cc.thonly.touhoumod.recipe.GensokyoAltarRecipes;
-import cc.thonly.touhoumod.recipe.SimpleRegistryInstance;
+import cc.thonly.touhoumod.recipe.SimpleRecipeRegistryBase;
 import cc.thonly.touhoumod.recipe.StrengthTableRecipes;
 import cc.thonly.touhoumod.recipe.entry.DanmakuRecipe;
 import cc.thonly.touhoumod.recipe.entry.GensokyoAltarRecipe;
@@ -171,7 +171,7 @@ public class RecipeTypeCategoryGui extends SimpleGui {
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), Touhou.id("recipe/danmaku_table"), BasePageGui.class,
                 DanmakuRecipes::getRecipeRegistryRef,
                 ((gui, slotIndex) -> {
-                    SimpleRegistryInstance<DanmakuRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRegistryInstance<DanmakuRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
+                    SimpleRecipeRegistryBase<DanmakuRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<DanmakuRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
                     GuiElementBuilder icon = new GuiElementBuilder()
                             .setItem(key2ValueEntry.getValue().getOutput().getItem())
                             .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())
@@ -187,7 +187,7 @@ public class RecipeTypeCategoryGui extends SimpleGui {
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.ICON), Touhou.id("recipe/gensokyo_altar"), BasePageGui.class,
                 GensokyoAltarRecipes::getRecipeRegistryRef,
                 ((gui, slotIndex) -> {
-                    SimpleRegistryInstance<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRegistryInstance<GensokyoAltarRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
+                    SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
                     GuiElementBuilder icon = new GuiElementBuilder()
                             .setItem(key2ValueEntry.getValue().getOutput().getItem())
                             .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())
@@ -203,7 +203,7 @@ public class RecipeTypeCategoryGui extends SimpleGui {
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.STRENGTH_TABLE), Touhou.id("recipe/strength_table"), BasePageGui.class,
                 StrengthTableRecipes::getRecipeRegistryRef,
                 ((gui, slotIndex) -> {
-                    SimpleRegistryInstance<StrengthTableRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRegistryInstance<StrengthTableRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
+                    SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
                     GuiElementBuilder icon = new GuiElementBuilder()
                             .setItem(key2ValueEntry.getValue().getOutput().getItem())
                             .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())

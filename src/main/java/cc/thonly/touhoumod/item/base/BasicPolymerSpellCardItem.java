@@ -72,7 +72,7 @@ public abstract class BasicPolymerSpellCardItem extends BasicPolymerItem {
     public void defaultSpellCard(ServerWorld world, PlayerEntity user, Hand hand, ItemStack offHandStack) {
         Item item = offHandStack.getItem();
         if (item instanceof BasicPolymerDanmakuItem) {
-            DanmakuEntity danmakuEntity = new DanmakuEntity((LivingEntity) user, user.getStackInHand(hand).copy(), hand, (BasicPolymerDanmakuItem) offHandStack.getItem());
+            DanmakuEntity danmakuEntity = new DanmakuEntity((LivingEntity) user, user.getStackInHand(hand).copy(), hand, offHandStack.getItem());
             world.spawnEntity(danmakuEntity);
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.PLAYERS, 0.1f, 1.2f);
         }

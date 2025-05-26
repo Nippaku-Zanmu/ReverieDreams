@@ -73,8 +73,9 @@ public class DanmakuItemEntries {
                                 .component(ModDataComponentTypes.Danmaku.COLOR, color.getIndex())
                                 .component(ModDataComponentTypes.Danmaku.TILE, this.tile)
                                 .component(ModDataComponentTypes.Danmaku.INFINITE, this.infinite)
+                                .component(ModDataComponentTypes.Danmaku.DAMAGE_TYPE, Touhou.id("generic").toString())
                                 .maxDamage(120)
-                                .useCooldown(1f)
+//                                .useCooldown(0.5f)
                 );
                 ModItems.registerDanmakuItem(item);
                 entry.addItem(item);

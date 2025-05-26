@@ -3,11 +3,13 @@ package cc.thonly.touhoumod.data;
 import cc.thonly.touhoumod.Touhou;
 import cc.thonly.touhoumod.recipe.DanmakuRecipes;
 import cc.thonly.touhoumod.recipe.GensokyoAltarRecipes;
-import cc.thonly.touhoumod.recipe.SimpleRegistryInstance;
+import cc.thonly.touhoumod.recipe.SimpleRecipeRegistryBase;
 import cc.thonly.touhoumod.recipe.StrengthTableRecipes;
 import cc.thonly.touhoumod.recipe.entry.DanmakuRecipe;
 import cc.thonly.touhoumod.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.touhoumod.recipe.entry.StrengthTableRecipe;
+import cc.thonly.touhoumod.registry.RegistrySchema;
+import cc.thonly.touhoumod.registry.RegistrySchemas;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
@@ -33,7 +35,7 @@ public class ModResourceManager {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
             public Identifier getFabricId() {
-                return Touhou.id("recipe/touhou");
+                return Touhou.id("data");
             }
 
             @Override
@@ -42,6 +44,13 @@ public class ModResourceManager {
                 DanmakuRecipes.registerRecipes();
                 GensokyoAltarRecipes.getRecipeRegistryRef().clear();
                 GensokyoAltarRecipes.registerRecipes();
+                for (var entry : RegistrySchemas.INSTANCE.entrySet()) {
+                    RegistrySchema<?> registrySchema = entry.getValue();
+                    if (registrySchema.isReloadable() && registrySchema.getReloadableBootstrap() != null) {
+                        registrySchema.reset();
+                        registrySchema.getReloadableBootstrap().reload(manager);
+                    }
+                }
                 this.load(manager);
             }
 
@@ -51,7 +60,7 @@ public class ModResourceManager {
                 parseRecipe(manager, "strength_table", StrengthTableRecipes.getRecipeRegistryRef(), StrengthTableRecipe.Builder.ENTRY_CODEC);
             }
 
-            public <T> void parseRecipe(ResourceManager manager, String type, SimpleRegistryInstance<T> registry, Codec<T> codec) {
+            public <T> void parseRecipe(ResourceManager manager, String type, SimpleRecipeRegistryBase<T> registry, Codec<T> codec) {
                 Map<Identifier, Resource> resources = manager.findResources(("recipes/" + type), id -> {
                     return id.getNamespace().equals(Touhou.MOD_ID) && id.getPath().endsWith(".json");
                 });

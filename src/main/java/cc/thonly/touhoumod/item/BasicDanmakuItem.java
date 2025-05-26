@@ -4,7 +4,7 @@ import cc.thonly.touhoumod.Touhou;
 import cc.thonly.touhoumod.component.ModDataComponentTypes;
 import cc.thonly.touhoumod.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.touhoumod.item.base.UsingDanmaku;
-import cc.thonly.touhoumod.registry.RegistryLists;
+import cc.thonly.touhoumod.registry.RegistrySchemas;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
@@ -19,7 +19,7 @@ public class BasicDanmakuItem extends BasicPolymerDanmakuItem {
     @Override
     public void shoot(ServerWorld serverWorld, PlayerEntity user, Hand hand) {
         String templateType = user.getStackInHand(hand).getOrDefault(ModDataComponentTypes.Danmaku.TEMPLATE, Touhou.id("single").toString());
-        UsingDanmaku usingDanmaku = RegistryLists.USING_DANMAKU.get(Identifier.of(templateType));
+        UsingDanmaku usingDanmaku = RegistrySchemas.USING_DANMAKU.get(Identifier.of(templateType));
         usingDanmaku.use(serverWorld, user, hand, this);
      }
 }

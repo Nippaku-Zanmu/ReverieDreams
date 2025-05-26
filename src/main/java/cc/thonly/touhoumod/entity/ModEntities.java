@@ -91,9 +91,13 @@ public class ModEntities {
         REIUJI_UTSUH("reiuji_utsuh", NPCEntitySkins.REIUJI_UTSUH),
         KOMEIJI_KOISHI("komeiji_koishi", NPCEntitySkins.KOMEIJI_KOISHI),
 
+        // 星莲船
+        NAZRIN("nazrin", NPCEntitySkins.NAZRIN),
+        TATARA_KOGASA("tatara_kogasa", NPCEntitySkins.TATARA_KOGASA),
+        NUE("nue", NPCEntitySkins.NUE),
+
         // 神灵庙
         KASODANI_KYOUKO("kasodani_kyouko", NPCEntitySkins.KASODANI_KYOUKO),
-        TATARA_KOGASA("tatara_kogasa", NPCEntitySkins.TATARA_KOGASA),
         MIYAKO_YOSHIKA("miyako_yoshika", NPCEntitySkins.MIYAKO_YOSHIKA),
         KAKU_SEIGA("kaku_seiga", NPCEntitySkins.KAKU_SEIGA),
         SOGA_NO_TOZIKO("soga_no_toziko", NPCEntitySkins.SOGA_NO_TOZIKO),
@@ -101,7 +105,6 @@ public class ModEntities {
         TOYOSATOMIMI_NO_MIKO("toyosatomimi_no_miko", NPCEntitySkins.TOYOSATOMIMI_NO_MIKO),
         HOUJUU_NUE("houjuu_nue", NPCEntitySkins.HOUJUU_NUE),
         HUTATSUIWA_MAMIZOU("hutatsuiwa_mamizou", NPCEntitySkins.HUTATSUIWA_MAMIZOU),
-        // 星莲船
 
         // 三月精
         STAR("star", NPCEntitySkins.STAR),
@@ -289,6 +292,10 @@ public class ModEntities {
                     .add(EntityAttributes.TEMPT_RANGE, 10.0f)
                     .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                     .build());
+    public static final EntityType<MagicBroomEntity> BROOM_ENTITY_TYPE = registerEntityWithSpawnEgg("broom",
+            EntityType.Builder.<MagicBroomEntity>create(MagicBroomEntity::new, SpawnGroup.MISC)
+                    .build(of("broom")),
+            MagicBroomEntity::createAttributes);
 
     public static void registerEntities() {
         NPCEntityTypes.init();

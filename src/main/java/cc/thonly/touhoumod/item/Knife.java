@@ -3,36 +3,32 @@ package cc.thonly.touhoumod.item;
 import cc.thonly.touhoumod.Touhou;
 import cc.thonly.touhoumod.component.ModDataComponentTypes;
 import cc.thonly.touhoumod.entity.DanmakuEntity;
-import cc.thonly.touhoumod.entity.ModEntities;
 import cc.thonly.touhoumod.entity.ModEntityHolders;
-import cc.thonly.touhoumod.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.touhoumod.item.base.BasicPolymerSwordItem;
 import cc.thonly.touhoumod.item.base.UsableDanmaku;
-import cc.thonly.touhoumod.item.base.UsingDanmaku;
-import cc.thonly.touhoumod.item.entry.DanmakuItemEntries;
-import cc.thonly.touhoumod.registry.RegistryLists;
 import cc.thonly.touhoumod.sound.ModSoundEvents;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("unchecked")
 @Setter
@@ -47,7 +43,7 @@ public class Knife extends BasicPolymerSwordItem implements UsableDanmaku {
                 attackSpeed - 2f,
                 settings
                         .maxCount(1)
-                        .useCooldown(1.5f)
+//                        .useCooldown(0.5f)
                         .component(ModDataComponentTypes.Danmaku.TEMPLATE, Touhou.id("single").toString())
                         .component(ModDataComponentTypes.Danmaku.DAMAGE, 2.0f)
                         .component(ModDataComponentTypes.Danmaku.SPEED, 0.5f)
@@ -69,14 +65,15 @@ public class Knife extends BasicPolymerSwordItem implements UsableDanmaku {
             itemStack.set(next.type(), next.value());
         }
         Boolean isInfinite = itemStack.getOrDefault(ModDataComponentTypes.Danmaku.INFINITE, false);
-        if (!world.isClient && world instanceof ServerWorld serverWorld) {
+        if (!world.isClient && world instanceof ServerWorld serverWorld && user instanceof ServerPlayerEntity player) {
+            ItemCooldownManager cooldownManager = player.getItemCooldownManager();
             for (int i = 0; i < itemStack.getOrDefault(ModDataComponentTypes.Danmaku.COUNT, 1); i++) {
                 this.shoot(serverWorld, user, hand);
             }
+            cooldownManager.set(heldItemStack, 10);
             if (!isInfinite) {
                 itemStack.damage(1, user);
             }
-
             world.playSound(null, user.getX(), user.getY(), user.getZ(), ModSoundEvents.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);
             return ActionResult.SUCCESS_SERVER;
         }
@@ -89,6 +86,7 @@ public class Knife extends BasicPolymerSwordItem implements UsableDanmaku {
     }
 
     public void spawn(ServerWorld serverWorld, PlayerEntity user, Hand hand) {
+        Random random = new Random();
         ItemStack heldItemStack = user.getStackInHand(hand);
         ItemStack itemStack = new ItemStack(ModEntityHolders.KNIFE_DISPLAY);
         ComponentMap components = heldItemStack.getComponents();
@@ -103,19 +101,35 @@ public class Knife extends BasicPolymerSwordItem implements UsableDanmaku {
 
         Item item = stack.getItem();
 
-            DanmakuEntity danmakuEntity = new DanmakuEntity(
+        List<DanmakuEntity> list = new ArrayList<>();
+        DanmakuEntity danmakuEntity = new DanmakuEntity(
+                (LivingEntity) user,
+                stack.copy(),
+                hand,
+                item,
+                pitch,
+                yaw,
+                1.4f,
+                5.0f,
+                0.4f,
+                false
+        );
+        list.add(danmakuEntity);
+        for (int i = 0; i < 3; i++) {
+            int i1 = random.nextInt(-20, 20);
+            list.add(new DanmakuEntity(
                     (LivingEntity) user,
                     stack.copy(),
                     hand,
                     item,
-                    pitch,
-                    yaw,
+                    pitch+i1/1.5f,
+                    yaw+i1,
                     1.4f,
                     5.0f,
                     0.4f,
                     false
-            );
-            serverWorld.spawnEntity(danmakuEntity);
-
+            ));
+        }
+        list.forEach(serverWorld::spawnEntity);
     }
 }

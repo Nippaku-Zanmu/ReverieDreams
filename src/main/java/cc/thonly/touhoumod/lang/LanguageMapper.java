@@ -66,9 +66,13 @@ public class LanguageMapper {
         simpChinese.addNpcEntity(NPCEntityTypes.REIUJI_UTSUH, "灵乌路空", "刷怪蛋");
         simpChinese.addNpcEntity(NPCEntityTypes.KOMEIJI_KOISHI, "古明地恋", "刷怪蛋");
 
+        // 星莲船
+        simpChinese.addNpcEntity(NPCEntityTypes.NAZRIN, "纳兹琳", "刷怪蛋");
+        simpChinese.addNpcEntity(NPCEntityTypes.TATARA_KOGASA, "多多良小伞", "刷怪蛋");
+        simpChinese.addNpcEntity(NPCEntityTypes.NUE, "封兽鵺", "刷怪蛋");
+
         // 神灵庙
         simpChinese.addNpcEntity(NPCEntityTypes.KASODANI_KYOUKO, "幽谷响子", "刷怪蛋");
-        simpChinese.addNpcEntity(NPCEntityTypes.TATARA_KOGASA, "多多良小伞", "刷怪蛋");
         simpChinese.addNpcEntity(NPCEntityTypes.MIYAKO_YOSHIKA, "宫古芳香", "刷怪蛋");
         simpChinese.addNpcEntity(NPCEntityTypes.KAKU_SEIGA, "霍青娥", "刷怪蛋");
         simpChinese.addNpcEntity(NPCEntityTypes.SOGA_NO_TOZIKO, "苏我屠自古", "刷怪蛋");
@@ -77,7 +81,6 @@ public class LanguageMapper {
         simpChinese.addNpcEntity(NPCEntityTypes.HOUJUU_NUE, "封兽鵺", "刷怪蛋");
         simpChinese.addNpcEntity(NPCEntityTypes.HUTATSUIWA_MAMIZOU, "二岩猯藏", "刷怪蛋");
 
-        // 星莲船
 
         // 三月精
         simpChinese.addNpcEntity(NPCEntityTypes.STAR, "斯塔·萨菲雅", "刷怪蛋");

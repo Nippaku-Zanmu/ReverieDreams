@@ -6,7 +6,7 @@ import cc.thonly.touhoumod.entity.ai.goal.DifferentRevengeGoal;
 import cc.thonly.touhoumod.entity.holder.WingHolder;
 import cc.thonly.touhoumod.entity.npc.NPCEntityImpl;
 import cc.thonly.touhoumod.item.ModItems;
-import cc.thonly.touhoumod.util.DelayedTask;
+import cc.thonly.touhoumod.server.DelayedTask;
 import cc.thonly.touhoumod.util.ModelUtil;
 import com.mojang.authlib.properties.Property;
 import de.tomalbrc.bil.core.model.Model;

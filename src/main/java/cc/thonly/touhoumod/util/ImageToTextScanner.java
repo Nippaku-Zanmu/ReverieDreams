@@ -1,7 +1,6 @@
 package cc.thonly.touhoumod.util;
 
 import cc.thonly.touhoumod.Touhou;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -10,7 +9,7 @@ import net.minecraft.util.Formatting;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 

@@ -14,18 +14,21 @@
     "RegistryLoaderMixin",
     "SimpleRegistryMixin",
     "WorldMixin",
+    "accessor.AbstractBlockSettingsAccessor",
     "accessor.ComponentMapBuilderAccessor",
     "accessor.EntityAccessor",
     "accessor.ItemSettingsAccessor",
     "accessor.LivingEntityAccessor",
     "accessor.PlayerEntityAccessor",
     "accessor.ResourceAccessor",
+    "accessor.WoodTypeAccessor",
     "compat.PolymerCommonUtilsMixin",
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
     "server.MinecraftServerMixin",
     "server.ReloadableRegistriesMixin",
     "server.ServerAdvancementLoaderAccessor",
-    "server.ServerPlayerEntityMixin"
+    "server.ServerPlayerEntityMixin",
+    "server.ServerPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

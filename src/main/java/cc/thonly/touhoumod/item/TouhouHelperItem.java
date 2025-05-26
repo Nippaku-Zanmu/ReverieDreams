@@ -3,7 +3,7 @@ package cc.thonly.touhoumod.item;
 import cc.thonly.touhoumod.block.ModBlocks;
 import cc.thonly.touhoumod.gui.recipe.RecipeTypeCategoryGui;
 import cc.thonly.touhoumod.item.base.BasicPolymerItem;
-import cc.thonly.touhoumod.util.DelayedTask;
+import cc.thonly.touhoumod.server.DelayedTask;
 import eu.pb4.sgui.api.elements.BookElementBuilder;
 import eu.pb4.sgui.api.gui.BookGui;
 import net.minecraft.component.DataComponentTypes;

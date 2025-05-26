@@ -1,7 +1,7 @@
 package cc.thonly.touhoumod.item;
 
 import cc.thonly.touhoumod.item.base.BasicPolymerItem;
-import cc.thonly.touhoumod.util.DelayedTask;
+import cc.thonly.touhoumod.server.DelayedTask;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;

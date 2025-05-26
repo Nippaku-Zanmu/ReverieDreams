@@ -3,7 +3,7 @@ package cc.thonly.touhoumod.gui.recipe.display;
 import cc.thonly.touhoumod.gui.PlayerHeadInfo;
 import cc.thonly.touhoumod.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.touhoumod.item.ModGuiItems;
-import cc.thonly.touhoumod.recipe.SimpleRegistryInstance;
+import cc.thonly.touhoumod.recipe.SimpleRecipeRegistryBase;
 import cc.thonly.touhoumod.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.touhoumod.recipe.slot.CountRecipeSlot;
 import eu.pb4.sgui.api.ClickType;
@@ -28,13 +28,13 @@ import java.util.List;
 @Slf4j
 @ToString(callSuper = true)
 public class GensokyoAltarDisplayView extends SimpleGui implements DisplayView {
-    public final SimpleRegistryInstance<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry;
+    public final SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry;
     public final Identifier key;
     public final GensokyoAltarRecipe.Entry value;
     public final GuiElementBuilder back = new GuiElementBuilder().setItem(ModGuiItems.BACK).setSkullOwner(PlayerHeadInfo.GUI_ADD).setItemName(Text.of("Back")).setCallback(this::back);
     public final GuiOpeningPrevCallback prevGuiCallback;
 
-    public GensokyoAltarDisplayView(ServerPlayerEntity player, SimpleRegistryInstance<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public GensokyoAltarDisplayView(ServerPlayerEntity player, SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.key2ValueEntry = key2ValueEntry;
         this.key = this.key2ValueEntry.getKey();

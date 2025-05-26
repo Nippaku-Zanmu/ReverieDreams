@@ -39,7 +39,7 @@ public class StrengthTableGui extends AnvilInputGui implements GuiCommon {
         if (this.blockEntity.getWorld() != null && this.blockEntity.getWorld().getBlockState(this.blockEntity.getPos()).getBlock() != ModBlocks.STRENGTH_TABLE) {
             this.close();
         }
-        StrengthTableRecipes.RegistryInstance<StrengthTableRecipe.Entry> registry = StrengthTableRecipes.getRecipeRegistryRef();
+        StrengthTableRecipes.RecipeRegistryBase<StrengthTableRecipe.Entry> registry = StrengthTableRecipes.getRecipeRegistryRef();
         ItemStack mainStack = this.blockEntity.getInventory().getStack(0);
         ItemStack offStack = this.blockEntity.getInventory().getStack(1);
         CountRecipeSlot mainSlot = new CountRecipeSlot(mainStack.getItem(), mainStack.getCount());
@@ -55,7 +55,7 @@ public class StrengthTableGui extends AnvilInputGui implements GuiCommon {
 
     public void click() {
         if (this.blockEntity == null) return;
-        StrengthTableRecipes.RegistryInstance<StrengthTableRecipe.Entry> registry = StrengthTableRecipes.getRecipeRegistryRef();
+        StrengthTableRecipes.RecipeRegistryBase<StrengthTableRecipe.Entry> registry = StrengthTableRecipes.getRecipeRegistryRef();
         ItemStack mainStack = this.blockEntity.getInventory().getStack(0);
         ItemStack offStack = this.blockEntity.getInventory().getStack(1);
         CountRecipeSlot mainSlot = new CountRecipeSlot(mainStack.getItem(), mainStack.getCount());

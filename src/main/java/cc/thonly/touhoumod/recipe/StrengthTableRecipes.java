@@ -14,22 +14,22 @@ import java.util.*;
 @Getter
 @ToString
 public class StrengthTableRecipes extends CustomRecipes {
-    private static final StrengthTableRecipes.RegistryInstance<StrengthTableRecipe.Entry> INSTANCE = new StrengthTableRecipes.RegistryInstance<>();
+    private static final RecipeRegistryBase<StrengthTableRecipe.Entry> INSTANCE = new RecipeRegistryBase<>();
 
     public static void registerRecipes() {
-        RegistryInstance<StrengthTableRecipe.Entry> registry = getRecipeRegistryRef();
+        RecipeRegistryBase<StrengthTableRecipe.Entry> registry = getRecipeRegistryRef();
 
     }
 
-    public static StrengthTableRecipes.RegistryInstance<StrengthTableRecipe.Entry> getRecipeRegistryRef() {
+    public static RecipeRegistryBase<StrengthTableRecipe.Entry> getRecipeRegistryRef() {
         return INSTANCE;
     }
 
-    public static class RegistryInstance<T extends StrengthTableRecipe.Entry> extends SimpleRegistryInstance<T> {
+    public static class RecipeRegistryBase<T extends StrengthTableRecipe.Entry> extends SimpleRecipeRegistryBase<T> {
         List<Identifier> keys = new ArrayList<>();
         List<T> entries = new ArrayList<>();
 
-        private RegistryInstance() {
+        private RecipeRegistryBase() {
 
         }
 
@@ -121,8 +121,8 @@ public class StrengthTableRecipes extends CustomRecipes {
         }
 
         @Override
-        public List<SimpleRegistryInstance<T>.Key2ValueEntry> toList() {
-            List<SimpleRegistryInstance<T>.Key2ValueEntry> list = new LinkedList<>();
+        public List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> toList() {
+            List<SimpleRecipeRegistryBase<T>.Key2ValueEntry> list = new LinkedList<>();
             for (var key: this.keys) {
                 list.add(new Key2ValueEntry(key, this.get(key)));
             }

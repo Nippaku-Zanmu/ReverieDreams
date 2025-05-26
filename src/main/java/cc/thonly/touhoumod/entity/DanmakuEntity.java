@@ -1,8 +1,10 @@
 package cc.thonly.touhoumod.entity;
 
+import cc.thonly.touhoumod.Touhou;
 import cc.thonly.touhoumod.component.ModDataComponentTypes;
+import cc.thonly.touhoumod.damage.DanmakuDamageType;
 import cc.thonly.touhoumod.item.ModItems;
-import cc.thonly.touhoumod.item.base.BasicPolymerDanmakuItem;
+import cc.thonly.touhoumod.registry.RegistrySchemas;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.polymer.virtualentity.api.tracker.DisplayTrackedData;
 import lombok.Getter;
@@ -31,6 +33,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -55,6 +58,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     protected ItemStack itemStack = Items.SNOWBALL.getDefaultStack();
     protected float scale;
     protected boolean tile = false;
+    protected DanmakuDamageType danmakuDamageType;
     private final float setupPitch;
     private final float setupYaw;
 
@@ -92,7 +96,9 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
         this.setPitch(pitch);
         this.pickupType = PickupPermission.CREATIVE_ONLY;
         this.setDamage(stack.getOrDefault(ModDataComponentTypes.Danmaku.DAMAGE, 1.0f) * 1.5);
-        this.setScale(stack.getOrDefault(ModDataComponentTypes.Danmaku.DAMAGE, 1.0f) * 0.65F);
+        this.setScale(stack.getOrDefault(ModDataComponentTypes.Danmaku.SCALE, 1.0f) * 0.65F);
+        String type = stack.getOrDefault(ModDataComponentTypes.Danmaku.DAMAGE_TYPE, Touhou.id("generic").toString());
+        this.setDanmakuDamageType(RegistrySchemas.DANMAKU_DAMAGE_TYPE.get(Identifier.of(type)));
         this.setCustomPierceLevel((byte) 1);
         this.setItemStack(stack.copy());
         this.setDanmakuItem(item);
@@ -133,7 +139,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
 
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.TELEPORTATION_DURATION, 3));
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.INTERPOLATION_DURATION, 0));
-            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.SCALE, new Vector3f(this.scale * 0.9f)));
+            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.SCALE, new Vector3f(this.getScale() * 0.85f)));
             if (this.tile) {
                 data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.BILLBOARD, (byte) DisplayEntity.BillboardMode.CENTER.ordinal()));
             } else {
@@ -157,6 +163,10 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
             nbt.put("Item", this.itemStack.copy().toNbt(this.getRegistryManager()));
         }
         nbt.putBoolean("IsTile", this.tile);
+        Identifier danmakuDamageTypeId = RegistrySchemas.DANMAKU_DAMAGE_TYPE.getId(this.danmakuDamageType);
+        if (danmakuDamageTypeId != null) {
+            nbt.putString("DamageType", danmakuDamageTypeId.toString());
+        }
     }
 
     @Override
@@ -167,6 +177,9 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
         }
         if (nbt.contains("IsTile")) {
             this.tile = nbt.getBoolean("IsTile");
+        }
+        if (nbt.contains("DamageType")) {
+            this.danmakuDamageType = RegistrySchemas.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType")));
         }
     }
 
@@ -258,16 +271,16 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
         }
 
         this.setPosition(entityHitResult.getPos());
-        setSilent(false);
+        this.setSilent(false);
 //        playSound(SoundEvents.ENTITY_ARROW_HIT, 4.0F, 1.0F);
-        setSilent(true);
+        this.setSilent(true);
 
         if (entityHitResult.getEntity() instanceof LivingEntity livingEntity) {
             this.setDamage(this.getDamage());
             entityHitParticles(livingEntity, this.getDamage() * this.getVelocity().length());
         }
 
-        this.hitDamage(entityHitResult, getWorld());
+        this.hitDamage(entityHitResult, this.getWorld());
         this.discard();
     }
 
@@ -282,7 +295,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
                 if (owner instanceof LivingEntity attacker) {
                     damageSource = world.getDamageSources().mobProjectile(this, attacker);
                 } else {
-                    damageSource = world.getDamageSources().generic();
+                    damageSource = this.danmakuDamageType.mapToSource(world.getDamageSources());
                 }
 
                 float damageAmount = (float) this.getDamage();

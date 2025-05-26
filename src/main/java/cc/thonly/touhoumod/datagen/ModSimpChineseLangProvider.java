@@ -53,11 +53,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add("itemGroup.touhou", "幻想乡追忆录 - 物品/方块");
-        translationBuilder.add("itemGroup.touhou.bullet", "幻想乡追忆录 - 子弹");
-        translationBuilder.add("itemGroup.touhou.fumo", "幻想乡追忆录 - Fumo");
-        translationBuilder.add("itemGroup.touhou.spawn_egg", "幻想乡追忆录 - 刷怪蛋");
-        translationBuilder.add("itemGroup.touhou.npc.spawn_egg", "幻想乡追忆录 - 东方角色刷怪蛋");
+        translationBuilder.add("item_group.touhou", "幻想乡追忆录 - 物品/方块");
+        translationBuilder.add("item_group.touhou.bullet", "幻想乡追忆录 - 子弹");
+        translationBuilder.add("item_group.touhou.fumo", "幻想乡追忆录 - Fumo");
+        translationBuilder.add("item_group.touhou.spawn_egg", "幻想乡追忆录 - 刷怪蛋");
+        translationBuilder.add("item_group.touhou.npc.spawn_egg", "幻想乡追忆录 - 东方角色刷怪蛋");
         translationBuilder.add(Touhou.id("recipe/danmaku_table").toTranslationKey(), "弹幕工作台");
         translationBuilder.add(Touhou.id("recipe/gensokyo_altar").toTranslationKey(), "幻想乡祭坛");
         translationBuilder.add(Touhou.id("recipe/strength_table").toTranslationKey(), "强化台");
@@ -81,6 +81,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("gui.npc.mode.1", "§b当前模式为: §a禁止移动");
         translationBuilder.add("gui.npc.mode.2", "§b当前模式为: §a潜行");
         translationBuilder.add("gui.npc.mode.3", "§b当前模式为: §a坐下");
+        translationBuilder.add("gui.npc.mode.4", "§b当前模式为: §a工作中");
 
         LanguageKeys.SIMP_CHINESE.build(translationBuilder);
     }
@@ -100,7 +101,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item." + EntityType.getId(ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "向日葵妖精刷怪蛋");
         translationBuilder.add(ModEntities.GOBLIN_ENTITY_TYPE.getTranslationKey(), "哥布林");
         translationBuilder.add("item." + EntityType.getId(ModEntities.GOBLIN_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "哥布林刷怪蛋");
-
+        translationBuilder.add(ModEntities.BROOM_ENTITY_TYPE.getTranslationKey(), "魔法扫帚");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.BROOM_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "魔法扫帚刷怪蛋");
     }
 
     public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -126,7 +128,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         // 材料
         translationBuilder.add(ModItems.POINT, "Point");
         translationBuilder.add(ModItems.POWER, "Power");
-        translationBuilder.add(ModItems.UPGRADED_HEALTH_FRAGMENT, "Bomb碎片");
+        translationBuilder.add(ModItems.UPGRADED_HEALTH_FRAGMENT, "残机碎片");
         translationBuilder.add(ModItems.BOMB_FRAGMENT, "Bomb碎片");
         translationBuilder.add(ModItems.RED_ORB, "红宝玉");
         translationBuilder.add(ModItems.BLUE_ORB, "蓝宝玉");
@@ -157,6 +159,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.IBUKIHO, "伊吹瓢");
         translationBuilder.add(ModItems.SWORD_OF_HISOU, "非想之剑");
         translationBuilder.add(ModItems.KNIFE, "飞刀");
+        translationBuilder.add(ModItems.MAPLE_LEAF_FAN, "枫叶团扇");
 
         // 其他
         translationBuilder.add(ModItems.SHIDE, "纸垂");
@@ -174,6 +177,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         for (var sound : ModSoundEvents.FUMO_SOUNDS) {
             this.generateSoundEventSubtitle(translationBuilder, sound, "fumo");
         }
+        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.BIU, "满身疮痍");
         this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.POINT, "收点");
         this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.SPELL_CARD, "符卡释放");
         this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.UP, "升级");
@@ -195,6 +199,17 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.STRENGTH_TABLE, "强化台");
         translationBuilder.add(ModBlocks.SPIRITUAL_LOG, "绳文杉原木");
         translationBuilder.add(ModBlocks.SPIRITUAL_WOOD, "绳文杉树皮");
+        translationBuilder.add(ModBlocks.SPIRITUAL_STAIR, "绳文杉楼梯");
+        translationBuilder.add(ModBlocks.SPIRITUAL_SLAB, "绳文杉台阶");
+        translationBuilder.add(ModBlocks.SPIRITUAL_DOOR, "绳文杉门");
+        translationBuilder.add(ModBlocks.SPIRITUAL_TRAPDOOR, "绳文杉活版门");
+        translationBuilder.add(ModBlocks.SPIRITUAL_FENCE, "绳文杉栅栏");
+        translationBuilder.add(ModBlocks.SPIRITUAL_FENCE_GATE, "绳文杉栅栏门");
+        translationBuilder.add(ModBlocks.SPIRITUAL_BUTTON, "绳文杉按钮");
+//        translationBuilder.add(ModBlocks.SPIRITUAL_SIGN, "绳文杉牌子");
+//        translationBuilder.add(ModBlocks.SPIRITUAL_HANGING_SIGN, "绳文杉牌子");
+//        translationBuilder.add(ModBlocks.WALL_SPIRITUAL_HANGING_SIGN, "绳文杉牌子");
+
         translationBuilder.add(ModBlocks.STRIPPED_SPIRITUAL_LOG, "去皮绳文杉");
         translationBuilder.add(ModBlocks.STRIPPED_SPIRITUAL_WOOD, "去皮绳文杉树皮");
         translationBuilder.add(ModBlocks.SPIRITUAL_PLANKS, "绳文杉木板");
