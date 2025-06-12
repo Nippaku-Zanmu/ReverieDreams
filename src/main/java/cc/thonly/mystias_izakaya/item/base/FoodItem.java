@@ -53,7 +53,7 @@ public class FoodItem extends BasicPolymerItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
         List<FoodProperty> foodProperties = FoodProperty.getFromItemStack(stack);
-        tooltip.add(Text.empty());
+        tooltip.add(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
         for (FoodProperty foodProperty : foodProperties) {
             tooltip.add(Text.empty().append(foodProperty.getTooltip()));
         }

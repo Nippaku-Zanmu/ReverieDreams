@@ -35,7 +35,6 @@ public class BasicPolymerStairsBlock extends StairsBlock implements FactoryBlock
     public BasicPolymerStairsBlock(Identifier identifier, BlockState baseBlockState, Settings settings) {
         super(baseBlockState, settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = Identifier.tryParse(this.getTranslationKey().replace("block.", "").replace(".", ":"));
-        System.out.println(this.identifier);
     }
 
     public BasicPolymerStairsBlock(String path, BlockState baseBlockState, Settings settings) {

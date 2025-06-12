@@ -98,6 +98,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        translationBuilder.add("item.tooltip.food_properties", "属性：");
         translationBuilder.add("item_group.kitchenware_item_group", "厨具");
         translationBuilder.add("item_group.Ingredients_item_group", "食材");
         translationBuilder.add("item_group.food_item_group", "食物");

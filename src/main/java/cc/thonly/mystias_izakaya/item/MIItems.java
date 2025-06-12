@@ -12,7 +12,7 @@ import java.util.List;
 public class MIItems {
     public static final List<Item> INGREDIENTS = new ArrayList<>();
 
-    public static final Item BAMBOO_SHOOTER = registerIngredient(new IngredientItem("ingredient/bamboo_shooter", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_SHOOTS = registerIngredient(new IngredientItem("ingredient/bamboo_shoots", 0, 0f, new Item.Settings()));
     public static final Item BLACK_PORK = registerIngredient(new IngredientItem("ingredient/black_pork", 0, 0f, new Item.Settings()));
     public static final Item BRAISED_MEAT = registerIngredient(new IngredientItem("ingredient/braised_meat", 0, 0f, new Item.Settings()));
     public static final Item BUTTER = registerIngredient(new IngredientItem("ingredient/butter", 0, 0f, new Item.Settings()));

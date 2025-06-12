@@ -27,11 +27,18 @@ public class IngredientItem extends BasicPolymerItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
-        List<FoodProperty> foodProperties = FoodProperty.getFromItemStack(stack);
-        tooltip.add(Text.empty());
+        List<FoodProperty> foodProperties = FoodProperty.getIngredientProperties(this);
+        tooltip.add(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
         for (FoodProperty foodProperty : foodProperties) {
             tooltip.add(Text.empty().append(foodProperty.getTooltip()));
         }
+    }
 
+    public static boolean isIngredient(Item item) {
+        return item instanceof IngredientItem;
+    }
+
+    public static boolean isIngredient(ItemStack item) {
+        return item.getItem() instanceof IngredientItem;
     }
 }
