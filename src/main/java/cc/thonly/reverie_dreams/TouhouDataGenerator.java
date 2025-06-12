@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams;
 
+import cc.thonly.mystias_izakaya.datagen.MIIngredientProvider;
 import cc.thonly.reverie_dreams.datagen.*;
 import cc.thonly.reverie_dreams.lang.LanguageMapper;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -23,6 +24,8 @@ public class TouhouDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModRegistryDataGenerator::new);
         pack.addProvider(ModJukeboxProvider::new);
         pack.addProvider(ModSoundProvider::new);
+
+        pack.addProvider(MIIngredientProvider::new);
     }
 
     @Override

@@ -19,6 +19,8 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Setter
@@ -61,8 +63,20 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
     }
 
     public String getTranslateKey() {
-        String translationKey = this.id.toTranslationKey("food_property");
-        return translationKey;
+        return this.id.toTranslationKey("food_property");
+    }
+
+    public static List<FoodProperty> getIngredientProperties(Item item) {
+        List<FoodProperty> list = new ArrayList<>();
+        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
+        for (Map.Entry<Identifier, FoodProperty> entry: entries) {
+            FoodProperty foodProperty = entry.getValue();
+            List<Item> tags = foodProperty.getTags();
+            if (tags.contains(item)) {
+                list.add(foodProperty);
+            }
+        }
+        return list;
     }
 
     public static List<FoodProperty> getFromItemStack(ItemStack itemStack) {
@@ -82,6 +96,6 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
 
     @Override
     public Codec<FoodProperty> getCodec() {
-        return null;
+        return CODEC;
     }
 }

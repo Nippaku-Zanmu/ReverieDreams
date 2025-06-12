@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.MIBlocks;
+import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class ModModelProvider extends FabricModelProvider {
     private final Map<Block, TexturedModel> uniqueModels = ImmutableMap.<Block, TexturedModel>builder()
             .build();
+
     public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
@@ -57,7 +59,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_BLUE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_RED_BLOCK);
 
-        for (Block block: FumoBlocks.getRegisteredFumo()) {
+        for (Block block : FumoBlocks.getRegisteredFumo()) {
             blockStateModelGenerator.registerSimpleState(block);
         }
         this.generateMIBlock(blockStateModelGenerator);
@@ -147,7 +149,9 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateMIItem(ItemModelGenerator itemModelGenerator) {
-
+        for (Item item : MIItems.INGREDIENTS) {
+            itemModelGenerator.register(item, Models.GENERATED);
+        }
     }
 
     public void generateHolder(ItemModelGenerator itemModelGenerator) {
@@ -156,17 +160,17 @@ public class ModModelProvider extends FabricModelProvider {
 
     public void generateGuiItemModels(ItemModelGenerator itemModelGenerator) {
         Model guiSlotModel = item("custom_slot", TextureKey.LAYER0);
-        for (Item item: ModGuiItems.getRegisteredItems()) {
+        for (Item item : ModGuiItems.getRegisteredItems()) {
             itemModelGenerator.register(item, guiSlotModel);
         }
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
-        for (Item item: ModItems.getRegisteredDanmakuItems()) {
+        for (Item item : ModItems.getRegisteredDanmakuItems()) {
             itemModelGenerator.register(item, Models.GENERATED);
         }
     }
-    
+
     private void registerSmithingTable(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         TextureMap textureMap = new TextureMap()
                 .put(TextureKey.PARTICLE, TextureMap.getSubId(block, "_front"))
@@ -178,8 +182,8 @@ public class ModModelProvider extends FabricModelProvider {
                 .put(TextureKey.WEST, TextureMap.getSubId(block, "_side"));
         blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Models.CUBE.upload(block, textureMap, blockStateModelGenerator.modelCollector)));
     }
-    
-    private static Model item(String parent, TextureKey ... requiredTextureKeys) {
+
+    private static Model item(String parent, TextureKey... requiredTextureKeys) {
         return new Model(Optional.of(Touhou.id("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 

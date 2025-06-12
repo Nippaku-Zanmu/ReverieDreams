@@ -94,6 +94,13 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item.reverie_dreams.music.playing_music", "§b播放音乐：§f%s §7[乐器: %s]");
 
         LanguageKeys.SIMP_CHINESE.build(translationBuilder);
+        this.generateMITranslations(wrapperLookup, translationBuilder);
+    }
+
+    public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        translationBuilder.add("item_group.kitchenware_item_group", "厨具");
+        translationBuilder.add("item_group.Ingredients_item_group", "食材");
+        translationBuilder.add("item_group.food_item_group", "食物");
     }
 
     public void generateEntityTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -189,7 +196,6 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 //        translationBuilder.add(ModItems.DEBUG_DANMAKU_ITEM, "调试弹幕");
 //        translationBuilder.add(ModItems.DEBUG_SPELL_CARD_ITEM, "调试符卡");
 //        translationBuilder.add(ModItems.DEBUG_SPELL_CARD_ITEM2, "调试符卡2");
-
 
         generateDanmakuItemTranslations(wrapperLookup, translationBuilder, true);
     }
