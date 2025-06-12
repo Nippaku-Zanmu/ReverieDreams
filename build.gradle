@@ -14,7 +14,10 @@ base {
 repositories {
     maven { url = 'https://maven.nucleoid.xyz' }
     maven { url = "https://api.modrinth.com/maven/" }
-
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
     maven {
         name = "Infinituum Mod Resources"
         url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
@@ -77,9 +80,11 @@ dependencies {
     modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-chunk:${project.cca_version}")
 
     modImplementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
+    modImplementation include("eu.pb4:map-canvas-api:${project.mapcanvas_version}")
 
     modImplementation files('libs/resourceconfigapi-fabric-1.21.4-3.6.1.jar')
 
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     compileOnly('org.geysermc.geyser:api:2.6.1-SNAPSHOT')
 

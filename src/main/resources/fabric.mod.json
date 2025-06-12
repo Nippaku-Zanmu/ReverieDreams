@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "reverie_dreams",
 	"version": "${version}",
-	"name": "幻想乡追忆录　～ Reverie of Lost Dreams",
+	"name": "Gensokyo: Reverie of Lost Dreams",
 	"description": "",
 	"authors": [
 		"稀神灵梦"
@@ -15,16 +15,21 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"cc.thonly.touhoumod.Touhou"
+			"nota.Nota",
+			"cc.thonly.reverie_dreams.Touhou",
+			"cc.thonly.mystias_izakaya.MystiasIzakaya"
 		],
 		"client": [
-			"cc.thonly.touhoumod.TouhouClient"
+			"cc.thonly.reverie_dreams.TouhouClient"
 		],
 		"preLaunch": [
-			"cc.thonly.touhoumod.TouhouEarly"
+			"cc.thonly.reverie_dreams.TouhouEarly"
 		],
 		"fabric-datagen": [
-			"cc.thonly.touhoumod.TouhouDataGenerator"
+			"cc.thonly.reverie_dreams.TouhouDataGenerator"
+		],
+		"modmenu": [
+			"cc.thonly.reverie_dreams.ModMenuInit"
 		]
 	},
 	"mixins": [
@@ -38,7 +43,9 @@
 		"polymer-core": "*",
 		"polymer-networking": "*",
 		"polymer-virtual-entity": "*",
-		"polymer-resource-pack": "*"
+		"polymer-resource-pack": "*",
+		"midnightlib": "*",
+		"resourceconfigapi": "*"
 	},
 	"suggests": {
 		"another-mod": "*"

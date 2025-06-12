@@ -1,9 +1,10 @@
 {
   "required": true,
-  "package": "cc.thonly.touhoumod.mixin",
+  "package": "cc.thonly.reverie_dreams.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BedBlockMixin",
+    "ComponentChangesMixin",
     "EntityMixin",
     "ExampleMixin",
     "GuiElementBuilderMixin",
@@ -28,7 +29,8 @@
     "server.ReloadableRegistriesMixin",
     "server.ServerAdvancementLoaderAccessor",
     "server.ServerPlayerEntityMixin",
-    "server.ServerPlayNetworkHandlerMixin"
+    "server.ServerPlayNetworkHandlerMixin",
+    "server.ServerWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,0 +1,12 @@
+// 1.21.4	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Tags for minecraft:block
+ed20c796fb7c2ce4f4f9c90f217e56141bcc0232 data/minecraft/tags/block/buttons.json
+eeec00863c07240329bb9109b1a8b7ebfc23deec data/minecraft/tags/block/doors.json
+2cc7c7975d5217c6ca93b53a367d7d10f51c873b data/minecraft/tags/block/fence_gates.json
+1a0122cafd9bfdf96ae9e6d16e7b4a68617e38b6 data/minecraft/tags/block/fences.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/pressure_plates.json
+3aaf154954d52d065ab30e1266fa30720be82caa data/minecraft/tags/block/slabs.json
+f7aa5aff8f8d46304fbe8d2f3ced4be70c950b4d data/minecraft/tags/block/stairs.json
+e67adc04eb8be77c1bbbbcb804feb9dc3f1f2783 data/minecraft/tags/block/trapdoors.json
+cfab2ab481bf476a645d326b87627918009b9e50 data/reverie_dreams/tags/block/empty.json
+db675c739a12dd6fcca085b4b562ac33e25e0d8f data/reverie_dreams/tags/block/fumo.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/reverie_dreams/tags/block/min_tool.json
