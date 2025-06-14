@@ -13,8 +13,10 @@ public class MIItems {
     public static final List<Item> INGREDIENTS = new ArrayList<>();
 
     public static final Item BAMBOO_SHOOTS = registerIngredient(new IngredientItem("ingredient/bamboo_shoots", 0, 0f, new Item.Settings()));
+    public static final Item BLACK_SALT = registerIngredient(new IngredientItem("ingredient/black_salt", 0, 0f, new Item.Settings()));
     public static final Item BLACK_PORK = registerIngredient(new IngredientItem("ingredient/black_pork", 0, 0f, new Item.Settings()));
-    public static final Item BRAISED_MEAT = registerIngredient(new IngredientItem("ingredient/braised_meat", 0, 0f, new Item.Settings()));
+    public static final Item BROCCOLI = registerIngredient(new IngredientItem("ingredient/broccoli", 0, 0f, new Item.Settings()));
+    public static final Item VENISON = registerIngredient(new IngredientItem("ingredient/venison", 0, 0f, new Item.Settings()));
     public static final Item BUTTER = registerIngredient(new IngredientItem("ingredient/butter", 0, 0f, new Item.Settings()));
     public static final Item CAPSAICIN = registerIngredient(new IngredientItem("ingredient/capsaicin", 0, 0f, new Item.Settings()));
     public static final Item CHEESE = registerIngredient(new IngredientItem("ingredient/cheese", 0, 0f, new Item.Settings()));
@@ -25,6 +27,8 @@ public class MIItems {
     public static final Item CUCUMBER = registerIngredient(new IngredientItem("ingredient/cucumber", 0, 0f, new Item.Settings()));
     public static final Item DEW = registerIngredient(new IngredientItem("ingredient/dew", 0, 0f, new Item.Settings()));
     public static final Item FLOUR = registerIngredient(new IngredientItem("ingredient/flour", 0, 0f, new Item.Settings()));
+    public static final Item FLOWERS = registerIngredient(new IngredientItem("ingredient/flowers", 0, 0f, new Item.Settings()));
+    public static final Item FICUS_MICROCARPA = registerIngredient(new IngredientItem("ingredient/ficus_microcarpa", 0, 0f, new Item.Settings()));
     public static final Item GINKGO = registerIngredient(new IngredientItem("ingredient/ginkgo", 0, 0f, new Item.Settings()));
     public static final Item GRAPE = registerIngredient(new IngredientItem("ingredient/grape", 0, 0f, new Item.Settings()));
     public static final Item HAGFISH = registerIngredient(new IngredientItem("ingredient/hagfish", 0, 0f, new Item.Settings()));
@@ -35,11 +39,14 @@ public class MIItems {
     public static final Item ONION = registerIngredient(new IngredientItem("ingredient/onion", 0, 0f, new Item.Settings()));
     public static final Item PEACH = registerIngredient(new IngredientItem("ingredient/peach", 0, 0f, new Item.Settings()));
     public static final Item PINE_NUT = registerIngredient(new IngredientItem("ingredient/pine_nut", 0, 0f, new Item.Settings()));
+    public static final Item PLUM = registerIngredient(new IngredientItem("ingredient/plum", 0, 0f, new Item.Settings()));
     public static final Item PUFF_YO_FRUIT = registerIngredient(new IngredientItem("ingredient/puff_yo_fruit", 0, 0f, new Item.Settings()));
     public static final Item RED_BEANS = registerIngredient(new IngredientItem("ingredient/red_beans", 0, 0f, new Item.Settings()));
     public static final Item SALMON = registerIngredient(new IngredientItem("ingredient/salmon", 0, 0f, new Item.Settings()));
     public static final Item SEA_URCHIN = registerIngredient(new IngredientItem("ingredient/sea_urchin", 0, 0f, new Item.Settings()));
     public static final Item SHRIMP = registerIngredient(new IngredientItem("ingredient/shrimp", 0, 0f, new Item.Settings()));
+    public static final Item CICADA_SHELL = registerIngredient(new IngredientItem("ingredient/cicada_shell", 0, 0f, new Item.Settings()));
+    public static final Item UDUMBARA = registerIngredient(new IngredientItem("ingredient/udumbara", 0, 0f, new Item.Settings()));
     public static final Item STICKY_RICE = registerIngredient(new IngredientItem("ingredient/sticky_rice", 0, 0f, new Item.Settings()));
     public static final Item SUPREME_TUNA = registerIngredient(new IngredientItem("ingredient/supreme_tuna", 0, 0f, new Item.Settings()));
     public static final Item SWEET_POTATO = registerIngredient(new IngredientItem("ingredient/sweet_potato", 0, 0f, new Item.Settings()));

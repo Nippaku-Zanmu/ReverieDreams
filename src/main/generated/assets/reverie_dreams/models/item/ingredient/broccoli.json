@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "reverie_dreams:item/ingredient/braised_meat"
+    "layer0": "reverie_dreams:item/ingredient/broccoli"
   }
 }

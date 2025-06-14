@@ -2,7 +2,7 @@ package cc.thonly.mystias_izakaya.registry;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
-import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.mystias_izakaya.item.base.IngredientItem;
 import cc.thonly.reverie_dreams.registry.RegistrySchema;
 import cc.thonly.reverie_dreams.registry.RegistrySchemas;
 import com.google.gson.JsonElement;
@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.item.Item;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -19,11 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+@Slf4j
 public class FoodProperties {
     public static final FoodProperty MEAT = register("meat", () -> new FoodProperty());
     public static final FoodProperty AQUATIC_PRODUCTS = register("aquatic_products", () -> new FoodProperty());
@@ -69,6 +72,7 @@ public class FoodProperties {
     public static final FoodProperty POPULAR_NEGATIVE = register("popular_pegative", () -> new FoodProperty());
     public static final FoodProperty POPULAR_POSITIVE = register("popular_positive", () -> new FoodProperty());
     public static final FoodProperty SIGNATURE = register("signature", () -> new FoodProperty());
+    public static final FoodProperty CURSE = register("curse", () -> new FoodProperty());
 
     @SuppressWarnings("unchecked")
     private static <T extends FoodProperty> T register(String id, Supplier<T> factory) {
@@ -91,12 +95,13 @@ public class FoodProperties {
 
         for (Map.Entry<Identifier, Resource> entry : resources.entrySet()) {
             Identifier id = entry.getKey();
+            Identifier rgyId = Identifier.of(id.getNamespace(), id.getPath().replace("food_property/", "").replace(".json", ""));
             Resource resource = entry.getValue();
-            FoodProperty property = MIRegistrySchemas.FOOD_PROPERTY.get(id);
+            FoodProperty property = MIRegistrySchemas.FOOD_PROPERTY.get(rgyId);
 
             if (property == null) {
                 MystiasIzakaya.LOGGER.warn("Unknown FoodProperty id: {}", id);
-                return;
+                continue;
             }
 
             try (InputStream stream = resource.getInputStream()) {
@@ -114,5 +119,17 @@ public class FoodProperties {
                 MystiasIzakaya.LOGGER.error("Failed to load food_property {}: {}", id, e.getMessage(), e);
             }
         }
+        Map<Item, Set<FoodProperty>> itemIngredientCached = IngredientItem.ITEM_INGREDIENT_CACHED;
+        itemIngredientCached.clear();
+        for (Map.Entry<Identifier, FoodProperty> entry : MIRegistrySchemas.FOOD_PROPERTY.entrySet()) {
+            FoodProperty property = entry.getValue();
+            Set<Item> tags = property.getTags();
+            for (Item item : tags) {
+                itemIngredientCached
+                        .computeIfAbsent(item, k -> new HashSet<>())
+                        .add(property);
+            }
+        }
+        log.info("Ingredients TAG loading completed");
     }
 }

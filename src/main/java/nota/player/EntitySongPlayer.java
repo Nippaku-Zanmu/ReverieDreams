@@ -1,8 +1,8 @@
 package nota.player;
 
-import nota.Nota;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Playlist;

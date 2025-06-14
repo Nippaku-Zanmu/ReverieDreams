@@ -15,6 +15,7 @@ import static cc.thonly.reverie_dreams.sound.ModSoundEvents.registerReference;
 public class ModJukeboxSongs {
     public static final List<JukeBoxEntry> ENTRIES = new LinkedList<>();
     public static final JukeBoxEntry HR01_01 = registerJukeBoxEntry("hr01_01", 233, 6);
+    public static final JukeBoxEntry HR02_08 = registerJukeBoxEntry("hr02_08", 296, 6);
     public static final JukeBoxEntry HR03_01 = registerJukeBoxEntry("hr03_01", 309, 6);
     public static final JukeBoxEntry TH15_16 = registerJukeBoxEntry("th15_16", 216, 6);
     public static final JukeBoxEntry TH15_17 = registerJukeBoxEntry("th15_17", 227, 6);

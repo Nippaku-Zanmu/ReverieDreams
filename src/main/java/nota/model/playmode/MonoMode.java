@@ -1,13 +1,13 @@
 package nota.model.playmode;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Song;
 import nota.utils.InstrumentUtils;
 import nota.utils.NoteUtils;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * {@link Note} is played inside of {@link PlayerEntity}'s head.

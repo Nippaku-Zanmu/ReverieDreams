@@ -2,7 +2,6 @@ package nota.player;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-
 import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;

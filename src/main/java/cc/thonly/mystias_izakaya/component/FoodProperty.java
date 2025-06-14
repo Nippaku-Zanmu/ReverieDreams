@@ -7,24 +7,22 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Setter
 @Getter
+@ToString
 public class FoodProperty implements SchemaObject<FoodProperty> {
     public static final Codec<FoodProperty> CODEC = Codec.unit(new FoodProperty());
     public static final Codec<List<Item>> TAG_CODEC = RecordCodecBuilder.create(instance ->
@@ -43,7 +41,8 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
 
     private Identifier id;
     private final StatusEffectInstance effectInstance;
-    private List<Item> tags = new ArrayList<>();
+    private Set<Item> tags = new HashSet<>();
+    private Set<FoodProperty> conflicts = new HashSet<>();
 
     public FoodProperty() {
         this.effectInstance = new StatusEffectInstance(new StatusEffectInstance(ModStatusEffects.EMPTY, 1));
@@ -58,6 +57,64 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
         user.addStatusEffect(effectInstance);
     }
 
+    public static List<FoodProperty> getConflictingProperties(Item item) {
+        List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);
+        List<FoodProperty> conflicts = new ArrayList<>();
+        for (int i = 0; i < properties.size(); i++) {
+            FoodProperty a = properties.get(i);
+            for (int j = i + 1; j < properties.size(); j++) {
+                FoodProperty b = properties.get(j);
+                if (a.isConflict(b)) {
+                    conflicts.add(a);
+                    conflicts.add(b);
+                }
+            }
+        }
+        return conflicts;
+    }
+
+
+    public static String getDisplayPrefix(Item item, FoodProperty foodProperty) {
+        List<FoodProperty> all = FoodProperty.getIngredientProperties(item);
+        for (FoodProperty other : all) {
+            if (other != foodProperty && other.isConflict(foodProperty)) {
+                return "§c-";
+            }
+        }
+        return "§b+";
+    }
+
+    public static List<FoodProperty> getConflictingProperties(List<FoodProperty> properties) {
+        List<FoodProperty> conflicts = new ArrayList<>();
+        for (int i = 0; i < properties.size(); i++) {
+            FoodProperty a = properties.get(i);
+            for (int j = i + 1; j < properties.size(); j++) {
+                FoodProperty b = properties.get(j);
+                if (a.isConflict(b)) {
+                    conflicts.add(a);
+                    conflicts.add(b);
+                }
+            }
+        }
+        return conflicts;
+    }
+
+    public static Boolean isConflict(FoodProperty a, FoodProperty b) {
+        Set<FoodProperty> conflicts1 = a.getConflicts();
+        Set<FoodProperty> conflicts2 = b.getConflicts();
+        return conflicts1.contains(b) || conflicts2.contains(a);
+    }
+
+    public Boolean isConflict(FoodProperty property) {
+        return this.conflicts.contains(property);
+    }
+
+    public FoodProperty setConflict(FoodProperty property) {
+        this.conflicts.add(property);
+        property.getConflicts().add(this);
+        return this;
+    }
+
     public Text getTooltip() {
         return Text.translatable(this.id.toTranslationKey("food_property"));
     }
@@ -69,9 +126,9 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
     public static List<FoodProperty> getIngredientProperties(Item item) {
         List<FoodProperty> list = new ArrayList<>();
         Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
-        for (Map.Entry<Identifier, FoodProperty> entry: entries) {
+        for (Map.Entry<Identifier, FoodProperty> entry : entries) {
             FoodProperty foodProperty = entry.getValue();
-            List<Item> tags = foodProperty.getTags();
+            Set<Item> tags = foodProperty.getTags();
             if (tags.contains(item)) {
                 list.add(foodProperty);
             }

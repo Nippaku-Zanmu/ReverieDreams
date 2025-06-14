@@ -123,6 +123,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
+        itemModelGenerator.register(ModItems.HR02_08, Models.GENERATED);
         itemModelGenerator.register(ModItems.HR03_01, Models.GENERATED);
         itemModelGenerator.register(ModItems.TH15_16, Models.GENERATED);
         itemModelGenerator.register(ModItems.TH15_17, Models.GENERATED);

@@ -90,6 +90,7 @@ public class ModItems {
 
     // DISC
     public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR02_08 = registerDiscItem(new BasicPolymerDiscItem("hr02_08", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR02_08.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
     public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR03_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
     public static final Item TH15_16 = registerDiscItem(new BasicPolymerDiscItem("th15_16", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_16.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
     public static final Item TH15_17 = registerDiscItem(new BasicPolymerDiscItem("th15_17", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_17.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));

@@ -2,8 +2,6 @@ package cc.thonly.mystias_izakaya.item;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
-import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.item.ModItems;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;

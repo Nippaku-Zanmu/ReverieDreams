@@ -1,10 +1,7 @@
 package cc.thonly.mystias_izakaya.block;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
-import cc.thonly.reverie_dreams.block.BasicFumoBlock;
 import cc.thonly.reverie_dreams.block.crop.TransparentFlatTripWire;
-import cc.thonly.reverie_dreams.block.crop.TransparentPlantWatterlogged;
-import cc.thonly.reverie_dreams.state.SixteenDirection;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.block.FactoryBlock;

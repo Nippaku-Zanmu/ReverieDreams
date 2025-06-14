@@ -1,8 +1,6 @@
 package cc.thonly.mystias_izakaya.block.kitchenware;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
-import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 

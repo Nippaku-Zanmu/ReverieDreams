@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public class DataGeneratorUtil {
@@ -20,6 +21,7 @@ public class DataGeneratorUtil {
             Field field = clazz.getDeclaredField("OUTPUT_DIR");
             field.setAccessible(true);
             OUTPUT_DIR = (String) field.get(null);
+            Objects.requireNonNull(OUTPUT_DIR, "No output dir provided with the 'fabric-api.datagen.output-dir' property");
         } catch (Exception err) {
             OUTPUT_DIR = null;
             log.error("Can't get output dir: ", err);

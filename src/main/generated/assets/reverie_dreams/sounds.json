@@ -37,6 +37,14 @@
       "reverie_dreams:fumo/3"
     ]
   },
+  "hr02_08": {
+    "subtitle": "sound.reverie_dreams.hr02_08",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/hr02_08"
+      }
+    ]
+  },
   "up": {
     "subtitle": "sound.reverie_dreams.up",
     "sounds": [

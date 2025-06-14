@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "reverie_dreams:item/ingredient/bamboo_shooter"
+    "layer0": "reverie_dreams:item/hr02_08"
   }
 }

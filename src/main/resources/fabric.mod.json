@@ -33,7 +33,8 @@
 		]
 	},
 	"mixins": [
-		"reverie_dreams.mixins.json"
+		"reverie_dreams.mixins.json",
+		"mystias_izakaya.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.0",

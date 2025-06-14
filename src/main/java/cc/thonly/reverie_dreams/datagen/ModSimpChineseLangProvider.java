@@ -1,5 +1,8 @@
 package cc.thonly.reverie_dreams.datagen;
 
+import cc.thonly.mystias_izakaya.block.MIBlocks;
+import cc.thonly.mystias_izakaya.item.MIItems;
+import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
@@ -99,9 +102,111 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add("item.tooltip.food_properties", "属性：");
-        translationBuilder.add("item_group.kitchenware_item_group", "厨具");
-        translationBuilder.add("item_group.Ingredients_item_group", "食材");
-        translationBuilder.add("item_group.food_item_group", "食物");
+        translationBuilder.add("item_group.kitchenware_item_group", "幻想乡追忆录 - 厨具");
+        translationBuilder.add("item_group.Ingredients_item_group", "幻想乡追忆录 - 食材");
+        translationBuilder.add("item_group.food_item_group", "幻想乡追忆录 - 食物");
+
+        translationBuilder.add(MIBlocks.COOKING_POT, "煮锅");
+        translationBuilder.add(MIBlocks.CUTTING_BOARD, "料理台");
+        translationBuilder.add(MIBlocks.FRYING_PAN, "油锅");
+        translationBuilder.add(MIBlocks.GRILL, "烧烤架");
+        translationBuilder.add(MIBlocks.STEAMER, "蒸锅");
+
+        translationBuilder.add(MIItems.BAMBOO_SHOOTS, "竹笋");
+        translationBuilder.add(MIItems.BLACK_SALT, "黑盐");
+        translationBuilder.add(MIItems.BLACK_PORK, "黑猪肉");
+        translationBuilder.add(MIItems.BROCCOLI, "西兰花");
+        translationBuilder.add(MIItems.VENISON, "鹿肉");
+        translationBuilder.add(MIItems.BUTTER, "黄油");
+        translationBuilder.add(MIItems.CAPSAICIN, "辣椒素");
+        translationBuilder.add(MIItems.CHEESE, "奶酪");
+        translationBuilder.add(MIItems.CHESTNUT, "栗子");
+        translationBuilder.add(MIItems.CHILI, "辣椒");
+        translationBuilder.add(MIItems.CRAB, "螃蟹");
+        translationBuilder.add(MIItems.CREAM, "奶油");
+        translationBuilder.add(MIItems.CUCUMBER, "黄瓜");
+        translationBuilder.add(MIItems.DEW, "晨露");
+        translationBuilder.add(MIItems.FLOUR, "面粉");
+        translationBuilder.add(MIItems.FLOWERS, "食用花");
+        translationBuilder.add(MIItems.FICUS_MICROCARPA, "薜茘");
+        translationBuilder.add(MIItems.GINKGO, "白果");
+        translationBuilder.add(MIItems.GRAPE, "葡萄");
+        translationBuilder.add(MIItems.HAGFISH, "盲鳗");
+        translationBuilder.add(MIItems.LEMON, "柠檬");
+        translationBuilder.add(MIItems.LOTUS_NUTS, "莲子");
+        translationBuilder.add(MIItems.MOONFLOWER, "月光花");
+        translationBuilder.add(MIItems.OCTOPUS, "章鱼");
+        translationBuilder.add(MIItems.ONION, "洋葱");
+        translationBuilder.add(MIItems.PEACH, "桃子");
+        translationBuilder.add(MIItems.PINE_NUT, "松子");
+        translationBuilder.add(MIItems.PLUM, "李子");
+        translationBuilder.add(MIItems.PUFF_YO_FRUIT, "噗噗哟果");
+        translationBuilder.add(MIItems.RED_BEANS, "红豆");
+        translationBuilder.add(MIItems.SALMON, "三文鱼");
+        translationBuilder.add(MIItems.SEA_URCHIN, "海胆");
+        translationBuilder.add(MIItems.SHRIMP, "虾");
+        translationBuilder.add(MIItems.CICADA_SHELL, "蝉蜕");
+        translationBuilder.add(MIItems.UDUMBARA, "幻昙华");
+        translationBuilder.add(MIItems.STICKY_RICE, "糯米");
+        translationBuilder.add(MIItems.SUPREME_TUNA, "极上金枪鱼");
+        translationBuilder.add(MIItems.SWEET_POTATO, "红薯");
+        translationBuilder.add(MIItems.TOFU, "豆腐");
+        translationBuilder.add(MIItems.TOMATO, "番茄");
+        translationBuilder.add(MIItems.TOON, "香椿");
+        translationBuilder.add(MIItems.TREMELLA, "银耳");
+        translationBuilder.add(MIItems.TROUT, "鳟鱼");
+        translationBuilder.add(MIItems.TRUFFLE, "松露");
+        translationBuilder.add(MIItems.TUNA, "金枪鱼");
+        translationBuilder.add(MIItems.TWIN_LOTUS, "并蒂莲");
+        translationBuilder.add(MIItems.WAGYU_BEEF, "和牛");
+        translationBuilder.add(MIItems.WHITE_RADISH, "白萝卜");
+        translationBuilder.add(MIItems.WILD_BOAR_MEAT, "野猪肉");
+
+        translationBuilder.add(FoodProperties.MEAT.getTranslateKey(), "肉类");
+        translationBuilder.add(FoodProperties.AQUATIC_PRODUCTS.getTranslateKey(), "水产");
+        translationBuilder.add(FoodProperties.VEGETARIAN.getTranslateKey(), "素食");
+        translationBuilder.add(FoodProperties.HOMESTYLE.getTranslateKey(), "家常");
+        translationBuilder.add(FoodProperties.GOURMET.getTranslateKey(), "美味");
+        translationBuilder.add(FoodProperties.LEGENDARY.getTranslateKey(), "传说");
+        translationBuilder.add(FoodProperties.GREASY.getTranslateKey(), "油腻");
+        translationBuilder.add(FoodProperties.LIGHT.getTranslateKey(), "清淡");
+        translationBuilder.add(FoodProperties.GOOD_WITH_ALCOHOL.getTranslateKey(), "下酒");
+        translationBuilder.add(FoodProperties.FILLING.getTranslateKey(), "饱腹");
+        translationBuilder.add(FoodProperties.MOUNTAIN_DELICACY.getTranslateKey(), "山珍");
+        translationBuilder.add(FoodProperties.OCEAN_FLAVOR.getTranslateKey(), "海味");
+        translationBuilder.add(FoodProperties.JAPANESE_STYLE.getTranslateKey(), "和风");
+        translationBuilder.add(FoodProperties.WESTERN_STYLE.getTranslateKey(), "西式");
+        translationBuilder.add(FoodProperties.CHINESE_STYLE.getTranslateKey(), "中式");
+        translationBuilder.add(FoodProperties.SALTY.getTranslateKey(), "咸");
+        translationBuilder.add(FoodProperties.UMAMI.getTranslateKey(), "鲜");
+        translationBuilder.add(FoodProperties.SWEET.getTranslateKey(), "甜");
+        translationBuilder.add(FoodProperties.RAW.getTranslateKey(), "生");
+        translationBuilder.add(FoodProperties.PHOTOGENIC.getTranslateKey(), "好看");
+        translationBuilder.add(FoodProperties.COOL.getTranslateKey(), "清凉");
+        translationBuilder.add(FoodProperties.FIERY.getTranslateKey(), "火热");
+        translationBuilder.add(FoodProperties.POWER_SURGE.getTranslateKey(), "爆发力");
+        translationBuilder.add(FoodProperties.BIZARRE.getTranslateKey(), "猎奇");
+        translationBuilder.add(FoodProperties.CULTURAL_DEPTH.getTranslateKey(), "文化底蕴");
+        translationBuilder.add(FoodProperties.MUSHROOMS.getTranslateKey(), "菌类");
+        translationBuilder.add(FoodProperties.UNBELIEVABLE.getTranslateKey(), "难以置信");
+        translationBuilder.add(FoodProperties.PETITE.getTranslateKey(), "小巧");
+        translationBuilder.add(FoodProperties.DREAMLIKE.getTranslateKey(), "梦幻");
+        translationBuilder.add(FoodProperties.LOCAL_SPECIALTY.getTranslateKey(), "地方特产");
+        translationBuilder.add(FoodProperties.FRUITY.getTranslateKey(), "果香");
+        translationBuilder.add(FoodProperties.SOUP_AND_STEW.getTranslateKey(), "汤煮");
+        translationBuilder.add(FoodProperties.GRILLED.getTranslateKey(), "炙烤");
+        translationBuilder.add(FoodProperties.SPICY.getTranslateKey(), "辛辣");
+        translationBuilder.add(FoodProperties.FLAMING.getTranslateKey(), "火焰");
+        translationBuilder.add(FoodProperties.SOUR.getTranslateKey(), "酸");
+        translationBuilder.add(FoodProperties.TOXIC.getTranslateKey(), "有毒");
+        translationBuilder.add(FoodProperties.DARK_CUISINE.getTranslateKey(), "黑暗料理");
+        translationBuilder.add(FoodProperties.ECONOMICAL.getTranslateKey(), "实惠");
+        translationBuilder.add(FoodProperties.EXPENSIVE.getTranslateKey(), "昂贵");
+        translationBuilder.add(FoodProperties.LARGE_PARTITION.getTranslateKey(), "大份");
+        translationBuilder.add(FoodProperties.POPULAR_NEGATIVE.getTranslateKey(), "风评差");
+        translationBuilder.add(FoodProperties.POPULAR_POSITIVE.getTranslateKey(), "风评好");
+        translationBuilder.add(FoodProperties.SIGNATURE.getTranslateKey(), "招牌");
+        translationBuilder.add(FoodProperties.CURSE.getTranslateKey(), "诅咒");
     }
 
     public void generateEntityTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -123,7 +228,6 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item." + EntityType.getId(ModEntities.BROOM_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "魔法扫帚刷怪蛋");
         translationBuilder.add(ModEntities.HAIRBALL_ENTITY_TYPE.getTranslationKey(), "毛玉");
         translationBuilder.add("item." + EntityType.getId(ModEntities.HAIRBALL_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "毛玉刷怪蛋");
-
     }
 
     public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -216,6 +320,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     public void generateDiscTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         generateJukeBox(translationBuilder, ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey(), "ZUN - 蓬莱人形　～ Dolls in Pseudo Paradise.");
+        generateJukeBox(translationBuilder, ModJukeboxSongs.HR02_08.getJukeboxSongRegistryKey(), "莲台野夜行 - 过去的花 ～ Fairy of Flower");
         generateJukeBox(translationBuilder, ModJukeboxSongs.HR03_01.getJukeboxSongRegistryKey(), "ZUN - 童祭　～ Innocent Treasures");
         generateJukeBox(translationBuilder, ModJukeboxSongs.TH15_16.getJukeboxSongRegistryKey(), "东方绀珠传 - 前所未见的噩梦世界");
         generateJukeBox(translationBuilder, ModJukeboxSongs.TH15_17.getJukeboxSongRegistryKey(), "东方绀珠传 - Pandemonic Planet");

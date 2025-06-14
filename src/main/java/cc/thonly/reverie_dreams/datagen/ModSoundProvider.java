@@ -16,6 +16,7 @@ public class ModSoundProvider extends SoundProvider {
     @Override
     public void configured() {
         this.addWithRecords(ModJukeboxSongs.HR01_01, null);
+        this.addWithRecords(ModJukeboxSongs.HR02_08, null);
         this.addWithRecords(ModJukeboxSongs.HR03_01, null);
         this.addWithRecords(ModJukeboxSongs.TH15_16, null);
         this.addWithRecords(ModJukeboxSongs.TH15_17, null);

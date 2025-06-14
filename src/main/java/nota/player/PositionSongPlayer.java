@@ -1,10 +1,9 @@
 package nota.player;
 
-import nota.Nota;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-
 import net.minecraft.world.World;
+import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Playlist;

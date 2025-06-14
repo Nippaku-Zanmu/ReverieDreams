@@ -22,7 +22,6 @@ public class GensokyoAltarRecipes extends CustomRecipes {
     public static void registerRecipes() {
         RecipeRegistryBase<GensokyoAltarRecipe.Entry> registry = getRecipeRegistryRef();
 
-
     }
 
     public static RecipeRegistryBase<GensokyoAltarRecipe.Entry> getRecipeRegistryRef() {

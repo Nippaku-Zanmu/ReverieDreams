@@ -1,20 +1,14 @@
 package nota.utils;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
 import nota.model.CustomInstrument;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Song;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Utils for reading Note Block Studio data

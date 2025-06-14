@@ -1,8 +1,8 @@
 package nota.utils;
 
 import net.minecraft.block.enums.NoteBlockInstrument;
-import nota.model.Sound;
 import net.minecraft.sound.SoundEvent;
+import nota.model.Sound;
 
 /**
  * Various methods for working with instruments

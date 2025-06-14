@@ -4,8 +4,10 @@ import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.reverie_dreams.datagen.generator.DataGeneratorUtil;
 import com.google.common.hash.Hashing;
-import com.google.gson.*;
-import com.mojang.serialization.DataResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,6 @@ import net.minecraft.data.DataWriter;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 
@@ -34,7 +35,7 @@ public abstract class IngredientProvider implements DataProvider {
     public final FabricDataOutput output;
     public final CompletableFuture<RegistryWrapper.WrapperLookup> future;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final Map<Identifier, Builder> identifier2BuilderListMap = new Object2ObjectOpenHashMap<>();
+    private final Map<Identifier, Factory> identifier2BuilderListMap = new Object2ObjectOpenHashMap<>();
 
     public IngredientProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> future) {
         this.output = output;
@@ -42,14 +43,20 @@ public abstract class IngredientProvider implements DataProvider {
         this.configured();
     }
 
-    public Builder createBuilder(FoodProperty property) {
+    public Factory createFactory(FoodProperty property) {
         Identifier id = property.getId();
         if (this.identifier2BuilderListMap.containsKey(id)) {
             return this.identifier2BuilderListMap.get(id);
         }
-        Builder builder = new Builder(property);
-        this.identifier2BuilderListMap.put(id, builder);
-        return builder;
+        Factory factory = new Factory(property);
+        this.identifier2BuilderListMap.put(id, factory);
+        return factory;
+    }
+
+    public Factory createFactory(FoodProperty property, Item ...items) {
+        Factory factory = createFactory(property);
+        factory.getList().addAll(Arrays.stream(items).toList());
+        return factory;
     }
 
     @Override
@@ -64,10 +71,10 @@ public abstract class IngredientProvider implements DataProvider {
         try {
             for (var entry : this.identifier2BuilderListMap.entrySet()) {
                 Identifier identifier = entry.getKey();
-                Builder builder = entry.getValue();
-                List<Item> list = builder.getList();
+                Factory factory = entry.getValue();
+                List<Item> list = factory.getList();
                 List<String> itemIds = list.stream().filter(item -> item != Items.AIR).map((item) -> Registries.ITEM.getId(item).toString()).toList();
-                Path generatePath = DataGeneratorUtil.getData(path, MystiasIzakaya.MOD_ID, RegistryKeys.JUKEBOX_SONG, null);
+                Path generatePath = DataGeneratorUtil.getData(path, MystiasIzakaya.MOD_ID, "food_property", null);
 
                 JsonArray array = new JsonArray();
                 itemIds.forEach(array::add);
@@ -87,26 +94,27 @@ public abstract class IngredientProvider implements DataProvider {
     }
 
     @Getter
-    public static class Builder {
+    public class Factory {
         private final FoodProperty property;
         private final List<Item> list = new LinkedList<>();
+        private boolean done = false;
 
-        protected Builder(FoodProperty property) {
+        protected Factory(FoodProperty property) {
             this.property = property;
         }
 
-        public Builder add(Item item) {
+        public Factory add(Item item) {
             this.list.add(item);
             return this;
         }
 
-        public Builder add(Item... item) {
+        public Factory add(Item... item) {
             this.list.addAll(Arrays.stream(item).toList());
             return this;
         }
 
-        public List<Item> build() {
-            return new LinkedList<>(this.list);
+        public void build() {
+            this.done = true;
         }
 
     }
