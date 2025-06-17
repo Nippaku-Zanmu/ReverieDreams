@@ -52,10 +52,17 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
         this.effectInstance = effectInstance;
     }
 
-    public void use(ServerWorld world, LivingEntity user) {
+    public final void use(ServerWorld world, LivingEntity user) {
         StatusEffectInstance effectInstance = new StatusEffectInstance(this.effectInstance);
         user.addStatusEffect(effectInstance);
+        this.onUse(world, user);
     }
+
+    public void onUse(ServerWorld world, LivingEntity user) {
+
+    }
+
+
 
     public static List<FoodProperty> getConflictingProperties(Item item) {
         List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);

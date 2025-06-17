@@ -5,7 +5,7 @@ import cc.thonly.reverie_dreams.gui.recipe.GuiStackGetter;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGuiInfo;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeInfo;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.SimpleRecipeRegistryBase;
+import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
@@ -17,13 +17,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class BasePageGui extends SimpleGui {
-
     public static final String[][] GRID = {
             {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
             {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
@@ -41,7 +42,7 @@ public class BasePageGui extends SimpleGui {
     public final List<GuiElementBuilder> displayList = new LinkedList<>();
     public final RecipeTypeGuiInfo<? extends BasePageGui> recipeGuiInfo;
     public final RecipeTypeInfo recipeTypeInfo;
-    public final List<? extends SimpleRecipeRegistryBase<?>.Key2ValueEntry> entries;
+    public final List<RecipeKey2ValueEntry<?>> entries;
     public boolean updated = true;
     public GuiOpeningPrevCallback prevGuiCallback;
 
@@ -49,7 +50,11 @@ public class BasePageGui extends SimpleGui {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.recipeGuiInfo = recipeGuiInfo;
         this.recipeTypeInfo = recipeTypeInfo;
-        this.entries = this.recipeTypeInfo.getSimpleRecipeRegistryBase().toList();
+        this.entries = new LinkedList<>();
+        Map<Identifier, ?> registryView = this.recipeTypeInfo.getRecipeType().getRegistryView();
+        for (Map.Entry<Identifier, ?> entry : registryView.entrySet()) {
+            this.entries.add(new RecipeKey2ValueEntry<>(entry.getKey(), entry.getValue()));
+        }
         this.maxSize = this.entries.size();
         this.prevGuiCallback = prevGuiCallback;
         this.init();
@@ -100,7 +105,7 @@ public class BasePageGui extends SimpleGui {
 
     public void back(int index, ClickType clickType, SlotActionType action) {
         this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-        if(this.prevGuiCallback != null) {
+        if (this.prevGuiCallback != null) {
             SimpleGui applyGui = this.prevGuiCallback.apply();
             applyGui.open();
         }
@@ -134,7 +139,7 @@ public class BasePageGui extends SimpleGui {
     @Override
     public void onTick() {
         super.onTick();
-        if(!this.updated) return;
+        if (!this.updated) return;
         this.updated = false;
 
         this.setTitle(Text.empty().append(this.recipeGuiInfo.getId().toString()).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));

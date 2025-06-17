@@ -30,7 +30,7 @@ public class GensokyoAltarBlockEntity extends BlockEntity {
         }
         GensokyoAltarBlock.AltarModel altarModel = GensokyoAltarBlock.STATE_TO_MODEL.get(state);
         altarModel.angle += 2f;
-        if(altarModel.angle>=360) {
+        if (altarModel.angle >= 360) {
             altarModel.angle = 0;
         }
         blockEntity.tick++;

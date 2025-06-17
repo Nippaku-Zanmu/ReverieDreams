@@ -1,17 +1,20 @@
 package cc.thonly.mystias_izakaya.item;
 
+import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.mystias_izakaya.item.base.IngredientItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MIItems {
-    public static final List<Item> INGREDIENTS = new ArrayList<>();
+    public static final List<Item> INGREDIENTS = new LinkedList<>();
+    public static final List<Item> FOOD_ITEMS = new LinkedList<>();
 
+    // 食材
     public static final Item BAMBOO_SHOOTS = registerIngredient(new IngredientItem("ingredient/bamboo_shoots", 0, 0f, new Item.Settings()));
     public static final Item BLACK_SALT = registerIngredient(new IngredientItem("ingredient/black_salt", 0, 0f, new Item.Settings()));
     public static final Item BLACK_PORK = registerIngredient(new IngredientItem("ingredient/black_pork", 0, 0f, new Item.Settings()));
@@ -62,6 +65,172 @@ public class MIItems {
     public static final Item WHITE_RADISH = registerIngredient(new IngredientItem("ingredient/white_radish", 0, 0f, new Item.Settings()));
     public static final Item WILD_BOAR_MEAT = registerIngredient(new IngredientItem("ingredient/wild_boar_meat", 0, 0f, new Item.Settings()));
 
+    // 食物
+    public static final Item ALL_MEAT_FEAST = registerFoodItem(new FoodItem("food/all_meat_feast", 0, 0f, new Item.Settings()));
+    public static final Item ARCTIC_SWEET_SHRIMP_AND_PEACH_SALAD = registerFoodItem(new FoodItem("food/arctic_sweet_shrimp_and_peach_salad", 0, 0f, new Item.Settings()));
+    public static final Item ASSORTED_TEMPURA = registerFoodItem(new FoodItem("food/assorted_tempura", 0, 0f, new Item.Settings()));
+    public static final Item A_LITTLE_SWEET_POISON = registerFoodItem(new FoodItem("food/a_little_sweet_poison", 0, 0f, new Item.Settings()));
+    public static final Item BAKED_CRAB_WITH_CREAM = registerFoodItem(new FoodItem("food/baked_crab_with_cream", 0, 0f, new Item.Settings()));
+    public static final Item BAKED_SWEET_POTATOES = registerFoodItem(new FoodItem("food/baked_sweet_potatoes", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_SHOOTS_FRIED_MEAT = registerFoodItem(new FoodItem("food/bamboo_shoots_fried_meat", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_SHOOTS_STEWED_IN_STONE_POT = registerFoodItem(new FoodItem("food/bamboo_shoots_stewed_in_stone_pot", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_STEAMED_EGG = registerFoodItem(new FoodItem("food/bamboo_steamed_egg", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_TUBE_ROASTED_DRUNKEN_SHRIMP = registerFoodItem(new FoodItem("food/bamboo_tube_roasted_drunken_shrimp", 0, 0f, new Item.Settings()));
+    public static final Item BAMBOO_TUBE_STEAMED_PORK = registerFoodItem(new FoodItem("food/bamboo_tube_steamed_pork", 0, 0f, new Item.Settings()));
+    public static final Item BEAR_PAW = registerFoodItem(new FoodItem("food/bear_paw", 0, 0f, new Item.Settings()));
+    public static final Item BEEF_HOT_POT = registerFoodItem(new FoodItem("food/beef_hot_pot", 0, 0f, new Item.Settings()));
+    public static final Item BEEF_RICE = registerFoodItem(new FoodItem("food/beef_rice", 0, 0f, new Item.Settings()));
+    public static final Item BEEF_WELLINGTON = registerFoodItem(new FoodItem("food/beef_wellington", 0, 0f, new Item.Settings()));
+    public static final Item BEETLE_STEAMED_CAKE = registerFoodItem(new FoodItem("food/beetle_steamed_cake", 0, 0f, new Item.Settings()));
+    public static final Item BISCAY_BISCUITS = registerFoodItem(new FoodItem("food/biscay_biscuits", 0, 0f, new Item.Settings()));
+    public static final Item BLACK_DISH = registerFoodItem(new FoodItem("food/black_dish", 0, 0f, new Item.Settings()));
+    public static final Item BOILED_FISH = registerFoodItem(new FoodItem("food/boiled_fish", 0, 0f, new Item.Settings()));
+    public static final Item BRAISED_EEL = registerFoodItem(new FoodItem("food/braised_eel", 0, 0f, new Item.Settings()));
+    public static final Item BRAISED_PORK_WITH_PEACH = registerFoodItem(new FoodItem("food/braised_pork_with_peach", 0, 0f, new Item.Settings()));
+    public static final Item BURNT_PUDDING = registerFoodItem(new FoodItem("food/burnt_pudding", 0, 0f, new Item.Settings()));
+    public static final Item BUTTER_STEAK = registerFoodItem(new FoodItem("food/butter_steak", 0, 0f, new Item.Settings()));
+    public static final Item CANDIED_CHESTNUTS = registerFoodItem(new FoodItem("food/candied_chestnuts", 0, 0f, new Item.Settings()));
+    public static final Item CANDIED_SWEET_POTATO = registerFoodItem(new FoodItem("food/candied_sweet_potato", 0, 0f, new Item.Settings()));
+    public static final Item CATS_PLAYING_IN_WATER = registerFoodItem(new FoodItem("food/cats_playing_in_water", 0, 0f, new Item.Settings()));
+    public static final Item CAT_FOOD = registerFoodItem(new FoodItem("food/cat_food", 0, 0f, new Item.Settings()));
+    public static final Item CAT_KULULI = registerFoodItem(new FoodItem("food/cat_kululi", 0, 0f, new Item.Settings()));
+    public static final Item CAT_PIZZA = registerFoodItem(new FoodItem("food/cat_pizza", 0, 0f, new Item.Settings()));
+    public static final Item CHEESE_EGG = registerFoodItem(new FoodItem("food/cheese_egg", 0, 0f, new Item.Settings()));
+    public static final Item COLD_DISH_CARVING = registerFoodItem(new FoodItem("food/cold_dish_carving", 0, 0f, new Item.Settings()));
+    public static final Item COLD_TOFU = registerFoodItem(new FoodItem("food/cold_tofu", 0, 0f, new Item.Settings()));
+    public static final Item COLORFUL_JADE_FRIED_BUNS = registerFoodItem(new FoodItem("food/colorful_jade_fried_buns", 0, 0f, new Item.Settings()));
+    public static final Item COOKING_TOFU = registerFoodItem(new FoodItem("food/cooking_tofu", 0, 0f, new Item.Settings()));
+    public static final Item CREAM_STEW = registerFoodItem(new FoodItem("food/cream_stew", 0, 0f, new Item.Settings()));
+    public static final Item CRISP_CYCLONE = registerFoodItem(new FoodItem("food/crisp_cyclone", 0, 0f, new Item.Settings()));
+    public static final Item DARK_CUISINE = registerFoodItem(new FoodItem("food/dark_cuisine", 0, 0f, new Item.Settings()));
+    public static final Item DEEP_FRIED_CICADA_SHELLS = registerFoodItem(new FoodItem("food/deep_fried_cicada_shells", 0, 0f, new Item.Settings()));
+    public static final Item DEPRESSED_CHEESE_STICKS = registerFoodItem(new FoodItem("food/depressed_cheese_sticks", 0, 0f, new Item.Settings()));
+    public static final Item DEW_BOILED_EGGS = registerFoodItem(new FoodItem("food/dew_boiled_eggs", 0, 0f, new Item.Settings()));
+    public static final Item DORAYAKI = registerFoodItem(new FoodItem("food/dorayaki", 0, 0f, new Item.Settings()));
+    public static final Item DUMPLING = registerFoodItem(new FoodItem("food/dumpling", 0, 0f, new Item.Settings()));
+    public static final Item EEL_EGG_DONBURI = registerFoodItem(new FoodItem("food/eel_egg_donburi", 0, 0f, new Item.Settings()));
+    public static final Item EGGS_BENEDICT = registerFoodItem(new FoodItem("food/eggs_benedict", 0, 0f, new Item.Settings()));
+    public static final Item ENERGY_STRING = registerFoodItem(new FoodItem("food/energy_string", 0, 0f, new Item.Settings()));
+    public static final Item FAILING_SAKURA_SNOW = registerFoodItem(new FoodItem("food/failing_sakura_snow", 0, 0f, new Item.Settings()));
+    public static final Item FANTASY_IS_ALL_THE_RAGE = registerFoodItem(new FoodItem("food/fantasy_is_all_the_rage", 0, 0f, new Item.Settings()));
+    public static final Item FISH_LEAPS_OVER_DRAGON_GATE = registerFoodItem(new FoodItem("food/fish_leaps_over_dragon_gate", 0, 0f, new Item.Settings()));
+    public static final Item FLOWERS_BIRDS_WIND_AND_MOON = registerFoodItem(new FoodItem("food/flowers_birds_wind_and_moon", 0, 0f, new Item.Settings()));
+    public static final Item FLOWING_WATER_NOODLES = registerFoodItem(new FoodItem("food/flowing_water_noodles", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_HAGFISH = registerFoodItem(new FoodItem("food/fried_hagfish", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_PORK_CUTLET = registerFoodItem(new FoodItem("food/fried_pork_cutlet", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_PORK_SHREDS = registerFoodItem(new FoodItem("food/fried_pork_shreds", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_SHRIMP_TEMPURA = registerFoodItem(new FoodItem("food/fried_shrimp_tempura", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_TOFU = registerFoodItem(new FoodItem("food/fried_tofu", 0, 0f, new Item.Settings()));
+    public static final Item FRIED_TOMATO_STRIPS = registerFoodItem(new FoodItem("food/fried_tomato_strips", 0, 0f, new Item.Settings()));
+    public static final Item FRIGHT_ADVENTURE = registerFoodItem(new FoodItem("food/fright_adventure", 0, 0f, new Item.Settings()));
+    public static final Item GAME_SOUP = registerFoodItem(new FoodItem("food/game_soup", 0, 0f, new Item.Settings()));
+    public static final Item GENSOKYO_BUDDHA_JUMPS_OVER_THE_WALL = registerFoodItem(new FoodItem("food/gensokyo_buddha_jumps_over_the_wall", 0, 0f, new Item.Settings()));
+    public static final Item GENSOKYO_STAR_LOTUS_SHIP = registerFoodItem(new FoodItem("food/gensokyo_star_lotus_ship", 0, 0f, new Item.Settings()));
+    public static final Item GIANT_TAMAGOYAKI = registerFoodItem(new FoodItem("food/giant_tamagoyaki", 0, 0f, new Item.Settings()));
+    public static final Item GINKGO_AND_RADISH_PORK_RIB_SOUP = registerFoodItem(new FoodItem("food/ginkgo_and_radish_pork_rib_soup", 0, 0f, new Item.Settings()));
+    public static final Item GLOOMY_FRUIT_PIE = registerFoodItem(new FoodItem("food/gloomy_fruit_pie", 0, 0f, new Item.Settings()));
+    public static final Item GLUTINOUS_RICE_BALLS = registerFoodItem(new FoodItem("food/glutinous_rice_balls", 0, 0f, new Item.Settings()));
+    public static final Item GOLDEN_CRISPY_FISH_CAKE = registerFoodItem(new FoodItem("food/golden_crispy_fish_cake", 0, 0f, new Item.Settings()));
+    public static final Item GRAND_BANQUET = registerFoodItem(new FoodItem("food/grand_banquet", 0, 0f, new Item.Settings()));
+    public static final Item GREEN_BAMBOO_WELCOMES_SPRING = registerFoodItem(new FoodItem("food/green_bamboo_welcomes_spring", 0, 0f, new Item.Settings()));
+    public static final Item GREEN_FAIRY_MUSHROOM = registerFoodItem(new FoodItem("food/green_fairy_mushroom", 0, 0f, new Item.Settings()));
+    public static final Item GRILLED_HAGFISH = registerFoodItem(new FoodItem("food/grilled_hagfish", 0, 0f, new Item.Settings()));
+    public static final Item GRILLED_PORK_RICE_BALLS = registerFoodItem(new FoodItem("food/grilled_pork_rice_balls", 0, 0f, new Item.Settings()));
+    public static final Item HEART_PORRIDGE_GRUEL = registerFoodItem(new FoodItem("food/heart_porridge_gruel", 0, 0f, new Item.Settings()));
+    public static final Item HELL_THRILL_WARNING = registerFoodItem(new FoodItem("food/hell_thrill_warning", 0, 0f, new Item.Settings()));
+    public static final Item HOLY_WHITE_LOTUS_SEED_CAKE = registerFoodItem(new FoodItem("food/holy_white_lotus_seed_cake", 0, 0f, new Item.Settings()));
+    public static final Item HONEY_BBQ_PORK = registerFoodItem(new FoodItem("food/honey_bbq_pork", 0, 0f, new Item.Settings()));
+    public static final Item HORAI_DAMA_NO_EDA = registerFoodItem(new FoodItem("food/horai-dama_no_eda", 0, 0f, new Item.Settings()));
+    public static final Item HOT_WAFFLES = registerFoodItem(new FoodItem("food/hot_waffles", 0, 0f, new Item.Settings()));
+    public static final Item HULA_SOUP = registerFoodItem(new FoodItem("food/hula_soup", 0, 0f, new Item.Settings()));
+    public static final Item LION_HEAD = registerFoodItem(new FoodItem("food/lion_head", 0, 0f, new Item.Settings()));
+    public static final Item LONGYIN_PEACH = registerFoodItem(new FoodItem("food/longyin_peach", 0, 0f, new Item.Settings()));
+    public static final Item LOOKING_UP_AT_THE_CEILING_FRUIT_PIE = registerFoodItem(new FoodItem("food/looking_up_at_the_ceiling_fruit_pie", 0, 0f, new Item.Settings()));
+    public static final Item LOTUS_FISH_RICE_BOWL = registerFoodItem(new FoodItem("food/lotus_fish_rice_bowl", 0, 0f, new Item.Settings()));
+    public static final Item LUOHAN_VEGETARIAN = registerFoodItem(new FoodItem("food/luohan_vegetarian", 0, 0f, new Item.Settings()));
+    public static final Item MAD_HATTER_TEA_PARTY = registerFoodItem(new FoodItem("food/mad_hatter_tea_party", 0, 0f, new Item.Settings()));
+    public static final Item MAGMA = registerFoodItem(new FoodItem("food/magma", 0, 0f, new Item.Settings()));
+    public static final Item MAOYU_LAVA_TOFU = registerFoodItem(new FoodItem("food/maoyu_lava_tofu", 0, 0f, new Item.Settings()));
+    public static final Item MAOYU_TRICOLOR_ICE_CREAM = registerFoodItem(new FoodItem("food/maoyu_tricolor_ice_cream", 0, 0f, new Item.Settings()));
+    public static final Item MAPO_TOFU = registerFoodItem(new FoodItem("food/mapo_tofu", 0, 0f, new Item.Settings()));
+    public static final Item MILKY_MUSHROOM_SOUP = registerFoodItem(new FoodItem("food/milky_mushroom_soup", 0, 0f, new Item.Settings()));
+    public static final Item MOCHI = registerFoodItem(new FoodItem("food/mochi", 0, 0f, new Item.Settings()));
+    public static final Item MOLECULAR_EGG = registerFoodItem(new FoodItem("food/molecular_egg", 0, 0f, new Item.Settings()));
+    public static final Item MOONLIGHT_DUMPLINGS = registerFoodItem(new FoodItem("food/moonlight_dumplings", 0, 0f, new Item.Settings()));
+    public static final Item MOONLIGHT_OVER_LOTUS_POND = registerFoodItem(new FoodItem("food/moonlight_over_lotus_pond", 0, 0f, new Item.Settings()));
+    public static final Item MOON_CAKE = registerFoodItem(new FoodItem("food/moon_cake", 0, 0f, new Item.Settings()));
+    public static final Item MOON_LOVERS = registerFoodItem(new FoodItem("food/moon_lovers", 0, 0f, new Item.Settings()));
+    public static final Item MUSHROOM_GIRLS_DANCE_STEW = registerFoodItem(new FoodItem("food/mushroom_girls_dance_stew", 0, 0f, new Item.Settings()));
+    public static final Item MUSHROOM_MEAT_SLICES = registerFoodItem(new FoodItem("food/mushroom_meat_slices", 0, 0f, new Item.Settings()));
+    public static final Item NIGIRI_SUSHI = registerFoodItem(new FoodItem("food/nigiri_sushi", 0, 0f, new Item.Settings()));
+    public static final Item OEDO_BOAT_FESTIVAL = registerFoodItem(new FoodItem("food/oedo_boat_festival", 0, 0f, new Item.Settings()));
+    public static final Item OKONOMIYAKI = registerFoodItem(new FoodItem("food/okonomiyaki", 0, 0f, new Item.Settings()));
+    public static final Item ONE_HIT_KILL = registerFoodItem(new FoodItem("food/one_hit_kill", 0, 0f, new Item.Settings()));
+    public static final Item ORDINARY_SMALL_CAKE = registerFoodItem(new FoodItem("food/ordinary_small_cake", 0, 0f, new Item.Settings()));
+    public static final Item PAN_FRIED_MUSHROOM_MEAT_ROLL = registerFoodItem(new FoodItem("food/pan_fried_mushroom_meat_roll", 0, 0f, new Item.Settings()));
+    public static final Item PAN_FRIED_SALMON = registerFoodItem(new FoodItem("food/pan_fried_salmon", 0, 0f, new Item.Settings()));
+    public static final Item PEACH_BLOSSOM_GLAZE_ROLL = registerFoodItem(new FoodItem("food/peach_blossom_glaze_roll", 0, 0f, new Item.Settings()));
+    public static final Item PEACH_BLOSSOM_SOUP = registerFoodItem(new FoodItem("food/peach_blossom_soup", 0, 0f, new Item.Settings()));
+    public static final Item PHOENIX = registerFoodItem(new FoodItem("food/phoenix", 0, 0f, new Item.Settings()));
+    public static final Item PICKLED_CUCUMBERS = registerFoodItem(new FoodItem("food/pickled_cucumbers", 0, 0f, new Item.Settings()));
+    public static final Item PIG_DEER_BUTTERFLY = registerFoodItem(new FoodItem("food/pig_deer_butterfly", 0, 0f, new Item.Settings()));
+    public static final Item PINE_NUT_CAKE = registerFoodItem(new FoodItem("food/pine_nut_cake", 0, 0f, new Item.Settings()));
+    public static final Item PIRATE_BACON = registerFoodItem(new FoodItem("food/pirate_bacon", 0, 0f, new Item.Settings()));
+    public static final Item PLUM_TEA_RICE = registerFoodItem(new FoodItem("food/plum_tea_rice", 0, 0f, new Item.Settings()));
+    public static final Item POETRY_AND_GINKGO = registerFoodItem(new FoodItem("food/poetry_and_ginkgo", 0, 0f, new Item.Settings()));
+    public static final Item POISONOUS_GARDEN = registerFoodItem(new FoodItem("food/poisonous_garden", 0, 0f, new Item.Settings()));
+    public static final Item PORK_AND_TROUT_SMOKED = registerFoodItem(new FoodItem("food/pork_and_trout_smoked", 0, 0f, new Item.Settings()));
+    public static final Item PORK_RICE = registerFoodItem(new FoodItem("food/pork_rice", 0, 0f, new Item.Settings()));
+    public static final Item POTATO_CROQUETTES = registerFoodItem(new FoodItem("food/potato_croquettes", 0, 0f, new Item.Settings()));
+    public static final Item PSEUDO_JIRITAMA = registerFoodItem(new FoodItem("food/pseudo_jiritama", 0, 0f, new Item.Settings()));
+    public static final Item PUMPKIN_SHRIMP_CAKE = registerFoodItem(new FoodItem("food/pumpkin_shrimp_cake", 0, 0f, new Item.Settings()));
+    public static final Item RAPUNZEL = registerFoodItem(new FoodItem("food/rapunzel", 0, 0f, new Item.Settings()));
+    public static final Item REAL_SEAFOOD_MISO_SOUP = registerFoodItem(new FoodItem("food/real_seafood_miso_soup", 0, 0f, new Item.Settings()));
+    public static final Item RED_BEAN_DAIFUKU = registerFoodItem(new FoodItem("food/red_bean_daifuku", 0, 0f, new Item.Settings()));
+    public static final Item REFRESHING_PUDDING = registerFoodItem(new FoodItem("food/refreshing_pudding", 0, 0f, new Item.Settings()));
+    public static final Item REVERSING_THE_WORLD = registerFoodItem(new FoodItem("food/reversing_the_world", 0, 0f, new Item.Settings()));
+    public static final Item RICE_BALL = registerFoodItem(new FoodItem("food/rice_ball", 0, 0f, new Item.Settings()));
+    public static final Item RISOTTO = registerFoodItem(new FoodItem("food/risotto", 0, 0f, new Item.Settings()));
+    public static final Item ROASTED_MUSHROOMS = registerFoodItem(new FoodItem("food/roasted_mushrooms", 0, 0f, new Item.Settings()));
+    public static final Item SAKURA_PUDDING = registerFoodItem(new FoodItem("food/sakura_pudding", 0, 0f, new Item.Settings()));
+    public static final Item SALMON_TEMPURA = registerFoodItem(new FoodItem("food/salmon_tempura", 0, 0f, new Item.Settings()));
+    public static final Item SASHIMI_PLATTER = registerFoodItem(new FoodItem("food/sashimi_platter", 0, 0f, new Item.Settings()));
+    public static final Item SCARLET_DEVILS_CAKE = registerFoodItem(new FoodItem("food/scarlet_devils_cake", 0, 0f, new Item.Settings()));
+    public static final Item SCONES = registerFoodItem(new FoodItem("food/scones", 0, 0f, new Item.Settings()));
+    public static final Item SCREAMING_ODEN = registerFoodItem(new FoodItem("food/screaming_oden", 0, 0f, new Item.Settings()));
+    public static final Item SEAFOOD_MISO_SOUP = registerFoodItem(new FoodItem("food/seafood_miso_soup", 0, 0f, new Item.Settings()));
+    public static final Item SEA_URCHIN_SHINGEN_PANCAKE = registerFoodItem(new FoodItem("food/sea_urchin_shingen_pancake", 0, 0f, new Item.Settings()));
+    public static final Item SECRET_DRIED_FISH = registerFoodItem(new FoodItem("food/secret_dried_fish", 0, 0f, new Item.Settings()));
+    public static final Item SECRET_MUSHROOM_CASSEROLE = registerFoodItem(new FoodItem("food/secret_mushroom_casserole", 0, 0f, new Item.Settings()));
+    public static final Item SEVEN_COLORED_YOKAN = registerFoodItem(new FoodItem("food/seven_colored_yokan", 0, 0f, new Item.Settings()));
+    public static final Item SHIRAGA_SADAMATSU = registerFoodItem(new FoodItem("food/shiraga_sadamatsu", 0, 0f, new Item.Settings()));
+    public static final Item SKINNY_HORSE_DUMPLING = registerFoodItem(new FoodItem("food/skinny_horse_dumpling", 0, 0f, new Item.Settings()));
+    public static final Item SNOW_WHITE = registerFoodItem(new FoodItem("food/snow_white", 0, 0f, new Item.Settings()));
+    public static final Item STEAMED_EGG_WITH_SEA_URCHIN = registerFoodItem(new FoodItem("food/steamed_egg_with_sea_urchin", 0, 0f, new Item.Settings()));
+    public static final Item STINKY_TOFU = registerFoodItem(new FoodItem("food/stinky_tofu", 0, 0f, new Item.Settings()));
+    public static final Item STRENGTH_SOUP = registerFoodItem(new FoodItem("food/strength_soup", 0, 0f, new Item.Settings()));
+    public static final Item SUPERME_SEAFOOD_NOODLES = registerFoodItem(new FoodItem("food/superme_seafood_noodles", 0, 0f, new Item.Settings()));
+    public static final Item TAICHI_BAGUA_FISH_MAW = registerFoodItem(new FoodItem("food/taichi_bagua_fish_maw", 0, 0f, new Item.Settings()));
+    public static final Item TAKETORIHIME = registerFoodItem(new FoodItem("food/taketorihime", 0, 0f, new Item.Settings()));
+    public static final Item TAKOYAKI = registerFoodItem(new FoodItem("food/takoyaki", 0, 0f, new Item.Settings()));
+    public static final Item THE_BEAUTY_OF_HAN_PALACE = registerFoodItem(new FoodItem("food/the_beauty_of_han_palace", 0, 0f, new Item.Settings()));
+    public static final Item THE_DREAM = registerFoodItem(new FoodItem("food/the_dream", 0, 0f, new Item.Settings()));
+    public static final Item THE_MARS = registerFoodItem(new FoodItem("food/the_mars", 0, 0f, new Item.Settings()));
+    public static final Item THE_SOURCE_OF_LIFE = registerFoodItem(new FoodItem("food/the_source_of_life", 0, 0f, new Item.Settings()));
+    public static final Item TIANSHI_BRAISED_CHESTNUT_MUSHROOMS = registerFoodItem(new FoodItem("food/tianshi_braised_chestnut_mushrooms", 0, 0f, new Item.Settings()));
+    public static final Item TOFU_MISO = registerFoodItem(new FoodItem("food/tofu_miso", 0, 0f, new Item.Settings()));
+    public static final Item TOFU_POT = registerFoodItem(new FoodItem("food/tofu_pot", 0, 0f, new Item.Settings()));
+    public static final Item TONKOTSU_RAMEN = registerFoodItem(new FoodItem("food/tonkotsu_ramen", 0, 0f, new Item.Settings()));
+    public static final Item TOON_PANCAKES = registerFoodItem(new FoodItem("food/toon_pancakes", 0, 0f, new Item.Settings()));
+    public static final Item TWO_HEAVENS_ONE_STYLE = registerFoodItem(new FoodItem("food/two_heavens_one_style", 0, 0f, new Item.Settings()));
+    public static final Item UDUMBARA_CAKE = registerFoodItem(new FoodItem("food/udumbara_cake", 0, 0f, new Item.Settings()));
+    public static final Item UNCONSCIOUS_MONSTER_MOUSSE = registerFoodItem(new FoodItem("food/unconscious_monster_mousse", 0, 0f, new Item.Settings()));
+    public static final Item VEGETABLE_SPECIAL = registerFoodItem(new FoodItem("food/vegetable_special", 0, 0f, new Item.Settings()));
+    public static final Item WARM_RICE_BALL = registerFoodItem(new FoodItem("food/warm_rice_ball", 0, 0f, new Item.Settings()));
+    public static final Item WHITE_PEACH_EIGHT_BRIDGE = registerFoodItem(new FoodItem("food/white_peach_eight_bridge", 0, 0f, new Item.Settings()));
+    public static final Item YUNSHAN_COTTON_CANDY = registerFoodItem(new FoodItem("food/yunshan_cotton_candy", 0, 0f, new Item.Settings()));
+    public static final Item ZHAJI = registerFoodItem(new FoodItem("food/zhaji", 0, 0f, new Item.Settings()));
+
     public static void registerItems() {
 
     }
@@ -69,6 +238,12 @@ public class MIItems {
     public static Item registerIngredient(IdentifierGetter item) {
         Item tItem = registerItem(item);
         INGREDIENTS.add(tItem);
+        return tItem;
+    }
+
+    public static Item registerFoodItem(IdentifierGetter item) {
+        Item tItem = registerItem(item);
+        FOOD_ITEMS.add(tItem);
         return tItem;
     }
 

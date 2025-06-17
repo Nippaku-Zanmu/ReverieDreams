@@ -1,6 +1,7 @@
 package cc.thonly.mystias_izakaya.mixin;
 
 import cc.thonly.mystias_izakaya.component.FoodProperty;
+import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.mystias_izakaya.item.base.IngredientItem;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.item.Item;
@@ -21,7 +22,7 @@ public abstract class ItemMixin implements ToggleableFeature, ItemConvertible, F
     @Inject(method = "appendTooltip", at = @At("HEAD"))
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
         Item item = this.asItem();
-        if (item instanceof IngredientItem) {
+        if (item instanceof IngredientItem || item instanceof FoodItem) {
             return;
         }
         List<FoodProperty> foodProperties = FoodProperty.getIngredientProperties(item);

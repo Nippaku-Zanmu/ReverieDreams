@@ -1,24 +1,11 @@
 package cc.thonly.reverie_dreams.gui.recipe;
 
-import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
-import cc.thonly.reverie_dreams.gui.recipe.display.DanmakuTableDisplayView;
-import cc.thonly.reverie_dreams.gui.recipe.display.GensokyoAltarDisplayView;
-import cc.thonly.reverie_dreams.gui.recipe.display.StrengthTableDisplayView;
+import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.gui.server.BasePageGui;
-import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.recipe.DanmakuRecipes;
-import cc.thonly.reverie_dreams.recipe.GensokyoAltarRecipes;
-import cc.thonly.reverie_dreams.recipe.SimpleRecipeRegistryBase;
-import cc.thonly.reverie_dreams.recipe.StrengthTableRecipes;
-import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
-import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
-import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.SlotActionType;
@@ -39,13 +26,7 @@ public class RecipeTypeCategoryGui extends SimpleGui {
             {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
             {"P", "W", "W", "W", "W", "W", "W", "W", "N"},
     };
-    public static final List<RecipeTypeGuiInfo<? extends BasePageGui>> ENTRIES = new LinkedList<>();
     public static final int PER_PAGE_SIZE = 5 * 9;
-
-    public static RecipeTypeGuiInfo<? extends BasePageGui> registerCategory(RecipeTypeGuiInfo<? extends BasePageGui> type) {
-        ENTRIES.add(type);
-        return type;
-    }
 
     public final List<GuiElementBuilder> recipeElements = new LinkedList<>();
     public final GuiElementBuilder next = new GuiElementBuilder().setItem(Items.PLAYER_HEAD).setSkullOwner(PlayerHeadInfo.GUI_NEXT_PAGE).setItemName(Text.of("Next Page")).setCallback(this::next);
@@ -94,8 +75,8 @@ public class RecipeTypeCategoryGui extends SimpleGui {
 
     public void clickIcon(int index, ClickType clickType, SlotActionType action) {
         int iconIndex = this.page * PER_PAGE_SIZE + index;
-        if (ENTRIES.size() > iconIndex) {
-            RecipeTypeGuiInfo<? extends BasePageGui> info = ENTRIES.get(iconIndex);
+        if (RecipeTypeCategoryManager.CATEGORY_ENTRIES.size() > iconIndex) {
+            RecipeTypeGuiInfo<? extends BasePageGui> info = RecipeTypeCategoryManager.CATEGORY_ENTRIES.get(iconIndex);
         }
     }
 
@@ -133,8 +114,8 @@ public class RecipeTypeCategoryGui extends SimpleGui {
             int slotIndex = i;
             int recipeIndex = start + i;
 
-            if (recipeIndex < ENTRIES.size()) {
-                RecipeTypeGuiInfo<? extends BasePageGui> recipeTypeGuiInfo = ENTRIES.get(recipeIndex + this.page * PER_PAGE_SIZE);
+            if (recipeIndex < RecipeTypeCategoryManager.CATEGORY_ENTRIES.size()) {
+                RecipeTypeGuiInfo<? extends BasePageGui> recipeTypeGuiInfo = RecipeTypeCategoryManager.CATEGORY_ENTRIES.get(recipeIndex + this.page * PER_PAGE_SIZE);
                 GuiElementBuilder icon = new GuiElementBuilder()
                         .setItem(recipeTypeGuiInfo.getIcon().getItem())
                         .setItemName(Text.translatable(recipeTypeGuiInfo.getId().toTranslationKey()))
@@ -166,54 +147,4 @@ public class RecipeTypeCategoryGui extends SimpleGui {
         return -1;
     }
 
-    @SuppressWarnings("unchecked")
-    public static void setup() {
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), Touhou.id("recipe/danmaku_table"), BasePageGui.class,
-                DanmakuRecipes::getRecipeRegistryRef,
-                ((gui, slotIndex) -> {
-                    SimpleRecipeRegistryBase<DanmakuRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<DanmakuRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
-                    GuiElementBuilder icon = new GuiElementBuilder()
-                            .setItem(key2ValueEntry.getValue().getOutput().getItem())
-                            .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())
-                            .setCallback((slot, click, action) -> {
-                                gui.close();
-                                gui.getPlayer().playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                SimpleGui view = new DanmakuTableDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
-                                view.open();
-                            });
-                    gui.setSlot(gui.getGridSlot(slotIndex), icon);
-                })
-        ));
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.ICON), Touhou.id("recipe/gensokyo_altar"), BasePageGui.class,
-                GensokyoAltarRecipes::getRecipeRegistryRef,
-                ((gui, slotIndex) -> {
-                    SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
-                    GuiElementBuilder icon = new GuiElementBuilder()
-                            .setItem(key2ValueEntry.getValue().getOutput().getItem())
-                            .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())
-                            .setCallback((slot, click, action) -> {
-                                gui.close();
-                                gui.getPlayer().playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                SimpleGui view = new GensokyoAltarDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
-                                view.open();
-                            });
-                    gui.setSlot(gui.getGridSlot(slotIndex), icon);
-                })
-        ));
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.STRENGTH_TABLE), Touhou.id("recipe/strength_table"), BasePageGui.class,
-                StrengthTableRecipes::getRecipeRegistryRef,
-                ((gui, slotIndex) -> {
-                    SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry key2ValueEntry = (SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
-                    GuiElementBuilder icon = new GuiElementBuilder()
-                            .setItem(key2ValueEntry.getValue().getOutput().getItem())
-                            .setItemName(key2ValueEntry.getValue().getOutput().getStack().getName())
-                            .setCallback((slot, click, action) -> {
-                                gui.close();
-                                gui.getPlayer().playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                SimpleGui view = new StrengthTableDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
-                            });
-                    gui.setSlot(gui.getGridSlot(slotIndex), icon);
-                })
-        ));
-    }
 }

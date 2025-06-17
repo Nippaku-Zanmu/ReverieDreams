@@ -73,10 +73,10 @@ public class ComponentChangesMixin {
 //                                int j = 0;
 //                                ObjectIterator var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
-//                                Reference2ObjectMap.Entry entry;
+//                                Reference2ObjectMap.Entry block;
 //                                while(var5.hasNext()) {
-//                                    entry = (Reference2ObjectMap.Entry)var5.next();
-//                                    if (((Optional)entry.getValue()).isPresent()) {
+//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    if (((Optional)block.getValue()).isPresent()) {
 //                                        ++i;
 //                                    } else {
 //                                        ++j;
@@ -88,10 +88,10 @@ public class ComponentChangesMixin {
 //                                var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
 //                                while(var5.hasNext()) {
-//                                    entry = (Reference2ObjectMap.Entry)var5.next();
-//                                    Optional<?> optional = (Optional)entry.getValue();
+//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    Optional<?> optional = (Optional)block.getValue();
 //                                    if (optional.isPresent()) {
-//                                        ComponentType<?> componentType = (ComponentType)entry.getKey();
+//                                        ComponentType<?> componentType = (ComponentType)block.getKey();
 //                                        ComponentType.PACKET_CODEC.encode(registryByteBuf, componentType);
 //                                        encode(registryByteBuf, componentType, optional.get());
 //                                    }
@@ -100,9 +100,9 @@ public class ComponentChangesMixin {
 //                                var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
 //                                while(var5.hasNext()) {
-//                                    entry = (Reference2ObjectMap.Entry)var5.next();
-//                                    if (((Optional)entry.getValue()).isEmpty()) {
-//                                        ComponentType<?> componentType2 = (ComponentType)entry.getKey();
+//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    if (((Optional)block.getValue()).isEmpty()) {
+//                                        ComponentType<?> componentType2 = (ComponentType)block.getKey();
 //                                        ComponentType.PACKET_CODEC.encode(registryByteBuf, componentType2);
 //                                    }
 //                                }
@@ -136,16 +136,16 @@ public class ComponentChangesMixin {
 //                        return ComponentChanges.EMPTY;
 //                    } else {
 //                        Reference2ObjectMap<ComponentType<?>, Optional<?>> reference2ObjectMap = new Reference2ObjectArrayMap<>(changes.size());
-//                        for (Map.Entry<ComponentChanges.Type, Object> entry : changes.entrySet()) {
-//                            ComponentChanges.Type type = entry.getKey();
+//                        for (Map.Entry<ComponentChanges.Type, Object> block : changes.entrySet()) {
+//                            ComponentChanges.Type type = block.getKey();
 //                            if (type.removed()) {
 //                                reference2ObjectMap.put(type.type(), Optional.empty());
 //                            } else {
-//                                if (entry.getValue() == null) {
+//                                if (block.getValue() == null) {
 //                                    System.out.println(123456789);
 //                                    System.out.println(Registries.DATA_COMPONENT_TYPE.getId(type.type()));
 //                                }
-//                                reference2ObjectMap.put(type.type(), Optional.ofNullable(entry.getValue()));
+//                                reference2ObjectMap.put(type.type(), Optional.ofNullable(block.getValue()));
 //                            }
 //                        }
 //                        return invokeInit(reference2ObjectMap);
@@ -153,10 +153,10 @@ public class ComponentChangesMixin {
 //                },
 //                (componentChanges) -> {
 //                    Reference2ObjectMap<ComponentChanges.Type, Object> reference2ObjectMap = new Reference2ObjectArrayMap<>(componentChanges.changedComponents.size());
-//                    for (Map.Entry<ComponentType<?>, Optional<?>> entry : componentChanges.changedComponents.entrySet()) {
-//                        ComponentType<?> componentType = entry.getKey();
+//                    for (Map.Entry<ComponentType<?>, Optional<?>> block : componentChanges.changedComponents.entrySet()) {
+//                        ComponentType<?> componentType = block.getKey();
 //                        if (!componentType.shouldSkipSerialization()) {
-//                            Optional<?> optional = entry.getValue();
+//                            Optional<?> optional = block.getValue();
 //                            if (optional.isPresent()) {
 //                                reference2ObjectMap.put(new ComponentChanges.Type(componentType, false), optional.get());
 //                            } else {

@@ -3,9 +3,9 @@ package cc.thonly.reverie_dreams.gui.recipe.display;
 import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.SimpleRecipeRegistryBase;
+import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
-import cc.thonly.reverie_dreams.recipe.slot.CountRecipeSlot;
+import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
@@ -28,13 +28,13 @@ import java.util.List;
 @Slf4j
 @ToString(callSuper = true)
 public class GensokyoAltarDisplayView extends SimpleGui implements DisplayView {
-    public final SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry;
+    public final RecipeKey2ValueEntry<GensokyoAltarRecipe> key2ValueEntry;
     public final Identifier key;
-    public final GensokyoAltarRecipe.Entry value;
+    public final GensokyoAltarRecipe value;
     public final GuiElementBuilder back = new GuiElementBuilder().setItem(ModGuiItems.BACK).setSkullOwner(PlayerHeadInfo.GUI_ADD).setItemName(Text.of("Back")).setCallback(this::back);
     public final GuiOpeningPrevCallback prevGuiCallback;
 
-    public GensokyoAltarDisplayView(ServerPlayerEntity player, SimpleRecipeRegistryBase<GensokyoAltarRecipe.Entry>.Key2ValueEntry key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public GensokyoAltarDisplayView(ServerPlayerEntity player, RecipeKey2ValueEntry<GensokyoAltarRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.key2ValueEntry = key2ValueEntry;
         this.key = this.key2ValueEntry.getKey();
@@ -45,9 +45,9 @@ public class GensokyoAltarDisplayView extends SimpleGui implements DisplayView {
 
     @Override
     public void init() {
-        this.setTitle(this.key2ValueEntry.getValue().getOutput().getStack().getName());
-        List<CountRecipeSlot> inputs = new LinkedList<>(this.value.getSlots());
-        Iterator<CountRecipeSlot> slotIterator = inputs.iterator();
+        this.setTitle(this.key2ValueEntry.getValue().getOutput().getItemStack().getName());
+        List<ItemStackRecipeWrapper> inputs = new LinkedList<>(this.value.getSlots());
+        Iterator<ItemStackRecipeWrapper> slotIterator = inputs.iterator();
 
         String[][] grid = this.getGrid();
         for (int row = 0; row < grid.length; row++) {
@@ -66,19 +66,19 @@ public class GensokyoAltarDisplayView extends SimpleGui implements DisplayView {
                     this.setSlot(slot, this.back);
                 }
                 if (c.equalsIgnoreCase("C")) {
-                    CountRecipeSlot core = this.value.getCore();
+                    ItemStackRecipeWrapper core = this.value.getCore();
                     if(core != null) {
                         this.setSlot(slot, this.getGuiElementBuilder(core));
                     }
                 }
                 if (c.equalsIgnoreCase("I")) {
                     if(slotIterator.hasNext()) {
-                        CountRecipeSlot next = slotIterator.next();
+                        ItemStackRecipeWrapper next = slotIterator.next();
                         this.setSlot(slot, this.getGuiElementBuilder(next));
                     }
                 }
                 if (c.equalsIgnoreCase("O")) {
-                    CountRecipeSlot output = this.value.getOutput();
+                    ItemStackRecipeWrapper output = this.value.getOutput();
                     this.setSlot(slot, this.getGuiElementBuilder(output));
                 }
             }

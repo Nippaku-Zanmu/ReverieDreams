@@ -2,8 +2,8 @@ package cc.thonly.reverie_dreams.compat;
 
 import cc.thonly.reverie_dreams.compat.page.DanmakuPage;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.recipe.DanmakuRecipes;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
+import cc.thonly.reverie_dreams.recipe.type.DanmakuRecipeType;
 import eu.pb4.polydex.api.v1.recipe.PolydexEntry;
 import eu.pb4.polydex.api.v1.recipe.PolydexPage;
 import net.minecraft.item.ItemStack;
@@ -22,10 +22,10 @@ public class PolydexCompatImpl {
     }
 
     private static void createPages(MinecraftServer minecraftServer, Consumer<PolydexPage> pageConsumer) {
-        DanmakuRecipes.RecipeRegistryBase<DanmakuRecipe.Entry> registryRef = DanmakuRecipes.getRecipeRegistryRef();
-        Map<Identifier, DanmakuRecipe.Entry> all = registryRef.getAll();
+        DanmakuRecipeType registryRef = DanmakuRecipeType.getInstance();
+        Map<Identifier, DanmakuRecipe> all = registryRef.getRegistryView();
         all.forEach((id, value) -> {
-            pageConsumer.accept(new DanmakuPage(id,value));
+            pageConsumer.accept(new DanmakuPage(id, value));
         });
     }
 

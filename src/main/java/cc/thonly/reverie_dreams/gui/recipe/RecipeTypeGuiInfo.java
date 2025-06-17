@@ -17,7 +17,7 @@ public class RecipeTypeGuiInfo<T extends BasePageGui> {
     private final ItemStack icon;
     private final Identifier id;
     private final Class<T> clazz;
-    private final RecipeRegistryGetter registryGetter;
+    private final RecipeTypeGetter registryGetter;
     private final GuiStackGetter getter;
 
     public void create(ServerPlayerEntity player, GuiOpeningPrevCallback callback) {

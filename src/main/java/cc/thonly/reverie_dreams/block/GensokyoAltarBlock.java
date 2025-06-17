@@ -3,9 +3,10 @@ package cc.thonly.reverie_dreams.block;
 import cc.thonly.reverie_dreams.block.entity.BasicPolymerFactoryBlockWithEntity;
 import cc.thonly.reverie_dreams.block.entity.GensokyoAltarBlockEntity;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
-import cc.thonly.reverie_dreams.gui.recipe.entry.GensokyoAltarGui;
-import cc.thonly.reverie_dreams.recipe.GensokyoAltarRecipes;
+import cc.thonly.reverie_dreams.gui.recipe.block.GensokyoAltarGui;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
+import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.type.GensokyoAltarRecipeType;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.virtualentity.BlockModel;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
@@ -66,7 +67,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity imple
                     return ActionResult.SUCCESS_SERVER;
                 }
                 SimpleInventory inventory = blockEntity.getInventory();
-                GensokyoAltarRecipe.Entry craft = craft(inventory, pos);
+                GensokyoAltarRecipe craft = craft(inventory, pos);
                 if (craft != null) {
                     List<ServerPlayerEntity> players = serverWorld.getPlayers();
                     for (var serverPlayerEntity : players) {
@@ -77,7 +78,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity imple
                         }
                     }
                     inventory.clear();
-                    inventory.setStack(8, craft.getOutput().getStack());
+                    inventory.setStack(8, craft.getOutput().getItemStack().copy());
                     blockEntity.markDirty();
                 }
             } else {
@@ -103,8 +104,22 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity imple
         return super.onBreak(world, pos, state, player);
     }
 
-    protected GensokyoAltarRecipe.Entry craft(SimpleInventory inventory, BlockPos pos) {
-        return GensokyoAltarRecipes.getRecipeRegistryRef().tryGetRecipes(inventory, pos);
+    protected GensokyoAltarRecipe craft(SimpleInventory inventory, BlockPos pos) {
+        List<GensokyoAltarRecipe> matches = GensokyoAltarRecipeType.getInstance().getMatches(List.of(
+                new ItemStackRecipeWrapper(inventory.getStack(0)),
+                new ItemStackRecipeWrapper(inventory.getStack(1)),
+                new ItemStackRecipeWrapper(inventory.getStack(2)),
+                new ItemStackRecipeWrapper(inventory.getStack(3)),
+                new ItemStackRecipeWrapper(inventory.getStack(4)),
+                new ItemStackRecipeWrapper(inventory.getStack(5)),
+                new ItemStackRecipeWrapper(inventory.getStack(6)),
+                new ItemStackRecipeWrapper(inventory.getStack(7)),
+                new ItemStackRecipeWrapper(inventory.getStack(8))
+        ));
+        if (matches.isEmpty()) {
+            return null;
+        }
+        return matches.getFirst();
     }
 
     public boolean canUse(World world, BlockPos center) {

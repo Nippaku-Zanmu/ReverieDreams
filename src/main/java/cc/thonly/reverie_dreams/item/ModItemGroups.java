@@ -17,14 +17,14 @@ public class ModItemGroups {
     public static final RegistryKey<ItemGroup> TOUHOU_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group"));
     public static final RegistryKey<ItemGroup> TOUHOU_BULLET_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group_bullet"));
     public static final RegistryKey<ItemGroup> TOUHOU_FUMO_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group_fumo"));
-    public static final RegistryKey<ItemGroup> TOUHOU_NPC_SPAWN_EGG_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group_npc_spawn_egg"));
+    public static final RegistryKey<ItemGroup> TOUHOU_ROLE_SPAWN_EGG_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group_role_spawn_egg"));
     public static final RegistryKey<ItemGroup> TOUHOU_SPAWN_EGG_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Touhou.id("item_group_spawn_egg"));
     public static final ItemGroup TOUHOU_ITEM_GROUP = PolymerItemGroupUtils.builder()
             .icon(() -> new ItemStack(ModItems.ICON))
             .displayName(Text.translatable("item_group.touhou"))
             .build();
     public static final ItemGroup TOUHOU_ITEM_GROUP_BULLET = PolymerItemGroupUtils.builder()
-            .icon(() -> new ItemStack(Items.FIREWORK_STAR))
+            .icon(() -> new ItemStack(ModItems.AMULET.random()))
             .displayName(Text.translatable("item_group.touhou.bullet"))
             .build();
     public static final ItemGroup TOUHOU_ITEM_GROUP_FUMO = PolymerItemGroupUtils.builder()
@@ -36,8 +36,8 @@ public class ModItemGroups {
             .displayName(Text.translatable("item_group.touhou.spawn_egg"))
             .build();
     public static final ItemGroup TOUHOU_ITEM_GROUP_NPC_SPAWN_EGG = PolymerItemGroupUtils.builder()
-            .icon(() -> new ItemStack(ModItems.SPAWN_EGG))
-            .displayName(Text.translatable("item_group.touhou.npc.spawn_egg"))
+            .icon(() -> new ItemStack(ModItems.ROLE_ICON))
+            .displayName(Text.translatable("item_group.touhou.role.spawn_egg"))
             .build();
 
     public static void registerItemGroups() {
@@ -45,7 +45,7 @@ public class ModItemGroups {
         PolymerItemGroupUtils.registerPolymerItemGroup(TOUHOU_BULLET_ITEM_GROUP_KEY, TOUHOU_ITEM_GROUP_BULLET);
         PolymerItemGroupUtils.registerPolymerItemGroup(TOUHOU_FUMO_ITEM_GROUP_KEY, TOUHOU_ITEM_GROUP_FUMO);
         PolymerItemGroupUtils.registerPolymerItemGroup(TOUHOU_SPAWN_EGG_ITEM_GROUP_KEY, TOUHOU_ITEM_GROUP_SPAWN_EGG);
-        PolymerItemGroupUtils.registerPolymerItemGroup(TOUHOU_NPC_SPAWN_EGG_ITEM_GROUP_KEY, TOUHOU_ITEM_GROUP_NPC_SPAWN_EGG);
+        PolymerItemGroupUtils.registerPolymerItemGroup(TOUHOU_ROLE_SPAWN_EGG_ITEM_GROUP_KEY, TOUHOU_ITEM_GROUP_NPC_SPAWN_EGG);
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_ITEM_GROUP_KEY).register(itemGroup -> {
             for (Item item : ModItems.getRegisteredItems()) {
                 itemGroup.add(item);
@@ -67,7 +67,7 @@ public class ModItemGroups {
                 itemGroup.add(item);
             }
         });
-        ItemGroupEvents.modifyEntriesEvent(TOUHOU_NPC_SPAWN_EGG_ITEM_GROUP_KEY).register(itemGroup -> {
+        ItemGroupEvents.modifyEntriesEvent(TOUHOU_ROLE_SPAWN_EGG_ITEM_GROUP_KEY).register(itemGroup -> {
             for (Item item : ModEntities.getRegisteredNpcSpawnEggItems()) {
                 itemGroup.add(item);
             }

@@ -73,6 +73,7 @@ public class ModModelProvider extends FabricModelProvider {
         // 图标
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.FUMO_ICON, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ROLE_ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.SPAWN_EGG, Models.GENERATED);
 
         // 材料
@@ -151,6 +152,9 @@ public class ModModelProvider extends FabricModelProvider {
 
     public void generateMIItem(ItemModelGenerator itemModelGenerator) {
         for (Item item : MIItems.INGREDIENTS) {
+            itemModelGenerator.register(item, Models.GENERATED);
+        }
+        for (Item item : MIItems.FOOD_ITEMS) {
             itemModelGenerator.register(item, Models.GENERATED);
         }
     }

@@ -1,83 +1,51 @@
 package cc.thonly.mystias_izakaya.recipe.entry;
 
-import cc.thonly.reverie_dreams.recipe.slot.CountRecipeSlot;
-import cc.thonly.reverie_dreams.recipe.slot.RecipeSlot;
+import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
+import cc.thonly.reverie_dreams.recipe.BaseRecipe;
+import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KitchenRecipe {
-    @Setter
-    @Getter
-    @ToString
-    public static class Entry {
-        protected final List<CountRecipeSlot> ingredientItems;
-        protected final RecipeSlot output;
-        private final Double costTime;
+@Accessors(chain = true)
+@Setter
+@Getter
+@ToString
+public class KitchenRecipe extends BaseRecipe {
+    public static final Codec<KitchenRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Identifier.CODEC.fieldOf("recipe_type").forGetter(KitchenRecipe::getRecipeType),
+            Codec.list(ItemStackRecipeWrapper.CODEC).fieldOf("ingredients").forGetter(KitchenRecipe::getIngredients),
+            ItemStackRecipeWrapper.CODEC.fieldOf("output").forGetter(KitchenRecipe::getOutput),
+            Codec.DOUBLE.optionalFieldOf("cost_time", 5.0).forGetter(KitchenRecipe::getCostTime)
+    ).apply(instance, KitchenRecipe::new));
+    protected final Identifier recipeType;
+    protected final List<ItemStackRecipeWrapper> ingredients;
+    protected final ItemStackRecipeWrapper output;
+    private final Double costTime;
 
-        public Entry(@NotNull Builder builder) {
-            this.ingredientItems = builder.getIngredientItems();
-            this.output = builder.getOutput();
-            this.costTime = builder.getCostTime();
-        }
+    public KitchenRecipe(Identifier recipeType, List<ItemStackRecipeWrapper> ingredients, ItemStackRecipeWrapper output, Double costTime) {
+        this.recipeType = recipeType;
+        this.ingredients = ingredients;
+        this.output = output;
+        this.costTime = costTime;
     }
 
-    @Accessors(chain = true)
-    @Setter
-    @Getter
-    public static class Builder {
-        public static final Codec<KitchenRecipe.Entry> ENTRY_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.list(CountRecipeSlot.CODEC).fieldOf("ingredients").forGetter(Entry::getIngredientItems),
-                RecipeSlot.CODEC.fieldOf("output").forGetter(Entry::getOutput),
-                Codec.DOUBLE.fieldOf("cost_time").forGetter(Entry::getCostTime)
-        ).apply(instance, (ingredients, output, costTime) -> new Builder()
-                .setIngredientItems(ingredients)
-                .setOutput(output)
-                .setCostTime(costTime)
-                .build()));
-        public static final Codec<Builder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.list(CountRecipeSlot.CODEC).fieldOf("ingredients").forGetter(Builder::getIngredientItems),
-                RecipeSlot.CODEC.fieldOf("output").forGetter(Builder::getOutput),
-                Codec.DOUBLE.fieldOf("cost_time").forGetter(Builder::getCostTime)
-        ).apply(instance, (ingredients, output, costTime) -> new Builder()
-                .setIngredientItems(ingredients)
-                .setCostTime(costTime)
-                .setOutput(output)
-        ));
-        public static final MapCodec<Builder> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.list(CountRecipeSlot.CODEC).fieldOf("ingredients").forGetter(Builder::getIngredientItems),
-                RecipeSlot.CODEC.fieldOf("output").forGetter(Builder::getOutput),
-                Codec.DOUBLE.fieldOf("cost_time").forGetter(Builder::getCostTime)
-        ).apply(instance, (ingredients, output, costTime) -> new Builder()
-                .setIngredientItems(ingredients)
-                .setOutput(output)
-                .setCostTime(costTime)
-        ));
+    public ItemStackRecipeWrapper getOutput() {
+        return new ItemStackRecipeWrapper(this.output.getItemStack().copy());
+    }
 
-        protected List<CountRecipeSlot> ingredientItems = new ArrayList<>();
-        protected RecipeSlot output;
-        protected Double costTime;
-
-        public static Builder createBuilder() {
-            return new Builder();
-        }
-
-        public KitchenRecipe.Builder addItem(Item item, Integer amount) {
-            this.ingredientItems.add(new CountRecipeSlot(item, amount));
-            return this;
-        }
-
-        public KitchenRecipe.Entry build() {
-            return new Entry(this);
-        }
+    public KitchenRecipeType.KitchenType getType() {
+        return KitchenRecipeType.KitchenType.getFromId(this.recipeType);
     }
 }

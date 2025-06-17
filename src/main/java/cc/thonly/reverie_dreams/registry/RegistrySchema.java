@@ -181,12 +181,12 @@ public final class RegistrySchema<T extends SchemaObject<T>> implements Serializ
 
     public T getOrThrow(Integer rawId) {
         return Optional.ofNullable(this.get(rawId))
-                .orElseThrow(() -> new NoSuchElementException("No entry found for raw ID: " + rawId));
+                .orElseThrow(() -> new NoSuchElementException("No block found for raw ID: " + rawId));
     }
 
     public T getOrThrow(Identifier key) {
         return Optional.ofNullable(this.get(key))
-                .orElseThrow(() -> new NoSuchElementException("No entry found for Identifier: " + key));
+                .orElseThrow(() -> new NoSuchElementException("No block found for Identifier: " + key));
     }
 
     public Set<Map.Entry<Integer, T>> rawEntrySet() {

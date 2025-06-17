@@ -10,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataProvider;
@@ -46,9 +47,10 @@ public abstract class IngredientProvider implements DataProvider {
     public Factory createFactory(FoodProperty property) {
         Identifier id = property.getId();
         if (this.identifier2BuilderListMap.containsKey(id)) {
-            return this.identifier2BuilderListMap.get(id);
+            Factory factory = this.identifier2BuilderListMap.get(id);
+            return factory;
         }
-        Factory factory = new Factory(property);
+        Factory factory = new Factory(id, property);
         this.identifier2BuilderListMap.put(id, factory);
         return factory;
     }
@@ -64,7 +66,7 @@ public abstract class IngredientProvider implements DataProvider {
         return CompletableFuture.runAsync(() -> this.export(writer));
     }
 
-    public abstract void configured();
+    protected abstract void configured();
 
     public void export(DataWriter writer) {
         Path path = Paths.get(DataGeneratorUtil.OUTPUT_DIR);
@@ -79,6 +81,7 @@ public abstract class IngredientProvider implements DataProvider {
                 JsonArray array = new JsonArray();
                 itemIds.forEach(array::add);
                 JsonObject element = new JsonObject();
+                element.addProperty("registry_key", identifier.toString());
                 element.add("values", array);
 
                 Path output = generatePath.resolve(identifier.getPath() + ".json");
@@ -93,13 +96,16 @@ public abstract class IngredientProvider implements DataProvider {
         }
     }
 
+    @Setter
     @Getter
-    public class Factory {
+    protected static class Factory {
+        private final Identifier id;
         private final FoodProperty property;
         private final List<Item> list = new LinkedList<>();
         private boolean done = false;
 
-        protected Factory(FoodProperty property) {
+        protected Factory(Identifier id, FoodProperty property) {
+            this.id = id;
             this.property = property;
         }
 

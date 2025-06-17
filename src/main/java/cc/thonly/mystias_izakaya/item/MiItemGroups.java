@@ -45,5 +45,10 @@ public class MiItemGroups {
                 itemGroup.add(item);
             }
         });
+        ItemGroupEvents.modifyEntriesEvent(FOOD_ITEM_GROUP_KEY).register(itemGroup -> {
+            for (Item item : MIItems.FOOD_ITEMS) {
+                itemGroup.add(item);
+            }
+        });
     }
 }

@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.block;
 
 import cc.thonly.reverie_dreams.block.base.BasicPolymerBlockWithEntity;
 import cc.thonly.reverie_dreams.block.entity.StrengthenTableBlockEntity;
-import cc.thonly.reverie_dreams.gui.recipe.entry.StrengthTableGui;
+import cc.thonly.reverie_dreams.gui.recipe.block.StrengthTableGui;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import net.minecraft.block.BlockState;

@@ -24,9 +24,9 @@ public class DanmakuPage implements PolydexPage { ;
     private static final Text TEXTURE = Text.empty();
     public static final ItemStack ICON = new GuiElementBuilder(Items.BARREL).setName(Text.translatable(id.toTranslationKey())).asStack();
     public final Identifier key;
-    public final DanmakuRecipe.Entry value;
+    public final DanmakuRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
-    public DanmakuPage(Identifier key, DanmakuRecipe.Entry value) {
+    public DanmakuPage(Identifier key, DanmakuRecipe value) {
         this.key = key;
         this.value = value;
         List<PolydexIngredient<?>> list = new ArrayList<>();
@@ -52,7 +52,7 @@ public class DanmakuPage implements PolydexPage { ;
 
     @Override
     public ItemStack entryIcon(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity) {
-        return this.value.getOutput().getStack();
+        return this.value.getOutput().getItemStack();
     }
 
     @Override

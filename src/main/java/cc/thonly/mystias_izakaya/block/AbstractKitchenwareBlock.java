@@ -1,7 +1,10 @@
 package cc.thonly.mystias_izakaya.block;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
+import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
 import cc.thonly.reverie_dreams.block.crop.TransparentFlatTripWire;
+import cc.thonly.mystias_izakaya.gui.recipe.block.KitchenBlockGui;
+import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.block.FactoryBlock;
@@ -16,17 +19,32 @@ import lombok.Setter;
 import lombok.ToString;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
@@ -34,13 +52,13 @@ import xyz.nucleoid.packettweaker.PacketContext;
 @Setter
 @Getter
 @ToString
-public class AbstractKitchenwareBlock extends HorizontalFacingBlock implements FactoryBlock, IdentifierGetter {
+public class AbstractKitchenwareBlock extends BlockWithEntity implements FactoryBlock, IdentifierGetter {
     public static final MapCodec<AbstractKitchenwareBlock> CODEC = createCodec(AbstractKitchenwareBlock::new);
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
-    Identifier identifier;
-    Vec3d offset;
-    Vector3f scale;
+    private Identifier identifier;
+    private Vec3d offset;
+    private Vector3f scale;
 
     public AbstractKitchenwareBlock(Settings settings) {
         super(settings);
@@ -59,8 +77,55 @@ public class AbstractKitchenwareBlock extends HorizontalFacingBlock implements F
     }
 
     @Override
-    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if (!world.isClient() && world instanceof ServerWorld) {
+            ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof KitchenwareBlockEntity kitchenwareBlockEntity) {
+                if (kitchenwareBlockEntity.isWorking()) {
+                    return ActionResult.SUCCESS_SERVER;
+                }
+                KitchenBlockGui<BaseRecipe> kitchenBlockSimpleGui = new KitchenBlockGui<>(this, kitchenwareBlockEntity, serverPlayer);
+                kitchenBlockSimpleGui.open();
+                return ActionResult.SUCCESS_SERVER;
+            }
+            return ActionResult.PASS;
+        }
+        return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+        super.onBroken(world, pos, state);
+        if (!world.isClient() && world instanceof ServerWorld serverWorld) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof KitchenwareBlockEntity kitchenwareBlockEntity) {
+                SimpleInventory inventory = kitchenwareBlockEntity.getInventory();
+                for (int i = 0; i < inventory.size(); i++) {
+                    ItemStack stack = inventory.getStack(i);
+                    if (stack.isEmpty()) {
+                        continue;
+                    }
+                    ItemEntity itemEntity = new ItemEntity(serverWorld, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    serverWorld.spawnEntity(itemEntity);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractKitchenwareBlock> getCodec() {
         return CODEC;
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+        return (BlockState) state.with(FACING, rotation.rotate(state.get(FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -81,6 +146,16 @@ public class AbstractKitchenwareBlock extends HorizontalFacingBlock implements F
     @Override
     public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState state) {
         return new Model(world, pos, state);
+    }
+
+    @Override
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new KitchenwareBlockEntity(pos, state);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return validateTicker(type, MiBlockEntities.KITCHENWARE_BLOCK_ENTITY, KitchenwareBlockEntity::tick);
     }
 
     public class Model extends BlockModel {

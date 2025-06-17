@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.gui.recipe.display;
 
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
-import cc.thonly.reverie_dreams.recipe.SimpleRecipeRegistryBase;
+import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
@@ -20,12 +20,12 @@ import net.minecraft.util.Identifier;
 @Slf4j
 @ToString(callSuper = true)
 public class StrengthTableDisplayView extends AnvilInputGui implements DisplayView {
-    public final SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry key2ValueEntry;
+    public final RecipeKey2ValueEntry<StrengthTableRecipe> key2ValueEntry;
     public final Identifier key;
-    public final StrengthTableRecipe.Entry value;
+    public final StrengthTableRecipe value;
     public final GuiOpeningPrevCallback prevGuiCallback;
 
-    public StrengthTableDisplayView(ServerPlayerEntity player, SimpleRecipeRegistryBase<StrengthTableRecipe.Entry>.Key2ValueEntry key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public StrengthTableDisplayView(ServerPlayerEntity player, RecipeKey2ValueEntry<StrengthTableRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         super(player, false);
         this.key2ValueEntry = key2ValueEntry;
         this.key = this.key2ValueEntry.getKey();

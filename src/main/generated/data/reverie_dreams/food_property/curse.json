@@ -1,6 +1,9 @@
 {
+  "registry_key": "reverie_dreams:curse",
   "values": [
     "reverie_dreams:ingredient/puff_yo_fruit",
-    "reverie_dreams:ingredient/capsaicin"
+    "reverie_dreams:ingredient/capsaicin",
+    "reverie_dreams:food/dark_cuisine",
+    "reverie_dreams:food/poisonous_garden"
   ]
 }

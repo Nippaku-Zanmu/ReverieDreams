@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.gui.recipe;
 
-import cc.thonly.reverie_dreams.recipe.SimpleRecipeRegistryBase;
+import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 public class RecipeTypeInfo {
     private final String name;
-    private final SimpleRecipeRegistryBase<?> simpleRecipeRegistryBase;
+    private final BaseRecipeType<?> recipeType;
     private final GuiStackGetter getter;
 }

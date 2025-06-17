@@ -1,0 +1,25 @@
+{
+  "point": {
+    "id": "reverie_dreams:point",
+    "count": 35
+  },
+  "material": {
+    "id": "minecraft:air"
+  },
+  "output": {
+    "id": "reverie_dreams:bullet/ball/14",
+    "count": 1
+  },
+  "dye": {
+    "id": "minecraft:orange_dye",
+    "count": 1
+  },
+  "core": {
+    "id": "minecraft:firework_star",
+    "count": 1
+  },
+  "power": {
+    "id": "reverie_dreams:power",
+    "count": 35
+  }
+}

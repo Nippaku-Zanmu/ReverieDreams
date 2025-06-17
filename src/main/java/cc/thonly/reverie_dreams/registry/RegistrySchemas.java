@@ -5,6 +5,8 @@ import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageTypes;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
+import cc.thonly.reverie_dreams.recipe.BaseRecipe;
+import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.util.Identifier;
@@ -12,6 +14,7 @@ import net.minecraft.util.Identifier;
 import java.util.Map;
 
 @Slf4j
+@SuppressWarnings("unchecked")
 public class RegistrySchemas {
     public static final Map<Identifier, RegistrySchema<?>> REGISTRIES = new Object2ObjectLinkedOpenHashMap<>();
     public static final RegistrySchema<DanmakuTrajectory> DANMAKU_TRAJECTORY = ofEntry(DanmakuTrajectory.class, Touhou.id("danmaku_trajectory"))

@@ -11,10 +11,11 @@ import cc.thonly.reverie_dreams.config.TouhouConfiguration;
 import cc.thonly.reverie_dreams.data.ModLoots;
 import cc.thonly.reverie_dreams.data.ModResourceManager;
 import cc.thonly.reverie_dreams.data.ModTags;
+import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
-import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeCategoryGui;
+import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItemGroups;
 import cc.thonly.reverie_dreams.item.ModItems;
@@ -121,18 +122,21 @@ public class Touhou implements ModInitializer {
         ModStatusEffects.init();
         ModTags.registerTags();
         ModWorldGeneration.registerModGen();
+        ModDataFixer.bootstrap();
+
 
         // 初始化其他注册内容
         CommandInit.init();
         ModRecipeTypes.init();
         ModRecipeSerializer.init();
-        DanmakuRecipes.registerRecipes();
-        GensokyoAltarRecipes.registerRecipes();
-        StrengthTableRecipes.registerRecipes();
-        ModResourceManager.registerHooks();
+        RecipeManager.bootstrap();
+//        DanmakuRecipes.registerRecipes();
+//        GensokyoAltarRecipes.registerRecipes();
+//        StrengthTableRecipes.registerRecipes();
+        ModResourceManager.init();
         RegistrySchemas.bootstrap();
         ModLoots.register();
-        RecipeTypeCategoryGui.setup();
+        RecipeTypeCategoryManager.setup();
 
         ImageToTextScanner.registerBuffer();
 

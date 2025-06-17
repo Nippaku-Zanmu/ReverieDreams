@@ -40,6 +40,7 @@ public class ModItems {
     // 图标
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
     public static final Item FUMO_ICON = registerIconItem(new BasicItem("fumo_icon", new Item.Settings()));
+    public static final Item ROLE_ICON = registerIconItem(new BasicItem("role_icon", new Item.Settings()));
     public static final Item SPAWN_EGG = registerIconItem(new BasicItem("spawn_egg", new Item.Settings()));
 
     // 材料
@@ -262,15 +263,8 @@ public class ModItems {
         return (Item) item;
     }
 
-    public static Item registerCopyedItem(IdentifierGetter item) {
-        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
-        ITEM_LIST.add((Item) item);
-        return (Item) item;
-    }
-
     public static Item registerItemWithNotGroup(IdentifierGetter item) {
-        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
-        return (Item) item;
+        return Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
     }
 
     public static Item registerIconItem(IdentifierGetter item) {
@@ -288,11 +282,6 @@ public class ModItems {
     public static Item registerDanmakuItem(IdentifierGetter item) {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
         DANMAKU_LIST.add((Item) item);
-        return (Item) item;
-    }
-
-    public static Item registerDanmakuItemNoList(IdentifierGetter item) {
-        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
         return (Item) item;
     }
 

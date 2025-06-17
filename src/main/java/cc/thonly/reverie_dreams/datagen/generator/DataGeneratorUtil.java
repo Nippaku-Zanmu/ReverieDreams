@@ -23,7 +23,12 @@ public class DataGeneratorUtil {
             OUTPUT_DIR = (String) field.get(null);
             Objects.requireNonNull(OUTPUT_DIR, "No output dir provided with the 'fabric-api.datagen.output-dir' property");
         } catch (Exception err) {
-            OUTPUT_DIR = null;
+            String fadod = System.getProperty("fabric-api.datagen.output-dir");
+            if (fadod == null) {
+                OUTPUT_DIR = null;
+            } else {
+                OUTPUT_DIR = fadod;
+            }
             log.error("Can't get output dir: ", err);
         }
     }
