@@ -1,5 +1,7 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
+import cc.thonly.mystias_izakaya.component.FoodProperty;
+import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.reverie_dreams.entity.ai.goal.NpcBowAttackGoal;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.gui.NPCGui;
@@ -35,6 +37,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -334,6 +337,21 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 PotionContentsComponent potionContentsComponent = stack.get(DataComponentTypes.POTION_CONTENTS);
                 UseRemainderComponent useRemainderComponent = stack.get(DataComponentTypes.USE_REMAINDER);
                 boolean use = false;
+                if (stack.getItem() instanceof FoodItem food) {
+                    Set<FoodProperty> foodProperties = new HashSet<>(FoodProperty.getFromItemStack(stack));
+                    Set<FoodProperty> foodPropertiesFromComponent = new HashSet<>(FoodProperty.getFromItemStackComponent(stack));
+
+                    Set<FoodProperty> allProperties = new HashSet<>(foodProperties);
+                    allProperties.addAll(foodPropertiesFromComponent);
+
+                    for (FoodProperty foodProperty : allProperties) {
+                        foodProperty.use((ServerWorld) this.getWorld(), this);
+                    }
+
+                    allProperties.forEach((property) -> this.nutrition++);
+
+                    use = true;
+                }
                 if (potionContentsComponent != null) {
                     Optional<RegistryEntry<Potion>> potionOpt = potionContentsComponent.potion();
                     boolean present = potionOpt.isPresent();

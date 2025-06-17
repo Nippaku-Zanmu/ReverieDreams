@@ -16,6 +16,7 @@ import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.block.Block;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,6 +25,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 
 import java.util.*;
 
@@ -63,6 +65,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
     @Override
     public void init() {
+        this.setTitle(Text.translatable(this.block.getTranslationKey()));
         for (int row = 0; row < GRID.length; row++) {
             for (int col = 0; col < GRID[row].length; col++) {
                 String posChar = GRID[row][col];
@@ -70,20 +73,22 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
                 switch (posChar) {
                     case "X" -> this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.EMPTY_SLOT));
-                    case "N" -> this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.NEXT).setCallback((i, t, sat) -> {
-                        this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                        if (this.page < this.maxPage) {
-                            this.page++;
-                            this.onTick();
-                        }
-                    }));
-                    case "P" -> this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.PREV).setCallback((i, t, sat) -> {
-                        this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                        if (this.page > 0) {
-                            this.page--;
-                            this.onTick();
-                        }
-                    }));
+                    case "N" ->
+                            this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.NEXT).setCallback((i, t, sat) -> {
+                                this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
+                                if (this.page < this.maxPage) {
+                                    this.page++;
+                                    this.onTick();
+                                }
+                            }));
+                    case "P" ->
+                            this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.PREV).setCallback((i, t, sat) -> {
+                                this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
+                                if (this.page > 0) {
+                                    this.page--;
+                                    this.onTick();
+                                }
+                            }));
                     case "Z" -> {
                         GuiElementBuilder guiElementBuilder = new GuiElementBuilder().setItem(Items.AIR);
                         this.displayed.put(index, guiElementBuilder);
@@ -99,6 +104,26 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
                 }
             }
         }
+    }
+
+    private ItemStackRecipeWrapper buildFoodTags(ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
+        ItemStack itemStack = output.getItemStack().copy();
+        List<String> outputTags = itemStack.get(MIDataComponentTypes.MI_FOOD_PROPERTIES);
+        if (outputTags == null) {
+            outputTags = new ArrayList<>();
+        }
+        HashSet<String> tagSet = new HashSet<>(outputTags);
+        for (ItemStackRecipeWrapper wrapper : inputs) {
+            ItemStack wrapperItemStack = wrapper.getItemStack();
+            if (wrapperItemStack.isEmpty()) {
+                continue;
+            }
+            List<FoodProperty> ingredientProperties = FoodProperty.getIngredientProperties(wrapperItemStack.getItem());
+            ingredientProperties.forEach(property -> tagSet.add(property.getId().toString()));
+        }
+        List<String> tagList = new ArrayList<>(tagSet);
+        itemStack.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, tagList);
+        return new ItemStackRecipeWrapper(itemStack.copy());
     }
 
     private void handleCrafting(ItemStack output, KitchenRecipe recipe) {
@@ -158,16 +183,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             if (i >= pageRecipes.size()) break;
 
             KitchenRecipe recipe = pageRecipes.get(i);
-            ItemStack output = recipe.getOutput().getItemStack().copy();
-
-            List<String> foodProps = new ArrayList<>();
-            for (ItemStackRecipeWrapper input : inputs) {
-                List<FoodProperty> props = FoodProperty.getFromItemStack(input.getItemStack());
-                for (FoodProperty p : props) {
-                    foodProps.add(p.getId().toString());
-                }
-            }
-            output.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, foodProps);
+            ItemStack output = this.buildFoodTags(new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
 
             GuiElementBuilder builder = entry.getValue();
             GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) builder;

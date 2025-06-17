@@ -4,6 +4,7 @@ import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.util.PlayerUtils;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
@@ -18,8 +19,10 @@ import lombok.ToString;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -56,6 +59,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
     private Identifier recipeId;
     private ItemStackRecipeWrapper preOutput = DEFAULT_WRAPPER_FACTORY.get();
     private Double tickLeft = 0.0;
+    private Double tickSpeedBonus = 1.0;
 
     public KitchenwareBlockEntity(BlockPos pos, BlockState state) {
         super(MiBlockEntities.KITCHENWARE_BLOCK_ENTITY, pos, state);
@@ -70,7 +74,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         }
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             if (blockEntity.isWorking()) {
-                blockEntity.tickLeft--;
+                blockEntity.tickLeft -= blockEntity.tickSpeedBonus;
                 serverWorld.spawnParticles(
                         ParticleTypes.SNOWFLAKE,
                         blockPos.getX(),
@@ -84,16 +88,43 @@ public class KitchenwareBlockEntity extends BlockEntity {
                 );
                 blockEntity.markDirty();
             } else if (!blockEntity.isWorking() && !blockEntity.preOutput.getItemStack().isEmpty()) {
-                blockEntity.inventory.setStack(5, blockEntity.preOutput.getItemStack().copy());
-                blockEntity.preOutput = DEFAULT_WRAPPER_FACTORY.get();
-                List<ServerPlayerEntity> players = serverWorld.getPlayers();
-
-                for (ServerPlayerEntity player : players) {
-                    serverWorld.playSound(player, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                ItemStack prevStack = blockEntity.inventory.getStack(5);
+                if (!prevStack.isEmpty()) {
+                    Item item = prevStack.getItem();
+                    if (item != blockEntity.preOutput.getItemStack().getItem()) {
+                        blockEntity.throwItem(serverWorld, prevStack);
+                    }
+                    if (!ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
+                        blockEntity.throwItem(serverWorld, prevStack);
+                    }
                 }
+                if (ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
+                    if (prevStack.getCount() < prevStack.getMaxCount()) {
+                        prevStack.setCount(prevStack.getCount() + 1);
+                    } else {
+                        blockEntity.throwItem(serverWorld, prevStack);
+                        prevStack.setCount(prevStack.getCount() + 1);
+                    }
+
+                } else {
+                    blockEntity.inventory.setStack(5, blockEntity.preOutput.getItemStack().copy());
+                }
+                blockEntity.preOutput = DEFAULT_WRAPPER_FACTORY.get();
+
+                List<ServerPlayerEntity> nearbyPlayers = PlayerUtils.getNearbyPlayers(serverWorld, blockEntity.pos, 16);
+                for (ServerPlayerEntity player : nearbyPlayers) {
+                    player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 1.0f, 1.0f);
+                }
+
                 blockEntity.markDirty();
             }
         }
+    }
+
+    public void throwItem(ServerWorld world, ItemStack prevItem) {
+        ItemEntity itemEntity = new ItemEntity(world, this.pos.getX(), this.pos.getY(), this.pos.getZ(), prevItem.copy());
+        world.spawnEntity(itemEntity);
+        this.inventory.setStack(5, ItemStack.EMPTY);
     }
 
     public boolean isWorking() {
@@ -105,6 +136,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         super.writeNbt(nbt, registries);
         Inventories.writeNbt(nbt, inventory.heldStacks, registries);
         nbt.putDouble("TickLeft", this.tickLeft);
+        nbt.putDouble("TickSpeedBonus", this.tickSpeedBonus);
         DataResult<JsonElement> dataResult = ItemStackRecipeWrapper.CODEC.encodeStart(JsonOps.INSTANCE, this.preOutput);
         Optional<JsonElement> result = dataResult.result();
         if (result.isPresent()) {
@@ -120,6 +152,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         Inventories.readNbt(nbt, inventory.heldStacks, registries);
         this.inventory = inventory;
         this.tickLeft = nbt.getDouble("TickLeft");
+        this.tickSpeedBonus = nbt.getDouble("TickSpeedBonus");
         if (nbt.contains("PreOutput")) {
             String preOutputJson = nbt.getString("PreOutput");
             JsonElement json = JsonParser.parseString(preOutputJson);

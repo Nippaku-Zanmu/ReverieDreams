@@ -17,10 +17,7 @@ import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -45,6 +42,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
@@ -77,26 +75,38 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
     }
 
     @Override
+    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos belowPos = pos.down();
+        BlockState belowState = world.getBlockState(belowPos);
+        boolean pass = false;
+        BlockState upBlockState = world.getBlockState(pos.up());
+        Block upBlock = upBlockState.getBlock();
+        if (upBlock instanceof FenceBlock || upBlock instanceof WallBlock) {
+            pass = true;
+        }
+        return pass || belowState.isSideSolidFullSquare(world, belowPos, Direction.UP);
+    }
+
+    @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient() && world instanceof ServerWorld) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof KitchenwareBlockEntity kitchenwareBlockEntity) {
                 if (kitchenwareBlockEntity.isWorking()) {
-                    return ActionResult.SUCCESS_SERVER;
+                    return ActionResult.FAIL;
                 }
                 KitchenBlockGui<BaseRecipe> kitchenBlockSimpleGui = new KitchenBlockGui<>(this, kitchenwareBlockEntity, serverPlayer);
                 kitchenBlockSimpleGui.open();
                 return ActionResult.SUCCESS_SERVER;
             }
-            return ActionResult.PASS;
+            return ActionResult.FAIL;
         }
         return ActionResult.SUCCESS;
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        super.onBroken(world, pos, state);
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof KitchenwareBlockEntity kitchenwareBlockEntity) {
@@ -111,6 +121,7 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
                 }
             }
         }
+        return super.onBreak(world, pos, state, player);
     }
 
     @Override

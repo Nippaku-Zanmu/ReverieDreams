@@ -2,6 +2,7 @@ package cc.thonly.mystias_izakaya.registry;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
+import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
 import cc.thonly.mystias_izakaya.item.base.IngredientItem;
 import cc.thonly.reverie_dreams.registry.RegistrySchema;
 import cc.thonly.reverie_dreams.registry.RegistrySchemas;
@@ -11,6 +12,8 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;

@@ -178,8 +178,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.BEEF_RICE, "牛肉饭");
         translationBuilder.add(MIItems.BEEF_WELLINGTON, "威灵顿牛排");
         translationBuilder.add(MIItems.BEETLE_STEAMED_CAKE, "兜甲蒸糕");
+        translationBuilder.add(MIItems.BURNT_PUDDING, "燃烧布丁");
         translationBuilder.add(MIItems.BISCAY_BISCUITS, "比斯开饼干");
-        translationBuilder.add(MIItems.BLACK_DISH, "黑色料理");
         translationBuilder.add(MIItems.BOILED_FISH, "白煮鱼");
         translationBuilder.add(MIItems.BRAISED_EEL, "红烧鳗鱼");
         translationBuilder.add(MIItems.BRAISED_PORK_WITH_PEACH, "桃子红烧肉");
@@ -330,7 +330,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(FoodProperties.AQUATIC_PRODUCTS.getTranslateKey(), "水产");
         translationBuilder.add(FoodProperties.VEGETARIAN.getTranslateKey(), "素食");
         translationBuilder.add(FoodProperties.HOMESTYLE.getTranslateKey(), "家常");
-        translationBuilder.add(FoodProperties.GOURMET.getTranslateKey(), "美味");
+        translationBuilder.add(FoodProperties.GOURMET.getTranslateKey(), "高级");
         translationBuilder.add(FoodProperties.LEGENDARY.getTranslateKey(), "传说");
         translationBuilder.add(FoodProperties.GREASY.getTranslateKey(), "重油");
         translationBuilder.add(FoodProperties.LIGHT.getTranslateKey(), "清淡");
@@ -345,7 +345,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(FoodProperties.UMAMI.getTranslateKey(), "鲜");
         translationBuilder.add(FoodProperties.SWEET.getTranslateKey(), "甜");
         translationBuilder.add(FoodProperties.RAW.getTranslateKey(), "生");
-        translationBuilder.add(FoodProperties.PHOTOGENIC.getTranslateKey(), "好看");
+        translationBuilder.add(FoodProperties.PHOTOGENIC.getTranslateKey(), "适合拍照");
         translationBuilder.add(FoodProperties.COOL.getTranslateKey(), "凉爽");
         translationBuilder.add(FoodProperties.FIERY.getTranslateKey(), "灼热");
         translationBuilder.add(FoodProperties.POWER_SURGE.getTranslateKey(), "力量涌现");
@@ -367,8 +367,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(FoodProperties.ECONOMICAL.getTranslateKey(), "实惠");
         translationBuilder.add(FoodProperties.EXPENSIVE.getTranslateKey(), "昂贵");
         translationBuilder.add(FoodProperties.LARGE_PARTITION.getTranslateKey(), "大份");
-        translationBuilder.add(FoodProperties.POPULAR_NEGATIVE.getTranslateKey(), "风评差");
-        translationBuilder.add(FoodProperties.POPULAR_POSITIVE.getTranslateKey(), "风评好");
+        translationBuilder.add(FoodProperties.POPULAR_NEGATIVE.getTranslateKey(), "不流行");
+        translationBuilder.add(FoodProperties.POPULAR_POSITIVE.getTranslateKey(), "流行的");
         translationBuilder.add(FoodProperties.SIGNATURE.getTranslateKey(), "招牌");
         translationBuilder.add(FoodProperties.CURSE.getTranslateKey(), "诅咒");
     }

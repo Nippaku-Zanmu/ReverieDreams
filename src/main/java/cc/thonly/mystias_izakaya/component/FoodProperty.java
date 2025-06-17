@@ -1,5 +1,6 @@
 package cc.thonly.mystias_izakaya.component;
 
+import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
 import cc.thonly.mystias_izakaya.registry.MIRegistrySchemas;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.registry.SchemaObject;
@@ -55,14 +56,13 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
     public final void use(ServerWorld world, LivingEntity user) {
         StatusEffectInstance effectInstance = new StatusEffectInstance(this.effectInstance);
         user.addStatusEffect(effectInstance);
+        FoodPropertyCallback.EVENT.invoker().onUse(world, user, this);
         this.onUse(world, user);
     }
 
     public void onUse(ServerWorld world, LivingEntity user) {
 
     }
-
-
 
     public static List<FoodProperty> getConflictingProperties(Item item) {
         List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);
@@ -111,6 +111,10 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
         Set<FoodProperty> conflicts2 = b.getConflicts();
         return conflicts1.contains(b) || conflicts2.contains(a);
     }
+    
+    public Boolean is(FoodProperty property) {
+        return this == property || this.getId().equals(property.getId()) || this.hashCode() == property.hashCode();
+    }
 
     public Boolean isConflict(FoodProperty property) {
         return this.conflicts.contains(property);
@@ -143,9 +147,23 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
         return list;
     }
 
-    public static List<FoodProperty> getFromItemStack(ItemStack itemStack) {
+    public static List<FoodProperty> getFromItemStackComponent(ItemStack itemStack) {
         List<String> ids = itemStack.getOrDefault(MIDataComponentTypes.MI_FOOD_PROPERTIES, new ArrayList<>());
         return getFromStrings(ids);
+    }
+
+    public static List<FoodProperty> getFromItemStack(ItemStack itemStack) {
+        List<FoodProperty> list = new ArrayList<>();
+        Item item = itemStack.getItem();
+        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
+        for (Map.Entry<Identifier, FoodProperty> entry : entries) {
+            FoodProperty foodProperty = entry.getValue();
+            Set<Item> tags = foodProperty.getTags();
+            if (tags.contains(item)) {
+                list.add(foodProperty);
+            }
+        }
+        return list;
     }
 
     public static List<FoodProperty> getFromStrings(List<String> ids) {

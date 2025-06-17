@@ -52,6 +52,10 @@ public class ItemStackRecipeWrapper {
         this.itemStack = itemStack;
     }
 
+    public static ItemStackRecipeWrapper of(ItemStack itemStack) {
+        return new ItemStackRecipeWrapper(itemStack);
+    }
+
     public Item getItem() {
         return this.itemStack.getItem();
     }

@@ -22,7 +22,7 @@ public class IngredientItem extends BasicPolymerItem {
     }
 
     public IngredientItem(String path, Integer nutrition, Float saturation, Settings settings) {
-        this(path, settings.food(new FoodComponent.Builder().nutrition(nutrition).saturationModifier(saturation).build()));
+        this(path, settings.food(new FoodComponent.Builder().nutrition(nutrition + 2).saturationModifier(saturation + 1).build()));
     }
 
     @Override

@@ -83,7 +83,6 @@ public class MIItems {
     public static final Item BEEF_WELLINGTON = registerFoodItem(new FoodItem("food/beef_wellington", 0, 0f, new Item.Settings()));
     public static final Item BEETLE_STEAMED_CAKE = registerFoodItem(new FoodItem("food/beetle_steamed_cake", 0, 0f, new Item.Settings()));
     public static final Item BISCAY_BISCUITS = registerFoodItem(new FoodItem("food/biscay_biscuits", 0, 0f, new Item.Settings()));
-    public static final Item BLACK_DISH = registerFoodItem(new FoodItem("food/black_dish", 0, 0f, new Item.Settings()));
     public static final Item BOILED_FISH = registerFoodItem(new FoodItem("food/boiled_fish", 0, 0f, new Item.Settings()));
     public static final Item BRAISED_EEL = registerFoodItem(new FoodItem("food/braised_eel", 0, 0f, new Item.Settings()));
     public static final Item BRAISED_PORK_WITH_PEACH = registerFoodItem(new FoodItem("food/braised_pork_with_peach", 0, 0f, new Item.Settings()));

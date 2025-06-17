@@ -345,7 +345,6 @@ public class MIIngredientProvider extends IngredientProvider {
                 .add(MIItems.LONGYIN_PEACH)
                 .build();
         this.createFactory(FoodProperties.CURSE)
-                .add(MIItems.DARK_CUISINE)
                 .add(MIItems.POISONOUS_GARDEN)
                 .build();
         this.createFactory(FoodProperties.CULTURAL_DEPTH)

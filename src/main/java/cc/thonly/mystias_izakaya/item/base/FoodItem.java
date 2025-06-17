@@ -3,7 +3,6 @@ package cc.thonly.mystias_izakaya.item.base;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemStack;
@@ -40,15 +39,18 @@ public class FoodItem extends BasicPolymerItem {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-            List<FoodProperty> foodProperties = FoodProperty.getFromItemStack(stack);
-            for (FoodProperty foodProperty : foodProperties) {
+            Set<FoodProperty> foodProperties = new HashSet<>(FoodProperty.getFromItemStack(stack));
+            Set<FoodProperty> foodPropertiesFromComponent = new HashSet<>(FoodProperty.getFromItemStackComponent(stack));
+
+            Set<FoodProperty> allProperties = new HashSet<>(foodProperties);
+            allProperties.addAll(foodPropertiesFromComponent);
+
+            for (FoodProperty foodProperty : allProperties) {
                 foodProperty.use(serverWorld, user);
             }
             if (user instanceof ServerPlayerEntity player) {
                 HungerManager hungerManager = player.getHungerManager();
-                foodProperties.forEach((property) -> {
-                    hungerManager.add(1, 0);
-                });
+                allProperties.forEach((property) -> hungerManager.add(1, 0));
             }
         }
         return super.finishUsing(stack, world, user);
@@ -57,7 +59,7 @@ public class FoodItem extends BasicPolymerItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
-        List<FoodProperty> foodProperties = FoodProperty.getFromItemStack(stack);
+        List<FoodProperty> foodProperties = FoodProperty.getFromItemStackComponent(stack);
         List<FoodProperty> foodIngredientProperties = FoodProperty.getIngredientProperties(this);
         Set<FoodProperty> foodPropertyList = new HashSet<>();
         foodPropertyList.addAll(foodProperties);

@@ -93,7 +93,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     implementation include('com.mohistmc:dynamicenum:0.3')
-    implementation include("org.jodd:jodd-petite:6.0.2")
     implementation include('org.reflections:reflections:0.10.2')
 }
 

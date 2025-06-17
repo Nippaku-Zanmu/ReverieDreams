@@ -4,6 +4,7 @@ import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.component.MIDataComponentTypes;
 import cc.thonly.mystias_izakaya.datafixer.MIDataFixer;
+import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.item.MiItemGroups;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;

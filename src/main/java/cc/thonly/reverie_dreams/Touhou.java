@@ -82,7 +82,6 @@ public class Touhou implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Beans.main(null);
         MidnightConfig.init(MOD_ID, TouhouConfiguration.class);
         if (isDevMode()) {
             LOGGER.warn("=====================================================");
