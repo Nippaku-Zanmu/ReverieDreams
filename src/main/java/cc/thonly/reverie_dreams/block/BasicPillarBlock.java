@@ -52,12 +52,12 @@ public class BasicPillarBlock extends PillarBlock implements PolymerTexturedBloc
 
 //    @Override
 //    public BlockState getPolymerBlockState(BlockState blockState, PacketContext packetContext) {
-//        return Blocks.BARRIER.getDefaultState();
+//        return BlockTypeTag.BARRIER.getDefaultState();
 //    }
 //
 //    @Override
 //    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-//        return Blocks.OAK_LOG.getDefaultState();
+//        return BlockTypeTag.OAK_LOG.getDefaultState();
 //    }
 
 //    @Override

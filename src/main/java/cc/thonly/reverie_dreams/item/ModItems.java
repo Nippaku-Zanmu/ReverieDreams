@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
 import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
-import cc.thonly.reverie_dreams.armor.SliverArmorMaterial;
+import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
@@ -96,18 +96,18 @@ public class ModItems {
     public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.XYLOPHONE)));
 
     // 工具矿物类
-    public static final Item RAW_SILVER = registerItem(new BasicItem("raw_sliver", new Item.Settings()));
-    public static final Item SLIVER_INGOT = registerItem(new BasicItem("sliver_ingot", new Item.Settings()));
-    public static final Item SLIVER_NUGGET = registerItem(new BasicItem("sliver_nugget", new Item.Settings()));
-    public static final Item SLIVER_SWORD = registerItem(new BasicSwordItem("sliver_sword", SliverMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
-    public static final Item SLIVER_AXE = registerItem(new BasicAxeItem("sliver_axe", SliverMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings()));
-    public static final Item SLIVER_PICKAXE = registerItem(new BasicPickaxeItem("sliver_pickaxe", SliverMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
-    public static final Item SLIVER_SHOVEL = registerItem(new BasicShovelItem("sliver_shovel", SliverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
-    public static final Item SLIVER_HOE = registerItem(new BasicHoeItem("sliver_hoe", SliverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
-    public static final Item SLIVER_HELMET = registerItem(new BasicArmorItem("sliver_helmet", SliverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SliverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SLIVER_CHESTPLATE = registerItem(new BasicArmorItem("sliver_chestplate", SliverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SliverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SLIVER_LEGGINGS = registerItem(new BasicArmorItem("sliver_leggings", SliverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SliverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SLIVER_BOOTS = registerItem(new BasicArmorItem("sliver_boots", SliverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SliverArmorMaterial.BASE_DURABILITY))));
+    public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));
+    public static final Item SILVER_INGOT = registerItem(new BasicItem("silver_ingot", new Item.Settings()));
+    public static final Item SILVER_NUGGET = registerItem(new BasicItem("silver_nugget", new Item.Settings()));
+    public static final Item SILVER_SWORD = registerItem(new BasicSwordItem("silver_sword", SilverMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
+    public static final Item SILVER_AXE = registerItem(new BasicAxeItem("silver_axe", SilverMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings()));
+    public static final Item SILVER_PICKAXE = registerItem(new BasicPickaxeItem("silver_pickaxe", SilverMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
+    public static final Item SILVER_SHOVEL = registerItem(new BasicShovelItem("silver_shovel", SilverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
+    public static final Item SILVER_HOE = registerItem(new BasicHoeItem("silver_hoe", SilverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
+    public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
 
     // DISC
     public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));

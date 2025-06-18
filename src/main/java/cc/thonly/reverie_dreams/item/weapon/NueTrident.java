@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class NueTrident extends BasicPolymerMiningToolItem {
-    public static final ToolMaterial NUE_TRIDENT = new ToolMaterial(ModTags.Blocks.MIN_TOOL, 450, 4.5f, 5.5f, 1, ModTags.Items.EMPTY);
+    public static final ToolMaterial NUE_TRIDENT = new ToolMaterial(ModTags.BlockTypeTag.MIN_TOOL, 450, 4.5f, 5.5f, 1, ModTags.ItemTypeTag.EMPTY);
 
     public NueTrident(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, NUE_TRIDENT, attackDamage + 3.5f, attackSpeed - 2.8f, settings);

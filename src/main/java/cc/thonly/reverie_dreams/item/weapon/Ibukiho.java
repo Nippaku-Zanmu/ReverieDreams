@@ -16,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class Ibukiho extends BasicPolymerSwordItem {
-    public static final ToolMaterial IBUKIHO = new ToolMaterial(ModTags.Blocks.EMPTY, 1561, 8.0f, 5.5f, 10, ModTags.Items.EMPTY);
+    public static final ToolMaterial IBUKIHO = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 1561, 8.0f, 5.5f, 10, ModTags.ItemTypeTag.EMPTY);
 
     public Ibukiho(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, IBUKIHO,

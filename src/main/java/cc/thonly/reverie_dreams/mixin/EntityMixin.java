@@ -38,7 +38,7 @@ public abstract class EntityMixin{
 //                cir.setReturnValue(ActionResult.SUCCESS.noIncrementStat());
 //            }
 //            ItemStack itemStack = player.getStackInHand(hand);
-//            if (itemStack.isOf(Items.LEAD) && leashable.canLeashAttachTo()) {
+//            if (itemStack.isOf(ItemTypeTag.LEAD) && leashable.canLeashAttachTo()) {
 //                System.out.println(5);
 //                if (!this.getWorld().isClient()) {
 //                    System.out.println(6);

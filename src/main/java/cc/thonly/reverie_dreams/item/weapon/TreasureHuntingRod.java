@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TreasureHuntingRod extends BasicPolymerSwordItem {
     public static final List<TagKey<Block>> ORE_BLOCK_TAGS = new ArrayList<>();
-    public static final ToolMaterial MATERIAL = new ToolMaterial(ModTags.Blocks.EMPTY, 300, 4.0f, 4.5f, 5, ModTags.Items.EMPTY);
+    public static final ToolMaterial MATERIAL = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 300, 4.0f, 4.5f, 5, ModTags.ItemTypeTag.EMPTY);
 
     static {
         ORE_BLOCK_TAGS.add(BlockTags.GOLD_ORES);

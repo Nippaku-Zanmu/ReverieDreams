@@ -16,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ManpozuchiItem extends BasicPolymerPickaxeItem {
-    public static final ToolMaterial MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, ModTags.Items.EMPTY);
+    public static final ToolMaterial MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, ModTags.ItemTypeTag.EMPTY);
 
     public ManpozuchiItem(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, MATERIAL, attackDamage + 2.0f, attackSpeed - 2.8f, settings);

@@ -47,10 +47,14 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Setter
 @Getter
 @ToString
 public class AbstractKitchenwareBlock extends BlockWithEntity implements FactoryBlock, IdentifierGetter {
+    public static final Set<AbstractKitchenwareBlock> KITCHENWARE_BLOCKS = new HashSet<>();
     public static final MapCodec<AbstractKitchenwareBlock> CODEC = createCodec(AbstractKitchenwareBlock::new);
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
@@ -60,6 +64,7 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
 
     public AbstractKitchenwareBlock(Settings settings) {
         super(settings);
+        KITCHENWARE_BLOCKS.add(this);
     }
 
     public AbstractKitchenwareBlock(String id, Vector3f scale, Vec3d offset, Settings settings) {

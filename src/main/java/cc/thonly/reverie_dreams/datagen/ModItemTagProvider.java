@@ -32,10 +32,10 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagProvider<Item>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.Items.EMPTY);
+        FabricTagProvider<Item>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.ItemTypeTag.EMPTY);
         empty.add(Items.BEDROCK);
 
-        FabricTagProvider<Item>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.Items.FUMO);
+        FabricTagProvider<Item>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.ItemTypeTag.FUMO);
         for (var item : FumoBlocks.getRegisteredFumoItems()) {
             fumo.add(item);
         }
@@ -63,10 +63,10 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         BasicPolymerArmorItem.LEG_ITEMS.forEach(legItem::add);
         FabricTagProvider<Item>.FabricTagBuilder feetItem = getOrCreateTagBuilder(ItemTags.FOOT_ARMOR);
         BasicPolymerArmorItem.FEET_ITEMS.forEach(feetItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.Items.ARMOR);
+        FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.ItemTypeTag.ARMOR);
         BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder sliverToolMaterials = getOrCreateTagBuilder(ModTags.Items.SLIVER_TOOL_MATERIALS);
-        sliverToolMaterials.add(ModItems.SLIVER_INGOT);
+        FabricTagProvider<Item>.FabricTagBuilder sliverToolMaterials = getOrCreateTagBuilder(ModTags.ItemTypeTag.SILVER_TOOL_MATERIALS);
+        sliverToolMaterials.add(ModItems.SILVER_INGOT);
 
         FabricTagProvider<Item>.FabricTagBuilder fences = getOrCreateTagBuilder(ItemTags.FENCES);
         FabricTagProvider<Item>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(ItemTags.FENCE_GATES);

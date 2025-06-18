@@ -34,13 +34,13 @@ public class BasicBlockItem extends BasicPolymerBlockItem {
 //        AbstractBlock.Settings settings = block.getSettings();
 //        AbstractBlockSettingsAccessorImpl settingsImpl = (AbstractBlockSettingsAccessorImpl) settings;
 //        BlockSoundGroup soundGroup = settingsImpl.getSoundGroup();
-//        Item blockItem = Items.BARRIER;
+//        Item blockItem = ItemTypeTag.BARRIER;
 //        if (SOUND_GROUP_CACHES.containsKey(soundGroup)) {
 //            blockItem = SOUND_GROUP_CACHES.get(soundGroup);
 //        }
 //        List<Block> blocks = Registries.BLOCK.stream().toList();
 //        for (Block registryBlock : blocks) {
-//            if (registryBlock.asItem() == Items.AIR) continue;
+//            if (registryBlock.asItem() == ItemTypeTag.AIR) continue;
 //            AbstractBlock.Settings settings1 = registryBlock.getSettings();
 //            AbstractBlockSettingsAccessorImpl settingsImpl1 = (AbstractBlockSettingsAccessorImpl) settings1;
 //            BlockSoundGroup soundGroup1 = settingsImpl1.getSoundGroup();

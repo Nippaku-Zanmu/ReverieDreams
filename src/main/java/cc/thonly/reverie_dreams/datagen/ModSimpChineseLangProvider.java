@@ -472,17 +472,17 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
         // 工具矿物类
         translationBuilder.add(ModItems.RAW_SILVER, "生银矿");
-        translationBuilder.add(ModItems.SLIVER_INGOT, "银锭");
-        translationBuilder.add(ModItems.SLIVER_NUGGET, "银粒");
-        translationBuilder.add(ModItems.SLIVER_SWORD, "银剑");
-        translationBuilder.add(ModItems.SLIVER_AXE, "银斧");
-        translationBuilder.add(ModItems.SLIVER_PICKAXE, "银稿");
-        translationBuilder.add(ModItems.SLIVER_SHOVEL, "银锹");
-        translationBuilder.add(ModItems.SLIVER_HOE, "银锄");
-        translationBuilder.add(ModItems.SLIVER_HELMET, "银头盔");
-        translationBuilder.add(ModItems.SLIVER_CHESTPLATE, "银胸甲");
-        translationBuilder.add(ModItems.SLIVER_LEGGINGS, "银护腿");
-        translationBuilder.add(ModItems.SLIVER_BOOTS, "银靴子");
+        translationBuilder.add(ModItems.SILVER_INGOT, "银锭");
+        translationBuilder.add(ModItems.SILVER_NUGGET, "银粒");
+        translationBuilder.add(ModItems.SILVER_SWORD, "银剑");
+        translationBuilder.add(ModItems.SILVER_AXE, "银斧");
+        translationBuilder.add(ModItems.SILVER_PICKAXE, "银稿");
+        translationBuilder.add(ModItems.SILVER_SHOVEL, "银锹");
+        translationBuilder.add(ModItems.SILVER_HOE, "银锄");
+        translationBuilder.add(ModItems.SILVER_HELMET, "银头盔");
+        translationBuilder.add(ModItems.SILVER_CHESTPLATE, "银胸甲");
+        translationBuilder.add(ModItems.SILVER_LEGGINGS, "银护腿");
+        translationBuilder.add(ModItems.SILVER_BOOTS, "银靴子");
 
         // 其他
         translationBuilder.add(ModItems.SHIDE, "纸垂");
@@ -539,7 +539,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.MAGIC_ICE_BLOCK, "魔法冰");
         translationBuilder.add(ModBlocks.POINT_BLOCK, "Point方块");
         translationBuilder.add(ModBlocks.POWER_BLOCK, "Power方块");
-
+        translationBuilder.add(ModBlocks.SILVER_ORE, "银矿石");
+        translationBuilder.add(ModBlocks.DEEPSLATE_SILVER_ORE, "深层银矿石");
+        translationBuilder.add(ModBlocks.SILVER_BLOCK, "银块");
+        translationBuilder.add(ModBlocks.ORB_ORE, "宝玉矿石");
+        translationBuilder.add(ModBlocks.DEEPSLATE_ORB_ORE, "深层宝玉矿石");
 
         translationBuilder.add(ModBlocks.DREAM_RED_BLOCK, "网格方块");
         translationBuilder.add(ModBlocks.DREAM_BLUE_BLOCK, "网格方块");

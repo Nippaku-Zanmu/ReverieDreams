@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MagicBroom extends BasicPolymerSwordItem {
-    public static final ToolMaterial ROKANKEN = new ToolMaterial(ModTags.Blocks.EMPTY, 1250, 7.5f, 5.5f, 10, ModTags.Items.EMPTY);
+    public static final ToolMaterial ROKANKEN = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 1250, 7.5f, 5.5f, 10, ModTags.ItemTypeTag.EMPTY);
 
     public MagicBroom(String path, float attackDamage, float attackSpeed, Item.Settings settings) {
         super(path, ROKANKEN, attackDamage + 1f, attackSpeed - 2.4f, settings);

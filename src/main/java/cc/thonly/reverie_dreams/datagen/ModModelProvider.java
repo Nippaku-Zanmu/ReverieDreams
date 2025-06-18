@@ -55,6 +55,11 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MAGIC_ICE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.POINT_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.POWER_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SILVER_ORE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SILVER_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DEEPSLATE_SILVER_ORE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.ORB_ORE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DEEPSLATE_ORB_ORE);
 
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_BLUE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_RED_BLOCK);
@@ -125,17 +130,17 @@ public class ModModelProvider extends FabricModelProvider {
 
         // 工具矿物类
         itemModelGenerator.register(ModItems.RAW_SILVER, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SLIVER_INGOT, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SLIVER_NUGGET, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SLIVER_SWORD, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_AXE, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_PICKAXE, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_SHOVEL, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_HOE, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_HELMET, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_CHESTPLATE, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_LEGGINGS, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.SLIVER_BOOTS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SILVER_NUGGET, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SILVER_SWORD, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_AXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_PICKAXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_SHOVEL, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_HOE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_HELMET, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_CHESTPLATE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_LEGGINGS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SILVER_BOOTS, Models.HANDHELD);
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);

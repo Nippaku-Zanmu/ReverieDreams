@@ -8,7 +8,7 @@ import cc.thonly.reverie_dreams.command.CommandInit;
 import cc.thonly.reverie_dreams.compat.ModCompats;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.config.TouhouConfiguration;
-import cc.thonly.reverie_dreams.data.ModLoots;
+import cc.thonly.reverie_dreams.data.ModLootModifies;
 import cc.thonly.reverie_dreams.data.ModResourceManager;
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
@@ -132,7 +132,7 @@ public class Touhou implements ModInitializer {
         RecipeManager.bootstrap();
         ModResourceManager.init();
         RegistrySchemas.bootstrap();
-        ModLoots.register();
+        ModLootModifies.register();
         RecipeTypeCategoryManager.setup();
 
         ImageToTextScanner.bootstrap();

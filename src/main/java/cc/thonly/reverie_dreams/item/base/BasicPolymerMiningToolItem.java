@@ -33,7 +33,7 @@ public abstract class BasicPolymerMiningToolItem extends MiningToolItem implemen
     }
 
     public BasicPolymerMiningToolItem(Identifier identifier, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(material, ModTags.Blocks.MIN_TOOL, attackDamage, attackSpeed, material.applySwordSettings(settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), attackDamage, attackSpeed));
+        super(material, ModTags.BlockTypeTag.MIN_TOOL, attackDamage, attackSpeed, material.applySwordSettings(settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), attackDamage, attackSpeed));
         this.identifier = identifier;
         ITEMS.add(this);
     }
