@@ -65,7 +65,8 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         BasicPolymerArmorItem.FEET_ITEMS.forEach(feetItem::add);
         FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.Items.ARMOR);
         BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
-
+        FabricTagProvider<Item>.FabricTagBuilder sliverToolMaterials = getOrCreateTagBuilder(ModTags.Items.SLIVER_TOOL_MATERIALS);
+        sliverToolMaterials.add(ModItems.SLIVER_INGOT);
 
         FabricTagProvider<Item>.FabricTagBuilder fences = getOrCreateTagBuilder(ItemTags.FENCES);
         FabricTagProvider<Item>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(ItemTags.FENCE_GATES);

@@ -58,7 +58,7 @@ public class BasePageGui extends SimpleGui {
         this.maxSize = this.entries.size();
         this.prevGuiCallback = prevGuiCallback;
         this.init();
-        this.setTitle(Text.empty().append(this.recipeGuiInfo.getId().toString()).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
+        this.setTitle(Text.empty().append(Text.translatable(this.recipeGuiInfo.getId().toString())).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
 
     }
 

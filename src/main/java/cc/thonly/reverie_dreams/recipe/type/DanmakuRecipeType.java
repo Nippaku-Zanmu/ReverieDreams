@@ -11,6 +11,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;

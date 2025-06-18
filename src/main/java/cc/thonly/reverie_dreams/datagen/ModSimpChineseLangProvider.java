@@ -69,6 +69,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(Touhou.id("recipe/danmaku_table").toTranslationKey(), "弹幕工作台");
         translationBuilder.add(Touhou.id("recipe/gensokyo_altar").toTranslationKey(), "幻想乡祭坛");
         translationBuilder.add(Touhou.id("recipe/strength_table").toTranslationKey(), "强化台");
+        translationBuilder.add(Touhou.id("recipe/kitchen").toTranslationKey(), "夜雀食堂");
+
 
         this.generateItemTranslations(wrapperLookup, translationBuilder);
         this.generateBlockTranslations(wrapperLookup, translationBuilder);
@@ -388,10 +390,19 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item." + EntityType.getId(ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "向日葵妖精刷怪蛋");
         translationBuilder.add(ModEntities.GOBLIN_ENTITY_TYPE.getTranslationKey(), "哥布林");
         translationBuilder.add("item." + EntityType.getId(ModEntities.GOBLIN_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "哥布林刷怪蛋");
+        translationBuilder.add(ModEntities.WATER_ELEMENTAL_ENTITY_TYPE.getTranslationKey(), "水元素");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.WATER_ELEMENTAL_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "水元素刷怪蛋");
+        translationBuilder.add(ModEntities.FIRE_ELEMENTAL_ENTITY_TYPE.getTranslationKey(), "火元素");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.FIRE_ELEMENTAL_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "火元素刷怪蛋");
+        translationBuilder.add(ModEntities.ICE_ELEMENTAL_ENTITY_TYPE.getTranslationKey(), "冰元素");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.ICE_ELEMENTAL_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "冰元素刷怪蛋");
         translationBuilder.add(ModEntities.BROOM_ENTITY_TYPE.getTranslationKey(), "魔法扫帚");
         translationBuilder.add("item." + EntityType.getId(ModEntities.BROOM_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "魔法扫帚刷怪蛋");
         translationBuilder.add(ModEntities.HAIRBALL_ENTITY_TYPE.getTranslationKey(), "毛玉");
         translationBuilder.add("item." + EntityType.getId(ModEntities.HAIRBALL_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "毛玉刷怪蛋");
+        translationBuilder.add(ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE.getTranslationKey(), "蘑菇");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "蘑菇刷怪蛋");
+
     }
 
     public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -436,6 +447,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.BAGUA_FURNACE, "八卦炉");
         translationBuilder.add(ModItems.TIME_STOP_CLOCK, "时停钟");
         translationBuilder.add(ModItems.EARPHONE, "神子耳机");
+        translationBuilder.add(ModItems.KOISHI_HAT, "恋恋钢盔");
 
         // 武器
         translationBuilder.add(ModItems.HAKUREI_CANE, "博丽御币");
@@ -457,6 +469,20 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.VIOLIN, "小提琴");
         translationBuilder.add(ModItems.KEYBOARD, "键盘");
         translationBuilder.add(ModItems.TRUMPET, "小号");
+
+        // 工具矿物类
+        translationBuilder.add(ModItems.RAW_SILVER, "生银矿");
+        translationBuilder.add(ModItems.SLIVER_INGOT, "银锭");
+        translationBuilder.add(ModItems.SLIVER_NUGGET, "银粒");
+        translationBuilder.add(ModItems.SLIVER_SWORD, "银剑");
+        translationBuilder.add(ModItems.SLIVER_AXE, "银斧");
+        translationBuilder.add(ModItems.SLIVER_PICKAXE, "银稿");
+        translationBuilder.add(ModItems.SLIVER_SHOVEL, "银锹");
+        translationBuilder.add(ModItems.SLIVER_HOE, "银锄");
+        translationBuilder.add(ModItems.SLIVER_HELMET, "银头盔");
+        translationBuilder.add(ModItems.SLIVER_CHESTPLATE, "银胸甲");
+        translationBuilder.add(ModItems.SLIVER_LEGGINGS, "银护腿");
+        translationBuilder.add(ModItems.SLIVER_BOOTS, "银靴子");
 
         // 其他
         translationBuilder.add(ModItems.SHIDE, "纸垂");

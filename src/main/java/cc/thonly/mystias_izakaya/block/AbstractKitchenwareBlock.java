@@ -79,9 +79,9 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
         BlockPos belowPos = pos.down();
         BlockState belowState = world.getBlockState(belowPos);
         boolean pass = false;
-        BlockState upBlockState = world.getBlockState(pos.up());
-        Block upBlock = upBlockState.getBlock();
-        if (upBlock instanceof FenceBlock || upBlock instanceof WallBlock) {
+        BlockState downBlockState = world.getBlockState(pos.down());
+        Block upBlock = downBlockState.getBlock();
+        if (upBlock instanceof FenceBlock || upBlock instanceof WallBlock || upBlock instanceof LeavesBlock) {
             pass = true;
         }
         return pass || belowState.isSideSolidFullSquare(world, belowPos, Direction.UP);

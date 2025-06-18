@@ -89,6 +89,7 @@ public class GoblinEntity extends NPCEntityImpl {
         itemStack.set(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(true));
         return itemStack;
     }
+
     public ItemStack getRandomOffHand() {
         final Random random = new Random();
         if (OFFHAND_POOL == null || OFFHAND_POOL.isEmpty()) {

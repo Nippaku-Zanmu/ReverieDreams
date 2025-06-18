@@ -100,6 +100,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.BAGUA_FURNACE);
         itemModelGenerator.register(ModItems.TIME_STOP_CLOCK, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARPHONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.KOISHI_HAT, Models.GENERATED);
 
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
@@ -121,6 +122,20 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.VIOLIN);
         itemModelGenerator.register(ModItems.KEYBOARD);
         itemModelGenerator.register(ModItems.TRUMPET);
+
+        // 工具矿物类
+        itemModelGenerator.register(ModItems.RAW_SILVER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SLIVER_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SLIVER_NUGGET, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SLIVER_SWORD, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_AXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_PICKAXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_SHOVEL, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_HOE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_HELMET, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_CHESTPLATE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_LEGGINGS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SLIVER_BOOTS, Models.HANDHELD);
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);

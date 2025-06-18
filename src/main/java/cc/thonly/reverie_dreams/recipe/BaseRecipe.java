@@ -9,11 +9,5 @@ import net.minecraft.util.Identifier;
 @Getter
 public abstract class BaseRecipe implements PolymerObject {
     private Identifier id;
-    public void setId(Identifier id) {
-        this.id = id;
-    }
-
-    public Identifier getId() {
-        return this.id;
-    }
+    private Integer rawId;
 }

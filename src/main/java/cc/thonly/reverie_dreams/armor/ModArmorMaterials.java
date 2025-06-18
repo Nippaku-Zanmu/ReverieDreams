@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ModArmorMaterials {
     public static void init() {
         register(EarphoneArmorMaterial.class);
+        register(KoishiHatArmorMaterial.class);
     }
 
     public static boolean register(Class<?> clazz) {

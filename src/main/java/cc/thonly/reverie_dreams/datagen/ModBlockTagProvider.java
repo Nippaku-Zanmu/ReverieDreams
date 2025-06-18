@@ -47,6 +47,7 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
         FabricTagProvider<Block>.FabricTagBuilder trapdoors = getOrCreateTagBuilder(BlockTags.TRAPDOORS);
         FabricTagProvider<Block>.FabricTagBuilder doors = getOrCreateTagBuilder(BlockTags.DOORS);
         FabricTagProvider<Block>.FabricTagBuilder minTools = getOrCreateTagBuilder(ModTags.Blocks.MIN_TOOL);
+        FabricTagProvider<Block>.FabricTagBuilder sliver = getOrCreateTagBuilder(ModTags.Blocks.SLIVER);
         FENCES.forEach(fences::add);
         FENCE_GATES.forEach(fenceGates::add);
         STAIRS.forEach(stairs::add);

@@ -21,9 +21,11 @@ import cc.thonly.reverie_dreams.item.ModItemGroups;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.networking.CSVersionPayload;
 import cc.thonly.reverie_dreams.networking.HelloPayload;
+import cc.thonly.reverie_dreams.networking.RegistrySyncPayload;
 import cc.thonly.reverie_dreams.recipe.*;
 import cc.thonly.reverie_dreams.registry.RegistrySchemas;
 import cc.thonly.reverie_dreams.server.DelayedTask;
+import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
 import cc.thonly.reverie_dreams.server.ParticleTickerManager;
 import cc.thonly.reverie_dreams.server.PlayerInputManager;
 import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
@@ -72,7 +74,7 @@ public class Touhou implements ModInitializer {
     private static final boolean HAS_OPTIFINE = isModLoaded("optifabric");
     private static String SYSTEM_LANGUAGE = null;
     private static MinecraftServer server;
-    private static final List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
+    private static final Set<ServerPlayerEntity> playersWithMod = new HashSet<>();
     private static final Map<ServerPlayerEntity, String> playerSideVersion = new WeakHashMap<>();
 
     static {
@@ -123,21 +125,18 @@ public class Touhou implements ModInitializer {
         ModWorldGeneration.registerModGen();
         ModDataFixer.bootstrap();
 
-
         // 初始化其他注册内容
         CommandInit.init();
         ModRecipeTypes.init();
         ModRecipeSerializer.init();
         RecipeManager.bootstrap();
-//        DanmakuRecipes.registerRecipes();
-//        GensokyoAltarRecipes.registerRecipes();
-//        StrengthTableRecipes.registerRecipes();
         ModResourceManager.init();
         RegistrySchemas.bootstrap();
         ModLoots.register();
         RecipeTypeCategoryManager.setup();
 
-        ImageToTextScanner.registerBuffer();
+        ImageToTextScanner.bootstrap();
+        ItemDescriptionManager.bootstrap();
 
         PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
@@ -146,6 +145,8 @@ public class Touhou implements ModInitializer {
                 playersWithMod.add(player);
             }
         });
+        PayloadTypeRegistry.playC2S().register(RegistrySyncPayload.PACKET_ID, RegistrySyncPayload.codec);
+        ServerPlayNetworking.registerGlobalReceiver(RegistrySyncPayload.PACKET_ID, (payload, context) -> {});
         ServerPlayConnectionEvents.DISCONNECT.register((playNetworkHandler, server) -> {
             playersWithMod.remove(playNetworkHandler.player);
             playerSideVersion.remove(playNetworkHandler.player);

@@ -2,6 +2,9 @@ package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
+import cc.thonly.reverie_dreams.entity.elemental.FireElementalEntity;
+import cc.thonly.reverie_dreams.entity.elemental.IceElementalEntity;
+import cc.thonly.reverie_dreams.entity.elemental.WaterElementalEntity;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityNeutralImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
@@ -292,6 +295,21 @@ public class ModEntities {
                     .add(EntityAttributes.TEMPT_RANGE, 10.0f)
                     .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                     .build());
+    public static final EntityType<WaterElementalEntity> WATER_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("water_elemental",
+            EntityType.Builder.<WaterElementalEntity>create(WaterElementalEntity::new, SpawnGroup.MONSTER)
+                    .build(of("water_elemental")),
+            WaterElementalEntity::createAttributes
+    );
+    public static final EntityType<FireElementalEntity> FIRE_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("fire_elemental",
+            EntityType.Builder.<FireElementalEntity>create(FireElementalEntity::new, SpawnGroup.MONSTER)
+                    .build(of("fire_elemental")),
+            FireElementalEntity::createAttributes
+    );
+    public static final EntityType<IceElementalEntity> ICE_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("ice_elemental",
+            EntityType.Builder.<IceElementalEntity>create(IceElementalEntity::new, SpawnGroup.MONSTER)
+                    .build(of("ice_elemental")),
+            IceElementalEntity::createAttributes
+    );
     public static final EntityType<MagicBroomEntity> BROOM_ENTITY_TYPE = registerEntityWithSpawnEgg("broom",
             EntityType.Builder.<MagicBroomEntity>create(MagicBroomEntity::new, SpawnGroup.MISC)
                     .build(of("broom")),
@@ -300,6 +318,11 @@ public class ModEntities {
             EntityType.Builder.<HairballEntity>create(HairballEntity::new, SpawnGroup.MONSTER)
                     .build(of("hairball")),
             HairballEntity::createAttributes
+    );
+    public static final EntityType<MushroomMonsterEntity> MUSHROOM_MONSTER_ENTITY_TYPE = registerEntityWithSpawnEgg("mushroom_monster",
+            EntityType.Builder.<MushroomMonsterEntity>create(MushroomMonsterEntity::new, SpawnGroup.MONSTER)
+                    .build(of("mushroom_monster")),
+            MushroomMonsterEntity::createAttributes
     );
 
     public static void registerEntities() {

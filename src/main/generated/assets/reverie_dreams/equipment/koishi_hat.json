@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "reverie_dreams:koishi_hat"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "reverie_dreams:koishi_hat"
+      }
+    ],
+    "horse_body": [
+      {
+        "texture": "reverie_dreams:koishi_hat"
+      }
+    ]
+  }
+}

@@ -101,11 +101,11 @@ public class DanmakuTableDisplayView extends SimpleGui implements DisplayView {
     public String[][] getGrid() {
         return new String[][]{
                 {"B", "X", "X", "X", "X", "X", "X", "X", "X"},
-                {"X", "X", "X", "I", "X", "X", "X", "X", "X"},
-                {"X", "X", "X", "I", "X", "X", "X", "X", "X"},
-                {"X", "X", "X", "I", "T", "O", "X", "X", "X"},
-                {"X", "X", "X", "I", "X", "X", "X", "X", "X"},
-                {"X", "X", "X", "I", "X", "X", "X", "X", "X"},
+                {"X", "X", "I", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "I", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "I", "X", "T", "X", "O", "X", "X"},
+                {"X", "X", "I", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "I", "X", "X", "X", "X", "X", "X"},
         };
     }
 }

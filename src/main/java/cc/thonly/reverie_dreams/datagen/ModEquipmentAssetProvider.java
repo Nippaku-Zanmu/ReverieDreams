@@ -2,6 +2,8 @@ package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
+import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
+import cc.thonly.reverie_dreams.armor.SliverArmorMaterial;
 import cc.thonly.reverie_dreams.datagen.generator.EquipmentAssetProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
@@ -21,5 +23,7 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider {
     @Override
     protected void bootstrap(BiConsumer<RegistryKey<EquipmentAsset>, EquipmentModel> consumer) {
         consumer.accept(EarphoneArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("earphone")));
+        consumer.accept(KoishiHatArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("koishi_hat")));
+        consumer.accept(SliverArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("sliver")));
     }
 }

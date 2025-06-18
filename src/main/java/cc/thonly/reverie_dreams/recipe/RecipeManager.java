@@ -30,6 +30,7 @@ public class RecipeManager {
             try {
                 recipeType.removeAll();
                 recipeType.reload(manager);
+                log.info("Reloaded Recipe Type {}", key.toString());
             } catch (Exception e) {
                 log.error("Can't reload recipes {}, {}", key, e);
             }

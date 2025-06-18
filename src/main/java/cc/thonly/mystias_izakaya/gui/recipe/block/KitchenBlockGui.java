@@ -16,8 +16,8 @@ import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.block.Block;
-import net.minecraft.component.MergedComponentMap;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
@@ -106,22 +106,50 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
         }
     }
 
-    private ItemStackRecipeWrapper buildFoodTags(ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
+    private ItemStackRecipeWrapper buildFoodTags(KitchenRecipe recipe, ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
+        ItemStack base = output.getItemStack().copy();
+        List<String> baseTags = base.get(MIDataComponentTypes.MI_FOOD_PROPERTIES);
+        if (baseTags == null) {
+            baseTags = new ArrayList<>();
+        }
+        HashSet<String> propertyIds = new HashSet<>(baseTags);
+        List<ItemStackRecipeWrapper> ingredients = recipe.getIngredients();
+        List<Item> ingredientItems = ingredients
+                .stream()
+                .filter(wrapper -> !wrapper.isEmpty())
+                .map(ItemStackRecipeWrapper::getItem)
+                .toList();
+        for (ItemStackRecipeWrapper input : inputs) {
+            ItemStack itemStack = input.getItemStack();
+            Item item = itemStack.getItem();
+            if (ingredientItems.contains(item)) {
+                continue;
+            }
+            List<FoodProperty> ingredientProperties = FoodProperty.getIngredientProperties(item);
+            ingredientProperties.forEach(property -> propertyIds.add(property.getId().toString()));
+
+        }
+        List<String> tagList = new ArrayList<>(propertyIds);
+        base.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, tagList);
+        return new ItemStackRecipeWrapper(base.copy());
+    }
+
+    private ItemStackRecipeWrapper buildAllFoodTags(ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
         ItemStack itemStack = output.getItemStack().copy();
         List<String> outputTags = itemStack.get(MIDataComponentTypes.MI_FOOD_PROPERTIES);
         if (outputTags == null) {
             outputTags = new ArrayList<>();
         }
-        HashSet<String> tagSet = new HashSet<>(outputTags);
+        HashSet<String> propertyIds = new HashSet<>(outputTags);
         for (ItemStackRecipeWrapper wrapper : inputs) {
             ItemStack wrapperItemStack = wrapper.getItemStack();
             if (wrapperItemStack.isEmpty()) {
                 continue;
             }
             List<FoodProperty> ingredientProperties = FoodProperty.getIngredientProperties(wrapperItemStack.getItem());
-            ingredientProperties.forEach(property -> tagSet.add(property.getId().toString()));
+            ingredientProperties.forEach(property -> propertyIds.add(property.getId().toString()));
         }
-        List<String> tagList = new ArrayList<>(tagSet);
+        List<String> tagList = new ArrayList<>(propertyIds);
         itemStack.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, tagList);
         return new ItemStackRecipeWrapper(itemStack.copy());
     }
@@ -183,7 +211,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             if (i >= pageRecipes.size()) break;
 
             KitchenRecipe recipe = pageRecipes.get(i);
-            ItemStack output = this.buildFoodTags(new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
+            ItemStack output = this.buildFoodTags(recipe, new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
 
             GuiElementBuilder builder = entry.getValue();
             GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) builder;

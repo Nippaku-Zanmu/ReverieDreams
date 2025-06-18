@@ -22,7 +22,7 @@ public class ImageToTextScanner {
     private ImageToTextScanner() {
     }
 
-    public static void registerBuffer() {
+    public static void bootstrap() {
         CompletableFuture.runAsync(ImageToTextScanner::preload);
     }
 

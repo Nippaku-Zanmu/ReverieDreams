@@ -52,6 +52,10 @@ public class ItemStackRecipeWrapper {
         this.itemStack = itemStack;
     }
 
+    public boolean isEmpty() {
+        return this.itemStack.isEmpty();
+    }
+
     public static ItemStackRecipeWrapper of(ItemStack itemStack) {
         return new ItemStackRecipeWrapper(itemStack);
     }
@@ -88,4 +92,5 @@ public class ItemStackRecipeWrapper {
         if (!Objects.equals(other.components, itemStack.components)) return false;
         return other.getCount() >= itemStack.getCount();
     }
+
 }

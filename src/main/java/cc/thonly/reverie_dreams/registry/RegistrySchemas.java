@@ -31,19 +31,18 @@ public class RegistrySchemas {
         }
     }
 
-    public static <T extends SchemaObject<T>> T register(RegistrySchema<T> registryHashListEntry, Identifier key, T value) {
-        return registryHashListEntry.add(key, value);
+    public static <T extends SchemaObject<T>> T register(RegistrySchema<T> registry, Identifier key, T value) {
+        return registry.add(key, value);
     }
 
-    public static <T extends SchemaObject<T>> Map<Identifier, T> registers(RegistrySchema<T> registryHashListEntry, Map<Identifier, T> idToEntry) {
-        return registryHashListEntry.add(idToEntry);
+    public static <T extends SchemaObject<T>> Map<Identifier, T> registerAll(RegistrySchema<T> registry, Map<Identifier, T> idToEntry) {
+        return registry.add(idToEntry);
     }
 
-    public static <T extends SchemaObject<T>> T set(RegistrySchema<T> registryHashListEntry, Identifier key, T value) {
-        return registryHashListEntry.set(key, value);
+    public static <T extends SchemaObject<T>> T set(RegistrySchema<T> registry, Identifier key, T value) {
+        return registry.set(key, value);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends SchemaObject<T>> RegistrySchema<T> ofEntry(Class<T> type, Identifier key) {
         RegistrySchema<?> rawEntry = REGISTRIES.get(key);
         if (rawEntry != null) {
@@ -53,6 +52,10 @@ public class RegistrySchemas {
             REGISTRIES.put(key, newEntry);
             return newEntry;
         }
+    }
+
+    public static <T extends SchemaObject<T>> RegistrySchema<T> getRegistry(Class<T> type, Identifier key) {
+        return (RegistrySchema<T>) REGISTRIES.get(key);
     }
 
 }
