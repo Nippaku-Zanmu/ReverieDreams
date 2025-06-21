@@ -2,6 +2,7 @@ package cc.thonly.mystias_izakaya.block.entity;
 
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
+import cc.thonly.mystias_izakaya.gui.recipe.block.KitchenBlockGui;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.util.PlayerUtils;
@@ -13,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,9 +37,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 
 @Setter
@@ -54,12 +54,14 @@ public class KitchenwareBlockEntity extends BlockEntity {
             ));
     public static final Supplier<ItemStackRecipeWrapper> DEFAULT_WRAPPER_FACTORY = () -> new ItemStackRecipeWrapper(ItemStack.EMPTY);
     public static final Gson GSON = new Gson();
+    public static final Map<UUID, Set<KitchenBlockGui<?>>> SESSIONS = new Object2ObjectOpenHashMap<>();
     private SimpleInventory inventory = new SimpleInventory(6);
     private KitchenRecipeType.KitchenType recipeType;
     private Identifier recipeId;
     private ItemStackRecipeWrapper preOutput = DEFAULT_WRAPPER_FACTORY.get();
     private Double tickLeft = 0.0;
     private Double tickSpeedBonus = 1.0;
+    private UUID uuid = UUID.randomUUID();
 
     public KitchenwareBlockEntity(BlockPos pos, BlockState state) {
         super(MiBlockEntities.KITCHENWARE_BLOCK_ENTITY, pos, state);

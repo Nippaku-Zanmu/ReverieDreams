@@ -13,6 +13,7 @@ import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.util.WeakSet;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.block.Block;
@@ -65,6 +66,8 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
     @Override
     public void init() {
+        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakSet<>());
+        session.add(this);
         this.setTitle(Text.translatable(this.block.getTranslationKey()));
         for (int row = 0; row < GRID.length; row++) {
             for (int col = 0; col < GRID[row].length; col++) {
@@ -165,6 +168,13 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
         }
         this.blockEntity.setPreOutput(new ItemStackRecipeWrapper(output.copy()));
         this.blockEntity.setTickLeft(recipe.getCostTime() * 20.0);
+        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakSet<>());
+        for (KitchenBlockGui<?> gui : session) {
+            if (gui.isOpen()) {
+                gui.close();
+            }
+        }
+        session.clear();
         this.close();
     }
 

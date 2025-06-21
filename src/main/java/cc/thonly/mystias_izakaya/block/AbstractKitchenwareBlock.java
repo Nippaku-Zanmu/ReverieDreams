@@ -49,8 +49,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Getter
@@ -104,8 +103,12 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
                 if (kitchenwareBlockEntity.isWorking()) {
                     return ActionResult.FAIL;
                 }
-                KitchenBlockGui<BaseRecipe> kitchenBlockSimpleGui = new KitchenBlockGui<>(this, kitchenwareBlockEntity, serverPlayer);
-                kitchenBlockSimpleGui.open();
+                UUID uuid = kitchenwareBlockEntity.getUuid();
+                Set<KitchenBlockGui<?>> kitchenBlockGuis = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(uuid, (map) -> new HashSet<>());
+                KitchenBlockGui<BaseRecipe> simpleGui = new KitchenBlockGui<>(this, kitchenwareBlockEntity, serverPlayer);
+                kitchenBlockGuis.add(simpleGui);
+                simpleGui.open();
+
                 return ActionResult.SUCCESS_SERVER;
             }
             return ActionResult.FAIL;

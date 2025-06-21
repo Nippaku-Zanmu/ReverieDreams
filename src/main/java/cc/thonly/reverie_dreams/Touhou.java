@@ -136,7 +136,7 @@ public class Touhou implements ModInitializer {
         ModResourceManager.init();
         RegistrySchemas.bootstrap();
         ModLootModifies.register();
-        RecipeTypeCategoryManager.setup();
+        RecipeTypeCategoryManager.registers();
 
         ImageToTextScanner.bootstrap();
         ItemDescriptionManager.bootstrap();

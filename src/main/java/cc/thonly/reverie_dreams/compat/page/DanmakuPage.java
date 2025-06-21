@@ -1,14 +1,17 @@
 package cc.thonly.reverie_dreams.compat.page;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
+import eu.pb4.polydex.impl.PolydexImpl;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -26,6 +29,7 @@ public class DanmakuPage implements PolydexPage { ;
     public final Identifier key;
     public final DanmakuRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
+
     public DanmakuPage(Identifier key, DanmakuRecipe value) {
         this.key = key;
         this.value = value;
@@ -57,7 +61,11 @@ public class DanmakuPage implements PolydexPage { ;
 
     @Override
     public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder pageBuilder) {
-
+        PolydexCategory category = PolydexImpl.CATEGORY_BY_ID.get(this.identifier());
+        RecipeTypeCategoryManager.open(Touhou.id("recipe/danmaku_table"), this.value.getId(), serverPlayerEntity, () -> {
+            PolydexPageUtils.openCategoryUi(serverPlayerEntity, category, null);
+            return null;
+        });
     }
 
     @Override

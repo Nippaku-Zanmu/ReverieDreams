@@ -4,7 +4,8 @@
 	"textures": {
 		"1": "reverie_dreams:block/fumo/flanny",
 		"2": "reverie_dreams:block/fumo/flanny_wings",
-		"particle": "reverie_dreams:block/fumo/flanny_wings"
+		"particle": "reverie_dreams:block/fumo/flanny_wings",
+		"missing": "reverie_dreams:block/fumo/missing"
 	},
 	"elements": [
 		{

@@ -5,13 +5,14 @@ import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
+import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGetter;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGuiInfo;
-import cc.thonly.reverie_dreams.gui.recipe.display.DanmakuTableDisplayView;
-import cc.thonly.reverie_dreams.gui.recipe.display.GensokyoAltarDisplayView;
-import cc.thonly.reverie_dreams.gui.recipe.display.KitchenBlockDisplayView;
-import cc.thonly.reverie_dreams.gui.recipe.display.StrengthTableDisplayView;
+import cc.thonly.reverie_dreams.gui.recipe.display.*;
 import cc.thonly.reverie_dreams.gui.server.BasePageGui;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.recipe.BaseRecipe;
+import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
@@ -21,24 +22,69 @@ import cc.thonly.reverie_dreams.recipe.type.GensokyoAltarRecipeType;
 import cc.thonly.reverie_dreams.recipe.type.StrengthTableRecipeType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
+@SuppressWarnings("unchecked")
 public class RecipeTypeCategoryManager {
-
+    public static final Map<Identifier, RecipeTypeGuiInfo<? extends BasePageGui>> REGISTRIES = new Object2ObjectOpenHashMap<>();
     public static final List<RecipeTypeGuiInfo<? extends BasePageGui>> CATEGORY_ENTRIES = new LinkedList<>();
 
     public static void registerCategory(RecipeTypeGuiInfo<? extends BasePageGui> type) {
         CATEGORY_ENTRIES.add(type);
+        REGISTRIES.put(type.getId(), type);
+    }
+
+    public static void open(Identifier categoryRecipeTypeId, ServerPlayerEntity player, GuiOpeningPrevCallback prevGuiCallback) {
+        player.closeHandledScreen();
+        RecipeTypeGuiInfo<BasePageGui> category = getCategory(categoryRecipeTypeId);
+        if (category != null) {
+            category.create(player, prevGuiCallback);
+        }
+    }
+
+    public static void open(Identifier categoryRecipeTypeId, Identifier recipeId, ServerPlayerEntity player, GuiOpeningPrevCallback prevGuiCallback) {
+        player.closeHandledScreen();
+        RecipeTypeGuiInfo<BasePageGui> category = getCategory(categoryRecipeTypeId);
+        if (category != null) {
+            RecipeTypeGetter registryGetter = category.getRegistryGetter();
+            BaseRecipeType<?> baseRecipeType = registryGetter.get();
+            BaseRecipe recipe = baseRecipeType.getRecipeById(recipeId);
+            if (recipe == null) {
+                return;
+            }
+            RecipeKey2ValueEntry<?> key2ValueEntry = new RecipeKey2ValueEntry<>(recipe.getId(), recipe);
+            Class<? extends DisplayView> viewClazz = category.getViewClazz();
+            try {
+                SimpleGui recipeView = DisplayView.create((Class<? extends SimpleGui>) viewClazz, player, key2ValueEntry, prevGuiCallback);
+                if (recipeView != null) {
+                    recipeView.open();
+                }
+            } catch (Exception e) {
+                log.error("Can't create view instance", e);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public static void setup() {
+    public static <T extends BasePageGui> RecipeTypeGuiInfo<T> getCategory(Identifier categoryRecipeTypeId) {
+        return (RecipeTypeGuiInfo<T>) REGISTRIES.get(categoryRecipeTypeId);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void registers() {
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), Touhou.id("recipe/danmaku_table"), BasePageGui.class,
+                DanmakuTableDisplayView.class,
                 DanmakuRecipeType::getInstance,
                 ((gui, slotIndex) -> {
                     RecipeKey2ValueEntry<DanmakuRecipe> key2ValueEntry = (RecipeKey2ValueEntry<DanmakuRecipe>) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
@@ -55,6 +101,7 @@ public class RecipeTypeCategoryManager {
                 })
         ));
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.ICON), Touhou.id("recipe/gensokyo_altar"), BasePageGui.class,
+                GensokyoAltarDisplayView.class,
                 GensokyoAltarRecipeType::getInstance,
                 ((gui, slotIndex) -> {
                     RecipeKey2ValueEntry<GensokyoAltarRecipe> key2ValueEntry = (RecipeKey2ValueEntry<GensokyoAltarRecipe>) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
@@ -71,6 +118,7 @@ public class RecipeTypeCategoryManager {
                 })
         ));
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.STRENGTH_TABLE), Touhou.id("recipe/strength_table"), BasePageGui.class,
+                StrengthTableDisplayView.class,
                 StrengthTableRecipeType::getInstance,
                 ((gui, slotIndex) -> {
                     RecipeKey2ValueEntry<StrengthTableRecipe> key2ValueEntry = (RecipeKey2ValueEntry<StrengthTableRecipe>) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
@@ -87,6 +135,7 @@ public class RecipeTypeCategoryManager {
                 })
         ));
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(MIBlocks.COOKING_POT), Touhou.id("recipe/kitchen"), BasePageGui.class,
+                KitchenBlockDisplayView.class,
                 KitchenRecipeType::getInstance,
                 ((gui, slotIndex) -> {
                     RecipeKey2ValueEntry<KitchenRecipe> key2ValueEntry = (RecipeKey2ValueEntry<KitchenRecipe>) gui.getEntries().get(slotIndex + gui.getPage() * BasePageGui.PER_PAGE_SIZE);
