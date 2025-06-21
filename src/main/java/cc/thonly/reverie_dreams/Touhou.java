@@ -32,6 +32,8 @@ import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
 import cc.thonly.reverie_dreams.sound.ModSoundEvents;
 import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
 import cc.thonly.reverie_dreams.util.ImageToTextScanner;
+import cc.thonly.reverie_dreams.util.ItemStackCheckUtils;
+import cc.thonly.reverie_dreams.util.NetworkingUtils;
 import cc.thonly.reverie_dreams.world.data.BlockPosStorage;
 import cc.thonly.reverie_dreams.world.gen.ModWorldGeneration;
 import eu.midnightdust.lib.config.MidnightConfig;
@@ -55,6 +57,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Setter
 @Getter
@@ -138,6 +141,15 @@ public class Touhou implements ModInitializer {
         ImageToTextScanner.bootstrap();
         ItemDescriptionManager.bootstrap();
 
+        CompletableFuture.runAsync(ItemStackCheckUtils::test);
+
+        CompletableFuture.runAsync(() -> {
+            boolean reachable = NetworkingUtils.isReachable("textures.minecraft.net", 5000);
+            if (!reachable) {
+                LOGGER.error("Unable to connect to the Minecraft network, unexpected behavior may occur");
+            }
+        });
+
         PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
             ServerPlayerEntity player = context.player();
@@ -146,7 +158,8 @@ public class Touhou implements ModInitializer {
             }
         });
         PayloadTypeRegistry.playC2S().register(RegistrySyncPayload.PACKET_ID, RegistrySyncPayload.codec);
-        ServerPlayNetworking.registerGlobalReceiver(RegistrySyncPayload.PACKET_ID, (payload, context) -> {});
+        ServerPlayNetworking.registerGlobalReceiver(RegistrySyncPayload.PACKET_ID, (payload, context) -> {
+        });
         ServerPlayConnectionEvents.DISCONNECT.register((playNetworkHandler, server) -> {
             playersWithMod.remove(playNetworkHandler.player);
             playerSideVersion.remove(playNetworkHandler.player);

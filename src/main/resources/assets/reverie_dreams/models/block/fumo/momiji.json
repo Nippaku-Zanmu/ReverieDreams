@@ -6,7 +6,8 @@
     ],
     "textures": {
         "0": "reverie_dreams:block/fumo/momiji",
-        "particle": "reverie_dreams:block/fumo/momiji"
+        "particle": "reverie_dreams:block/fumo/momiji",
+        "missing": "reverie_dreams:block/fumo/missing"
     },
     "elements": [
         {

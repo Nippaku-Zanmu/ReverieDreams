@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@Slf4j
 public class KitchenRecipe extends BaseRecipe {
     public static final Codec<KitchenRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("recipe_type").forGetter(KitchenRecipe::getRecipeType),
@@ -34,11 +36,18 @@ public class KitchenRecipe extends BaseRecipe {
     protected final ItemStackRecipeWrapper output;
     private final Double costTime;
 
-    public KitchenRecipe(Identifier recipeType, List<ItemStackRecipeWrapper> ingredients, ItemStackRecipeWrapper output, Double costTime) {
+    public KitchenRecipe(KitchenRecipeType.KitchenType kitchenType, List<ItemStackRecipeWrapper> ingredients, ItemStackRecipeWrapper output, Number costTime) {
+        this(kitchenType.toId(), ingredients,output, costTime);
+    }
+
+    public KitchenRecipe(Identifier recipeType, List<ItemStackRecipeWrapper> ingredients, ItemStackRecipeWrapper output, Number costTime) {
         this.recipeType = recipeType;
         this.ingredients = ingredients;
         this.output = output;
-        this.costTime = costTime;
+        this.costTime = costTime.doubleValue();
+        if (this.ingredients.size() > 5) {
+            log.error("Kitchen Recipe {} ingredients size > 5 in {}", recipeType, recipeType + ".json");
+        }
     }
 
     public ItemStackRecipeWrapper getOutput() {

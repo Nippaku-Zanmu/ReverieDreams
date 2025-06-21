@@ -32,6 +32,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -58,6 +60,7 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
     public static final MapCodec<AbstractKitchenwareBlock> CODEC = createCodec(AbstractKitchenwareBlock::new);
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
+    public static final IntProperty TICK_BONUS = IntProperty.of("tick_bonus", 0, 20 * 20);
     private Identifier identifier;
     private Vec3d offset;
     private Vector3f scale;

@@ -37,7 +37,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -186,8 +185,37 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
             nbtInventory = new NbtCompound();
         }
 
-        NPCInventory inventory = new NPCInventory(cc.thonly.reverie_dreams.gui.NPCGui.size());
+        NbtCompound headInventory;
+        if (nbt.contains("HeadInventory")) {
+            headInventory = nbt.getCompound("HeadInventory");
+        } else {
+            headInventory = new NbtCompound();
+        }
+        NbtCompound chestInventory;
+        if (nbt.contains("ChestInventory")) {
+            chestInventory = nbt.getCompound("ChestInventory");
+        } else {
+            chestInventory = new NbtCompound();
+        }
+        NbtCompound legsInventory;
+        if (nbt.contains("LegsInventory")) {
+            legsInventory = nbt.getCompound("LegsInventory");
+        } else {
+            legsInventory = new NbtCompound();
+        }
+        NbtCompound feetInventory;
+        if (nbt.contains("FeetInventory")) {
+            feetInventory = nbt.getCompound("FeetInventory");
+        } else {
+            feetInventory = new NbtCompound();
+        }
+
+        NPCInventory inventory = new NPCInventory(NPCGui.size());
         Inventories.readNbt(nbtInventory, inventory.heldStacks, registryManager);
+        Inventories.readNbt(headInventory, inventory.getArmorInventory().getHead().heldStacks, registryManager);
+        Inventories.readNbt(chestInventory, inventory.getArmorInventory().getChest().heldStacks, registryManager);
+        Inventories.readNbt(legsInventory, inventory.getArmorInventory().getLegs().heldStacks, registryManager);
+        Inventories.readNbt(feetInventory, inventory.getArmorInventory().getFeet().heldStacks, registryManager);
         this.inventory = inventory;
 
         if (nbt.contains("SeatUUID")) {
@@ -237,8 +265,20 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         nbt.putFloat("FoodExhaustionLevel", this.exhaustionLevel);
 
         NbtCompound nbtInventory = new NbtCompound();
+        NbtCompound headInventory = new NbtCompound();
+        NbtCompound chestInventory = new NbtCompound();
+        NbtCompound legsInventory = new NbtCompound();
+        NbtCompound feetInventory = new NbtCompound();
         Inventories.writeNbt(nbtInventory, this.inventory.heldStacks, registryManager);
+        Inventories.writeNbt(headInventory, this.inventory.getArmorInventory().getHead().heldStacks, registryManager);
+        Inventories.writeNbt(chestInventory, this.inventory.getArmorInventory().getChest().heldStacks, registryManager);
+        Inventories.writeNbt(legsInventory, this.inventory.getArmorInventory().getLegs().heldStacks, registryManager);
+        Inventories.writeNbt(feetInventory, this.inventory.getArmorInventory().getFeet().heldStacks, registryManager);
         nbt.put("Inventory", nbtInventory);
+        nbt.put("HeadInventory", headInventory);
+        nbt.put("ChestInventory", chestInventory);
+        nbt.put("LegsInventory", legsInventory);
+        nbt.put("FeetInventory", feetInventory);
 
         nbt.putLong("WorkingPos", this.workingPos.asLong());
 
@@ -295,10 +335,28 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), copiedStack);
                 world.spawnEntity(itemEntity);
             }
+            List<ItemStack> stacks = List.of(
+                    this.inventory.getHead(),
+                    this.inventory.getChest(),
+                    this.inventory.getLegs(),
+                    this.inventory.getFeet()
+            );
+            for (ItemStack stack : stacks) {
+                ItemStack copiedStack = stack.copy();
+                ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), copiedStack);
+                world.spawnEntity(itemEntity);
+            }
         } else if (keepInventoryType == KeepInventoryTypes.ONLY_HAND_AND_ARMOR) {
-            for (int i = NPCInventory.HEAD; i < NPCInventory.MAIN_HAND; i++) {
-                if (this.getDonDropSlotIndex().contains(i)) continue;
-                ItemStack copiedStack = this.inventory.getStack(i).copy();
+            List<ItemStack> stacks = List.of(
+                    this.inventory.getMainHand(),
+                    this.inventory.getOffHand(),
+                    this.inventory.getHead(),
+                    this.inventory.getChest(),
+                    this.inventory.getLegs(),
+                    this.inventory.getFeet()
+            );
+            for (ItemStack stack : stacks) {
+                ItemStack copiedStack = stack.copy();
                 ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), copiedStack);
                 world.spawnEntity(itemEntity);
             }
@@ -796,13 +854,13 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public ItemStack getEquippedStack(EquipmentSlot slot) {
         if (slot == EquipmentSlot.HEAD) {
-            return this.inventory.getStack(NPCInventory.HEAD);
+            return this.inventory.getHead();
         } else if (slot == EquipmentSlot.CHEST) {
-            return this.inventory.getStack(NPCInventory.CHEST);
+            return this.inventory.getChest();
         } else if (slot == EquipmentSlot.LEGS) {
-            return this.inventory.getStack(NPCInventory.LEGS);
+            return this.inventory.getLegs();
         } else if (slot == EquipmentSlot.FEET) {
-            return this.inventory.getStack(NPCInventory.FEET);
+            return this.inventory.getFeet();
         } else if (slot == EquipmentSlot.MAINHAND) {
             return this.inventory.getStack(NPCInventory.MAIN_HAND);
         } else if (slot == EquipmentSlot.OFFHAND) {
@@ -817,13 +875,27 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         int idx = switch (slot) {
             case MAINHAND -> NPCInventory.MAIN_HAND;
             case OFFHAND -> NPCInventory.OFF_HAND;
-            case HEAD -> NPCInventory.HEAD;
-            case CHEST -> NPCInventory.CHEST;
-            case LEGS -> NPCInventory.LEGS;
-            case FEET -> NPCInventory.FEET;
+            case HEAD -> -11;
+            case CHEST -> -12;
+            case LEGS -> -13;
+            case FEET -> -14;
             default -> -1;
         };
         if (idx >= 0) this.inventory.setStack(idx, stack);
+        if (-14 <= idx && idx <= -11) {
+            if (idx == -11) {
+                this.inventory.setHead(stack);
+            }
+            if (idx == -12) {
+                this.inventory.setChest(stack);
+            }
+            if (idx == -13) {
+                this.inventory.setLegs(stack);
+            }
+            if (idx == -14) {
+                this.inventory.setFeet(stack);
+            }
+        }
         if (!this.getWorld().isClient) {
             this.updateAttackType();
         }

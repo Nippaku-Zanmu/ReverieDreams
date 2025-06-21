@@ -63,7 +63,7 @@ public class BasePageGui extends SimpleGui {
     }
 
     public void init() {
-        this.setTitle(Text.empty().append(this.recipeGuiInfo.getId().toTranslationKey()).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
+        this.setTitle(Text.empty().append(Text.translatable(this.recipeGuiInfo.getId().toTranslationKey())).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
         for (int row = 0; row < GRID.length; row++) {
             for (int col = 0; col < GRID[row].length; col++) {
                 String c = GRID[row][col];
@@ -142,7 +142,7 @@ public class BasePageGui extends SimpleGui {
         if (!this.updated) return;
         this.updated = false;
 
-        this.setTitle(Text.empty().append(this.recipeGuiInfo.getId().toString()).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
+        this.setTitle(Text.empty().append(Text.translatable(this.recipeGuiInfo.getId().toString())).append(Text.of(" (" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")")));
         int start = this.page * PER_PAGE_SIZE;
 
         for (int i = 0; i < PER_PAGE_SIZE; i++) {

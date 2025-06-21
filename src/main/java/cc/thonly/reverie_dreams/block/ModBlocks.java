@@ -13,9 +13,13 @@ import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.Getter;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +62,7 @@ public class ModBlocks {
 
     public static final Block DREAM_RED_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_red_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));
     public static final Block DREAM_BLUE_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_blue_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));
+    public static final Block MARISA_HAT_BLOCK = registerBlock(new MarisaHatBlock("marisa_hat", new Vec3d(0,0,0), AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)), new Item.Settings().maxCount(1).component(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.HEAD).swappable(false).build()));
 
     public static final Map<Block, Block> SPIRITUAL_BLOCKS = new HashMap<>();
 
@@ -65,13 +70,16 @@ public class ModBlocks {
 //        SPIRITUAL_BLOCKS.put(BlockTypeTag.STRIPPED_OAK_LOG, ModBlocks.SPIRITUAL_OAK_LOG);
         StrippableBlockRegistry.register(SPIRITUAL_LOG, STRIPPED_SPIRITUAL_LOG);
     }
-
     public static Block registerBlock(IdentifierGetter block) {
+        return registerBlock(block, new Item.Settings());
+    }
+
+    public static Block registerBlock(IdentifierGetter block, Item.Settings settings) {
         block = (IdentifierGetter) Registry.register(Registries.BLOCK, block.getIdentifier(), (Block) block);
         Item blockItem = null;
         boolean isIgnored = block instanceof SignBlock || block instanceof WallSignBlock || block instanceof HangingSignBlock || block instanceof WallHangingSignBlock;
         if (!isIgnored) {
-            blockItem = ModItems.registerItem(new BasicBlockItem(block.getIdentifier(), (Block) block, new Item.Settings()));
+            blockItem = ModItems.registerItem(new BasicBlockItem(block.getIdentifier(), (Block) block, settings));
         }
         Block blk = (Block) block;
         if (blk instanceof FenceBlock) {
@@ -107,6 +115,12 @@ public class ModBlocks {
             ModItemTagProvider.DOORS.add(blk.asItem());
         }
         BLOCK_LIST.add((Block) block);
+        return (Block) block;
+    }
+
+
+    public static Block registerSimpleBlock(IdentifierGetter block) {
+        block = (IdentifierGetter) Registry.register(Registries.BLOCK, block.getIdentifier(), (Block) block);
         return (Block) block;
     }
 

@@ -13,3 +13,4 @@ accessible method net/minecraft/component/ComponentChanges$Type removed ()Z
 accessible method net/minecraft/component/ComponentChanges$Type type ()Lnet/minecraft/component/ComponentType;
 accessible field net/minecraft/component/ComponentChanges changedComponents Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 accessible method net/minecraft/component/ComponentChanges$Type <init> (Lnet/minecraft/component/ComponentType;Z)V
+accessible class net/minecraft/screen/slot/ArmorSlot

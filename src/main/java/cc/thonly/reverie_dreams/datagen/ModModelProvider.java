@@ -63,6 +63,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_BLUE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_RED_BLOCK);
+        blockStateModelGenerator.registerSimpleState(ModBlocks.MARISA_HAT_BLOCK);
 
         for (Block block : FumoBlocks.getRegisteredFumo()) {
             blockStateModelGenerator.registerSimpleState(block);
@@ -106,7 +107,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.TIME_STOP_CLOCK, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARPHONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.KOISHI_HAT, Models.GENERATED);
-
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.WIND_BLESSING_CANE, Models.HANDHELD);

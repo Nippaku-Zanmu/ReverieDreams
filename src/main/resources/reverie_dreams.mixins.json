@@ -13,7 +13,6 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "RegistryLoaderMixin",
-    "registry.SimpleRegistryMixin",
     "WorldMixin",
     "accessor.AbstractBlockSettingsAccessor",
     "accessor.ComponentMapBuilderAccessor",
@@ -25,6 +24,7 @@
     "accessor.WoodTypeAccessor",
     "compat.PolymerCommonUtilsMixin",
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
+    "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin",
     "server.ReloadableRegistriesMixin",
     "server.ServerAdvancementLoaderAccessor",
@@ -39,6 +39,7 @@
     "IntegratedServerLoaderMixin",
     "client.AbstractBlockMixin",
     "client.AbstractSoundInstanceAccessor",
+    "client.BakedModelManagerMixin",
     "client.MinecraftClientMixin",
     "client.NoteBlockMixin"
   ]

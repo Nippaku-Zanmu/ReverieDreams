@@ -136,14 +136,29 @@ public class KitchenRecipeType extends BaseRecipeType<KitchenRecipe> {
         GRILL(MystiasIzakaya.id("grill")),
         STREAMER(Identifier.of("streamer")),
         ;
+        private static final Map<Identifier, KitchenType> SEARCH_CACHED = new Object2ObjectOpenHashMap<>();
         private final Identifier id;
 
         KitchenType(Identifier id) {
             this.id = id;
         }
 
+        public Identifier toId() {
+            return this.id;
+        }
+
         public static KitchenType getFromId(Identifier recipeId) {
-            return Arrays.stream(values()).toList().stream().filter(recipeType -> recipeId.equals(recipeType.id)).toList().getFirst();
+            if (SEARCH_CACHED.containsKey(recipeId)) {
+                SEARCH_CACHED.get(recipeId);
+            }
+            List<KitchenType> result = Arrays.stream(values()).toList().stream().filter(recipeType -> recipeId.equals(recipeType.id)).toList();
+            if (result.isEmpty()) {
+                return null;
+            } else {
+                KitchenType first = result.getFirst();
+                SEARCH_CACHED.put(recipeId, first);
+                return first;
+            }
         }
     }
 }

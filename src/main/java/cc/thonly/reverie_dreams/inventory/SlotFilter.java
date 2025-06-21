@@ -4,5 +4,5 @@ import net.minecraft.item.ItemStack;
 
 @FunctionalInterface
 public interface SlotFilter {
-    boolean canInsert(ItemStack stack);
+    boolean test(ItemStack stack);
 }

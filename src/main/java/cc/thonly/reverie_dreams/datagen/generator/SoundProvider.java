@@ -38,12 +38,14 @@ public abstract class SoundProvider implements DataProvider {
     public SoundProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> future) {
         this.output = output;
         this.future = future;
-        this.configured();
     }
 
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
-        return CompletableFuture.runAsync(() -> this.export(writer));
+        return CompletableFuture.runAsync(() -> {
+            this.configured();
+            this.export(writer);
+        });
     }
 
     public SoundProvider add(Identifier id, SoundEventBuilder entry) {

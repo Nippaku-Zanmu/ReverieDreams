@@ -199,6 +199,7 @@ public class MIItems {
     public static final Item SCREAMING_ODEN = registerFoodItem(new FoodItem("food/screaming_oden", 0, 0f, new Item.Settings()));
     public static final Item SEAFOOD_MISO_SOUP = registerFoodItem(new FoodItem("food/seafood_miso_soup", 0, 0f, new Item.Settings()));
     public static final Item SEA_URCHIN_SHINGEN_PANCAKE = registerFoodItem(new FoodItem("food/sea_urchin_shingen_pancake", 0, 0f, new Item.Settings()));
+    public static final Item SEA_URCHIN_SASHIMI = registerFoodItem(new FoodItem("food/sea_urchin_sashimi", 0, 0f, new Item.Settings()));
     public static final Item SECRET_DRIED_FISH = registerFoodItem(new FoodItem("food/secret_dried_fish", 0, 0f, new Item.Settings()));
     public static final Item SECRET_MUSHROOM_CASSEROLE = registerFoodItem(new FoodItem("food/secret_mushroom_casserole", 0, 0f, new Item.Settings()));
     public static final Item SEVEN_COLORED_YOKAN = registerFoodItem(new FoodItem("food/seven_colored_yokan", 0, 0f, new Item.Settings()));

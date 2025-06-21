@@ -1,0 +1,14 @@
+{
+  "recipe_type": "reverie_dreams:grill",
+  "ingredients": [
+    {
+      "id": "minecraft:brown_mushroom",
+      "count": 1
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:food/roasted_mushrooms",
+    "count": 1
+  },
+  "cost_time": 6.0
+}

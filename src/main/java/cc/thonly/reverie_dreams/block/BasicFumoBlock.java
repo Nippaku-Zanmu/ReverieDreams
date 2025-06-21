@@ -48,8 +48,8 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
     public static final MapCodec<BasicFumoBlock> CODEC = createCodec(BasicFumoBlock::new);
     public static final EnumProperty<SixteenDirection> FACING_16 = ModBlockStateTemplates.FACING_16;
 
-    Identifier identifier;
-    Vec3d offsets = new Vec3d(0, 0, 0);
+    protected Identifier identifier;
+    protected Vec3d offsets = new Vec3d(0, 0, 0);
 
     public BasicFumoBlock(Identifier identifier, Vec3d offsets, Settings settings) {
         super(settings.nonOpaque().registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));

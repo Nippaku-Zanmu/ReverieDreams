@@ -65,6 +65,16 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
                         .with(ItemEntry.builder(item));
                 builder.pool(pool);
             }
+
+            LootPool.Builder fallbackPool = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(ModItems.RED_ORB).weight(1))
+                    .with(ItemEntry.builder(ModItems.BLUE_ORB).weight(1))
+                    .with(ItemEntry.builder(ModItems.YELLOW_ORB).weight(1))
+                    .with(ItemEntry.builder(ModItems.GREEN_ORB).weight(1))
+                    .with(ItemEntry.builder(ModItems.PURPLE_ORB).weight(1));
+            builder.pool(fallbackPool);
+
             return builder;
         };
         addDrop(ModBlocks.ORB_ORE, orbDropFunction);

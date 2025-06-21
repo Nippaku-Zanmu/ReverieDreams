@@ -1,6 +1,6 @@
 // 1.21.4	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Block Loot Tables
 7d0881f56acd549b25a2e841f1274889dfb6dfbe data/reverie_dreams/loot_table/blocks/danmaku_crafting_table.json
-b7ad683707d2506c59cb8e6ee25913543f1dc25b data/reverie_dreams/loot_table/blocks/deepslate_orb_ore.json
+937955d362856f4798db73c69d5b49b41a0cc93c data/reverie_dreams/loot_table/blocks/deepslate_orb_ore.json
 2a072535ca3021b239863b1db77a86eacefee056 data/reverie_dreams/loot_table/blocks/deepslate_silver_ore.json
 63eca54c3974659f0e4ce1783b23c57cc850c487 data/reverie_dreams/loot_table/blocks/fumo/alice.json
 428d940922d76f8aefa40bfd93d5204ad56f9845 data/reverie_dreams/loot_table/blocks/fumo/aya.json
@@ -63,7 +63,7 @@ be85c930c5bda4a78ba9f17cf6fad08ade238321 data/reverie_dreams/loot_table/blocks/f
 d2ecac8d5e503988987fa1511b61bab2a03de546 data/reverie_dreams/loot_table/blocks/fumo/yuyuko.json
 ffea8ee5f4ba72b9ea8059f14fbe8c8e6ac32a44 data/reverie_dreams/loot_table/blocks/gensokyo_altar.json
 f80a4684a4a05e066b0046558560f3fe1e960a31 data/reverie_dreams/loot_table/blocks/magic_ice.json
-b7ad683707d2506c59cb8e6ee25913543f1dc25b data/reverie_dreams/loot_table/blocks/orb_ore.json
+937955d362856f4798db73c69d5b49b41a0cc93c data/reverie_dreams/loot_table/blocks/orb_ore.json
 e62ea50ae0e70c246c588214b11d87071f7684fe data/reverie_dreams/loot_table/blocks/point_block.json
 ade00837a00244b04f2aa7952d69c067c347eb4d data/reverie_dreams/loot_table/blocks/power_block.json
 4700d57c8e360d86c86eea6be9581c325f196bc4 data/reverie_dreams/loot_table/blocks/silver_block.json

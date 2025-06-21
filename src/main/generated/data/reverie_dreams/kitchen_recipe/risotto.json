@@ -1,0 +1,26 @@
+{
+  "recipe_type": "minecraft:streamer",
+  "ingredients": [
+    {
+      "id": "reverie_dreams:ingredient/onion",
+      "count": 1
+    },
+    {
+      "id": "minecraft:brown_mushroom",
+      "count": 1
+    },
+    {
+      "id": "reverie_dreams:ingredient/bamboo_shoots",
+      "count": 1
+    },
+    {
+      "id": "reverie_dreams:ingredient/butter",
+      "count": 1
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:food/risotto",
+    "count": 1
+  },
+  "cost_time": 6.0
+}

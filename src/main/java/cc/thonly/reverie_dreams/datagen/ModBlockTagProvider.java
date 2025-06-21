@@ -4,12 +4,14 @@ import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.data.ModTags;
+import cc.thonly.reverie_dreams.item.base.BasicPolymerMiningToolItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.MiningToolItem;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
@@ -36,9 +38,6 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         FabricTagProvider<Block>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.BlockTypeTag.FUMO);
-        for (Block block : FumoBlocks.getRegisteredFumo()) {
-            fumo.add(block);
-        }
         FabricTagProvider<Block>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.BlockTypeTag.EMPTY);
         FabricTagProvider<Block>.FabricTagBuilder fences = getOrCreateTagBuilder(BlockTags.FENCES);
         FabricTagProvider<Block>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(BlockTags.FENCE_GATES);
@@ -48,12 +47,16 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
         FabricTagProvider<Block>.FabricTagBuilder pressurePlates = getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES);
         FabricTagProvider<Block>.FabricTagBuilder trapdoors = getOrCreateTagBuilder(BlockTags.TRAPDOORS);
         FabricTagProvider<Block>.FabricTagBuilder doors = getOrCreateTagBuilder(BlockTags.DOORS);
-        FabricTagProvider<Block>.FabricTagBuilder minTools = getOrCreateTagBuilder(ModTags.BlockTypeTag.MIN_TOOL);
         FabricTagProvider<Block>.FabricTagBuilder sliver = getOrCreateTagBuilder(ModTags.BlockTypeTag.SILVER);
+        FabricTagProvider<Block>.FabricTagBuilder minTools = getOrCreateTagBuilder(ModTags.BlockTypeTag.MIN_TOOL);
         FabricTagProvider<Block>.FabricTagBuilder axeMineable = getOrCreateTagBuilder(BlockTags.AXE_MINEABLE);
         FabricTagProvider<Block>.FabricTagBuilder hoeMineable = getOrCreateTagBuilder(BlockTags.HOE_MINEABLE);
         FabricTagProvider<Block>.FabricTagBuilder pickaxeMineable = getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
         FabricTagProvider<Block>.FabricTagBuilder shovelMineable = getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE);
+
+        for (Block block : FumoBlocks.getRegisteredFumo()) {
+            fumo.add(block);
+        }
         FENCES.forEach(fences::add);
         FENCE_GATES.forEach(fenceGates::add);
         STAIRS.forEach(stairs::add);
@@ -66,6 +69,8 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
         pickaxeMineable.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
         pickaxeMineable.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
         sliver.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
+
+        minTools.add(Blocks.BEDROCK);
         empty.add(Blocks.BEDROCK);
     }
 }

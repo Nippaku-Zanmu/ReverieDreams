@@ -6,7 +6,8 @@
     ],
     "textures": {
         "0": "reverie_dreams:block/fumo/suika",
-        "particle": "reverie_dreams:block/fumo/suika"
+        "particle": "reverie_dreams:block/fumo/suika",
+        "missing": "reverie_dreams:block/fumo/missing"
     },
     "elements": [
         {

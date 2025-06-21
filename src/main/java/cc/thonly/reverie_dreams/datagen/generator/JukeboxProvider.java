@@ -34,12 +34,14 @@ public abstract class JukeboxProvider implements DataProvider {
     public JukeboxProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> future) {
         this.output = output;
         this.future = future;
-        this.configured();
     }
 
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
-        return CompletableFuture.runAsync(() -> this.export(writer));
+        return CompletableFuture.runAsync(() -> {
+            this.configured();
+            this.export(writer);
+        });
     }
 
     public JukeboxSong add(Identifier id, JukeboxSong song) {

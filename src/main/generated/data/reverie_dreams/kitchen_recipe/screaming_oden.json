@@ -1,0 +1,30 @@
+{
+  "recipe_type": "reverie_dreams:cooking_pot",
+  "ingredients": [
+    {
+      "id": "reverie_dreams:ingredient/chili",
+      "count": 1
+    },
+    {
+      "id": "reverie_dreams:ingredient/chili",
+      "count": 1
+    },
+    {
+      "id": "minecraft:beef",
+      "count": 1
+    },
+    {
+      "id": "reverie_dreams:ingredient/white_radish",
+      "count": 1
+    },
+    {
+      "id": "reverie_dreams:ingredient/tofu",
+      "count": 1
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:food/screaming_oden",
+    "count": 1
+  },
+  "cost_time": 12.0
+}

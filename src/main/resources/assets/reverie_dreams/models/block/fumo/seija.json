@@ -6,7 +6,8 @@
     ],
     "textures": {
         "0": "reverie_dreams:block/fumo/seija",
-        "particle": "reverie_dreams:block/fumo/seija"
+        "particle": "reverie_dreams:block/fumo/seija",
+        "missing": "reverie_dreams:block/fumo/missing"
     },
     "elements": [
         {

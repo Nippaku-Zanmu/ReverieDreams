@@ -2,7 +2,8 @@
     "credit": "Made with Blockbench",
     "textures": {
         "1": "reverie_dreams:block/fumo/wakasagihime",
-        "particle": "reverie_dreams:block/fumo/wakasagihime"
+        "particle": "reverie_dreams:block/fumo/wakasagihime",
+        "missing": "reverie_dreams:block/fumo/missing"
     },
     "elements": [
         {

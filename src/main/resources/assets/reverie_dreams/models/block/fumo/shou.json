@@ -2,7 +2,8 @@
     "credit": "Made with Blockbench",
     "textures": {
         "1": "reverie_dreams:block/fumo/shou",
-        "particle": "reverie_dreams:block/fumo/shou"
+        "particle": "reverie_dreams:block/fumo/shou",
+        "missing": "reverie_dreams:block/fumo/missing"
     },
     "elements": [
         {

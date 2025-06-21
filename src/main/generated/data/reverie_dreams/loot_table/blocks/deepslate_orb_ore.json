@@ -5,7 +5,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "chance": 0.1,
+          "chance": 0.25,
           "condition": "minecraft:random_chance"
         }
       ],
@@ -21,7 +21,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "chance": 0.1,
+          "chance": 0.25,
           "condition": "minecraft:random_chance"
         }
       ],
@@ -37,7 +37,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "chance": 0.1,
+          "chance": 0.25,
           "condition": "minecraft:random_chance"
         }
       ],
@@ -53,7 +53,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "chance": 0.1,
+          "chance": 0.25,
           "condition": "minecraft:random_chance"
         }
       ],
@@ -69,11 +69,37 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "chance": 0.1,
+          "chance": 0.25,
           "condition": "minecraft:random_chance"
         }
       ],
       "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "reverie_dreams:purple_orb"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "reverie_dreams:red_orb"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "reverie_dreams:blue_orb"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "reverie_dreams:yellow_orb"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "reverie_dreams:green_orb"
+        },
         {
           "type": "minecraft:item",
           "name": "reverie_dreams:purple_orb"

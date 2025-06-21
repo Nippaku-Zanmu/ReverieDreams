@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.recipe;
 
+import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import eu.pb4.polymer.core.api.utils.PolymerObject;
 import lombok.Getter;
 import lombok.Setter;

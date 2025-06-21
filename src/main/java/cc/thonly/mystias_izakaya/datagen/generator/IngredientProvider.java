@@ -63,7 +63,10 @@ public abstract class IngredientProvider implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
-        return CompletableFuture.runAsync(() -> this.export(writer));
+        return CompletableFuture.runAsync(() -> {
+            this.configured();
+            this.export(writer);
+        });
     }
 
     protected abstract void configured();
