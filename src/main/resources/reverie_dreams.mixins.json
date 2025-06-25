@@ -26,7 +26,6 @@
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
     "eiv.DirectRegistrySyncManagerEIVMixin",
     "eiv.FluidItemMixin",
-    "eiv.ItemViewOverlayMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin",
     "server.ReloadableRegistriesMixin",
@@ -44,6 +43,7 @@
     "client.AbstractSoundInstanceAccessor",
     "client.BakedModelManagerMixin",
     "client.MinecraftClientMixin",
-    "client.NoteBlockMixin"
+    "client.NoteBlockMixin",
+    "eiv.ItemViewOverlayMixin"
   ]
 }

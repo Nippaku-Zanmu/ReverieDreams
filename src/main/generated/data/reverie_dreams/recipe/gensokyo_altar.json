@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": "minecraft:enchanting_table",
-    "X": "reverie_dreams:shide"
+    "X": "minecraft:emerald_block"
   },
   "pattern": [
     "X",

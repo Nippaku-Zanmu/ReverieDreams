@@ -113,6 +113,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.FRYING_PAN, "油锅");
         translationBuilder.add(MIBlocks.GRILL, "烧烤架");
         translationBuilder.add(MIBlocks.STEAMER, "蒸锅");
+        translationBuilder.add(MIBlocks.BLACK_SALT_BLOCK, "黑盐块");
 
         translationBuilder.add(MIItems.BAMBOO_SHOOTS, "竹笋");
         translationBuilder.add(MIItems.BLACK_SALT, "黑盐");
@@ -486,8 +487,6 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.SILVER_BOOTS, "银靴子");
 
         // 其他
-        translationBuilder.add(ModItems.SHIDE, "纸垂");
-        translationBuilder.add(ModItems.SHIMENAWA, "注连绳");
 
 //        translationBuilder.add(ModItems.DEBUG_DANMAKU_ITEM, "调试弹幕");
 //        translationBuilder.add(ModItems.DEBUG_SPELL_CARD_ITEM, "调试符卡");
@@ -545,6 +544,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.SILVER_BLOCK, "银块");
         translationBuilder.add(ModBlocks.ORB_ORE, "宝玉矿石");
         translationBuilder.add(ModBlocks.DEEPSLATE_ORB_ORE, "深层宝玉矿石");
+        translationBuilder.add(ModBlocks.RED_ORB_BLOCK, "红宝玉块");
+        translationBuilder.add(ModBlocks.YELLOW_ORB_BLOCK, "黄宝玉块");
+        translationBuilder.add(ModBlocks.BLUE_ORB_BLOCK, "蓝宝玉块");
+        translationBuilder.add(ModBlocks.GREEN_ORB_BLOCK, "绿宝玉块");
+        translationBuilder.add(ModBlocks.PURPLE_ORB_BLOCK, "紫宝玉块");
 
         translationBuilder.add(ModBlocks.MARISA_HAT_BLOCK, "魔理沙的帽子");
 

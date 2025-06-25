@@ -9,7 +9,7 @@ import cc.thonly.reverie_dreams.compat.ModCompats;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.config.TouhouConfiguration;
 import cc.thonly.reverie_dreams.data.ModLootModifies;
-import cc.thonly.reverie_dreams.data.ModResourceManager;
+import cc.thonly.reverie_dreams.data.ModServerResourceManager;
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
@@ -19,11 +19,9 @@ import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItemGroups;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.networking.CSVersionPayload;
-import cc.thonly.reverie_dreams.networking.HelloPayload;
-import cc.thonly.reverie_dreams.networking.RegistrySyncPayload;
+import cc.thonly.reverie_dreams.networking.*;
 import cc.thonly.reverie_dreams.recipe.*;
-import cc.thonly.reverie_dreams.registry.RegistrySchemas;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.server.DelayedTask;
 import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
 import cc.thonly.reverie_dreams.server.ParticleTickerManager;
@@ -41,6 +39,7 @@ import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import lombok.Getter;
 import lombok.Setter;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -49,6 +48,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -69,6 +69,7 @@ public class Touhou implements ModInitializer {
             .getModContainer(MOD_ID)
             .map(container -> container.getMetadata().getVersion().getFriendlyString())
             .orElse("unknown");
+    public static final EnvType ENV_TYPE = FabricLoader.getInstance().getEnvironmentType();
     private static final boolean DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment();
     private static final boolean DEV_MODE = VERSION.contains("-dev.") || DEV_ENV;
     private static final boolean HAS_BUKKIT_API = isModLoaded("arclight") || isModLoaded("cardboard") || isModLoaded("banner");
@@ -77,6 +78,7 @@ public class Touhou implements ModInitializer {
     private static final boolean HAS_OPTIFINE = isModLoaded("optifabric");
     private static String SYSTEM_LANGUAGE = null;
     private static MinecraftServer server;
+    private static DynamicRegistryManager dynamicRegistryManager;
     private static final Set<ServerPlayerEntity> playersWithMod = new HashSet<>();
     private static final Map<ServerPlayerEntity, String> playerSideVersion = new WeakHashMap<>();
 
@@ -133,8 +135,8 @@ public class Touhou implements ModInitializer {
         ModRecipeTypes.init();
         ModRecipeSerializer.init();
         RecipeManager.bootstrap();
-        ModResourceManager.init();
-        RegistrySchemas.bootstrap();
+        ModServerResourceManager.init();
+        RegistryManager.bootstrap();
         ModLootModifies.register();
         RecipeTypeCategoryManager.registers();
 
@@ -172,6 +174,8 @@ public class Touhou implements ModInitializer {
                 playerSideVersion.put(player, version);
             }
         });
+        PayloadTypeRegistry.playC2S().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayload.Receiver::receiveServer);
 
         ServerLivingEntityEvents.ALLOW_DEATH.register((livingEntity, damageSource, v) -> {
             return !livingEntity.hasStatusEffect(ModStatusEffects.ELIXIR_OF_LIFE);
@@ -229,6 +233,10 @@ public class Touhou implements ModInitializer {
     public static boolean hasModOnClient(ServerPlayerEntity player) {
         if (player == null) return false;
         return playersWithMod.contains(player);
+    }
+
+    public static void setDynamicRegistryManager(DynamicRegistryManager dynamicRegistryManager) {
+        Touhou.dynamicRegistryManager = dynamicRegistryManager;
     }
 
     public static void setServer(MinecraftServer server) {

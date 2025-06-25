@@ -2,18 +2,15 @@ package cc.thonly.mystias_izakaya.registry;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
-import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
 import cc.thonly.mystias_izakaya.item.base.IngredientItem;
-import cc.thonly.reverie_dreams.registry.RegistrySchema;
-import cc.thonly.reverie_dreams.registry.RegistrySchemas;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
+import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import lombok.extern.slf4j.Slf4j;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -29,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+@SuppressWarnings("Convert2MethodRef")
 @Slf4j
 public class FoodProperties {
     public static final FoodProperty MEAT = register("meat", () -> new FoodProperty());
@@ -80,16 +78,16 @@ public class FoodProperties {
     @SuppressWarnings("unchecked")
     private static <T extends FoodProperty> T register(String id, Supplier<T> factory) {
         T t = factory.get();
-        FoodProperty entry = RegistrySchemas.register(MIRegistrySchemas.FOOD_PROPERTY, MystiasIzakaya.id(id), t);
+        FoodProperty entry = RegistryManager.register(MIRegistryManager.FOOD_PROPERTY, MystiasIzakaya.id(id), t);
         return (T) entry;
     }
 
-    public static void bootstrap(RegistrySchema<FoodProperty> registry) {
+    public static void bootstrap(StandaloneRegistry<FoodProperty> registry) {
 
     }
 
     public static void reload(ResourceManager manager) {
-        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
+        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistryManager.FOOD_PROPERTY.entrySet();
         entries.forEach((es) -> es.getValue().getTags().clear());
 
         Map<Identifier, Resource> resources = manager.findResources("food_property", id ->
@@ -100,7 +98,7 @@ public class FoodProperties {
             Identifier id = entry.getKey();
             Identifier rgyId = Identifier.of(id.getNamespace(), id.getPath().replace("food_property/", "").replace(".json", ""));
             Resource resource = entry.getValue();
-            FoodProperty property = MIRegistrySchemas.FOOD_PROPERTY.get(rgyId);
+            FoodProperty property = MIRegistryManager.FOOD_PROPERTY.get(rgyId);
 
             if (property == null) {
                 MystiasIzakaya.LOGGER.warn("Unknown FoodProperty id: {}", id);
@@ -124,7 +122,7 @@ public class FoodProperties {
         }
         Map<Item, Set<FoodProperty>> itemIngredientCached = IngredientItem.ITEM_INGREDIENT_CACHED;
         itemIngredientCached.clear();
-        for (Map.Entry<Identifier, FoodProperty> entry : MIRegistrySchemas.FOOD_PROPERTY.entrySet()) {
+        for (Map.Entry<Identifier, FoodProperty> entry : MIRegistryManager.FOOD_PROPERTY.entrySet()) {
             FoodProperty property = entry.getValue();
             Set<Item> tags = property.getTags();
             for (Item item : tags) {

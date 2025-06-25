@@ -38,4 +38,5 @@ public class BasicPolymerBlock extends Block implements PolymerBlock, PolymerTex
     public BlockState getPolymerBlockState(BlockState blockState, PacketContext packetContext) {
         return this.polymerBlockState;
     }
+
 }

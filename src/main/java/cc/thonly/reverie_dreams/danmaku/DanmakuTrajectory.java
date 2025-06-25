@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.entity.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
-import cc.thonly.reverie_dreams.registry.SchemaObject;
+import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;
 import eu.pb4.polymer.core.api.utils.PolymerObject;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 @Setter
 @Getter
 @NoArgsConstructor
-public class DanmakuTrajectory implements PolymerObject, SchemaObject<DanmakuTrajectory> {
+public class DanmakuTrajectory implements PolymerObject, RegistrableObject<DanmakuTrajectory> {
     public static final Codec<DanmakuTrajectory> CODEC = Codec.unit(DanmakuTrajectory::new);
     private Identifier id;
 

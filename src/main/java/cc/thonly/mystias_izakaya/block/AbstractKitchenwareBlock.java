@@ -59,26 +59,32 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
     public static final MapCodec<AbstractKitchenwareBlock> CODEC = createCodec(AbstractKitchenwareBlock::new);
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
-    public static final IntProperty TICK_BONUS = IntProperty.of("tick_bonus", 0, 20 * 20);
     private Identifier identifier;
-    private Vec3d offset;
-    private Vector3f scale;
+    private Vec3d offset = new Vec3d(0,0,0);
+    private Vector3f scale = new Vector3f(0,0,0);
+    private final Boolean requiredEnergy;
+    private final Double tickBonus;
 
     public AbstractKitchenwareBlock(Settings settings) {
         super(settings);
+        this.tickBonus = 0.0;
+        this.requiredEnergy = true;
         KITCHENWARE_BLOCKS.add(this);
     }
 
-    public AbstractKitchenwareBlock(String id, Vector3f scale, Vec3d offset, Settings settings) {
-        this(MystiasIzakaya.id(id), scale, offset, settings);
+    public AbstractKitchenwareBlock(String id, Double tickBonus, Boolean requiredEnergy, Vector3f scale, Vec3d offset, Settings settings) {
+        this(MystiasIzakaya.id(id), tickBonus, requiredEnergy, scale, offset, settings);
     }
 
-    public AbstractKitchenwareBlock(Identifier identifier, Vector3f scale, Vec3d offset, Settings settings) {
+    public AbstractKitchenwareBlock(Identifier identifier, Double tickBonus, Boolean requiredEnergy, Vector3f scale, Vec3d offset, Settings settings) {
         super(settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = identifier;
         this.offset = offset;
         this.scale = scale;
+        this.tickBonus = tickBonus;
+        this.requiredEnergy = requiredEnergy;
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        KITCHENWARE_BLOCKS.add(this);
     }
 
     @Override

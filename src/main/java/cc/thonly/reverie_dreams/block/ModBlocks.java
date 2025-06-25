@@ -59,6 +59,11 @@ public class ModBlocks {
     public static final Block SILVER_BLOCK = registerBlock(new BasicPolymerBlock("silver_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
     public static final Block ORB_ORE = registerBlock(new BasicPolymerBlock("orb_ore", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE)));
     public static final Block DEEPSLATE_ORB_ORE = registerBlock(new BasicPolymerBlock("deepslate_orb_ore", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE)));
+    public static final Block RED_ORB_BLOCK = registerBlock(new BasicPolymerBlock("red_orb_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.EMERALD_BLOCK)));
+    public static final Block YELLOW_ORB_BLOCK = registerBlock(new BasicPolymerBlock("yellow_orb_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.EMERALD_BLOCK)));
+    public static final Block BLUE_ORB_BLOCK = registerBlock(new BasicPolymerBlock("blue_orb_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.EMERALD_BLOCK)));
+    public static final Block GREEN_ORB_BLOCK = registerBlock(new BasicPolymerBlock("green_orb_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.EMERALD_BLOCK)));
+    public static final Block PURPLE_ORB_BLOCK = registerBlock(new BasicPolymerBlock("purple_orb_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.EMERALD_BLOCK)));
 
     public static final Block DREAM_RED_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_red_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));
     public static final Block DREAM_BLUE_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_blue_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));

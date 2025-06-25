@@ -106,7 +106,7 @@ public class RecipeTypeCategoryGui extends SimpleGui {
     @Override
     public void onTick() {
         super.onTick();
-        this.setTitle(Text.of("Recipes Display" + " " + "(" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")"));
+        this.setTitle(Text.of("Recipes Manager" + " " + "(" + (this.page + 1) + "/" + (getMaxPage() + 1) + ")"));
 
         int start = this.page * PER_PAGE_SIZE;
 

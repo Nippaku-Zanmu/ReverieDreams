@@ -21,7 +21,7 @@ public interface DisplayView {
 
     }
 
-    static SimpleGui create(Class<? extends SimpleGui> clazz, ServerPlayerEntity player, RecipeKey2ValueEntry<?> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public static SimpleGui create(Class<? extends SimpleGui> clazz, ServerPlayerEntity player, RecipeKey2ValueEntry<?> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         try {
             Constructor<?> constructor = clazz.getConstructor(ServerPlayerEntity.class, RecipeKey2ValueEntry.class, GuiOpeningPrevCallback.class);
             return (SimpleGui) constructor.newInstance(player, key2ValueEntry, prevGuiCallback);

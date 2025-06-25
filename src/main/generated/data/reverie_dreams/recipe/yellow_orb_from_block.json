@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "reverie_dreams:yellow_orb_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "reverie_dreams:yellow_orb"
+  }
+}

@@ -26,15 +26,38 @@ public class DelayedTask {
         TASKS.add(this);
     }
 
-    public static DelayedTask create(MinecraftServer server, float ticksLeft, Runnable action) {
+    public static synchronized DelayedTask create(MinecraftServer server, float ticksLeft, Runnable action) {
         return new DelayedTask(server, ticksLeft, action);
     }
 
-    public static DelayedTask createFromSecond(MinecraftServer server, float second, Runnable action) {
+    public static synchronized DelayedTask createFromSecond(MinecraftServer server, float second, Runnable action) {
         return new DelayedTask(server, second * 20, action);
     }
 
-    public static void repeat(MinecraftServer server, int times, float intervalSeconds, Runnable action) {
+    public static synchronized void when(MinecraftServer server, BooleanPredicate predicate, float intervalSeconds, Runnable action, Runnable elseAction) {
+        createFromSecond(server, intervalSeconds, () -> {
+            if (predicate.get()) {
+                action.run();
+            } else {
+                elseAction.run();
+                when(server, predicate, intervalSeconds, action, elseAction);
+            }
+        });
+    }
+
+    public static synchronized void whenTick(MinecraftServer server, BooleanPredicate predicate, float intervalTick, Runnable action, Runnable elseAction) {
+        create(server, intervalTick, () -> {
+            if (predicate.get()) {
+                action.run();
+            } else {
+                elseAction.run();
+                whenTick(server, predicate, intervalTick, action, elseAction);
+            }
+        });
+    }
+
+
+    public static synchronized void repeat(MinecraftServer server, int times, float intervalSeconds, Runnable action) {
         if (times <= 0) return;
         createFromSecond(server, intervalSeconds, () -> {
             action.run();
@@ -42,7 +65,7 @@ public class DelayedTask {
         });
     }
 
-    public static void repeat(MinecraftServer server, int times, int intervalTick, Runnable action) {
+    public static synchronized void repeat(MinecraftServer server, int times, int intervalTick, Runnable action) {
         if (times <= 0) return;
         create(server, intervalTick, () -> {
             action.run();
@@ -51,19 +74,23 @@ public class DelayedTask {
     }
 
 
-    public static void tick(MinecraftServer server) {
+    public static synchronized void tick(MinecraftServer server) {
         Set<DelayedTask> collect = TASKS.stream().filter(t -> t.server.equals(server)).collect(Collectors.toSet());
         for (var task : collect) {
             task.tick();
         }
     }
 
-    public boolean tick() {
+    public synchronized boolean tick() {
         if (--this.ticksLeft <= 0) {
             this.action.run();
             TASKS.remove(this);
             return true;
         }
         return false;
+    }
+
+    public interface BooleanPredicate {
+        Boolean get();
     }
 }

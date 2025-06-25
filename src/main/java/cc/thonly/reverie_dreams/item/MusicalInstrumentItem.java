@@ -4,24 +4,75 @@ import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import cc.thonly.reverie_dreams.util.TouhouNotaUtils;
 import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.List;
 
 public class MusicalInstrumentItem extends BasicPolymerItem {
     public static final Codec<NoteBlockInstrument> NOTE_BLOCK_INSTRUMENT_CODEC = StringIdentifiable.createCodec(NoteBlockInstrument::values);
+    public static final BlockPos NONE = new BlockPos(0, 0, 0);
+    public static final AttackBlockCallback BLOCK_CALLBACK = (player, world, hand, blockPos, direction) -> {
+        if (!world.isClient() && world instanceof ServerWorld serverWorld) {
+            ItemStack mainStack = player.getMainHandStack();
+            ItemStack offStack = player.getOffHandStack();
+            ItemStack stack = null;
+
+            if (mainStack.getItem() instanceof MusicalInstrumentItem) {
+                stack = mainStack;
+            } else if (offStack.getItem() instanceof MusicalInstrumentItem) {
+                stack = offStack;
+            }
+
+            if (stack != null && !player.isSpectator() && player.isSneaking()) {
+                List<String> fileNames = TouhouNotaUtils.getFileNames();
+                if (fileNames.isEmpty()) {
+                    player.sendMessage(Text.translatable("item.reverie_dreams.music.no_files"), false);
+                    return ActionResult.SUCCESS;
+                }
+
+                String playingMusic = stack.getOrDefault(ModDataComponentTypes.PLAYING_MUSIC, null);
+                int index = playingMusic == null ? -1 : fileNames.indexOf(playingMusic);
+                index = (index - 1 + fileNames.size()) % fileNames.size(); // 向上翻页
+
+                String previous = fileNames.get(index);
+                stack.set(ModDataComponentTypes.PLAYING_MUSIC, previous);
+                player.sendMessage(Text.translatable("item.reverie_dreams.music.switch_music", previous), false);
+                player.swingHand(hand);
+
+                return ActionResult.SUCCESS;
+            }
+        }
+        return ActionResult.PASS;
+    };
+
+    static {
+        AttackBlockCallback.EVENT.register(BLOCK_CALLBACK);
+        AttackEntityCallback.EVENT.register((player, world, hand, entity, result) -> BLOCK_CALLBACK.interact(player, world, hand, NONE, player.getMovementDirection()));
+    }
 
     public MusicalInstrumentItem(String path, Settings settings) {
-        super(path, settings.maxCount(1), Items.TRIAL_KEY);
+        super(path, settings
+                        .maxCount(1)
+                        .equipmentSlot((livingEntity,stack) -> EquipmentSlot.HEAD),
+                Items.TRIAL_KEY);
     }
 
     @Override

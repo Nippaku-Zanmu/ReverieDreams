@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": "minecraft:oak_slab",
+    "Y": "minecraft:iron_sword"
+  },
+  "pattern": [
+    " Y ",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:cutting_board"
+  }
+}

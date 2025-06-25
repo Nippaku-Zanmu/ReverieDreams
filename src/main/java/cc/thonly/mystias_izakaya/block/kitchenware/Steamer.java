@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 
 
 public class Steamer extends AbstractKitchenwareBlock {
-    public Steamer(String id, Settings settings) {
-        super(id, new Vector3f(1f), new Vec3d(0, 0, 0), settings);
+    public Steamer(String id, Double tickBonus, Boolean requiredEnergy, Settings settings) {
+        super(id, tickBonus, requiredEnergy, new Vector3f(1f), new Vec3d(0, 0, 0), settings);
     }
 }

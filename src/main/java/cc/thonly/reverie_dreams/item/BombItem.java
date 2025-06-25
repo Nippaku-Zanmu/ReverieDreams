@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BombItem extends BasicPolymerItem implements IdentifierGetter {
@@ -33,6 +34,19 @@ public class BombItem extends BasicPolymerItem implements IdentifierGetter {
             world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), ModSoundEvents.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
             List<Entity> nearbyEntities = serverWorld.getEntitiesByClass(Entity.class, user.getBoundingBox().expand(20), entity -> true);
             List<Entity> nearbyDanmaku = nearbyEntities.stream().filter((entity -> entity instanceof DanmakuEntity danmakuEntity && danmakuEntity.getOwner() != user)).toList();
+            List<Entity> sign = new ArrayList<>();
+            ItemStackParticleEffect ispe = new ItemStackParticleEffect(ParticleTypes.ITEM, ModItems.BOMB_FRAGMENT.getDefaultStack());
+            serverWorld.spawnParticles(
+                    ispe,
+                    user.getX(),
+                    user.getY(),
+                    user.getZ(),
+                    1,
+                    0.25,
+                    0.5,
+                    0.25,
+                    0.25
+            );
             nearbyDanmaku.forEach((entity) -> {
                 DanmakuEntity danmakuEntity = (DanmakuEntity) entity;
                 Vec3d pos = danmakuEntity.getPos();
@@ -70,8 +84,24 @@ public class BombItem extends BasicPolymerItem implements IdentifierGetter {
                     );
                 }
                 danmakuEntity.discard();
+                sign.add(entity);
             });
-
+            for (Entity entity : nearbyEntities) {
+                if (sign.contains(entity)) {
+                    continue;
+                }
+                if (entity.equals(user)) {
+                    continue;
+                }
+                serverWorld.spawnEntity(
+                        new ItemEntity(serverWorld,
+                                user.getX(),
+                                user.getY(),
+                                user.getZ(),
+                                new ItemStack(ModItems.POINT)
+                        )
+                );
+            }
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             itemStack.decrementUnlessCreative(1, user);
             return ActionResult.SUCCESS_SERVER;

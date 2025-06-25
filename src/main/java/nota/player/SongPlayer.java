@@ -144,10 +144,10 @@ public abstract class SongPlayer {
 	/**
 	 * Starts this SongPlayer
 	 */
-	private void restartTask(long delay) {
+	private synchronized void restartTask(long delay) {
 		this.timer.schedule(new TimerTask() {
 			@Override
-			public void run() {
+			public synchronized void run() {
 				onTaskRun(this);
 			}
 		}, 0L, delay);

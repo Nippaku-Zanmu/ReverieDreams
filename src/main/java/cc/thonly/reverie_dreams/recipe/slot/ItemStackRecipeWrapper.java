@@ -1,6 +1,12 @@
 package cc.thonly.reverie_dreams.recipe.slot;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,10 +17,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Getter
 @ToString
 public class ItemStackRecipeWrapper {
+    public static final Gson GSON = new Gson();
     public static final Codec<Item> ITEM_CODEC_ALLOWING_AIR = Codec.STRING.xmap(
             id -> {
                 Identifier identifier = Identifier.tryParse(id);
@@ -92,5 +100,37 @@ public class ItemStackRecipeWrapper {
         if (!Objects.equals(other.components, itemStack.components)) return false;
         return other.getCount() >= itemStack.getCount();
     }
+
+    public Optional<ItemStack> getOrThrow() {
+        assert !this.itemStack.isEmpty();
+        return Optional.of(this.itemStack);
+    }
+
+    public Optional<ItemStack> getOrNullable() {
+        return this.itemStack.isEmpty() ? Optional.empty() : Optional.of(this.itemStack);
+    }
+
+    public static String toJson(ItemStackRecipeWrapper wrapper) {
+        DataResult<JsonElement> dataResult = ItemStackRecipeWrapper.CODEC.encodeStart(JsonOps.INSTANCE, wrapper);
+        Optional<JsonElement> result = dataResult.result();
+        if (result.isPresent()) {
+            JsonElement element = result.get();
+            return GSON.toJson(element);
+        }
+        return null;
+    }
+
+    public static ItemStackRecipeWrapper toWrapper(String json) {
+        ItemStackRecipeWrapper wrapper = null;
+        JsonElement jsonElement = JsonParser.parseString(json);
+        Dynamic<JsonElement> input = new Dynamic<>(JsonOps.INSTANCE, jsonElement);
+        DataResult<ItemStackRecipeWrapper> parse = ItemStackRecipeWrapper.CODEC.parse(input);
+        Optional<ItemStackRecipeWrapper> result = parse.result();
+        if (result.isPresent()) {
+            wrapper = result.get();
+        }
+        return wrapper;
+    }
+
 
 }

@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.networking;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.registry.RegistrySchema;
-import cc.thonly.reverie_dreams.registry.RegistrySchemas;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
+import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import com.google.gson.*;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.network.RegistryByteBuf;
@@ -31,7 +31,7 @@ public record RegistrySyncPayload(List<List<?>> object) implements CustomPayload
                     JsonElement registryElement = object.get("registry");
 
                     Identifier id = Identifier.of(keyStr);
-                    RegistrySchema<?> schema = RegistrySchemas.REGISTRIES.get(id);
+                    StandaloneRegistry<?> schema = RegistryManager.REGISTRIES.get(id);
 
                     if (schema != null && registryElement != null) {
                         entries.add(schema.decode(registryElement));
@@ -48,10 +48,10 @@ public record RegistrySyncPayload(List<List<?>> object) implements CustomPayload
 
     public void write(RegistryByteBuf buf) {
         JsonArray array = new JsonArray();
-        Set<Map.Entry<Identifier, RegistrySchema<?>>> registries = RegistrySchemas.REGISTRIES.entrySet();
-        for (Map.Entry<Identifier, RegistrySchema<?>> registryRef : registries) {
+        Set<Map.Entry<Identifier, StandaloneRegistry<?>>> registries = RegistryManager.REGISTRIES.entrySet();
+        for (Map.Entry<Identifier, StandaloneRegistry<?>> registryRef : registries) {
             try {
-                RegistrySchema<?> registry = registryRef.getValue();
+                StandaloneRegistry<?> registry = registryRef.getValue();
                 boolean sync = registry.isSync();
                 if (sync) {
                     JsonObject object = new JsonObject();

@@ -60,6 +60,11 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DEEPSLATE_SILVER_ORE);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.ORB_ORE);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DEEPSLATE_ORB_ORE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.RED_ORB_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.YELLOW_ORB_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.BLUE_ORB_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.GREEN_ORB_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.PURPLE_ORB_BLOCK);
 
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_BLUE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_RED_BLOCK);
@@ -87,8 +92,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.POWER, Models.GENERATED);
         itemModelGenerator.register(ModItems.UPGRADED_HEALTH_FRAGMENT, Models.GENERATED);
         itemModelGenerator.register(ModItems.BOMB_FRAGMENT, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SHIDE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SHIMENAWA, Models.GENERATED);
         itemModelGenerator.register(ModItems.RED_ORB, Models.GENERATED);
         itemModelGenerator.register(ModItems.BLUE_ORB, Models.GENERATED);
         itemModelGenerator.register(ModItems.YELLOW_ORB, Models.GENERATED);
@@ -168,6 +171,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(MIBlocks.FRYING_PAN);
         blockStateModelGenerator.registerSimpleState(MIBlocks.GRILL);
         blockStateModelGenerator.registerSimpleState(MIBlocks.STEAMER);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.BLACK_SALT_BLOCK);
     }
 
     public void generateMIItem(ItemModelGenerator itemModelGenerator) {

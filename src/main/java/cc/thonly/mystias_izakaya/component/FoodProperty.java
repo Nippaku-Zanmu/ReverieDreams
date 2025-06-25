@@ -1,11 +1,12 @@
 package cc.thonly.mystias_izakaya.component;
 
 import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
-import cc.thonly.mystias_izakaya.registry.MIRegistrySchemas;
+import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
-import cc.thonly.reverie_dreams.registry.SchemaObject;
+import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @ToString
-public class FoodProperty implements SchemaObject<FoodProperty> {
+public class FoodProperty implements RegistrableObject<FoodProperty> {
     public static final Codec<FoodProperty> CODEC = Codec.unit(new FoodProperty());
     public static final Codec<List<Item>> TAG_CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
@@ -42,8 +43,8 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
 
     private Identifier id;
     private final StatusEffectInstance effectInstance;
-    private Set<Item> tags = new HashSet<>();
-    private Set<FoodProperty> conflicts = new HashSet<>();
+    private Set<Item> tags = new ObjectOpenHashSet<>();
+    private Set<FoodProperty> conflicts = new ObjectOpenHashSet<>();
 
     public FoodProperty() {
         this.effectInstance = new StatusEffectInstance(new StatusEffectInstance(ModStatusEffects.EMPTY, 1));
@@ -64,6 +65,7 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
 
     }
 
+    @SuppressWarnings("JavaExistingMethodCanBeUsed")
     public static List<FoodProperty> getConflictingProperties(Item item) {
         List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);
         List<FoodProperty> conflicts = new ArrayList<>();
@@ -136,7 +138,7 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
 
     public static List<FoodProperty> getIngredientProperties(Item item) {
         List<FoodProperty> list = new ArrayList<>();
-        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
+        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistryManager.FOOD_PROPERTY.entrySet();
         for (Map.Entry<Identifier, FoodProperty> entry : entries) {
             FoodProperty foodProperty = entry.getValue();
             Set<Item> tags = foodProperty.getTags();
@@ -155,7 +157,7 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
     public static List<FoodProperty> getFromItemStack(ItemStack itemStack) {
         List<FoodProperty> list = new ArrayList<>();
         Item item = itemStack.getItem();
-        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistrySchemas.FOOD_PROPERTY.entrySet();
+        Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistryManager.FOOD_PROPERTY.entrySet();
         for (Map.Entry<Identifier, FoodProperty> entry : entries) {
             FoodProperty foodProperty = entry.getValue();
             Set<Item> tags = foodProperty.getTags();
@@ -170,7 +172,7 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
         List<FoodProperty> list = new ArrayList<>();
         for (String id : ids) {
             Identifier identifier = Identifier.of(id);
-            FoodProperty foodProperty = MIRegistrySchemas.FOOD_PROPERTY.get(identifier);
+            FoodProperty foodProperty = MIRegistryManager.FOOD_PROPERTY.get(identifier);
             list.add(foodProperty);
         }
         return list;
@@ -179,5 +181,10 @@ public class FoodProperty implements SchemaObject<FoodProperty> {
     @Override
     public Codec<FoodProperty> getCodec() {
         return CODEC;
+    }
+
+    @Override
+    public Boolean canReloadable() {
+        return true;
     }
 }

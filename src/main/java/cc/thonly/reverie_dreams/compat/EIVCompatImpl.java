@@ -1,11 +1,14 @@
 package cc.thonly.reverie_dreams.compat;
 
+import cc.thonly.reverie_dreams.Touhou;
 import de.crafty.eiv.common.CommonEIVClient;
 import de.crafty.eiv.common.recipe.*;
 import eu.pb4.polymer.core.api.other.PolymerScreenHandlerUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
 import lombok.extern.slf4j.Slf4j;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.fluid.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -36,7 +39,9 @@ public class EIVCompatImpl {
             if (screenHandlerType != null) {
                 RegistrySyncUtils.setServerEntry(Registries.SCREEN_HANDLER, screenHandlerType);
             }
-            PolymerScreenHandlerUtils.registerType(CommonEIVClient.RECIPE_VIEW_MENU);
+            if (Touhou.ENV_TYPE == EnvType.CLIENT) {
+                PolymerScreenHandlerUtils.registerType(CommonEIVClient.RECIPE_VIEW_MENU);
+            }
             PolymerResourcePackUtils.addModAssets("eiv");
         } catch (Exception e) {
             log.error("Can't make reflection for EIV");

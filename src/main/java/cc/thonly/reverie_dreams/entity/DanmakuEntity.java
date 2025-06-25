@@ -4,7 +4,7 @@ import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.registry.RegistrySchemas;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.polymer.virtualentity.api.tracker.DisplayTrackedData;
 import lombok.Getter;
@@ -100,7 +100,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
         this.setScale(stack.getOrDefault(ModDataComponentTypes.Danmaku.SCALE, 1.0f) * 0.65F);
         String type = stack.getOrDefault(ModDataComponentTypes.Danmaku.DAMAGE_TYPE, Touhou.id("generic").toString());
         this.setTile(stack.getOrDefault(ModDataComponentTypes.Danmaku.TILE, false));
-        this.setDanmakuDamageType(RegistrySchemas.DANMAKU_DAMAGE_TYPE.get(Identifier.of(type)));
+        this.setDanmakuDamageType(RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(type)));
         this.setCustomPierceLevel((byte) 1);
         this.setItemStack(stack.copy());
         this.setDanmakuItem(stack.getItem());
@@ -165,7 +165,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
             nbt.put("Item", this.itemStack.copy().toNbt(this.getRegistryManager()));
         }
         nbt.putBoolean("IsTile", this.tile);
-        Identifier danmakuDamageTypeId = RegistrySchemas.DANMAKU_DAMAGE_TYPE.getId(this.danmakuDamageType);
+        Identifier danmakuDamageTypeId = RegistryManager.DANMAKU_DAMAGE_TYPE.getId(this.danmakuDamageType);
         if (danmakuDamageTypeId != null) {
             nbt.putString("DamageType", danmakuDamageTypeId.toString());
         }
@@ -182,7 +182,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
             this.tile = nbt.getBoolean("IsTile");
         }
         if (nbt.contains("DamageType")) {
-            this.danmakuDamageType = RegistrySchemas.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType")));
+            this.danmakuDamageType = RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType")));
         }
         if (nbt.contains("FlyAge")) {
             this.flyAge = nbt.getInt("FlyAge");

@@ -1,15 +1,21 @@
 package cc.thonly.reverie_dreams.datagen;
 
+import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.item.ModItems;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 
 public class ModRecipeGenerator extends RecipeGenerator {
+    public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModItems.RAW_SILVER);
+
     protected ModRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
         super(registries, exporter);
     }
@@ -30,50 +36,118 @@ public class ModRecipeGenerator extends RecipeGenerator {
         offerAxeRecipe(exporter, ModItems.SILVER_AXE, ModItems.SILVER_INGOT);
         offerShovelRecipe(exporter, ModItems.SILVER_SHOVEL, ModItems.SILVER_INGOT);
         offerHoeRecipe(exporter, ModItems.SILVER_HOE, ModItems.SILVER_INGOT);
+
         // 银盔甲
         offerHelmetRecipe(exporter, ModItems.SILVER_HELMET, ModItems.SILVER_INGOT);
         offerChestplateRecipe(exporter, ModItems.SILVER_CHESTPLATE, ModItems.SILVER_INGOT);
         offerLeggingsRecipe(exporter, ModItems.SILVER_LEGGINGS, ModItems.SILVER_INGOT);
         offerBootsRecipe(exporter, ModItems.SILVER_BOOTS, ModItems.SILVER_INGOT);
+
         // 银粒 / 锭 / 块
         offerIngotToBlockRecipe(exporter, ModItems.SILVER_NUGGET, ModItems.SILVER_INGOT);
         offerBlockToIngotRecipe(exporter, ModItems.SILVER_INGOT, ModItems.SILVER_NUGGET);
         offerIngotToBlockRecipe(exporter, ModItems.SILVER_INGOT, ModBlocks.SILVER_BLOCK.asItem());
         offerBlockToIngotRecipe(exporter, ModBlocks.SILVER_BLOCK.asItem(), ModItems.SILVER_INGOT);
 
-        // 注连绳
-        createShapeless(RecipeCategory.MISC, ModItems.SHIMENAWA)
-                .input(Items.LEATHER)
-                .criterion("has_leather", conditionsFromItem(Items.LEATHER))
-                .offerTo(exporter, getRecipeName(ModItems.SHIMENAWA));
+        // 宝玉 / 宝玉块
+        offerIngotToBlockRecipe(exporter, ModItems.RED_ORB, ModBlocks.RED_ORB_BLOCK.asItem());
+        offerBlockToIngotRecipe(exporter, ModBlocks.RED_ORB_BLOCK.asItem(), ModItems.RED_ORB);
 
-        // 纸垂
-        createShaped(RecipeCategory.MISC, ModItems.SHIDE, 2)
-                .pattern(" S ")
-                .pattern("PPP")
-                .input('S', ModItems.SHIMENAWA)
-                .input('P', Items.PAPER)
-                .criterion("has_leather", conditionsFromItem(ModItems.SHIMENAWA))
-                .offerTo(exporter, getRecipeName(ModItems.SHIDE));
+        offerIngotToBlockRecipe(exporter, ModItems.YELLOW_ORB, ModBlocks.YELLOW_ORB_BLOCK.asItem());
+        offerBlockToIngotRecipe(exporter, ModBlocks.YELLOW_ORB_BLOCK.asItem(), ModItems.YELLOW_ORB);
+
+        offerIngotToBlockRecipe(exporter, ModItems.BLUE_ORB, ModBlocks.BLUE_ORB_BLOCK.asItem());
+        offerBlockToIngotRecipe(exporter, ModBlocks.BLUE_ORB_BLOCK.asItem(), ModItems.BLUE_ORB);
+
+        offerIngotToBlockRecipe(exporter, ModItems.GREEN_ORB, ModBlocks.GREEN_ORB_BLOCK.asItem());
+        offerBlockToIngotRecipe(exporter, ModBlocks.GREEN_ORB_BLOCK.asItem(), ModItems.GREEN_ORB);
+
+        offerIngotToBlockRecipe(exporter, ModItems.PURPLE_ORB, ModBlocks.PURPLE_ORB_BLOCK.asItem());
+        offerBlockToIngotRecipe(exporter, ModBlocks.PURPLE_ORB_BLOCK.asItem(), ModItems.PURPLE_ORB);
+
+        // Bomb
+        offerIngotToBlockRecipe(exporter, ModItems.UPGRADED_HEALTH_FRAGMENT, ModItems.UPGRADED_HEALTH);
+
+        // 残机
+        offerIngotToBlockRecipe(exporter, ModItems.BOMB_FRAGMENT, ModItems.BOMB);
+
+        // 烧银矿
+        offerSmelting(SILVER, RecipeCategory.MISC, ModItems.SILVER_INGOT, 0.7F, 250, "silver_ingot");
 
         // 弹幕工作台
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.DANMAKU_CRAFTING_TABLE)
-                .pattern("X")
-                .pattern("#")
-                .input('X', Items.FIREWORK_STAR)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', Items.REDSTONE)
                 .input('#', Items.CRAFTING_TABLE)
-                .criterion("always", conditionsFromItem(Items.AIR))
+                .criterion("has_redstone", conditionsFromItem(Items.REDSTONE))
                 .offerTo(exporter, getRecipeName(ModBlocks.DANMAKU_CRAFTING_TABLE));
 
         // 幻想乡祭坛
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.GENSOKYO_ALTAR)
                 .pattern("X")
                 .pattern("#")
-                .input('X', ModItems.SHIDE)
+                .input('X', Items.EMERALD_BLOCK)
                 .input('#', Items.ENCHANTING_TABLE)
-                .criterion("always", conditionsFromItem(Items.AIR))
+                .criterion("has_emerald", conditionsFromItem(Items.EMERALD_BLOCK))
                 .offerTo(exporter, getRecipeName(ModBlocks.GENSOKYO_ALTAR));
 
+        // 强化台
+        createShaped(RecipeCategory.DECORATIONS, ModBlocks.STRENGTH_TABLE)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', ModItems.SILVER_INGOT)
+                .input('#', Items.ENCHANTING_TABLE)
+                .criterion("has_silver", conditionsFromItem(ModItems.SILVER_INGOT))
+                .offerTo(exporter, getRecipeName(ModBlocks.STRENGTH_TABLE));
+
+        // 厨具
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.COOKING_POT)
+                .pattern(" Y ")
+                .pattern("X X")
+                .pattern("XXX")
+                .input('X', Items.IRON_INGOT)
+                .input('Y', Items.IRON_NUGGET)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.COOKING_POT));
+        ;
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.CUTTING_BOARD)
+                .pattern(" Y ")
+                .pattern("XXX")
+                .input('X', Items.OAK_SLAB)
+                .input('Y', Items.IRON_SWORD)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.CUTTING_BOARD));
+        ;
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.FRYING_PAN)
+                .pattern(" XX")
+                .pattern(" XX")
+                .pattern("Y  ")
+                .input('X', Items.IRON_INGOT)
+                .input('Y', Items.IRON_NUGGET)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.FRYING_PAN));
+        ;
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.GRILL)
+                .pattern("YYY")
+                .pattern("X X")
+                .pattern("XXX")
+                .input('X', Items.IRON_INGOT)
+                .input('Y', Items.IRON_NUGGET)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.GRILL));
+        ;
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.STEAMER)
+                .pattern("YYY")
+                .pattern("X X")
+                .pattern("XXX")
+                .input('X', Items.IRON_INGOT)
+                .input('Y', Items.OAK_SLAB)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.STEAMER));
+        ;
     }
 
     private void offerSwordRecipe(RecipeExporter exporter, Item result, Item ingot) {

@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.mixin.server;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import com.mojang.datafixers.DataFixer;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.SaveLoader;
@@ -21,7 +22,10 @@ import java.util.function.BooleanSupplier;
 public class MinecraftServerMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
-        Touhou.setServer((MinecraftServer) (Object) this);
+        MinecraftServer minecraftServer = (MinecraftServer) (Object) this;
+        DynamicRegistryManager.Immutable registryManager = minecraftServer.getRegistryManager();
+        Touhou.setServer(minecraftServer);
+        Touhou.setDynamicRegistryManager(registryManager);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))

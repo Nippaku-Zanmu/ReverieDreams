@@ -57,8 +57,6 @@ public class ModItems {
     public static final Item POWER = registerItem(new BasicItem("power", new Item.Settings()));
     public static final Item UPGRADED_HEALTH_FRAGMENT = registerItem(new BasicItem("upgraded_health_fragment", new Item.Settings()));
     public static final Item BOMB_FRAGMENT = registerItem(new BasicItem("bomb_fragment", new Item.Settings()));
-    public static final Item SHIDE = registerItem(new ShideItem("shide", new Item.Settings()));
-    public static final Item SHIMENAWA = registerItem(new BasicItem("shimenawa", new Item.Settings()));
     public static final Item RED_ORB = registerItem(new BasicItem("red_orb", new Item.Settings()));
     public static final Item BLUE_ORB = registerItem(new BasicItem("blue_orb", new Item.Settings()));
     public static final Item YELLOW_ORB = registerItem(new BasicItem("yellow_orb", new Item.Settings()));
@@ -97,7 +95,7 @@ public class ModItems {
     public static final Item TREASURE_HUNTING_ROD = registerItem(new TreasureHuntingRod("treasure_hunting_rod", 0, 0, new Item.Settings()));
     public static final Item VIOLIN = registerItem(new MusicalInstrumentItem("violin", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.FLUTE)));
     public static final Item KEYBOARD = registerItem(new MusicalInstrumentItem("keyboard", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.PLING)));
-    public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.XYLOPHONE)));
+    public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.DIDGERIDOO)));
 
     // 工具矿物类
     public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));

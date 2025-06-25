@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "always": {
+    "has_redstone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:air"
+            "items": "minecraft:redstone"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "always"
+      "has_redstone"
     ]
   ],
   "rewards": {

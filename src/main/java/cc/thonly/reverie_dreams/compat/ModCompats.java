@@ -8,7 +8,9 @@ public class ModCompats {
     public static void init() {
         load("polydex", PolydexCompatImpl::bootstrap);
         load("eiv", EIVCompatImpl::bootstrap);
+        EIVCompatNetworkingImpl.bootstrap();
     }
+
     public static void load(String modId, CompatApplication application) {
         try {
             if (FabricLoader.getInstance().isModLoaded(modId)) {
@@ -18,6 +20,7 @@ public class ModCompats {
             log.warn("Can't load compat plugin", e);
         }
     }
+
     @FunctionalInterface
     public interface CompatApplication {
         void apply();

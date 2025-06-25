@@ -2,10 +2,12 @@ package cc.thonly.mystias_izakaya.block;
 
 import cc.thonly.mystias_izakaya.block.kitchenware.*;
 import cc.thonly.mystias_izakaya.item.MIItems;
+import cc.thonly.reverie_dreams.block.base.BasicPolymerBlock;
 import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
 import cc.thonly.reverie_dreams.datagen.ModItemTagProvider;
 import cc.thonly.reverie_dreams.item.BasicBlockItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import eu.pb4.polymer.blocks.api.BlockModelType;
 import net.minecraft.block.*;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -14,11 +16,12 @@ import net.minecraft.sound.BlockSoundGroup;
 
 public class MIBlocks {
 
-    public static final Block COOKING_POT = registerBlock(new CookingPot("cooking_pot", AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
-    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board", AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
-    public static final Block FRYING_PAN = registerBlock(new FryingPan("frying_pan", AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
-    public static final Block GRILL = registerBlock(new Grill("grill", AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
-    public static final Block STEAMER = registerBlock(new Steamer("steamer", AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block COOKING_POT = registerBlock(new CookingPot("cooking_pot", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board",0.0, false, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block FRYING_PAN = registerBlock(new FryingPan("frying_pan", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block GRILL = registerBlock(new Grill("grill", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block STEAMER = registerBlock(new Steamer("steamer", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block BLACK_SALT_BLOCK = registerBlock(new BasicPolymerBlock("black_salt_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.SAND)));
 
     public static void registerBlocks() {
 

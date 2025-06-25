@@ -1,9 +1,13 @@
 package cc.thonly.reverie_dreams;
 
+import cc.thonly.reverie_dreams.networking.CustomBytePayload;
+import cc.thonly.reverie_dreams.networking.CustomBytePayloadClient;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
@@ -32,6 +36,9 @@ public class TouhouClient implements ClientModInitializer {
                 }
             }
         });
+        PayloadTypeRegistry.playS2C().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC); // 客户端接收来自服务端的包
+        ClientPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayloadClient.Receiver::receiveClient);
+
 //        Identifier id = id("hatenaki_kaze_no_kisekisae");
 //        SoundEvent sound = SoundEvent.of(id);
 //        SoundInstance soundInstance = new PositionedSoundInstance(sound.id(), SoundCategory.RECORDS, 1.0f, 1.0f, SoundInstance.createRandom(), false, 0, SoundInstance.AttenuationType.NONE, 0.0, 0.0, 0.0, true);;

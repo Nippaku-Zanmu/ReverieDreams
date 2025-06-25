@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.damage;
 
-import cc.thonly.reverie_dreams.registry.SchemaObject;
+import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 
 @Setter
 @Getter
-public class DanmakuDamageType implements SchemaObject<DanmakuDamageType> {
+public class DanmakuDamageType implements RegistrableObject<DanmakuDamageType> {
     public static final Codec<DanmakuDamageType> CODEC = RegistryKey.createCodec(RegistryKeys.DAMAGE_TYPE)
             .xmap(DanmakuDamageType::new, DanmakuDamageType::getRegistryKey);
     private Identifier id;

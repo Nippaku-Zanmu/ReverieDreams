@@ -3,11 +3,12 @@
   "category": "misc",
   "key": {
     "#": "minecraft:crafting_table",
-    "X": "minecraft:firework_star"
+    "X": "minecraft:redstone"
   },
   "pattern": [
-    "X",
-    "#"
+    "XXX",
+    "X#X",
+    "XXX"
   ],
   "result": {
     "count": 1,

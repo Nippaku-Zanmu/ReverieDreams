@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": "minecraft:iron_ingot",
+    "Y": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    " XX",
+    " XX",
+    "Y  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:frying_pan"
+  }
+}

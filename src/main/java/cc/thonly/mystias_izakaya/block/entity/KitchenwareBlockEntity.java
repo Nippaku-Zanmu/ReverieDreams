@@ -1,5 +1,6 @@
 package cc.thonly.mystias_izakaya.block.entity;
 
+import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.gui.recipe.block.KitchenBlockGui;
@@ -60,13 +61,16 @@ public class KitchenwareBlockEntity extends BlockEntity {
     private Identifier recipeId;
     private ItemStackRecipeWrapper preOutput = DEFAULT_WRAPPER_FACTORY.get();
     private Double tickLeft = 0.0;
-    private Double tickSpeedBonus = 1.0;
+    private Double tickSpeedBonus;
     private UUID uuid = UUID.randomUUID();
+    private final AbstractKitchenwareBlock block;
 
     public KitchenwareBlockEntity(BlockPos pos, BlockState state) {
         super(MiBlockEntities.KITCHENWARE_BLOCK_ENTITY, pos, state);
         Block block = state.getBlock();
+        this.block = (AbstractKitchenwareBlock) block;
         this.recipeType = BLOCK_2_KITCHEN_TYPE.get(block);
+        this.tickSpeedBonus = this.block.getTickBonus();
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity kitchenwareBlockEntity) {
@@ -76,7 +80,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         }
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             if (blockEntity.isWorking()) {
-                blockEntity.tickLeft -= blockEntity.tickSpeedBonus;
+                blockEntity.tickLeft -= blockEntity.tickSpeedBonus + 1.0;
                 serverWorld.spawnParticles(
                         ParticleTypes.SNOWFLAKE,
                         blockPos.getX(),
