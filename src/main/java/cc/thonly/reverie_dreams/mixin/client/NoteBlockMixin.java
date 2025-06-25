@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.mixin.client;
 
 import cc.thonly.reverie_dreams.TouhouClient;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
+import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;
@@ -21,20 +22,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NoteBlock.class)
 public class NoteBlockMixin {
-    @Inject(method = "getStateForNeighborUpdate",cancellable = true, at = @At("HEAD"))
-    public void neighborUpdateInject(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random, CallbackInfoReturnable<BlockState> cir){
-        if (world.isClient()){
+    @Inject(method = "getStateForNeighborUpdate", cancellable = true, at = @At("HEAD"))
+    public void neighborUpdateInject(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random, CallbackInfoReturnable<BlockState> cir) {
+        if (world.isClient()) {
             if (state.getBlock() instanceof PolymerBlock)
                 cir.setReturnValue(Blocks.AIR.getDefaultState());
         }
     }
-    @Inject(method = "onUse", cancellable = true,at = @At("HEAD"))
-    public void onUseInject(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir){
-        if (world.isClient){
-            if (TouhouClient.SERVER_SIDE_BLOCKS.contains(state.getBlock())) {
-               cir.setReturnValue(ActionResult.FAIL);
-            }
 
+    @Inject(method = "onUse", cancellable = true, at = @At("HEAD"))
+    public void onUseInject(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+        if (world.isClient()) {
+            if (TouhouClient.SERVER_SIDE_BLOCKS.contains(state.getBlock())) {
+                cir.setReturnValue(ActionResult.FAIL);
+            }
         }
     }
 }

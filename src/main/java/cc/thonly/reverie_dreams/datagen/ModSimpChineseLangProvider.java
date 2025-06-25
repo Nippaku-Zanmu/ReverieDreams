@@ -520,6 +520,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.DANMAKU_CRAFTING_TABLE, "弹幕工作台");
         translationBuilder.add(ModBlocks.GENSOKYO_ALTAR, "幻想乡祭坛");
         translationBuilder.add(ModBlocks.STRENGTH_TABLE, "强化台");
+        translationBuilder.add(ModBlocks.MUSIC_BLOCK, "音乐盒");
         translationBuilder.add(ModBlocks.SPIRITUAL_LOG, "绳文杉原木");
         translationBuilder.add(ModBlocks.SPIRITUAL_WOOD, "绳文杉树皮");
         translationBuilder.add(ModBlocks.SPIRITUAL_STAIR, "绳文杉楼梯");

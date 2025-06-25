@@ -133,10 +133,13 @@ public abstract class SongPlayer {
 			}
 			SongTickEvent.EVENT.invoker().onSongTick(this);
 			for(UUID uuid : playerList.keySet()) {
-				PlayerEntity player = Nota.getAPI().getServer().getPlayerManager().getPlayer(uuid);
-				if(player != null) {
-					this.playTick(player, tick);
-				}
+                MinecraftServer server = Nota.getAPI().getServer();
+                if (server != null) {
+                    PlayerEntity player = server.getPlayerManager().getPlayer(uuid);
+                    if(player != null) {
+                        this.playTick(player, tick);
+                    }
+                }
 			}
 		}
 	}

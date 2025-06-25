@@ -17,6 +17,7 @@
     "accessor.AbstractBlockSettingsAccessor",
     "accessor.ComponentMapBuilderAccessor",
     "accessor.EntityAccessor",
+    "accessor.ItemEntityAccessor",
     "accessor.ItemSettingsAccessor",
     "accessor.LivingEntityAccessor",
     "accessor.PlayerEntityAccessor",

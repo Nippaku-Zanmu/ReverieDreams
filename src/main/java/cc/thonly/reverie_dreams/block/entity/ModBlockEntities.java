@@ -19,6 +19,9 @@ public class ModBlockEntities {
             registerBlockEntity("strength_table", StrengthenTableBlockEntity::new, ModBlocks.STRENGTH_TABLE);
     public static final BlockEntityType<GensokyoAltarBlockEntity> GENSOKYO_ALTAR_BLOCK_ENTITY =
             registerBlockEntity("gensokyo_altar", GensokyoAltarBlockEntity::new, ModBlocks.GENSOKYO_ALTAR);
+    public static final BlockEntityType<MusicBlockEntity> MUSIC_BLOCK_ENTITY =
+            registerBlockEntity("music_block", MusicBlockEntity::new, ModBlocks.MUSIC_BLOCK);
+
 
     public static void registerBlockEntities() {
 

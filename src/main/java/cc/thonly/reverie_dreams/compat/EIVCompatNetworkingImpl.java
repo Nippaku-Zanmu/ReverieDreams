@@ -15,12 +15,14 @@ public class EIVCompatNetworkingImpl {
 
     public static void bootstrap() {
         CustomBytePayload.Receiver.registerHook("on_click_eiv_stack", (player, command, data) -> {
-            String stringId = new String(data, StandardCharsets.UTF_8);
-            Item item = Registries.ITEM.get(Identifier.of(stringId));
+            String stringId = new String(data, StandardCharsets.UTF_8).intern();
+            Item item = Registries.ITEM.get(Identifier.tryParse(stringId));
             if (item == Items.AIR) {
                 return;
             }
             ItemStack itemStack = item.getDefaultStack();
+            System.out.println(stringId);
+            System.out.println(PolydexPageUtils.identifierFromRecipe(Identifier.of(stringId)));
             PolydexPageUtils.openRecipeListUi(player, itemStack, () -> {
             });
         });

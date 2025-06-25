@@ -41,6 +41,23 @@ public class ItemViewOverlayMixin {
         return stack;
     }
 
+    @Inject(method = "openRecipeView",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lde/crafty/eiv/common/overlay/ItemViewOverlay$ItemViewOpenType$RecipeProvider;retrieveRecipes(Lnet/minecraft/item/ItemStack;)Ljava/util/List;"
+            ),
+            cancellable = true
+    )
+    public void beforeFound(ItemStack stack, ItemViewOverlay.ItemViewOpenType openType, CallbackInfo ci) {
+        if (FabricLoader.getInstance().isModLoaded("polydex") && PolymerItemUtils.isPolymerServerItem(stack)) {
+            Item item = stack.getItem();
+            Identifier id = Registries.ITEM.getId(item);
+            String stringId = id.toString();
+            CustomBytePayloadClient.Sender.sendLargePayload("on_click_eiv_stack", stringId.getBytes(StandardCharsets.UTF_8));
+            ci.cancel();
+        }
+    }
+
     @Inject(
             method = "openRecipeView",
             at = @At(

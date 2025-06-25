@@ -32,6 +32,7 @@ public class ModBlocks {
     public static final Block DANMAKU_CRAFTING_TABLE = registerBlock(new DanmakuCraftingTableBlock("danmaku_crafting_table", AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
     public static final Block STRENGTH_TABLE = registerBlock(new StrengthenTableBlock("strength_table", AbstractBlock.Settings.copy(Blocks.SMITHING_TABLE)));
     public static final Block GENSOKYO_ALTAR = registerBlock(new GensokyoAltarBlock("gensokyo_altar", AbstractBlock.Settings.copy(Blocks.ENCHANTING_TABLE).luminance((state) -> 7)));
+    public static final Block MUSIC_BLOCK = registerBlock(new MusicBlock("music_block", AbstractBlock.Settings.copy(Blocks.NOTE_BLOCK)));
 
     public static final Block SPIRITUAL_LOG = registerBlock(new BasicPillarBlock("spiritual_log", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));
     public static final Block SPIRITUAL_WOOD = registerBlock(new BasicPillarBlock("spiritual_wood", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));

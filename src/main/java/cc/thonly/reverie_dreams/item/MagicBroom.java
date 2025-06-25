@@ -29,7 +29,7 @@ public class MagicBroom extends BasicPolymerSwordItem {
         BlockPos blockPos = context.getBlockPos();
         Hand hand = context.getHand();
         if (!world.isClient() && player != null) {
-            MagicBroomEntity entity = new MagicBroomEntity(ModEntities.BROOM_ENTITY_TYPE, world, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), itemStack.copy());
+            MagicBroomEntity entity = new MagicBroomEntity(ModEntities.BROOM_ENTITY_TYPE, world, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), itemStack.copy(), player.getUuid().toString().intern());
             world.spawnEntity(entity);
             itemStack.decrementUnlessCreative(1, player);
             player.swingHand(hand);

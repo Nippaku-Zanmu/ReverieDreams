@@ -44,6 +44,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeWithCustomTextures(ModBlocks.DANMAKU_CRAFTING_TABLE, Blocks.OAK_PLANKS, TextureMap::frontSideWithCustomBottom);
         this.registerSmithingTable(blockStateModelGenerator, ModBlocks.STRENGTH_TABLE);
         blockStateModelGenerator.registerSimpleState(ModBlocks.GENSOKYO_ALTAR);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MUSIC_BLOCK);
 
         blockStateModelGenerator.registerLog(ModBlocks.SPIRITUAL_LOG).log(ModBlocks.SPIRITUAL_LOG).wood(ModBlocks.SPIRITUAL_WOOD);
         blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_SPIRITUAL_LOG).log(ModBlocks.STRIPPED_SPIRITUAL_LOG).wood(ModBlocks.STRIPPED_SPIRITUAL_WOOD);

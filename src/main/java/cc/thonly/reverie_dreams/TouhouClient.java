@@ -20,7 +20,7 @@ public class TouhouClient implements ClientModInitializer {
     public static final Codec<TouhouClient> CODEC = Codec.unit(TouhouClient::new);
     public static final String MOD_ID = "polymerized-touhou-mod";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final List<Block> SERVER_SIDE_BLOCKS = List.of(Blocks.NOTE_BLOCK,Blocks.TRIPWIRE);
+    public static final List<Block> SERVER_SIDE_BLOCKS = List.of(Blocks.NOTE_BLOCK, Blocks.TRIPWIRE);
     public static boolean isPlayed = false;
 
     @Override
@@ -32,7 +32,8 @@ public class TouhouClient implements ClientModInitializer {
 
                 if (localProfile.getId().equals(serverProfile.getId())) {
 //                    PolymerResourcePackMod.generateAndCall(Touhou.getServer(), false, text -> {}, () -> {});
-                    client.reloadResources().thenRun(() -> {});
+                    client.reloadResources().thenRun(() -> {
+                    });
                 }
             }
         });

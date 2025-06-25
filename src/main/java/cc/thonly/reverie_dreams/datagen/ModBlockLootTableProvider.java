@@ -36,6 +36,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.DANMAKU_CRAFTING_TABLE);
         addDrop(ModBlocks.STRENGTH_TABLE);
         addDrop(ModBlocks.GENSOKYO_ALTAR);
+        addDrop(ModBlocks.MUSIC_BLOCK);
         addDrop(ModBlocks.SPIRITUAL_LOG);
         addDrop(ModBlocks.SPIRITUAL_WOOD);
         addDrop(ModBlocks.STRIPPED_SPIRITUAL_LOG);

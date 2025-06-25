@@ -50,7 +50,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
     public ItemStack summonItem = Items.AIR.getDefaultStack();
     public int damageTick = 0;
     public final int maxDamageTick = 20 * 8;
-    ;
+    public String ownerUUID = "";
 
     public MagicBroomEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -61,6 +61,11 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
         this(entityType, world);
         this.setPosition(x, y, z);
         this.summonItem = summonItem;
+    }
+
+    public MagicBroomEntity(EntityType<? extends PathAwareEntity> entityType, World world, int x, int y, int z, ItemStack summonItem, String ownerUUID) {
+        this(entityType, world, x, y, z, summonItem);
+        this.ownerUUID = ownerUUID;
     }
 
     @Override
@@ -106,6 +111,20 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
                 this.damage(world, this.getDamageSources().magic(), Integer.MAX_VALUE);
             }
         }
+    }
+
+    @Override
+    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+        Entity attacker = source.getAttacker();
+        if (attacker != null && attacker.isSneaking() && this.ownerUUID.intern().equalsIgnoreCase(attacker.getUuid().toString())) {
+            if (!this.summonItem.isEmpty()) {
+                ItemStack copiedStack = this.summonItem.copy();
+                ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), copiedStack);
+                world.spawnEntity(itemEntity);
+                this.discard();
+            }
+        }
+        return super.damage(world, source, amount);
     }
 
     @Override
@@ -228,6 +247,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
             NbtElement itemNbt = this.summonItem.toNbt(registryManager);
             nbt.put("SummonedItem", itemNbt);
         }
+        nbt.putString("OwnerUUID", this.ownerUUID);
     }
 
     @Override
@@ -237,6 +257,9 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
         if (nbt.contains("SummonedItem")) {
             Optional<ItemStack> sItemOpt = ItemStack.fromNbt(registryManager, nbt.get("SummonedItem"));
             sItemOpt.ifPresent(itemStack -> this.summonItem = itemStack);
+        }
+        if (nbt.contains("OwnerUUID")) {
+            this.ownerUUID = nbt.getString("OwnerUUID");
         }
     }
 

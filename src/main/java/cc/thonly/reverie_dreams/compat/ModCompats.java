@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.compat;
 
+import cc.thonly.reverie_dreams.Touhou;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -15,6 +16,7 @@ public class ModCompats {
         try {
             if (FabricLoader.getInstance().isModLoaded(modId)) {
                 application.apply();
+                Touhou.LOGGER.info("Loaded Compat for {}", modId);
             }
         } catch (Exception e) {
             log.warn("Can't load compat plugin", e);
