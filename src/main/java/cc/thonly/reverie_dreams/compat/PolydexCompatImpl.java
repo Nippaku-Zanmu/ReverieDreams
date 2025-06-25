@@ -27,22 +27,22 @@ public class PolydexCompatImpl {
     public static void bootstrap(
     ) {
         PolydexPage.register(PolydexCompatImpl::createPages);
-        PolydexEntry.registerEntryCreator(ModItems.DANMAKU_ITEMS.getFirst().getValues().getFirst(), PolydexCompatImpl::createEntries);
+//        PolydexEntry.registerEntryCreator(ModItems.DANMAKU_ITEMS.getFirst().getValues().getFirst(), PolydexCompatImpl::createEntries);
     }
 
     private static void createPages(MinecraftServer minecraftServer, Consumer<PolydexPage> pageConsumer) {
-        consumeRecipes(DanmakuRecipeType.getInstance().getRegistryView(), DanmakuPage::new, pageConsumer);
-        consumeRecipes(GensokyoAltarRecipeType.getInstance().getRegistryView(), GensokyoAltarPage::new, pageConsumer);
-        consumeRecipes(StrengthTableRecipeType.getInstance().getRegistryView(), StrengthTablePage::new, pageConsumer);
-        consumeRecipes(KitchenRecipeType.getInstance().getRegistryView(), KitchenPage::new, pageConsumer);
+        createRecipeView(DanmakuRecipeType.getInstance().getRegistryView(), DanmakuPage::new, pageConsumer);
+        createRecipeView(GensokyoAltarRecipeType.getInstance().getRegistryView(), GensokyoAltarPage::new, pageConsumer);
+        createRecipeView(StrengthTableRecipeType.getInstance().getRegistryView(), StrengthTablePage::new, pageConsumer);
+        createRecipeView(KitchenRecipeType.getInstance().getRegistryView(), KitchenPage::new, pageConsumer);
     }
 
-    private static <T, R extends PolydexPage> void consumeRecipes(
-            Map<Identifier, T> recipeMap,
+    private static <T, R extends PolydexPage> void createRecipeView(
+            Map<Identifier, T> view,
             BiFunction<Identifier, T, R> pageFactory,
             Consumer<PolydexPage> consumer) {
 
-        recipeMap.forEach((id, recipe) -> consumer.accept(pageFactory.apply(id, recipe)));
+        view.forEach((id, recipe) -> consumer.accept(pageFactory.apply(id, recipe)));
     }
 
 
