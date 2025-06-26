@@ -42,7 +42,6 @@
     "client.AbstractSoundInstanceAccessor",
     "client.BakedModelManagerMixin",
     "client.MinecraftClientMixin",
-    "client.NoteBlockMixin",
-    "eiv.ItemViewOverlayMixin"
+    "client.NoteBlockMixin"
   ]
 }
