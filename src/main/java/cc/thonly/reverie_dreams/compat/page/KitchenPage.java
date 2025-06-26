@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.compat.page;
 
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
@@ -31,7 +32,7 @@ public class KitchenPage implements PolydexPage {
     private final List<PolydexIngredient<?>> ingredients;
 
     public KitchenPage(Identifier key, KitchenRecipe value) {
-        this.key = key;
+        this.key = key.withPrefixedPath("recipe/");
         this.value = value;
         List<PolydexIngredient<?>> list = new ArrayList<>();
 
@@ -40,11 +41,12 @@ public class KitchenPage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        PolydexCompatImpl.ID2PAGE.put(key, this);
     }
 
     @Override
     public Identifier identifier() {
-        return id;
+        return key;
     }
 
     @Override

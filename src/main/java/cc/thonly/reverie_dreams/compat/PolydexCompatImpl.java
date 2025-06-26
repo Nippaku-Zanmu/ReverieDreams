@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.compat;
 
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
+import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.compat.page.DanmakuPage;
 import cc.thonly.reverie_dreams.compat.page.GensokyoAltarPage;
 import cc.thonly.reverie_dreams.compat.page.KitchenPage;
@@ -15,6 +16,8 @@ import cc.thonly.reverie_dreams.recipe.type.GensokyoAltarRecipeType;
 import cc.thonly.reverie_dreams.recipe.type.StrengthTableRecipeType;
 import eu.pb4.polydex.api.v1.recipe.PolydexEntry;
 import eu.pb4.polydex.api.v1.recipe.PolydexPage;
+import eu.pb4.polydex.api.v1.recipe.PolydexPageUtils;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
@@ -24,10 +27,12 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public class PolydexCompatImpl {
+    public static final Map<Identifier, PolydexPage> ID2PAGE = new Object2ObjectOpenHashMap<>();
+
     public static void bootstrap(
     ) {
         PolydexPage.register(PolydexCompatImpl::createPages);
-//        PolydexEntry.registerEntryCreator(ModItems.DANMAKU_ITEMS.getFirst().getValues().getFirst(), PolydexCompatImpl::createEntries);
+        PolydexEntry.registerEntryCreator(ModBlocks.DANMAKU_CRAFTING_TABLE.asItem(), PolydexCompatImpl::createEntries);
     }
 
     private static void createPages(MinecraftServer minecraftServer, Consumer<PolydexPage> pageConsumer) {

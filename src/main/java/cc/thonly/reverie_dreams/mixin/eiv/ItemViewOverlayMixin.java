@@ -53,7 +53,8 @@ public class ItemViewOverlayMixin {
             Item item = stack.getItem();
             Identifier id = Registries.ITEM.getId(item);
             String stringId = id.toString();
-            CustomBytePayloadClient.Sender.sendLargePayload("on_click_eiv_stack", stringId.getBytes(StandardCharsets.UTF_8));
+            String packetId = openType == ItemViewOverlay.ItemViewOpenType.INPUT ? "on_click_eiv_stack_input": "on_click_eiv_stack_result";
+            CustomBytePayloadClient.Sender.sendLargePayload(packetId, stringId.getBytes(StandardCharsets.UTF_8));
             ci.cancel();
         }
     }

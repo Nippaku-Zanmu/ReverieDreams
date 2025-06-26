@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.compat.page;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class DanmakuPage implements PolydexPage { ;
+public class DanmakuPage implements PolydexPage {
     public static final Identifier id = Touhou.id("recipe/danmaku");
     public static final PolydexCategory CATEGORY = PolydexCategory.of(id);
     private static final Text TEXTURE = Text.empty();
@@ -31,7 +32,7 @@ public class DanmakuPage implements PolydexPage { ;
     private final List<PolydexIngredient<?>> ingredients;
 
     public DanmakuPage(Identifier key, DanmakuRecipe value) {
-        this.key = key;
+        this.key = key.withPrefixedPath("recipe/");
         this.value = value;
         List<PolydexIngredient<?>> list = new ArrayList<>();
         for (var x: List.of(value.getDye(), value.getCore(), value.getPower(), value.getPoint(), value.getMaterial())) {
@@ -42,11 +43,12 @@ public class DanmakuPage implements PolydexPage { ;
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        PolydexCompatImpl.ID2PAGE.put(key, this);
     }
 
     @Override
     public Identifier identifier() {
-        return id;
+        return key;
     }
 
     @Override
