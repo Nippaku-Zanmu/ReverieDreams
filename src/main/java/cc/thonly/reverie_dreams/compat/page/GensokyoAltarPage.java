@@ -32,6 +32,7 @@ public class GensokyoAltarPage implements PolydexPage {
     public final Identifier key;
     public final GensokyoAltarRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
+    private final PolydexStack<?> output;
 
     public GensokyoAltarPage(Identifier key, GensokyoAltarRecipe value) {
         this.key = key.withPrefixedPath("recipe/");
@@ -45,6 +46,7 @@ public class GensokyoAltarPage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        this.output = PolydexStack.of(this.value.getOutput().getItemStack());
     }
 
     @Override
@@ -110,6 +112,6 @@ public class GensokyoAltarPage implements PolydexPage {
 
     @Override
     public boolean isOwner(MinecraftServer minecraftServer, PolydexEntry polydexEntry) {
-        return false;
+        return polydexEntry.isPartOf(output);
     }
 }

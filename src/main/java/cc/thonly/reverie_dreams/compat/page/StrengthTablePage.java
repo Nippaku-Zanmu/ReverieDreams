@@ -32,6 +32,7 @@ public class StrengthTablePage implements PolydexPage {
     public final Identifier key;
     public final StrengthTableRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
+    private final PolydexStack<?> output;
 
     public StrengthTablePage(Identifier key, StrengthTableRecipe value) {
         this.key = key.withPrefixedPath("recipe/");
@@ -43,6 +44,7 @@ public class StrengthTablePage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        this.output = PolydexStack.of(this.value.getOutput().getItemStack());
     }
 
     @Override
@@ -109,6 +111,6 @@ public class StrengthTablePage implements PolydexPage {
 
     @Override
     public boolean isOwner(MinecraftServer minecraftServer, PolydexEntry polydexEntry) {
-        return false;
+        return polydexEntry.isPartOf(output);
     }
 }

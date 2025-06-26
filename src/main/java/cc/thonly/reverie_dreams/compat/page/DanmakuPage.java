@@ -31,6 +31,7 @@ public class DanmakuPage implements PolydexPage {
     public final Identifier key;
     public final DanmakuRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
+    private final PolydexStack<?> output;
 
     public DanmakuPage(Identifier key, DanmakuRecipe value) {
         this.key = key.withPrefixedPath("recipe/");
@@ -44,6 +45,7 @@ public class DanmakuPage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        this.output = PolydexStack.of(this.value.getOutput().getItemStack());
     }
 
     @Override
@@ -110,6 +112,6 @@ public class DanmakuPage implements PolydexPage {
 
     @Override
     public boolean isOwner(MinecraftServer minecraftServer, PolydexEntry polydexEntry) {
-        return false;
+        return polydexEntry.isPartOf(output);
     }
 }

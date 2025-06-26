@@ -34,6 +34,7 @@ public class KitchenPage implements PolydexPage {
     public final Identifier key;
     public final KitchenRecipe value;
     private final List<PolydexIngredient<?>> ingredients;
+    private final PolydexStack<?> output;
 
     public KitchenPage(Identifier key, KitchenRecipe value) {
         this.key = key.withPrefixedPath("recipe/");
@@ -45,6 +46,7 @@ public class KitchenPage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
+        this.output = PolydexStack.of(this.value.getOutput().getItemStack());
     }
 
     @Override
@@ -114,6 +116,6 @@ public class KitchenPage implements PolydexPage {
 
     @Override
     public boolean isOwner(MinecraftServer minecraftServer, PolydexEntry polydexEntry) {
-        return false;
+        return polydexEntry.isPartOf(output);
     }
 }

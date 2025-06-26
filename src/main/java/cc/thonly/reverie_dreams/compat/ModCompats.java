@@ -8,8 +8,8 @@ import net.fabricmc.loader.api.FabricLoader;
 public class ModCompats {
     public static void init() {
         load("polydex", PolydexCompatImpl::bootstrap);
-        load("eiv", EIVCompatImpl::bootstrap);
-        EIVCompatNetworkingImpl.bootstrap();
+//        load("eiv", EIVCompatImpl::bootstrap);
+//        EIVCompatNetworkingImpl.bootstrap();
     }
 
     public static void load(String modId, CompatApplication application) {
