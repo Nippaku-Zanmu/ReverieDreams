@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.compat.page;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
+import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
 import eu.pb4.polydex.impl.PolydexImpl;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @Getter
 public class DanmakuPage implements PolydexPage {
-    public static final Identifier id = Touhou.id("recipe/danmaku");
+    public static final Identifier id = Touhou.id("recipe/danmaku_table");
     public static final PolydexCategory CATEGORY = PolydexCategory.of(id);
     private static final Text TEXTURE = Text.empty();
     public static final ItemStack ICON = new GuiElementBuilder(Items.BARREL).setName(Text.translatable(id.toTranslationKey())).asStack();
@@ -35,15 +36,14 @@ public class DanmakuPage implements PolydexPage {
         this.key = key.withPrefixedPath("recipe/");
         this.value = value;
         List<PolydexIngredient<?>> list = new ArrayList<>();
-        for (var x: List.of(value.getDye(), value.getCore(), value.getPower(), value.getPoint(), value.getMaterial())) {
-            if(x.getItem() == Items.AIR) {
+        for (var x : List.of(value.getDye(), value.getCore(), value.getPower(), value.getPoint(), value.getMaterial())) {
+            if (x.getItem() == Items.AIR) {
                 list.add(PolydexIngredient.of(Ingredient.ofItem(Items.BARRIER), 1));
                 continue;
             }
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
-        PolydexCompatImpl.ID2PAGE.put(key, this);
     }
 
     @Override
@@ -62,12 +62,40 @@ public class DanmakuPage implements PolydexPage {
     }
 
     @Override
-    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder pageBuilder) {
-        PolydexCategory category = PolydexImpl.CATEGORY_BY_ID.get(this.identifier());
-        RecipeTypeCategoryManager.open(Touhou.id("recipe/danmaku_table"), this.value.getId(), serverPlayerEntity, () -> {
-            PolydexPageUtils.openCategoryUi(serverPlayerEntity, category, null);
-            return null;
-        });
+    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder layout) {
+        String[][] views = {
+                {"X", "X", "A", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "S", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "D", "X", "T", "X", "O", "X", "X"},
+                {"X", "X", "F", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "G", "X", "X", "X", "X", "X", "X"},
+        };
+        for (int row = 0; row < views.length; row++) {
+            for (int col = 0; col < views[row].length; col++) {
+                layout.set(col, row, getViewStack(views[row][col]));
+            }
+        }
+    }
+
+    private ItemStack getViewStack(String s) {
+        if (s.equals("X")) {
+            return ModGuiItems.EMPTY_SLOT.getDefaultStack();
+        } else if (s.equals("A")) {
+            return this.value.getDye().getItemStack().copy();
+        } else if (s.equals("S")) {
+            return this.value.getCore().getItemStack().copy();
+        } else if (s.equals("D")) {
+            return this.value.getPower().getItemStack().copy();
+        } else if (s.equals("F")) {
+            return this.value.getPoint().getItemStack().copy();
+        } else if (s.equals("G")) {
+            return this.value.getMaterial().getItemStack().copy();
+        } else if (s.equals("T")) {
+            return ModGuiItems.PROGRESS_TO_RESULT.getDefaultStack();
+        } else if (s.equals("O")) {
+            return this.value.getOutput().getItemStack().copy();
+        }
+        return Items.AIR.getDefaultStack();
     }
 
     @Override

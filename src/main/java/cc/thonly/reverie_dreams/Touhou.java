@@ -89,6 +89,7 @@ public class Touhou implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        CardboardWarning.checkAndAnnounce();
         MidnightConfig.init(MOD_ID, TouhouConfiguration.class);
         if (isDevMode()) {
             LOGGER.warn("=====================================================");
@@ -97,14 +98,11 @@ public class Touhou implements ModInitializer {
             LOGGER.warn("You are on your own!");
             LOGGER.warn("=====================================================");
         }
-        if (hasBukkitApi()) {
-            LOGGER.warn("Please don't use hybrid Bukkit, it will crash your game");
-        }
         if (hasForgeApi()) {
             LOGGER.warn("Cars cannot be placed on bicycles");
         }
         if (hasOptifine()) {
-            LOGGER.warn("It must be Optifine’s fault!");
+            LOGGER.warn("It must be Optifine’s error!");
         }
         if (isHasConnector()) {
             LOGGER.warn("It cannot connect...");
@@ -138,7 +136,7 @@ public class Touhou implements ModInitializer {
         ModServerResourceManager.init();
         RegistryManager.bootstrap();
         ModLootModifies.register();
-        RecipeTypeCategoryManager.registers();
+        RecipeTypeCategoryManager.registerCategories();
 
         ImageToTextScanner.bootstrap();
         ItemDescriptionManager.bootstrap();

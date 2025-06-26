@@ -81,7 +81,7 @@ public class KitchenBlockDisplayView extends SimpleGui implements DisplayView {
                     this.setSlot(slot, new GuiElementBuilder().setItem(Items.WHITE_STAINED_GLASS_PANE));
                 }
                 if (c.equalsIgnoreCase("I")) {
-                    if(slotIterator.hasNext()) {
+                    if (slotIterator.hasNext()) {
                         ItemStackRecipeWrapper next = slotIterator.next();
                         this.setSlot(slot, this.getGuiElementBuilder(next));
                     }
@@ -99,7 +99,9 @@ public class KitchenBlockDisplayView extends SimpleGui implements DisplayView {
         this.close();
         if (this.prevGuiCallback != null) {
             SimpleGui applyGui = this.prevGuiCallback.apply();
-            applyGui.open();
+            if (applyGui != null) {
+                applyGui.open();
+            }
         }
     }
 

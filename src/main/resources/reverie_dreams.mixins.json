@@ -23,6 +23,7 @@
     "accessor.PlayerEntityAccessor",
     "accessor.ResourceAccessor",
     "accessor.WoodTypeAccessor",
+    "compat.PolydexImplMixin",
     "compat.PolymerCommonUtilsMixin",
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
     "eiv.DirectRegistrySyncManagerEIVMixin",

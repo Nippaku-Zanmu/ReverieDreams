@@ -1,14 +1,17 @@
 package cc.thonly.reverie_dreams.compat.page;
 
+import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
+import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
 import eu.pb4.polydex.impl.PolydexImpl;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import lombok.Getter;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -20,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public class KitchenPage implements PolydexPage {
@@ -41,7 +45,6 @@ public class KitchenPage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
-        PolydexCompatImpl.ID2PAGE.put(key, this);
     }
 
     @Override
@@ -60,13 +63,44 @@ public class KitchenPage implements PolydexPage {
     }
 
     @Override
-    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder pageBuilder) {
-        PolydexCategory category = PolydexImpl.CATEGORY_BY_ID.get(this.identifier());
-        RecipeTypeCategoryManager.open(Touhou.id("recipe/kitchen"), this.value.getId(), serverPlayerEntity, () -> {
-            PolydexPageUtils.openCategoryUi(serverPlayerEntity, category, null);
-            return null;
-        });
+    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder layout) {
+        String[][] views = {
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"X", "I", "I", "I", "I", "I", "T", "O", "X"},
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "X", "X", "P", "X", "X", "X", "X"},
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+        };
+        AtomicInteger input = new AtomicInteger(0);
+        for (int row = 0; row < views.length; row++) {
+            for (int col = 0; col < views[row].length; col++) {
+                layout.set(col, row, getViewStack(input, views[row][col]));
+            }
+        }
     }
+
+    private ItemStack getViewStack(AtomicInteger input, String s) {
+        if (s.equals("X")) {
+            return ModGuiItems.EMPTY_SLOT.getDefaultStack();
+        } else if (s.equals("O")) {
+            return this.value.getOutput().getItemStack();
+        } else if (s.equals("I")) {
+            int i = input.get();
+            input.incrementAndGet();
+            if (i + 1 <= this.value.getIngredients().size()) {
+                return this.value.getIngredients().get(i).getItemStack();
+            }
+        } else if (s.equals("T")) {
+            return ModGuiItems.PROGRESS_TO_RESULT.getDefaultStack();
+        } else if (s.equals("P")) {
+            Block block = KitchenwareBlockEntity.BLOCK_2_KITCHEN_TYPE.inverse().get(this.value.getType());
+            if (block != null) {
+                return block.asItem().getDefaultStack();
+            }
+        }
+        return Items.AIR.getDefaultStack();
+    }
+
 
     @Override
     public List<PolydexIngredient<?>> ingredients() {

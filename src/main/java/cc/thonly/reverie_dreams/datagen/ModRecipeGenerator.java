@@ -30,6 +30,28 @@ public class ModRecipeGenerator extends RecipeGenerator {
         offerIngotToBlockRecipe(exporter, ModItems.POWER, ModBlocks.POWER_BLOCK.asItem());
         offerBlockToIngotRecipe(exporter, ModBlocks.POWER_BLOCK.asItem(), ModItems.POWER);
 
+        // 魔法冰
+        createShaped(RecipeCategory.DECORATIONS, ModBlocks.MAGIC_ICE_BLOCK)
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .input('X', Items.ICE)
+                .criterion("has_ice", conditionsFromItem(Items.ICE))
+                .offerTo(exporter, getRecipeName(ModBlocks.MAGIC_ICE_BLOCK));
+
+        // 冰武器/工具
+        offerSwordRecipe(exporter, ModItems.MAGIC_ICE_SWORD, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerPickaxeRecipe(exporter, ModItems.MAGIC_ICE_PICKAXE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerAxeRecipe(exporter, ModItems.MAGIC_ICE_AXE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerShovelRecipe(exporter, ModItems.MAGIC_ICE_SHOVEL, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerHoeRecipe(exporter, ModItems.MAGIC_ICE_HOE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+
+        // 冰盔甲
+        offerHelmetRecipe(exporter, ModItems.MAGIC_ICE_HELMET, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerChestplateRecipe(exporter, ModItems.MAGIC_ICE_CHESTPLATE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerLeggingsRecipe(exporter, ModItems.MAGIC_ICE_LEGGINGS, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerBootsRecipe(exporter, ModItems.MAGIC_ICE_BOOTS, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+
         // 银武器/工具
         offerSwordRecipe(exporter, ModItems.SILVER_SWORD, ModItems.SILVER_INGOT);
         offerPickaxeRecipe(exporter, ModItems.SILVER_PICKAXE, ModItems.SILVER_INGOT);
@@ -73,6 +95,16 @@ public class ModRecipeGenerator extends RecipeGenerator {
 
         // 烧银矿
         offerSmelting(SILVER, RecipeCategory.MISC, ModItems.SILVER_INGOT, 0.7F, 250, "silver_ingot");
+
+        // 音乐盒
+        createShaped(RecipeCategory.REDSTONE, ModBlocks.MUSIC_BLOCK)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', Items.EMERALD)
+                .input('#', Items.NOTE_BLOCK)
+                .criterion("has_emerald", conditionsFromItem(Items.EMERALD))
+                .offerTo(exporter, getRecipeName(ModBlocks.MUSIC_BLOCK));
 
         // 弹幕工作台
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.DANMAKU_CRAFTING_TABLE)

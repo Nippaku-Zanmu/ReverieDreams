@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.datagen;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
 import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
+import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
 import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
 import cc.thonly.reverie_dreams.datagen.generator.EquipmentAssetProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -25,5 +26,6 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider {
         consumer.accept(EarphoneArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("earphone")));
         consumer.accept(KoishiHatArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("koishi_hat")));
         consumer.accept(SilverArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("silver")));
+        consumer.accept(MagicIceArmorMaterial.REGISTRY_KEY, createHumanoidAndHorseModel(Touhou.id("magic_ice")));
     }
 }

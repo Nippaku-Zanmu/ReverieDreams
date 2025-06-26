@@ -23,10 +23,10 @@ public class ImageToTextScanner {
     }
 
     public static void bootstrap() {
-        CompletableFuture.runAsync(ImageToTextScanner::preload);
+        CompletableFuture.runAsync(ImageToTextScanner::load);
     }
 
-    private static void preload() {
+    private static void load() {
         ImageToTextScanner instance = ImageToTextScanner.getInstance();
         instance.loadImageFromJar("/assets/" + Touhou.MOD_ID + "/icon.png");
     }

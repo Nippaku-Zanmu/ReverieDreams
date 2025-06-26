@@ -485,6 +485,15 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.SILVER_CHESTPLATE, "银胸甲");
         translationBuilder.add(ModItems.SILVER_LEGGINGS, "银护腿");
         translationBuilder.add(ModItems.SILVER_BOOTS, "银靴子");
+        translationBuilder.add(ModItems.MAGIC_ICE_SWORD, "冰剑");
+        translationBuilder.add(ModItems.MAGIC_ICE_AXE, "冰斧");
+        translationBuilder.add(ModItems.MAGIC_ICE_PICKAXE, "冰稿");
+        translationBuilder.add(ModItems.MAGIC_ICE_SHOVEL, "冰锹");
+        translationBuilder.add(ModItems.MAGIC_ICE_HOE, "冰锄");
+        translationBuilder.add(ModItems.MAGIC_ICE_HELMET, "冰头盔");
+        translationBuilder.add(ModItems.MAGIC_ICE_CHESTPLATE, "冰胸甲");
+        translationBuilder.add(ModItems.MAGIC_ICE_LEGGINGS, "冰护腿");
+        translationBuilder.add(ModItems.MAGIC_ICE_BOOTS, "冰靴子");
 
         // 其他
 

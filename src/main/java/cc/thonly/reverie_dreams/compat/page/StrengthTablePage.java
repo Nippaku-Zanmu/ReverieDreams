@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.compat.page;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
+import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public class StrengthTablePage implements PolydexPage {
@@ -41,7 +43,6 @@ public class StrengthTablePage implements PolydexPage {
             list.add(PolydexIngredient.of(Ingredient.ofItem(x.getItem()), x.getCount()));
         }
         this.ingredients = list;
-        PolydexCompatImpl.ID2PAGE.put(key, this);
     }
 
     @Override
@@ -60,12 +61,40 @@ public class StrengthTablePage implements PolydexPage {
     }
 
     @Override
-    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder pageBuilder) {
-        PolydexCategory category = PolydexImpl.CATEGORY_BY_ID.get(this.identifier());
-        RecipeTypeCategoryManager.open(Touhou.id("recipe/strength_table"), this.value.getId(), serverPlayerEntity, () -> {
-            PolydexPageUtils.openCategoryUi(serverPlayerEntity, category, null);
-            return null;
-        });
+    public void createPage(@Nullable PolydexEntry polydexEntry, ServerPlayerEntity serverPlayerEntity, PageBuilder layout) {
+        String[][] views = {
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"X", "I", "I", "X", "T", "X", "I", "X", "X"},
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"X", "X", "X", "X", "X", "X", "X", "X", "X"},
+        };
+
+        AtomicInteger input = new AtomicInteger(0);
+        for (int row = 0; row < views.length; row++) {
+            for (int col = 0; col < views[row].length; col++) {
+                layout.set(col, row, getViewStack(input, views[row][col]));
+            }
+        }
+    }
+
+    private ItemStack getViewStack(AtomicInteger input, String s) {
+        if (s.equals("X")) {
+            return ModGuiItems.EMPTY_SLOT.getDefaultStack();
+        } else if (s.equals("I")) {
+            int i = input.get();
+            input.incrementAndGet();
+            if (i == 0) {
+                return this.value.getMainItem().getItemStack().copy();
+            } else if (i == 1) {
+                return this.value.getOffItem().getItemStack().copy();
+            } else if (i == 2) {
+                return this.value.getOutput().getItemStack().copy();
+            }
+        } else if (s.equals("T")) {
+            return ModGuiItems.PROGRESS_TO_RESULT.getDefaultStack();
+        }
+        return Items.AIR.getDefaultStack();
     }
 
     @Override

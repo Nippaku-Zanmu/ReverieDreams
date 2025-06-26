@@ -27,6 +27,7 @@ public class ModTags {
         public static final TagKey<Item> FUMO = of("fumo");
         public static final TagKey<Item> ARMOR = of("armor");
         public static final TagKey<Item> SILVER_TOOL_MATERIALS = of("silver_tool_materials");
+        public static final TagKey<Item> MAGIC_ICE_TOOL_MATERIALS = of("magic_ice_tool_materials");
 
         private static TagKey<Item> of(String id) {
             return TagKey.of(RegistryKeys.ITEM, Touhou.id(id));

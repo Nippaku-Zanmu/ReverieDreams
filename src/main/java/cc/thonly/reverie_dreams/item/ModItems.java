@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
 import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
+import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
 import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
@@ -97,7 +98,7 @@ public class ModItems {
     public static final Item KEYBOARD = registerItem(new MusicalInstrumentItem("keyboard", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.PLING)));
     public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.DIDGERIDOO)));
 
-    // 工具矿物类
+    // 银装备
     public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));
     public static final Item SILVER_INGOT = registerItem(new BasicItem("silver_ingot", new Item.Settings()));
     public static final Item SILVER_NUGGET = registerItem(new BasicItem("silver_nugget", new Item.Settings()));
@@ -107,9 +108,20 @@ public class ModItems {
     public static final Item SILVER_SHOVEL = registerItem(new BasicShovelItem("silver_shovel", SilverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
     public static final Item SILVER_HOE = registerItem(new BasicHoeItem("silver_hoe", SilverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
     public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.CHESTPLATE.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+
+    // 魔法冰装备
+    public static final Item MAGIC_ICE_SWORD = registerItem(new BasicSwordItem("magic_ice_sword", MagicIceMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
+    public static final Item MAGIC_ICE_AXE = registerItem(new BasicAxeItem("magic_ice_axe", MagicIceMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings()));
+    public static final Item MAGIC_ICE_PICKAXE = registerItem(new BasicPickaxeItem("magic_ice_pickaxe", MagicIceMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
+    public static final Item MAGIC_ICE_SHOVEL = registerItem(new BasicShovelItem("magic_ice_shovel", MagicIceMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
+    public static final Item MAGIC_ICE_HOE = registerItem(new BasicHoeItem("magic_ice_hoe", MagicIceMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
+    public static final Item MAGIC_ICE_HELMET = registerItem(new BasicArmorItem("magic_ice_helmet", MagicIceArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_CHESTPLATE = registerItem(new BasicArmorItem("magic_ice_chestplate", MagicIceArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.CHESTPLATE.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_LEGGINGS = registerItem(new BasicArmorItem("magic_ice_leggings", MagicIceArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
 
     // DISC
     public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));

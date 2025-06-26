@@ -82,7 +82,7 @@ public class RecipeTypeCategoryManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static void registers() {
+    public static void registerCategories() {
         registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), Touhou.id("recipe/danmaku_table"), BasePageGui.class,
                 DanmakuTableDisplayView.class,
                 DanmakuRecipeType::getInstance,

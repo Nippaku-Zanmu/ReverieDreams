@@ -1,6 +1,9 @@
 package cc.thonly.reverie_dreams.compat;
 
+import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.networking.CustomBytePayload;
+import eu.pb4.polydex.api.v1.recipe.PolydexCategory;
 import eu.pb4.polydex.api.v1.recipe.PolydexEntry;
 import eu.pb4.polydex.impl.PolydexEntryImpl;
 import eu.pb4.polydex.impl.PolydexImpl;
@@ -24,20 +27,26 @@ public class EIVCompatNetworkingImpl {
                 return;
             }
             ItemStack itemStack = item.getDefaultStack();
-            PolydexEntry entry = (PolydexEntry) PolydexImpl.ITEM_ENTRIES.nonEmptyById().get(id);
+            PolydexEntry entry = (PolydexEntry) PolydexImpl.getEntry(itemStack);
+            if (entry == null) {
+                entry = PolydexImpl.ITEM_ENTRIES.nonEmptyById().get(id);
+            }
             if (entry != null) {
                 PolydexPageUtils.openUsagesListUi(player, entry, null);
             }
         });
         CustomBytePayload.Receiver.registerHook("on_click_eiv_stack_result", (player, command, data) -> {
             String stringId = new String(data, StandardCharsets.UTF_8).intern();
-            Identifier id = Identifier.tryParse(stringId);
+            Identifier id = Identifier.of(stringId);
             Item item = Registries.ITEM.get(id);
             if (item == Items.AIR) {
                 return;
             }
             ItemStack itemStack = item.getDefaultStack();
-            PolydexEntry entry = (PolydexEntry) PolydexImpl.ITEM_ENTRIES.nonEmptyById().get(id);
+            PolydexEntry entry = (PolydexEntry) PolydexImpl.getEntry(itemStack);
+            if (entry == null) {
+                entry = PolydexImpl.ITEM_ENTRIES.nonEmptyById().get(id);
+            }
             if (entry != null) {
                 PolydexPageUtils.openRecipeListUi(player, entry, null);
             }

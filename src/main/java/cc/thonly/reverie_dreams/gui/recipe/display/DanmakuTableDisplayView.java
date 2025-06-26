@@ -93,7 +93,9 @@ public class DanmakuTableDisplayView extends SimpleGui implements DisplayView {
         this.close();
         if (this.prevGuiCallback != null) {
             SimpleGui applyGui = this.prevGuiCallback.apply();
-            applyGui.open();
+            if (applyGui != null) {
+                applyGui.open();
+            }
         }
     }
 

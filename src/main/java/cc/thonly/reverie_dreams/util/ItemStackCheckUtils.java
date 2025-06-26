@@ -20,16 +20,18 @@ public class ItemStackCheckUtils {
     public static void test() {
         Stream<Item> stream = Registries.ITEM.stream();
         List<Item> items = stream.toList();
+        Item now = null;
         try {
             for (Item item : items) {
-                if (item== Items.AIR) continue;
+                if (item == Items.AIR) continue;
+                now = item;
                 ItemStack stack = item.getDefaultStack();
                 DataResult<JsonElement> element = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack);
                 JsonElement jsonElement = element.getOrThrow();
                 Optional<JsonElement> result = element.result();
             }
         } catch (Exception e) {
-            log.error("Error: ",e);
+            log.error("Error: Item: {}, exception: {}", now, e);
         }
     }
 }

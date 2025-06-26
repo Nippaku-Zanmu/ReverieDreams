@@ -145,6 +145,15 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SILVER_CHESTPLATE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SILVER_LEGGINGS, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SILVER_BOOTS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_SWORD, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_AXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_PICKAXE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_SHOVEL, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_HOE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_HELMET, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_CHESTPLATE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_LEGGINGS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAGIC_ICE_BOOTS, Models.HANDHELD);
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);

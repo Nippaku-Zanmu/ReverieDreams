@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.reverie_dreams.block.FumoBlocks;
+import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.base.*;
@@ -67,6 +68,8 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
         FabricTagProvider<Item>.FabricTagBuilder sliverToolMaterials = getOrCreateTagBuilder(ModTags.ItemTypeTag.SILVER_TOOL_MATERIALS);
         sliverToolMaterials.add(ModItems.SILVER_INGOT);
+        FabricTagProvider<Item>.FabricTagBuilder magicIceToolMaterials = getOrCreateTagBuilder(ModTags.ItemTypeTag.MAGIC_ICE_TOOL_MATERIALS);
+        magicIceToolMaterials.add(ModBlocks.MAGIC_ICE_BLOCK.asItem());
 
         FabricTagProvider<Item>.FabricTagBuilder fences = getOrCreateTagBuilder(ItemTags.FENCES);
         FabricTagProvider<Item>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(ItemTags.FENCE_GATES);
