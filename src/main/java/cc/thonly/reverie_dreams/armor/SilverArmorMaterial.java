@@ -19,9 +19,9 @@ public interface SilverArmorMaterial {
             BASE_DURABILITY,
             Map.of(
                     EquipmentType.HELMET, 3,
-                    EquipmentType.CHESTPLATE, 8,
-                    EquipmentType.LEGGINGS, 6,
-                    EquipmentType.BOOTS, 3
+                    EquipmentType.CHESTPLATE, 6,
+                    EquipmentType.LEGGINGS, 5,
+                    EquipmentType.BOOTS, 2
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_IRON,

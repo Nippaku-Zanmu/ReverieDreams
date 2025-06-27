@@ -33,6 +33,15 @@ public class RegistryManager {
         return registry.add(key, value);
     }
 
+    public static <T extends RegistrableObject<T>> T register(StandaloneRegistry<T> registry, Identifier key, T value, boolean staticValue) {
+        T added = registry.add(key, value);
+        if (staticValue) {
+            Map<Identifier, T> staticIdToEntry = registry.getStaticIdToEntry();
+            staticIdToEntry.put(key, value);
+        }
+        return added;
+    }
+
     public static <T extends RegistrableObject<T>> Map<Identifier, T> registerAll(StandaloneRegistry<T> registry, Map<Identifier, T> idToEntry) {
         return registry.add(idToEntry);
     }

@@ -8,6 +8,7 @@ import cc.thonly.reverie_dreams.command.CommandInit;
 import cc.thonly.reverie_dreams.compat.ModCompats;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.config.TouhouConfiguration;
+import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.data.ModLootModifies;
 import cc.thonly.reverie_dreams.data.ModServerResourceManager;
 import cc.thonly.reverie_dreams.data.ModTags;
@@ -137,6 +138,7 @@ public class Touhou implements ModInitializer {
         RegistryManager.bootstrap();
         ModLootModifies.register();
         RecipeTypeCategoryManager.registerCategories();
+        SpellCardTemplates.init();
 
         ImageToTextScanner.bootstrap();
         ItemDescriptionManager.bootstrap();

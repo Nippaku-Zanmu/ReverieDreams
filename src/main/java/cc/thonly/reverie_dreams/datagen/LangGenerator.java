@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.datagen;
 
+import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.jukebox.JukeboxSong;
 import net.minecraft.entity.effect.StatusEffect;
@@ -10,6 +11,9 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 public interface LangGenerator {
+    public default void generateDanmakuType(FabricLanguageProvider.TranslationBuilder translationBuilder, DanmakuTrajectory trajectory, String value) {
+        translationBuilder.add(trajectory.getId().toTranslationKey(), value);
+    }
     public default void generateJukeBox(FabricLanguageProvider.TranslationBuilder translationBuilder, RegistryKey<JukeboxSong> key, String value) {
         translationBuilder.add(this.getSoundEventSubtitle(key), value);
         translationBuilder.add(this.getJukeBoxSongDisc(key), value);

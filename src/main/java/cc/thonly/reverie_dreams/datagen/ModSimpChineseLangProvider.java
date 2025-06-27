@@ -1,11 +1,14 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.MIBlocks;
+import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ModEntities;
@@ -56,11 +59,12 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add("item_group.touhou", "幻想乡追忆录 - 物品/方块");
-        translationBuilder.add("item_group.touhou.bullet", "幻想乡追忆录 - 子弹");
-        translationBuilder.add("item_group.touhou.fumo", "幻想乡追忆录 - Fumo");
-        translationBuilder.add("item_group.touhou.spawn_egg", "幻想乡追忆录 - 刷怪蛋");
-        translationBuilder.add("item_group.touhou.role.spawn_egg", "幻想乡追忆录 - 东方角色刷怪蛋");
+        translationBuilder.add("item_group.touhou", "Gensokyo: Reverie of Lost Dreams - 物品/方块");
+        translationBuilder.add("item_group.touhou.bullet", "Gensokyo: Reverie of Lost Dreams - 子弹");
+        translationBuilder.add("item_group.touhou.template", "Gensokyo: Reverie of Lost Dreams - 弹幕模板");
+        translationBuilder.add("item_group.touhou.fumo", "Gensokyo: Reverie of Lost Dreams - Fumo");
+        translationBuilder.add("item_group.touhou.spawn_egg", "Gensokyo: Reverie of Lost Dreams - 刷怪蛋");
+        translationBuilder.add("item_group.touhou.role.spawn_egg", "Gensokyo: Reverie of Lost Dreams - 角色刷怪蛋");
         translationBuilder.add("item.tooltip.color","颜色：");
         translationBuilder.add("item.tooltip.damage","伤害：");
         translationBuilder.add("item.tooltip.speed","速度：");
@@ -104,9 +108,9 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add("item.tooltip.food_properties", "属性：");
-        translationBuilder.add("item_group.kitchenware_item_group", "幻想乡追忆录 - 厨具");
-        translationBuilder.add("item_group.Ingredients_item_group", "幻想乡追忆录 - 食材");
-        translationBuilder.add("item_group.food_item_group", "幻想乡追忆录 - 食物");
+        translationBuilder.add("item_group.kitchenware_item_group", "Gensokyo: Reverie of Lost Dreams - 厨具");
+        translationBuilder.add("item_group.Ingredients_item_group", "Gensokyo: Reverie of Lost Dreams - 食材");
+        translationBuilder.add("item_group.food_item_group", "Gensokyo: Reverie of Lost Dreams - 食物");
 
         translationBuilder.add(MIBlocks.COOKING_POT, "煮锅");
         translationBuilder.add(MIBlocks.CUTTING_BOARD, "料理台");
@@ -128,7 +132,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.CRAB, "螃蟹");
         translationBuilder.add(MIItems.CREAM, "奶油");
         translationBuilder.add(MIItems.CUCUMBER, "黄瓜");
-        translationBuilder.add(MIItems.DEW, "晨露");
+        translationBuilder.add(MIItems.DEW, "露水");
         translationBuilder.add(MIItems.FLOUR, "面粉");
         translationBuilder.add(MIItems.FLOWERS, "食用花");
         translationBuilder.add(MIItems.FICUS_MICROCARPA, "薜茘");
@@ -170,7 +174,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.ASSORTED_TEMPURA, "什锦天妇罗");
         translationBuilder.add(MIItems.A_LITTLE_SWEET_POISON, "小小的甜蜜「毒药」");
         translationBuilder.add(MIItems.BAKED_CRAB_WITH_CREAM, "奶油焗蟹");
-        translationBuilder.add(MIItems.BAKED_SWEET_POTATOES, "烤红薯");
+        translationBuilder.add(MIItems.BAKED_SWEET_POTATOES, "烤地瓜");
         translationBuilder.add(MIItems.BAMBOO_SHOOTS_FRIED_MEAT, "竹笋炒肉");
         translationBuilder.add(MIItems.BAMBOO_SHOOTS_STEWED_IN_STONE_POT, "石锅竹笋炖肉");
         translationBuilder.add(MIItems.BAMBOO_STEAMED_EGG, "竹筒蒸蛋");
@@ -195,9 +199,9 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.CAT_PIZZA, "猫咪披萨");
         translationBuilder.add(MIItems.CHEESE_EGG, "芝士蛋");
         translationBuilder.add(MIItems.COLD_DISH_CARVING, "凉菜雕花");
-        translationBuilder.add(MIItems.COLD_TOFU, "凉拌豆腐");
+        translationBuilder.add(MIItems.COLD_TOFU, "冷豆腐");
         translationBuilder.add(MIItems.COLORFUL_JADE_FRIED_BUNS, "彩玉煎包");
-        translationBuilder.add(MIItems.COOKING_TOFU, "正在煮的豆腐");
+        translationBuilder.add(MIItems.COOKING_TOFU, "煮豆腐");
         translationBuilder.add(MIItems.CREAM_STEW, "奶油炖菜");
         translationBuilder.add(MIItems.CRISP_CYCLONE, "脆旋风");
         translationBuilder.add(MIItems.DARK_CUISINE, "黑暗物质");
@@ -405,6 +409,9 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE.getTranslationKey(), "蘑菇");
         translationBuilder.add("item." + EntityType.getId(ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "蘑菇刷怪蛋");
 
+        translationBuilder.add(MIEntities.WILD_PIG_ENTITY_TYPE.getTranslationKey(), "野猪");
+        translationBuilder.add("item." + EntityType.getId(MIEntities.WILD_PIG_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "野猪刷怪蛋");
+
     }
 
     public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -423,7 +430,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.BATTLE_STICK, "战斗调试棒");
 
         // 图标
-        translationBuilder.add(ModItems.ICON, "幻想乡追忆录　～ Reverie of Lost Dreams");
+        translationBuilder.add(ModItems.ICON, "Gensokyo: Reverie of Lost Dreams");
         translationBuilder.add(ModItems.FUMO_ICON, "毛绒玩偶图标");
         translationBuilder.add(ModItems.SPAWN_EGG, "刷怪蛋");
 
@@ -438,6 +445,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.GREEN_ORB, "绿宝玉");
         translationBuilder.add(ModItems.PURPLE_ORB, "紫宝玉");
         translationBuilder.add(ModItems.YIN_YANG_ORB, "阴阳玉");
+        translationBuilder.add(ModItems.SPEED_FEATHER, "速度羽毛");
 
         // 道具
         translationBuilder.add(ModItems.TOUHOU_HELPER, "东方模组入门");
@@ -494,6 +502,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.MAGIC_ICE_CHESTPLATE, "冰胸甲");
         translationBuilder.add(ModItems.MAGIC_ICE_LEGGINGS, "冰护腿");
         translationBuilder.add(ModItems.MAGIC_ICE_BOOTS, "冰靴子");
+        translationBuilder.add(ModItems.SPELL_CARD_TEMPLATE, "符卡模板");
 
         // 其他
 
@@ -515,6 +524,17 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.FIRE, "弹幕发射");
 
         this.generateDiscTranslations(wrapperLookup, translationBuilder);
+        this.generateDanmakuType(wrapperLookup, translationBuilder);
+    }
+
+    public void generateDanmakuType(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.SINGLE, "线性");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.TRIPLE, "三线");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.BULLET, "子弹");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.HEART, "心形");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.X, "十字");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.STAR, "星星");
+        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.RING, "圆环");
     }
 
     public void generateDiscTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {

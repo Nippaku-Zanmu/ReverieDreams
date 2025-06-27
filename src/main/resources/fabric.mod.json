@@ -3,15 +3,15 @@
 	"id": "reverie_dreams",
 	"version": "${version}",
 	"name": "Gensokyo: Reverie of Lost Dreams",
-	"description": "",
+	"description": "a server-only mod for the Touhou Project",
 	"authors": [
 		"稀神灵梦"
 	],
 	"contact": {
 		"homepage": "",
-		"sources": ""
+		"sources": "https://github.com/SAGUMEDREAM/ReverieDreams/"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

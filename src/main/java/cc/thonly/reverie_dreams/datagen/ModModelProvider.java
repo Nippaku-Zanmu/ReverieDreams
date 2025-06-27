@@ -99,6 +99,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GREEN_ORB, Models.GENERATED);
         itemModelGenerator.register(ModItems.PURPLE_ORB, Models.GENERATED);
         itemModelGenerator.register(ModItems.YIN_YANG_ORB, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SPEED_FEATHER, Models.GENERATED);
 
         // 道具
         itemModelGenerator.register(ModItems.TOUHOU_HELPER, Models.GENERATED);
@@ -155,6 +156,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.MAGIC_ICE_LEGGINGS, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAGIC_ICE_BOOTS, Models.HANDHELD);
 
+        // 符卡
+        itemModelGenerator.register(ModItems.SPELL_CARD_TEMPLATE, Models.GENERATED);
+
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
         itemModelGenerator.register(ModItems.HR02_08, Models.GENERATED);
@@ -205,7 +209,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
-        for (Item item : ModItems.getRegisteredDanmakuItems()) {
+        for (Item item : ModItems.getDanmakuItemView()) {
             itemModelGenerator.register(item, Models.GENERATED);
         }
     }

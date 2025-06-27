@@ -4,6 +4,7 @@ import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.component.MIDataComponentTypes;
 import cc.thonly.mystias_izakaya.datafixer.MIDataFixer;
+import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.item.MiItemGroups;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
@@ -12,7 +13,20 @@ import cc.thonly.reverie_dreams.Touhou;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +44,31 @@ public class MystiasIzakaya implements ModInitializer {
         MIBlocks.registerBlocks();
         MiBlockEntities.registerBlockEntities();
         MIItems.registerItems();
+        MIEntities.init();
         MiItemGroups.registerItemGroups();
         MIRegistryManager.bootstrap();
         MiRecipeManager.bootstrap();
         MIDataFixer.bootstrap();
+
+        UseBlockCallback.EVENT.register((playerEntity, world, hand, blockHitResult) -> {
+            if (!world.isClient()) {
+                ItemStack stack = playerEntity.getStackInHand(hand);
+                BlockPos blockPos = blockHitResult.getBlockPos();
+                BlockState blockState = world.getBlockState(blockPos);
+                Block block = blockState.getBlock();
+                if (block instanceof LeavesBlock && (blockState.get(LeavesBlock.WATERLOGGED))) {
+                    if (stack.getItem() == Items.LILY_PAD) {
+                        stack.decrementUnlessCreative(1, playerEntity);
+                        if (!playerEntity.isInCreativeMode()) {
+                            playerEntity.giveItemStack(new ItemStack(MIItems.DEW, 1));
+                        }
+                        playerEntity.swingHand(hand);
+                        return ActionResult.SUCCESS_SERVER;
+                    }
+                }
+            }
+            return ActionResult.PASS;
+        });
     }
 
     public static Identifier id(String path) {

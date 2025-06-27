@@ -82,7 +82,7 @@ public class SpellCardEntity extends PersistentProjectileEntity implements Polym
 
     public void spawnBullet(ServerWorld world, Entity spellCard, Hand hand, ItemStack offHandStack, float pitch, float yaw, float speed, float divergence, int bulletCount, double radius, double angularSpeed) {
 //        Item item = offHandStack.getItem();
-//        if (item instanceof BasicPolymerDanmakuItemItem danmakuItem) {
+//        if (item instanceof BasicPolymerDanmakuItem danmakuItem) {
 //            // 动态计算每个子弹的偏移量
 //            for (int i = 0; i < bulletCount; i++) {
 //                double angle = i * (2 * Math.PI / bulletCount) + (spellCard.age * angularSpeed);  // 动态旋转角度

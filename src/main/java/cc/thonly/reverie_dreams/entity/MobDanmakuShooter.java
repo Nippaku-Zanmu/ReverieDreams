@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItemItem;
+import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.reverie_dreams.sound.ModSoundEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -43,7 +43,7 @@ public interface MobDanmakuShooter {
 
     static DanmakuEntity spawn(ServerWorld world, LivingEntity entity, ItemStack stack, float pitch, float yaw, float speed, float divergence, float offsetDist) {
         Item item = stack.getItem();
-        if (item instanceof BasicPolymerDanmakuItemItem danmakuItem) {
+        if (item instanceof BasicPolymerDanmakuItem danmakuItem) {
             DanmakuEntity danmakuEntity = new DanmakuEntity(
                     (LivingEntity) entity,
                     world,

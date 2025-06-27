@@ -36,8 +36,8 @@ public class StrengthTableDisplayView extends AnvilInputGui implements DisplayVi
     @Override
     public void init() {
         this.setSlot(0, new GuiElementBuilder().setItem(this.getValue().getMainItem().getItem()));
-        this.setSlot(1, new GuiElementBuilder().setItem(this.getValue().getMainItem().getItem()));
-        this.setSlot(2, new GuiElementBuilder().setItem(this.getValue().getMainItem().getItem()));
+        this.setSlot(1, new GuiElementBuilder().setItem(this.getValue().getOffItem().getItem()));
+        this.setSlot(2, new GuiElementBuilder().setItem(this.getValue().getOutput().getItem()));
     }
 
     @Override

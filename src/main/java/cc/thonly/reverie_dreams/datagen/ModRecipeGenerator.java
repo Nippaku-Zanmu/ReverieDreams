@@ -39,6 +39,16 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_ice", conditionsFromItem(Items.ICE))
                 .offerTo(exporter, getRecipeName(ModBlocks.MAGIC_ICE_BLOCK));
 
+        // 速度羽毛
+        createShaped(RecipeCategory.DECORATIONS, ModItems.SPEED_FEATHER)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', Items.ICE)
+                .input('#', Items.DIAMOND)
+                .criterion("has_diamond", conditionsFromItem(Items.DIAMOND))
+                .offerTo(exporter, getRecipeName(ModItems.SPEED_FEATHER));
+
         // 冰武器/工具
         offerSwordRecipe(exporter, ModItems.MAGIC_ICE_SWORD, ModBlocks.MAGIC_ICE_BLOCK.asItem());
         offerPickaxeRecipe(exporter, ModItems.MAGIC_ICE_PICKAXE, ModBlocks.MAGIC_ICE_BLOCK.asItem());

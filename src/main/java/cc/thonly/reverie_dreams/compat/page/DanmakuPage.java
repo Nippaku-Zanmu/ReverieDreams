@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.compat.page;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
@@ -27,7 +28,7 @@ public class DanmakuPage implements PolydexPage {
     public static final Identifier id = Touhou.id("recipe/danmaku_table");
     public static final PolydexCategory CATEGORY = PolydexCategory.of(id);
     private static final Text TEXTURE = Text.empty();
-    public static final ItemStack ICON = new GuiElementBuilder(Items.BARREL).setName(Text.translatable(id.toTranslationKey())).asStack();
+    public static final ItemStack ICON = new GuiElementBuilder(ModBlocks.DANMAKU_CRAFTING_TABLE.asItem()).setName(Text.translatable(id.toTranslationKey())).asStack();
     public final Identifier key;
     public final DanmakuRecipe value;
     private final List<PolydexIngredient<?>> ingredients;

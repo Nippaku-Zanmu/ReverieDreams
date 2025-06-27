@@ -42,7 +42,7 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         }
 
         FabricTagProvider<Item>.FabricTagBuilder creeperDropMusicDisc = getOrCreateTagBuilder(ItemTags.CREEPER_DROP_MUSIC_DISCS);
-        for (var item : ModItems.getRegisteredDiscItems()) {
+        for (var item : ModItems.getDiscItemView()) {
             creeperDropMusicDisc.add(item);
         }
 

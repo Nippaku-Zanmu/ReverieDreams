@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import nota.player.SongPlayer;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,17 +34,22 @@ public class MusicBlockEntity extends BlockEntity {
     public static synchronized void tick(World world, BlockPos pos, BlockState state, MusicBlockEntity blockEntity) {
         if (world.isClient) return;
 
-        Map<BlockPos, SongPlayer> blockPos2SongPlayer = TouhouNotaUtils.blockMusicPlayCache.get(world);
-        if (blockPos2SongPlayer == null) return;
+        boolean hasRedstone = world.isReceivingRedstonePower(pos);
 
+        Map<BlockPos, SongPlayer> blockPos2SongPlayer = TouhouNotaUtils.blockMusicPlayCache.computeIfAbsent(world, w -> new HashMap<>());
         SongPlayer songPlayer = blockPos2SongPlayer.get(pos);
-        if (songPlayer == null) return;
 
-        if (!world.isReceivingRedstonePower(pos) && songPlayer.isPlaying()) {
+        if (hasRedstone && songPlayer == null) {
+            TouhouNotaUtils.playAt(world, pos, blockEntity.getSelect());
+            return;
+        }
+
+        if (!hasRedstone && songPlayer != null && songPlayer.isPlaying()) {
             songPlayer.setPlaying(false);
             blockPos2SongPlayer.remove(pos);
         }
     }
+
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {

@@ -106,7 +106,7 @@ public class DanmakuRecipeType extends BaseRecipeType<DanmakuRecipe> {
     }
 
     @Override
-    public Boolean isMatch(ItemStackRecipeWrapper wrapper) {
+    public Boolean isMatch(ItemStackRecipeWrapper input, ItemStackRecipeWrapper recipe) {
         return false;
     }
 

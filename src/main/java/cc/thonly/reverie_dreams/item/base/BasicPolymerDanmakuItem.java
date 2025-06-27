@@ -18,6 +18,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -25,13 +26,13 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerDanmakuItemItem extends BasicPolymerItem implements DanmakuItemType {
+public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implements DanmakuItemType {
     public static final Integer DEFAULT_COUNT = 3;
-    public BasicPolymerDanmakuItemItem(String path, Settings settings, Item item) {
+    public BasicPolymerDanmakuItem(String path, Settings settings, Item item) {
         super(path, settings.maxCount(1), item != null ? item : Items.SNOWBALL);
     }
 
-    public BasicPolymerDanmakuItemItem(String path, Settings settings) {
+    public BasicPolymerDanmakuItem(String path, Settings settings) {
         this(path, settings.maxCount(1), Items.SNOWBALL);
     }
 
@@ -71,7 +72,7 @@ public abstract class BasicPolymerDanmakuItemItem extends BasicPolymerItem imple
         tooltip.add(Text.empty().append(Text.translatable("item.tooltip.damage")).append(String.valueOf(damage)));
         tooltip.add(Text.empty().append(Text.translatable("item.tooltip.speed")).append(String.valueOf(speed)));
         tooltip.add(Text.empty().append(Text.translatable("item.tooltip.count")).append(String.valueOf(count)));
-        tooltip.add(Text.empty().append(Text.translatable("item.tooltip.base_type")).append(templateType));
+        tooltip.add(Text.empty().append(Text.translatable("item.tooltip.base_type")).append(Text.translatable(Identifier.of(templateType).toTranslationKey())));
 
     }
 

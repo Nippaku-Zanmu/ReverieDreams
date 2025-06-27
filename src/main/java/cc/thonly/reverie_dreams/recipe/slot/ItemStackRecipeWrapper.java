@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings("MethodDoesntCallSuperMethod")
 @Getter
 @ToString
 public class ItemStackRecipeWrapper {
@@ -66,6 +67,11 @@ public class ItemStackRecipeWrapper {
 
     public static ItemStackRecipeWrapper of(ItemStack itemStack) {
         return new ItemStackRecipeWrapper(itemStack);
+    }
+
+    @Override
+    public ItemStackRecipeWrapper clone() {
+        return new ItemStackRecipeWrapper(this.itemStack.copy());
     }
 
     public Item getItem() {

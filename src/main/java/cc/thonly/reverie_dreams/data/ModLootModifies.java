@@ -10,7 +10,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -25,7 +24,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class ModLootModifies {
@@ -40,7 +38,7 @@ public class ModLootModifies {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
                         .conditionally(RandomChanceLootCondition.builder(0.2f));
-                for (var item : ModItems.getRegisteredDiscItems()) {
+                for (var item : ModItems.getDiscItemView()) {
                     poolBuilder.with(ItemEntry.builder(item).weight(8));
                 }
                 tableBuilder.pool(poolBuilder);

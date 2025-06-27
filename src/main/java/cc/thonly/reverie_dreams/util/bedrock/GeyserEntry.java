@@ -32,7 +32,7 @@ public class GeyserEntry implements EventRegistrar {
 
     @Subscribe
     public void onGeyserDefineCustomItemsEvent(GeyserDefineCustomItemsEvent event) {
-        for (Item item: ModItems.getRegisteredItems()) {
+        for (Item item: ModItems.getItemView()) {
             if(item instanceof IdentifierGetter) {
                 int id = Registries.ITEM.getRawId(item);
                 Identifier identifier = ((IdentifierGetter) item).getIdentifier();

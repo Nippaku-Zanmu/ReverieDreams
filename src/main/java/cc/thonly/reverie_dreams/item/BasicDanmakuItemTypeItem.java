@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
-import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItemItem;
+import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
-public class BasicDanmakuItemTypeItem extends BasicPolymerDanmakuItemItem {
+public class BasicDanmakuItemTypeItem extends BasicPolymerDanmakuItem {
     public BasicDanmakuItemTypeItem(String path, Settings settings) {
         super(path, settings, Items.SNOWBALL);
     }

@@ -30,7 +30,7 @@ public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObj
 
     public abstract List<R> getMatches(List<ItemStackRecipeWrapper> wrappers);
 
-    public abstract Boolean isMatch(ItemStackRecipeWrapper wrapper);
+    public abstract Boolean isMatch(ItemStackRecipeWrapper input, ItemStackRecipeWrapper recipe);
 
     public abstract Codec<R> getCodec();
 

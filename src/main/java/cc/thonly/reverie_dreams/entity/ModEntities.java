@@ -174,7 +174,7 @@ public class ModEntities {
 
         YouseiTypes(String endId, EntityType.EntityFactory<YouseiEntity> factory) {
             this.endId = endId;
-            this.entry = registerEntityWithSpawnEgg("yousei_" + endId,
+            this.entry = registerEntityNotSpawnEgg("yousei_" + endId,
                     EntityType.Builder.<YouseiEntity>create(factory, SpawnGroup.MONSTER)
                             .build(of("yousei_" + endId)),
                     () -> LivingEntity.createLivingAttributes()
@@ -207,8 +207,8 @@ public class ModEntities {
         }
     }
 
-    private static final List<Item> NPC_SPAWN_EGG_ITEM_LIST = new LinkedList<>();
-    private static final List<Item> SPAWN_EGG_ITEM_LIST = new LinkedList<>();
+    public static final List<Item> NPC_SPAWN_EGG_ITEM_LIST = new LinkedList<>();
+    public static final List<Item> SPAWN_EGG_ITEM_LIST = new LinkedList<>();
 
     public static Item registerNpcSpawnEggItem(IdentifierGetter item) {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
@@ -222,11 +222,11 @@ public class ModEntities {
         return (Item) item;
     }
 
-    public static List<Item> getRegisteredSpawnEggItems() {
+    public static List<Item> getSpawnEggItemView() {
         return List.copyOf(SPAWN_EGG_ITEM_LIST);
     }
 
-    public static List<Item> getRegisteredNpcSpawnEggItems() {
+    public static List<Item> getNpcSpawnEggItemView() {
         return List.copyOf(NPC_SPAWN_EGG_ITEM_LIST);
     }
 
@@ -243,7 +243,7 @@ public class ModEntities {
                     EntityType.Builder.<SpellCardEntity>create(SpellCardEntity::new, SpawnGroup.MISC)
                             .build(of("danmaku_bullet")));
     public static final EntityType<KillerBeeEntity> KILLER_BEE_ENTITY_TYPE =
-            registerEntityWithSpawnEgg("killer_bee",
+            registerEntityNotSpawnEgg("killer_bee",
                     EntityType.Builder.<KillerBeeEntity>create(KillerBeeEntity::new, SpawnGroup.MONSTER)
                             .build(of("killer_bee")),
                     () -> AnimalEntity.createAnimalAttributes()
@@ -254,7 +254,7 @@ public class ModEntities {
                             .add(EntityAttributes.SCALE, 1.5f)
                             .build());
     public static final EntityType<GhostEntity> GHOST_ENTITY_TYPE =
-            registerEntityWithSpawnEgg("ghost",
+            registerEntityNotSpawnEgg("ghost",
                     EntityType.Builder.<GhostEntity>create(GhostEntity::new, SpawnGroup.MONSTER)
                             .build(of("ghost")),
                     () -> LivingEntity.createLivingAttributes()
@@ -267,7 +267,7 @@ public class ModEntities {
                             .add(EntityAttributes.TEMPT_RANGE, 10.0)
                             .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                             .build());
-    public static final EntityType<SunflowerYouseiEntity> SUNFLOWER_YOUSEI_ENTITY_TYPE = registerEntityWithSpawnEgg("sunflower_yousei",
+    public static final EntityType<SunflowerYouseiEntity> SUNFLOWER_YOUSEI_ENTITY_TYPE = registerEntityNotSpawnEgg("sunflower_yousei",
             EntityType.Builder.<SunflowerYouseiEntity>create((type, world) -> new SunflowerYouseiEntity(type, world, NPCEntitySkins.SUNFLOWER_YOUSEI), SpawnGroup.MONSTER)
                     .build(of("sunflower_yousei")),
             () -> LivingEntity.createLivingAttributes()
@@ -281,7 +281,7 @@ public class ModEntities {
                     .add(EntityAttributes.TEMPT_RANGE, 10.0)
                     .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                     .build());
-    public static final EntityType<GoblinEntity> GOBLIN_ENTITY_TYPE = registerEntityWithSpawnEgg("goblin",
+    public static final EntityType<GoblinEntity> GOBLIN_ENTITY_TYPE = registerEntityNotSpawnEgg("goblin",
             EntityType.Builder.<GoblinEntity>create(GoblinEntity::new, SpawnGroup.MONSTER)
                     .build(of("goblin")),
             () -> LivingEntity.createLivingAttributes()
@@ -295,31 +295,31 @@ public class ModEntities {
                     .add(EntityAttributes.TEMPT_RANGE, 10.0f)
                     .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                     .build());
-    public static final EntityType<WaterElementalEntity> WATER_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("water_elemental",
+    public static final EntityType<WaterElementalEntity> WATER_ELEMENTAL_ENTITY_TYPE = registerEntityNotSpawnEgg("water_elemental",
             EntityType.Builder.<WaterElementalEntity>create(WaterElementalEntity::new, SpawnGroup.MONSTER)
                     .build(of("water_elemental")),
             WaterElementalEntity::createAttributes
     );
-    public static final EntityType<FireElementalEntity> FIRE_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("fire_elemental",
+    public static final EntityType<FireElementalEntity> FIRE_ELEMENTAL_ENTITY_TYPE = registerEntityNotSpawnEgg("fire_elemental",
             EntityType.Builder.<FireElementalEntity>create(FireElementalEntity::new, SpawnGroup.MONSTER)
                     .build(of("fire_elemental")),
             FireElementalEntity::createAttributes
     );
-    public static final EntityType<IceElementalEntity> ICE_ELEMENTAL_ENTITY_TYPE = registerEntityWithSpawnEgg("ice_elemental",
+    public static final EntityType<IceElementalEntity> ICE_ELEMENTAL_ENTITY_TYPE = registerEntityNotSpawnEgg("ice_elemental",
             EntityType.Builder.<IceElementalEntity>create(IceElementalEntity::new, SpawnGroup.MONSTER)
                     .build(of("ice_elemental")),
             IceElementalEntity::createAttributes
     );
-    public static final EntityType<MagicBroomEntity> BROOM_ENTITY_TYPE = registerEntityWithSpawnEgg("broom",
+    public static final EntityType<MagicBroomEntity> BROOM_ENTITY_TYPE = registerEntityNotSpawnEgg("broom",
             EntityType.Builder.<MagicBroomEntity>create(MagicBroomEntity::new, SpawnGroup.MISC)
                     .build(of("broom")),
             MagicBroomEntity::createAttributes);
-    public static final EntityType<HairballEntity> HAIRBALL_ENTITY_TYPE = registerEntityWithSpawnEgg("hairball",
+    public static final EntityType<HairballEntity> HAIRBALL_ENTITY_TYPE = registerEntityNotSpawnEgg("hairball",
             EntityType.Builder.<HairballEntity>create(HairballEntity::new, SpawnGroup.MONSTER)
                     .build(of("hairball")),
             HairballEntity::createAttributes
     );
-    public static final EntityType<MushroomMonsterEntity> MUSHROOM_MONSTER_ENTITY_TYPE = registerEntityWithSpawnEgg("mushroom_monster",
+    public static final EntityType<MushroomMonsterEntity> MUSHROOM_MONSTER_ENTITY_TYPE = registerEntityNotSpawnEgg("mushroom_monster",
             EntityType.Builder.<MushroomMonsterEntity>create(MushroomMonsterEntity::new, SpawnGroup.MONSTER)
                     .build(of("mushroom_monster")),
             MushroomMonsterEntity::createAttributes
@@ -340,7 +340,7 @@ public class ModEntities {
         return entityTypeRef;
     }
 
-    private static <T extends Entity> EntityType<T> registerEntityWithSpawnEgg(String path, EntityType<T> entityType, CreateAttributesFunction createAttributesFunction) {
+    private static <T extends Entity> EntityType<T> registerEntityNotSpawnEgg(String path, EntityType<T> entityType, CreateAttributesFunction createAttributesFunction) {
         EntityType<T> entityTypeRef = Registry.register(Registries.ENTITY_TYPE, Touhou.id(path), entityType);
         FabricDefaultAttributeRegistry.register((EntityType<? extends MobEntity>) entityTypeRef, createAttributesFunction.apply());
         Item item = registerSpawnEggItem(new BasicPolymerSpawnEggItem(path + "_spawn_egg", (EntityType<? extends MobEntity>) entityTypeRef, new Item.Settings().modelId(Touhou.id("spawn_egg"))));

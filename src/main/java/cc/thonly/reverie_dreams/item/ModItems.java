@@ -5,12 +5,10 @@ import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
 import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
 import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
 import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
-import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
-import cc.thonly.reverie_dreams.item.base.BasicPolymerBlockItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDiscItem;
 import cc.thonly.reverie_dreams.item.debug.BattleStick;
 import cc.thonly.reverie_dreams.item.entry.DanmakuColor;
@@ -20,12 +18,8 @@ import cc.thonly.reverie_dreams.item.weapon.*;
 import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
@@ -45,7 +39,7 @@ public class ModItems {
     private static final List<Item> DANMAKU_LIST = new ArrayList<>();
 
     // 调试
-    public static final Item BATTLE_STICK = registerItemWithNotGroup(new BattleStick("battle_stick", new Item.Settings()));
+    public static final Item BATTLE_STICK = registerItemNoGroup(new BattleStick("battle_stick", new Item.Settings()));
 
     // 图标
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
@@ -64,6 +58,7 @@ public class ModItems {
     public static final Item GREEN_ORB = registerItem(new BasicItem("green_orb", new Item.Settings()));
     public static final Item PURPLE_ORB = registerItem(new BasicItem("purple_orb", new Item.Settings()));
     public static final Item YIN_YANG_ORB = registerItem(new BasicItem("yin-yang_orb", new Item.Settings()));
+    public static final Item SPEED_FEATHER = registerItem(new BasicItem("speed_feather", new Item.Settings().component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)));
 
     // 道具
     public static final Item TOUHOU_HELPER = registerItem(new TouhouHelperItem("touhou_helper", new Item.Settings()));
@@ -122,6 +117,9 @@ public class ModItems {
     public static final Item MAGIC_ICE_CHESTPLATE = registerItem(new BasicArmorItem("magic_ice_chestplate", MagicIceArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.CHESTPLATE.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
     public static final Item MAGIC_ICE_LEGGINGS = registerItem(new BasicArmorItem("magic_ice_leggings", MagicIceArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
     public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+
+    // 符卡模板
+    public static final Item SPELL_CARD_TEMPLATE = registerItemNoGroup(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
 
     // DISC
     public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
@@ -215,7 +213,7 @@ public class ModItems {
 //                                (LivingEntity) this.getOwner(),
 //                                copy.copy(),
 //                                Hand.MAIN_HAND,
-//                                (BasicPolymerDanmakuItemItem) copy.getItem(),
+//                                (BasicPolymerDanmakuItem) copy.getItem(),
 //                                this.getPitch(),  // 获取物品的俯仰角（pitch）
 //                                this.getYaw(),    // 获取物品的偏航角（yaw）
 //                                speed,            // 发射速度
@@ -297,7 +295,7 @@ public class ModItems {
         return (Item) item;
     }
 
-    public static Item registerItemWithNotGroup(IdentifierGetter item) {
+    public static Item registerItemNoGroup(IdentifierGetter item) {
         return Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
     }
 
@@ -328,15 +326,15 @@ public class ModItems {
         return item;
     }
 
-    public static List<Item> getRegisteredItems() {
+    public static List<Item> getItemView() {
         return List.copyOf(ITEM_LIST);
     }
 
-    public static List<Item> getRegisteredDiscItems() {
+    public static List<Item> getDiscItemView() {
         return List.copyOf(DISC_LIST);
     }
 
-    public static List<Item> getRegisteredDanmakuItems() {
+    public static List<Item> getDanmakuItemView() {
         return List.copyOf(DANMAKU_LIST);
     }
 
