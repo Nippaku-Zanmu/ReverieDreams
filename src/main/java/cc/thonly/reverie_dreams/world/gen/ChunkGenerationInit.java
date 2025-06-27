@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.world.gen;
 
-public class ModChunkGenerators {
+public class ChunkGenerationInit {
     public static void init() {
 
     }

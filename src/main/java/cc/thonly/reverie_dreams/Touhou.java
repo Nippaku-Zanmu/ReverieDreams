@@ -33,8 +33,9 @@ import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
 import cc.thonly.reverie_dreams.util.ImageToTextScanner;
 import cc.thonly.reverie_dreams.util.ItemStackCheckUtils;
 import cc.thonly.reverie_dreams.util.NetworkingUtils;
+import cc.thonly.reverie_dreams.world.BiomeModificationInit;
 import cc.thonly.reverie_dreams.world.data.BlockPosStorage;
-import cc.thonly.reverie_dreams.world.gen.ModWorldGeneration;
+import cc.thonly.reverie_dreams.world.gen.WorldGenerationInit;
 import eu.midnightdust.lib.config.MidnightConfig;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
@@ -126,7 +127,8 @@ public class Touhou implements ModInitializer {
         ModEntities.registerEntities();
         ModStatusEffects.init();
         ModTags.registerTags();
-        ModWorldGeneration.registerModGen();
+        WorldGenerationInit.registerWorldGeneration();
+        BiomeModificationInit.init();
         ModDataFixer.bootstrap();
 
         // 初始化其他注册内容
