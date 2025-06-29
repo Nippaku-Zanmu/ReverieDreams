@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.recipe;
 
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.type.DanmakuRecipeType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -47,6 +48,11 @@ public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObj
         recipe.setId(id);
         this.registries.put(id, recipe);
         return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void add(Identifier key, Object value) {
+        this.add(key, (R) value);
     }
 
     public R getRecipeById(Identifier id) {
@@ -140,5 +146,4 @@ public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObj
 
         return list;
     }
-
 }

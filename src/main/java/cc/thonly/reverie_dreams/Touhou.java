@@ -27,8 +27,8 @@ import cc.thonly.reverie_dreams.server.DelayedTask;
 import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
 import cc.thonly.reverie_dreams.server.ParticleTickerManager;
 import cc.thonly.reverie_dreams.server.PlayerInputManager;
-import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
 import cc.thonly.reverie_dreams.util.ImageToTextScanner;
 import cc.thonly.reverie_dreams.util.ItemStackCheckUtils;
@@ -80,6 +80,7 @@ public class Touhou implements ModInitializer {
     private static final boolean HAS_OPTIFINE = isModLoaded("optifabric");
     private static String SYSTEM_LANGUAGE = null;
     private static MinecraftServer server;
+    @Getter
     private static DynamicRegistryManager dynamicRegistryManager;
     private static final Set<ServerPlayerEntity> playersWithMod = new HashSet<>();
     private static final Map<ServerPlayerEntity, String> playerSideVersion = new WeakHashMap<>();
@@ -112,8 +113,8 @@ public class Touhou implements ModInitializer {
         LOGGER.info("Loaded " + MOD_NAME);
 
         // 初始化静态注册表
-        ModSoundEvents.init();
-        ModJukeboxSongs.init();
+        SoundEventInit.init();
+        JukeboxSongInit.init();
         ModDataComponentTypes.init();
         ModArmorMaterials.init();
         ModGuiItems.init();

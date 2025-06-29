@@ -39,9 +39,16 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.MUSIC_BLOCK);
         addDrop(ModBlocks.SPIRITUAL_LOG);
         addDrop(ModBlocks.SPIRITUAL_WOOD);
+        addDrop(ModBlocks.SPIRITUAL_PLANKS);
+        addDrop(ModBlocks.SPIRITUAL_STAIR);
+        addDrop(ModBlocks.SPIRITUAL_SLAB);
+        addDrop(ModBlocks.SPIRITUAL_DOOR);
+        addDrop(ModBlocks.SPIRITUAL_TRAPDOOR);
+        addDrop(ModBlocks.SPIRITUAL_FENCE);
+        addDrop(ModBlocks.SPIRITUAL_FENCE_GATE);
+        addDrop(ModBlocks.SPIRITUAL_BUTTON);
         addDrop(ModBlocks.STRIPPED_SPIRITUAL_LOG);
         addDrop(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
-        addDrop(ModBlocks.SPIRITUAL_PLANKS);
         addDrop(ModBlocks.MAGIC_ICE_BLOCK);
         addDrop(ModBlocks.MARISA_HAT_BLOCK);
 

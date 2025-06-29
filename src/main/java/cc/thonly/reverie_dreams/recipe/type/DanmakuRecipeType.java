@@ -76,8 +76,8 @@ public class DanmakuRecipeType extends BaseRecipeType<DanmakuRecipe> {
 
         ItemStackRecipeWrapper dyeSlot = wrappers.get(0);
         ItemStackRecipeWrapper coreSlot = wrappers.get(1);
-        ItemStackRecipeWrapper pointSlot = wrappers.get(2);
-        ItemStackRecipeWrapper powerSlot = wrappers.get(3);
+        ItemStackRecipeWrapper powerSlot = wrappers.get(2);
+        ItemStackRecipeWrapper pointSlot = wrappers.get(3);
         ItemStackRecipeWrapper materialSlot = wrappers.get(4);
 
         List<DanmakuRecipe> matches = new ArrayList<>();

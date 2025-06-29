@@ -8,7 +8,8 @@ import cc.thonly.reverie_dreams.gui.NPCGui;
 import cc.thonly.reverie_dreams.interfaces.ItemStackImpl;
 import cc.thonly.reverie_dreams.inventory.NPCInventory;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
+import cc.thonly.reverie_dreams.util.ItemUtils;
 import com.google.common.collect.ImmutableList;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
@@ -160,55 +161,31 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         DynamicRegistryManager registryManager = this.getRegistryManager();
-        if (nbt.contains("IsSit")) {
-            this.isSit = nbt.getBoolean("IsSit");
-        } else {
-            this.isSit = false;
-        }
 
-        int state = 0;
-        if (nbt.contains("NPCState")) {
-            state = nbt.getInt("NPCState");
-        }
+        this.isSit = nbt.getBoolean("IsSit").orElse(false);
+
+
+        int state = nbt.getInt("NPCState").orElse(0);
         this.npcState = NPCState.fromInt(state);
+        this.npcOwner = nbt.getString("NpcOwner").orElse("");
 
-        if (nbt.contains("NpcOwner")) {
-            this.npcOwner = nbt.getString("NpcOwner");
-        } else {
-            this.npcOwner = "";
-        }
 
         NbtCompound nbtInventory;
-        if (nbt.contains("Inventory")) {
-            nbtInventory = nbt.getCompound("Inventory");
-        } else {
-            nbtInventory = new NbtCompound();
-        }
+        nbtInventory = nbt.getCompound("Inventory").orElse(new NbtCompound());
+
 
         NbtCompound headInventory;
-        if (nbt.contains("HeadInventory")) {
-            headInventory = nbt.getCompound("HeadInventory");
-        } else {
-            headInventory = new NbtCompound();
-        }
+        headInventory = nbt.getCompound("HeadInventory").orElse(new NbtCompound());
+
         NbtCompound chestInventory;
-        if (nbt.contains("ChestInventory")) {
-            chestInventory = nbt.getCompound("ChestInventory");
-        } else {
-            chestInventory = new NbtCompound();
-        }
+        chestInventory = nbt.getCompound("ChestInventory").orElse(new NbtCompound());
+
         NbtCompound legsInventory;
-        if (nbt.contains("LegsInventory")) {
-            legsInventory = nbt.getCompound("LegsInventory");
-        } else {
-            legsInventory = new NbtCompound();
-        }
+        legsInventory = nbt.getCompound("LegsInventory").orElse(new NbtCompound());
+
         NbtCompound feetInventory;
-        if (nbt.contains("FeetInventory")) {
-            feetInventory = nbt.getCompound("FeetInventory");
-        } else {
-            feetInventory = new NbtCompound();
-        }
+        feetInventory = nbt.getCompound("FeetInventory").orElse(new NbtCompound());
+
 
         NPCInventory inventory = new NPCInventory(NPCGui.size());
         Inventories.readNbt(nbtInventory, inventory.heldStacks, registryManager);
@@ -219,35 +196,28 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         this.inventory = inventory;
 
         if (nbt.contains("SeatUUID")) {
-            String uuidStr = nbt.getString("SeatUUID");
+            String uuidStr = nbt.getString("SeatUUID").orElse("null");
             nbt.putString("SeatUUID", uuidStr);
         } else {
             nbt.putString("SeatUUID", "");
         }
 
         if (nbt.contains("FoodNutrition")) {
-            this.nutrition = nbt.getFloat("FoodNutrition");
+            this.nutrition = nbt.getFloat("FoodNutrition").orElse(20.0f);
         } else {
             nbt.putFloat("FoodNutrition", 20.0f);
         }
 
         if (nbt.contains("FoodSaturation")) {
-            this.saturation = nbt.getInt("FoodSaturation");
+            this.saturation = nbt.getInt("FoodSaturation").orElse(20);
         } else {
             nbt.putFloat("FoodSaturation", 0);
         }
 
-        if (nbt.contains("FoodExhaustionLevel")) {
-            this.exhaustionLevel = nbt.getInt("FoodExhaustionLevel");
-        } else {
-            nbt.putFloat("FoodExhaustionLevel", 0);
-        }
+        this.exhaustionLevel = nbt.getInt("FoodExhaustionLevel").orElse(0);
 
-        if (nbt.contains("WorkingPos")) {
-            this.workingPos = BlockPos.fromLong(nbt.getLong("WorkingPos"));
-        } else {
-            nbt.putLong("WorkingPos", new BlockPos(0, 0, 0).asLong());
-        }
+        this.workingPos = BlockPos.fromLong(nbt.getLong("WorkingPos").orElse(new BlockPos(0, 0, 0).asLong()));
+
 
         this.updateAttackType();
 //        System.out.println(nbt.toString());
@@ -387,7 +357,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                     setHealth(health + 2);
                 }
                 player.swingHand(hand);
-                getEntityWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(), ModSoundEvents.UP, player.getSoundCategory(), 1.0f, 1.0f);
+                getEntityWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(), SoundEventInit.UP, player.getSoundCategory(), 1.0f, 1.0f);
                 stack.decrementUnlessCreative(1, player);
                 return ActionResult.SUCCESS_SERVER;
             }
@@ -501,7 +471,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return super.interactMob(player, hand);
     }
 
-    @Override
+//    @Override
     public void setOwnerUuid(@Nullable UUID uuid) {
         if (uuid != null) {
             this.npcOwner = uuid.toString();
@@ -510,7 +480,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     @Override
-    public void setOwner(PlayerEntity player) {
+    public void setOwner(LivingEntity player) {
         this.npcOwner = player.getUuid().toString();
         this.setTamed(true, true);
         if (player instanceof ServerPlayerEntity serverPlayerEntity) {
@@ -550,7 +520,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     protected void loot(ServerWorld world, ItemEntity itemEntity) {
         ItemStack itemStack = itemEntity.getStack();
         if (this.inventory.canInsert(itemStack)) {
-            if (itemStack.getItem() instanceof ArmorItem) {
+            if (ItemUtils.isArmorItem(itemStack)) {
                 EquippableComponent equippableComponent = itemStack.get(DataComponentTypes.EQUIPPABLE);
                 if (equippableComponent != null) {
                     boolean head = equippableComponent.slot() == EquipmentSlot.HEAD;
@@ -571,7 +541,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 } else {
                     this.inventory.addStack(itemStack.copy());
                 }
-            } else if (itemStack.getItem() instanceof ShieldItem || itemStack.getItem() == Items.TORCH) {
+            } else if ((itemStack.getItem() instanceof ShieldItem) || (itemStack.getItem() == Items.TORCH)) {
                 if (this.inventory.getOffHand().isEmpty()) {
                     this.inventory.setOffHand(itemStack.copy());
                 } else {
@@ -827,7 +797,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return result;
     }
 
-    @Override
+    //    @Override
     public Iterable<ItemStack> getArmorItems() {
         return List.of(
                 this.getEquippedStack(EquipmentSlot.HEAD),
@@ -924,11 +894,11 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return getWorld().getPlayerByUuid(UUID.fromString(this.npcOwner));
     }
 
-    @Override
-    public @Nullable UUID getOwnerUuid() {
-        if (this.npcOwner.equalsIgnoreCase("")) return null;
-        return UUID.fromString(this.npcOwner);
-    }
+//    @Override
+//    public @Nullable UUID getOwnerUuid() {
+//        if (this.npcOwner.equalsIgnoreCase("")) return null;
+//        return UUID.fromString(this.npcOwner);
+//    }
 
     @Override
     public boolean isSitting() {

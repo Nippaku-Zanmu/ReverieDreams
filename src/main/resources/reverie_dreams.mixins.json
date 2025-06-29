@@ -25,6 +25,8 @@
     "accessor.WoodTypeAccessor",
     "compat.PolymerCommonUtilsMixin",
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
+    "patches.DefaultRPBuilderMixin",
+    "patches.ResourcePackManagerMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin",
     "server.ReloadableRegistriesMixin",
@@ -42,6 +44,7 @@
     "client.AbstractSoundInstanceAccessor",
     "client.BakedModelManagerMixin",
     "client.MinecraftClientMixin",
-    "client.NoteBlockMixin"
+    "client.NoteBlockMixin",
+    "patches.PolymerResourcePackMixin"
   ]
 }

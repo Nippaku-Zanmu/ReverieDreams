@@ -1,4 +1,4 @@
-// 1.21.4	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Block Loot Tables
+// 1.21.5	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Block Loot Tables
 2f87c95f752092aee7eb635dbb951a248fd755b8 data/reverie_dreams/loot_table/blocks/cooking_pot.json
 d545b5c830591f64b0c7601f986954d230f53881 data/reverie_dreams/loot_table/blocks/cutting_board.json
 7d0881f56acd549b25a2e841f1274889dfb6dfbe data/reverie_dreams/loot_table/blocks/danmaku_crafting_table.json
@@ -74,8 +74,15 @@ e62ea50ae0e70c246c588214b11d87071f7684fe data/reverie_dreams/loot_table/blocks/p
 ade00837a00244b04f2aa7952d69c067c347eb4d data/reverie_dreams/loot_table/blocks/power_block.json
 4700d57c8e360d86c86eea6be9581c325f196bc4 data/reverie_dreams/loot_table/blocks/silver_block.json
 eff9584d25b8c52459974da3c170e88f60fa4dbd data/reverie_dreams/loot_table/blocks/silver_ore.json
+646958868fdc14626d90957fbf370fb30164201e data/reverie_dreams/loot_table/blocks/spiritual_button.json
+3884f707af8d58c04bdef7919bc8f92d71ddd825 data/reverie_dreams/loot_table/blocks/spiritual_door.json
+2cb86365497a5c23d646eb5957dd261d80b50412 data/reverie_dreams/loot_table/blocks/spiritual_fence.json
+586fd3c4715d69f034cad7d80e65b3ebb7618f33 data/reverie_dreams/loot_table/blocks/spiritual_fence_gate.json
 5c7bb4f48c75d1ffcee10ee57551bd71a89e9040 data/reverie_dreams/loot_table/blocks/spiritual_log.json
 48404ea2bee1ce458aa4f6a4847d73bd6e09986e data/reverie_dreams/loot_table/blocks/spiritual_planks.json
+76a962d5f1ed6b62693ae985cbe685e49eba34da data/reverie_dreams/loot_table/blocks/spiritual_slab.json
+238488f5c33968a9ec905fe5c2213865cfc0a58c data/reverie_dreams/loot_table/blocks/spiritual_stair.json
+ee422baac236ca1abdb9beaa965e5ac394557ff3 data/reverie_dreams/loot_table/blocks/spiritual_trapdoor.json
 a5cf6ea9fd7bb91cf5855757bf4198578063085c data/reverie_dreams/loot_table/blocks/spiritual_wood.json
 d14aaff6a5ab5bfc5055325326e826ffed796dac data/reverie_dreams/loot_table/blocks/steamer.json
 bee5394b934d9d7601d3c1a9d9428f0ef6e9a846 data/reverie_dreams/loot_table/blocks/strength_table.json

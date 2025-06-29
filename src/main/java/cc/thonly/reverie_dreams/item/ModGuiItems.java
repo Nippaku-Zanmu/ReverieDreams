@@ -1,7 +1,9 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import it.unimi.dsi.fastutil.objects.ReferenceSortedSets;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -19,20 +21,26 @@ public class ModGuiItems {
     public static final Item EMPTY_SLOT = registerItem(new BasicGuiItem("sgui/elements/empty_slot", getSlotItemSettings()));
     public static final Item PROGRESS_TO_RESULT = registerItem(new BasicGuiItem("sgui/elements/progress_to_result", getSlotItemSettings()));
     public static final Item PROGRESS_TO_RESULT_REVERSE = registerItem(new BasicGuiItem("sgui/elements/progress_to_result_reverse", getSlotItemSettings()));
+
     public static void init() {
 
     }
+
     public static Item registerItem(IdentifierGetter item) {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
         GUI_ITEM_LIST.add((Item) item);
         return (Item) item;
     }
+
     public static Item.Settings getSlotItemSettings() {
         return new Item.Settings()
                 .maxCount(1)
                 .component(DataComponentTypes.ITEM_NAME, Text.of(""))
-                .component(DataComponentTypes.HIDE_TOOLTIP, Unit.INSTANCE)
-                .component(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
+                .component(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(
+                        true,
+                        ReferenceSortedSets.emptySet()
+                        )
+                );
     }
 
     public static List<Item> getRegisteredItems() {

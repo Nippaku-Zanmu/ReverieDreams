@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.entity.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -31,7 +31,7 @@ public class BombItem extends BasicPolymerItem implements IdentifierGetter {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             ItemStack itemStack = user.getStackInHand(hand);
-            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), ModSoundEvents.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
+            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), SoundEventInit.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
             List<Entity> nearbyEntities = serverWorld.getEntitiesByClass(Entity.class, user.getBoundingBox().expand(20), entity -> true);
             List<Entity> nearbyDanmaku = nearbyEntities.stream().filter((entity -> entity instanceof DanmakuEntity danmakuEntity && danmakuEntity.getOwner() != user)).toList();
             List<Entity> sign = new ArrayList<>();

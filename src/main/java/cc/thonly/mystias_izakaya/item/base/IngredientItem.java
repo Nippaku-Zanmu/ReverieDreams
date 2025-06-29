@@ -3,6 +3,7 @@ package cc.thonly.mystias_izakaya.item.base;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class IngredientItem extends BasicPolymerItem {
     public static final Map<Item, Set<FoodProperty>> ITEM_INGREDIENT_CACHED = new HashMap<>();
@@ -26,14 +28,14 @@ public class IngredientItem extends BasicPolymerItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
         List<FoodProperty> foodProperties = FoodProperty.getIngredientProperties(this);
         if (!foodProperties.isEmpty()) {
-            tooltip.add(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
+            textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
         }
         for (FoodProperty foodProperty : foodProperties) {
-            tooltip.add(Text.empty().append(FoodProperty.getDisplayPrefix(this, foodProperty)).append(foodProperty.getTooltip()));
+            textConsumer.accept(Text.empty().append(FoodProperty.getDisplayPrefix(this, foodProperty)).append(foodProperty.getTooltip()));
         }
     }
 

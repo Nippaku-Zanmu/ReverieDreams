@@ -4,7 +4,6 @@ import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
 import cc.thonly.reverie_dreams.inventory.NPCInventory;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.UnbreakableComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -15,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -86,7 +86,7 @@ public class GoblinEntity extends NPCEntityImpl {
         }
         Item item = PICKAXE_POOL.get(random.nextInt(PICKAXE_POOL.size()));
         ItemStack itemStack = new ItemStack(item);
-        itemStack.set(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(true));
+        itemStack.set(DataComponentTypes.UNBREAKABLE, Unit.INSTANCE);
         return itemStack;
     }
 
@@ -97,7 +97,7 @@ public class GoblinEntity extends NPCEntityImpl {
         }
         Item item = OFFHAND_POOL.get(random.nextInt(OFFHAND_POOL.size()));
         ItemStack itemStack = new ItemStack(item);
-        itemStack.set(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(true));
+        itemStack.set(DataComponentTypes.UNBREAKABLE, Unit.INSTANCE);
         return itemStack;
     }
 

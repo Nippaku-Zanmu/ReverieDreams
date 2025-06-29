@@ -14,9 +14,9 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
@@ -26,6 +26,8 @@ import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import static net.minecraft.item.ItemDisplayContext.FIXED;
 
 @Setter
 @Getter
@@ -129,7 +131,7 @@ public class SpellCardEntity extends PersistentProjectileEntity implements Polym
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.SCALE, new Vector3f(scale)));
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.BILLBOARD, (byte) DisplayEntity.BillboardMode.CENTER.ordinal()));
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM, itemStack));
-            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM_DISPLAY, ModelTransformationMode.FIXED.getIndex()));
+            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM_DISPLAY, ItemDisplayContext.FIXED.getIndex()));
         }
     }
 

@@ -37,8 +37,8 @@
 		"mystias_izakaya.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.0",
-		"minecraft": "1.21.4",
+		"fabricloader": "*",
+		"minecraft": "1.21.5",
 		"java": ">=21",
 		"fabric-api": "*",
 		"polymer-core": "*",

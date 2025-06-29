@@ -6,7 +6,7 @@ import cc.thonly.reverie_dreams.entity.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.component.Component;
@@ -74,7 +74,7 @@ public class Knife extends BasicPolymerSwordItem implements DanmakuItemType {
             if (!isInfinite) {
                 itemStack.damage(1, user);
             }
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), ModSoundEvents.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEventInit.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);
             return ActionResult.SUCCESS_SERVER;
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));

@@ -46,8 +46,8 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(ModBlocks.GENSOKYO_ALTAR);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MUSIC_BLOCK);
 
-        blockStateModelGenerator.registerLog(ModBlocks.SPIRITUAL_LOG).log(ModBlocks.SPIRITUAL_LOG).wood(ModBlocks.SPIRITUAL_WOOD);
-        blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_SPIRITUAL_LOG).log(ModBlocks.STRIPPED_SPIRITUAL_LOG).wood(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
+        blockStateModelGenerator.createLogTexturePool(ModBlocks.SPIRITUAL_LOG).log(ModBlocks.SPIRITUAL_LOG).wood(ModBlocks.SPIRITUAL_WOOD);
+        blockStateModelGenerator.createLogTexturePool(ModBlocks.STRIPPED_SPIRITUAL_LOG).log(ModBlocks.STRIPPED_SPIRITUAL_LOG).wood(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
         this.registerFamily(blockStateModelGenerator, SPIRITUAL_PLANKS);
 
         blockStateModelGenerator.registerDoor(ModBlocks.SPIRITUAL_DOOR);
@@ -163,8 +163,12 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
         itemModelGenerator.register(ModItems.HR02_08, Models.GENERATED);
         itemModelGenerator.register(ModItems.HR03_01, Models.GENERATED);
-        itemModelGenerator.register(ModItems.TH15_16, Models.GENERATED);
-        itemModelGenerator.register(ModItems.TH15_17, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS, Models.GENERATED);
+        itemModelGenerator.register(ModItems.YV_FLOWER_CLOCK_AND_DREAMS, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GLOWING_NEEDLES_LITTLE_PEOPLE, Models.GENERATED);
+
+        // 测试物品
+        itemModelGenerator.registerDyeable(ModItems.TEST_COLOR_DANMAKU_ITEM, 0);
 
 //        itemModelGenerator.register(ModItems.EMPTY_SPELL_CARD, Models.GENERATED);
 
@@ -223,7 +227,8 @@ public class ModModelProvider extends FabricModelProvider {
                 .put(TextureKey.SOUTH, TextureMap.getSubId(block, "_front"))
                 .put(TextureKey.EAST, TextureMap.getSubId(block, "_side"))
                 .put(TextureKey.WEST, TextureMap.getSubId(block, "_side"));
-        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Models.CUBE.upload(block, textureMap, blockStateModelGenerator.modelCollector)));
+        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, BlockStateModelGenerator.createWeightedVariant(Models.CUBE.upload(block, textureMap, blockStateModelGenerator.modelCollector))));
+
     }
 
     private static Model item(String parent, TextureKey... requiredTextureKeys) {

@@ -104,11 +104,7 @@ public class GhostEntity extends NPCEntityImpl {
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if(nbt.contains("SurvivalTime")) {
-            this.survivalTime = nbt.getInt("SurvivalTime");
-        } else {
-            this.survivalTime = 0;
-        }
+        this.survivalTime = nbt.getInt("SurvivalTime").orElse(0);
     }
 
     @Override

@@ -18,25 +18,26 @@ import java.util.List;
 
 public class TouhouClient implements ClientModInitializer {
     public static final Codec<TouhouClient> CODEC = Codec.unit(TouhouClient::new);
-    public static final String MOD_ID = "polymerized-touhou-mod";
+    public static final String MOD_ID = Touhou.MOD_ID;
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final List<Block> SERVER_SIDE_BLOCKS = List.of(Blocks.NOTE_BLOCK, Blocks.TRIPWIRE);
     public static boolean isPlayed = false;
 
     @Override
     public void onInitializeClient() {
-        ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
-            if (client.isIntegratedServerRunning()) {
-                GameProfile localProfile = client.getGameProfile();
-                GameProfile serverProfile = networkHandler.getProfile();
-
-                if (localProfile.getId().equals(serverProfile.getId())) {
-//                    PolymerResourcePackMod.generateAndCall(Touhou.getServer(), false, text -> {}, () -> {});
-                    client.reloadResources().thenRun(() -> {
-                    });
-                }
-            }
-        });
+//  In 1.21.4
+//        ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
+//            if (client.isIntegratedServerRunning()) {
+//                GameProfile localProfile = client.getGameProfile();
+//                GameProfile serverProfile = networkHandler.getProfile();
+//
+//                if (localProfile.getId().equals(serverProfile.getId())) {
+////                    PolymerResourcePackMod.generateAndCall(Touhou.getServer(), false, text -> {}, () -> {});
+//                    client.reloadResources().thenRun(() -> {
+//                    });
+//                }
+//            }
+//        });
         PayloadTypeRegistry.playS2C().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC); // 客户端接收来自服务端的包
         ClientPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayloadClient.Receiver::receiveClient);
 

@@ -5,6 +5,7 @@ import cc.thonly.reverie_dreams.item.base.BasicPolymerArmorItem;
 import cc.thonly.reverie_dreams.server.ParticleTickerManager;
 import cc.thonly.reverie_dreams.util.Vec3d2Player;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.particle.ParticleTypes;
@@ -18,7 +19,7 @@ import java.util.List;
 public class EarphoneItem extends BasicPolymerArmorItem {
     public static final List<Vec3d2Player> VEC_3_DS = new ArrayList<>();
 
-    public EarphoneItem(String path, Settings settings) {
+    public EarphoneItem(String path, Item.Settings settings) {
         super(path, EarphoneArmorMaterial.INSTANCE, EquipmentType.HELMET, settings);
     }
 

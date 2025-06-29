@@ -4,13 +4,13 @@ import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString
+@Builder(toBuilder = true)
 public class DanmakuRecipe extends BaseRecipe {
     public static final Codec<DanmakuRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ItemStackRecipeWrapper.CODEC.fieldOf("dye").forGetter(DanmakuRecipe::getDye),

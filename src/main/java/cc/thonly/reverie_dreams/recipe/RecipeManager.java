@@ -1,6 +1,9 @@
 package cc.thonly.reverie_dreams.recipe;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesCallback;
+import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesImpl;
+import cc.thonly.reverie_dreams.impl.RecipeInjectCallback;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
@@ -58,10 +61,14 @@ public class RecipeManager {
 
 
     public static void onReload(ResourceManager manager) {
+        RecipeCompatPatchesImpl.Builder.INSTANCE.clear();
         RECIPE_TYPES.forEach((key, recipeType) -> {
             try {
                 recipeType.removeAll();
                 recipeType.reload(manager);
+                RecipeCompatPatchesCallback.EVENT.invoker().onLoad();
+                RecipeCompatPatchesImpl.apply();
+                RecipeInjectCallback.EVENT.invoker().onLoad(recipeType);
                 log.info("Reloaded Recipe Type {}", key.toString());
             } catch (Exception e) {
                 log.error("Can't reload recipes {}, {}", key, e);

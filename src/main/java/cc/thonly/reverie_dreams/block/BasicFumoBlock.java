@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.block;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
 import cc.thonly.reverie_dreams.state.SixteenDirection;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
@@ -20,9 +20,9 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -91,7 +91,7 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            world.playSound(null, pos, ModSoundEvents.randomFumo(), SoundCategory.BLOCKS, 1f, 1);
+            world.playSound(null, pos, SoundEventInit.randomFumo(), SoundCategory.BLOCKS, 1f, 1);
             return ActionResult.SUCCESS_SERVER;
         }
         return ActionResult.SUCCESS;
@@ -133,7 +133,7 @@ public class BasicFumoBlock extends HorizontalFacingBlock implements FactoryBloc
             this.main.setDisplaySize(1f, 1f);
             this.main.setOffset(offsets);
             this.main.setScale(new Vector3f(1f));
-            this.main.setModelTransformation(ModelTransformationMode.NONE);
+            this.main.setItemDisplayContext(ItemDisplayContext.NONE);
             var yaw = state.get(FACING_16).getYaw();
             this.main.setYaw(yaw);
             this.addElement(this.main);

@@ -5,9 +5,7 @@ import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.util.Identifier;
@@ -19,6 +17,8 @@ import java.util.List;
 @Getter
 @ToString
 @Slf4j
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@Builder(toBuilder = true)
 public class KitchenRecipe extends BaseRecipe {
     public static final Codec<KitchenRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("recipe_type").forGetter(KitchenRecipe::getRecipeType),

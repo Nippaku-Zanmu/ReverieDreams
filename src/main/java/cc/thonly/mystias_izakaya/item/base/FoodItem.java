@@ -3,6 +3,7 @@ package cc.thonly.mystias_izakaya.item.base;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemStack;
@@ -14,9 +15,9 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class FoodItem extends BasicPolymerItem {
-
 
     public FoodItem(String path, Settings settings) {
         super(path, settings, Items.APPLE);
@@ -56,19 +57,20 @@ public class FoodItem extends BasicPolymerItem {
         return super.finishUsing(stack, world, user);
     }
 
+
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
         List<FoodProperty> foodProperties = FoodProperty.getFromItemStackComponent(stack);
         List<FoodProperty> foodIngredientProperties = FoodProperty.getIngredientProperties(this);
         Set<FoodProperty> foodPropertyList = new HashSet<>();
         foodPropertyList.addAll(foodProperties);
         foodPropertyList.addAll(foodIngredientProperties);
         if (!foodPropertyList.isEmpty()) {
-            tooltip.add(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
+            textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.food_properties")));
         }
         for (FoodProperty foodProperty : foodPropertyList) {
-            tooltip.add(Text.empty().append(FoodProperty.getDisplayPrefix(this, foodProperty)).append(foodProperty.getTooltip()));
+            textConsumer.accept(Text.empty().append(FoodProperty.getDisplayPrefix(this, foodProperty)).append(foodProperty.getTooltip()));
         }
 
     }

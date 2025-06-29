@@ -8,7 +8,6 @@ import eu.pb4.polymer.core.api.utils.PolymerKeepModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -27,21 +26,21 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerArmorItem extends ArmorItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
+public abstract class BasicPolymerArmorItem extends BasicPolymerItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem;
-    public static final List<ArmorItem> HEAD_ITEMS = new ArrayList<>();
-    public static final List<ArmorItem> CHEST_ITEMS = new ArrayList<>();
-    public static final List<ArmorItem> LEG_ITEMS = new ArrayList<>();
-    public static final List<ArmorItem> FEET_ITEMS = new ArrayList<>();
-    public static final List<ArmorItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerArmorItem> HEAD_ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerArmorItem> CHEST_ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerArmorItem> LEG_ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerArmorItem> FEET_ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerArmorItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerArmorItem(String path, ArmorMaterial material, EquipmentType type, Settings settings) {
         this(Touhou.id(path), material, type, settings);
     }
 
     public BasicPolymerArmorItem(Identifier identifier, ArmorMaterial material, EquipmentType type, Settings settings) {
-        super(material, type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(identifier, settings.armor(material, type).registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), Items.LEAD);
         this.identifier = identifier;
         if (type.equals(EquipmentType.HELMET)) {
             this.vanillaItem = Items.DIAMOND_HELMET;
@@ -68,7 +67,7 @@ public abstract class BasicPolymerArmorItem extends ArmorItem implements Polymer
 
     @Override
     public ItemStack getPolymerItemStack(ItemStack itemStack, TooltipType tooltipType, PacketContext context) {
-        ItemStack stack = PolymerItem.super.getPolymerItemStack(itemStack, tooltipType, context);
+        ItemStack stack = super.getPolymerItemStack(itemStack, tooltipType, context);
         return stack;
     }
 

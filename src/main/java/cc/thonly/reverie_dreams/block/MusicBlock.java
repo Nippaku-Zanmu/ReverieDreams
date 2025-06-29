@@ -102,12 +102,10 @@ public class MusicBlock extends BasicPolymerBlockWithEntity {
         }
     }
 
-
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return validateTicker(type, ModBlockEntities.MUSIC_BLOCK_ENTITY, MusicBlockEntity::tick);
     }
-
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {

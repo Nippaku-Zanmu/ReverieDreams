@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
@@ -25,7 +25,7 @@ public interface MobDanmakuShooter {
     void fire(LivingEntity self, Entity target, ServerWorld world);
 
     default void sound(LivingEntity self) {
-        self.playSound(ModSoundEvents.FIRE);
+        self.playSound(SoundEventInit.FIRE);
     }
 
     static float[] getPitchYaw(Entity self, Entity target) {

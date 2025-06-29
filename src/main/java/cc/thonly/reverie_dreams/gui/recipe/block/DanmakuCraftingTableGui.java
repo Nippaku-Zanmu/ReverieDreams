@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -98,8 +99,10 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
         this.tick++;
 
         if (this.tick > 2) {
-            List<ItemStackRecipeWrapper> slots = getRecipeSlotsForX();
+            List<ItemStackRecipeWrapper> slots = getInputs();
+            System.out.println(slots);
             List<DanmakuRecipe> recipeEntries = RecipeManager.DANMAKU_TYPE.getMatches(slots);
+            System.out.println(recipeEntries);
             int resultIndex = 0;
 
             for (int slot : this.cSlots) {
@@ -141,8 +144,8 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
         this.player.giveItemStack(resultItemStack);
     }
 
-    private List<ItemStackRecipeWrapper> getRecipeSlotsForX() {
-        List<ItemStackRecipeWrapper> countRecipeSlotList = new ArrayList<>();
+    private List<ItemStackRecipeWrapper> getInputs() {
+        List<ItemStackRecipeWrapper> countRecipeSlotList = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
             ItemStack itemStack = this.blockEntity.getInventory().getStack(i);
             countRecipeSlotList.add(new ItemStackRecipeWrapper(itemStack));

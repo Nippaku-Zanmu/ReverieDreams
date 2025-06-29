@@ -4,11 +4,12 @@ import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@Builder(toBuilder = true)
 public class StrengthTableRecipe extends BaseRecipe {
     public static final Codec<StrengthTableRecipe> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(

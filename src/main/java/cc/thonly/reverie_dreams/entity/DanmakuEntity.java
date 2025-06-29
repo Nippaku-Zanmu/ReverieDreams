@@ -23,7 +23,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ItemStackParticleEffect;
@@ -43,10 +42,12 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
+import net.minecraft.item.ItemDisplayContext;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
+
 
 @Setter
 @Getter
@@ -62,6 +63,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     protected Float acceleration = 0f;
     private final float setupPitch;
     private final float setupYaw;
+    private double damage;
 
     public int flyAge = 0;
     protected int fluidAge = 0;
@@ -154,7 +156,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
             }
 
             data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM, this.itemStack));
-            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM_DISPLAY, ModelTransformationMode.GUI.getIndex()));
+            data.add(DataTracker.SerializedEntry.of(DisplayTrackedData.Item.ITEM_DISPLAY, ItemDisplayContext.GUI.getIndex()));
         }
     }
 
@@ -176,16 +178,16 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         if (nbt.contains("Item")) {
-            this.itemStack = ItemStack.fromNbt(this.getRegistryManager(), nbt.getCompound("Item")).orElse(ItemStack.EMPTY);
+            this.itemStack = ItemStack.fromNbt(this.getRegistryManager(), nbt.getCompound("Item").get()).orElse(ItemStack.EMPTY);
         }
         if (nbt.contains("IsTile")) {
-            this.tile = nbt.getBoolean("IsTile");
+            this.tile = nbt.getBoolean("IsTile").orElse(true);
         }
         if (nbt.contains("DamageType")) {
-            this.danmakuDamageType = RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType")));
+            this.danmakuDamageType = RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType").get()));
         }
         if (nbt.contains("FlyAge")) {
-            this.flyAge = nbt.getInt("FlyAge");
+            this.flyAge = nbt.getInt("FlyAge").orElse(0);
         }
     }
 
@@ -222,7 +224,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
             this.particleTick = 0;
         }
 
-        if (this.isInsideWaterOrBubbleColumn()) {
+        if (this.isTouchingWater()) {
 //            this.setVelocity(this.getVelocity().multiply(0.8));
             this.fluidAge++;
             if (this.fluidAge > 80) {

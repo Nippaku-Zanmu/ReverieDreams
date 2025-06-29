@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.mixin;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.DanmakuEntity;
 import cc.thonly.reverie_dreams.interfaces.LivingEntityImpl;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.world.WorldGetter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -160,7 +160,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     public boolean deathByDanmaku(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if ((this.getHealth() - amount <= 0f) && source.getSource() instanceof DanmakuEntity) {
             Entity self = (Entity) this;
-            self.playSound(ModSoundEvents.BIU, 0.35F, 1.0F);
+            self.playSound(SoundEventInit.BIU, 0.35F, 1.0F);
             return true;
         }
         return false;
@@ -203,10 +203,10 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
 
     @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
     public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-        this.maxHealthModifier = nbt.getFloat("MaxHealthModifier");
-        this.deathCount = nbt.getInt("DeathCount");
-        this.deathCountResetTimer = nbt.getInt("DeathCountResetTimer");
-        this.manpozuchiUsingState = nbt.getDouble("ManpozuchiUsingState");
+        this.maxHealthModifier = nbt.getFloat("MaxHealthModifier").orElse(0.0f);
+        this.deathCount = nbt.getInt("DeathCount").orElse(0);
+        this.deathCountResetTimer = nbt.getInt("DeathCountResetTimer").orElse(0);
+        this.manpozuchiUsingState = nbt.getDouble("ManpozuchiUsingState").orElse(0.0);
     }
 
     @Override

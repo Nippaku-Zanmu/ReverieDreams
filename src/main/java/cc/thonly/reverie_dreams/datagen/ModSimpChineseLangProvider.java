@@ -8,7 +8,6 @@ import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
-import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ModEntities;
@@ -16,8 +15,8 @@ import cc.thonly.reverie_dreams.item.BasicDanmakuItemTypeItem;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.entry.DanmakuItemType;
 import cc.thonly.reverie_dreams.lang.LanguageKeys;
-import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
@@ -82,6 +81,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         this.generateSoundTranslations(wrapperLookup, translationBuilder);
         this.generateEntityTranslations(wrapperLookup, translationBuilder);
         this.generateEffectTranslations(wrapperLookup, translationBuilder);
+        this.generateTestTranslations(wrapperLookup, translationBuilder);
 
         translationBuilder.add("gui.npc.info", "§d");
         translationBuilder.add("gui.npc.info.name", "§d名字: %s");
@@ -104,6 +104,10 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
         LanguageKeys.SIMP_CHINESE.build(translationBuilder);
         this.generateMITranslations(wrapperLookup, translationBuilder);
+    }
+
+    public void generateTestTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        translationBuilder.add(ModItems.TEST_COLOR_DANMAKU_ITEM, "测试可染色弹幕");
     }
 
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -514,14 +518,14 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateSoundTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        for (var sound : ModSoundEvents.FUMO_SOUNDS) {
+        for (var sound : SoundEventInit.FUMO_SOUNDS) {
             this.generateSoundEventSubtitle(translationBuilder, sound, "fumo");
         }
-        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.BIU, "满身疮痍");
-        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.POINT, "收点");
-        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.SPELL_CARD, "符卡释放");
-        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.UP, "升级");
-        this.generateSoundEventSubtitle(translationBuilder, ModSoundEvents.FIRE, "弹幕发射");
+        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.BIU, "满身疮痍");
+        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.POINT, "收点");
+        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.SPELL_CARD, "符卡释放");
+        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.UP, "升级");
+        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.FIRE, "弹幕发射");
 
         this.generateDiscTranslations(wrapperLookup, translationBuilder);
         this.generateDanmakuType(wrapperLookup, translationBuilder);
@@ -538,11 +542,12 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateDiscTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        this.generateJukeBox(translationBuilder, ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey(), "ZUN - 蓬莱人形　～ Dolls in Pseudo Paradise.");
-        this.generateJukeBox(translationBuilder, ModJukeboxSongs.HR02_08.getJukeboxSongRegistryKey(), "莲台野夜行 - 过去的花 ～ Fairy of Flower");
-        this.generateJukeBox(translationBuilder, ModJukeboxSongs.HR03_01.getJukeboxSongRegistryKey(), "ZUN - 童祭　～ Innocent Treasures");
-        this.generateJukeBox(translationBuilder, ModJukeboxSongs.TH15_16.getJukeboxSongRegistryKey(), "东方绀珠传 - 前所未见的噩梦世界");
-        this.generateJukeBox(translationBuilder, ModJukeboxSongs.TH15_17.getJukeboxSongRegistryKey(), "东方绀珠传 - Pandemonic Planet");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey(), "蓬莱人形　～ Dolls in Pseudo Paradise. - 蓬莱伝説");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey(), "莲台野夜行 - 过去的花 ～ Fairy of Flower");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey(), "ZUN - 童祭　～ Innocent Treasures");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey(), "Melodic-Taste-Nightmare-before-Crossroads");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey(), "Yonder-Voice - 花時計と夢");
+        this.generateJukeBox(translationBuilder, JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey(), "Inchlings of the Shining Needle ~ Little Princess : 「Miracle Remix」");
     }
 
     public void generateBlockTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {

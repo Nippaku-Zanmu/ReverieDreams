@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.block;
 
 import cc.thonly.reverie_dreams.item.BasicBlockItem;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import cc.thonly.reverie_dreams.util.ObjectContainer;
 import lombok.Getter;
@@ -147,7 +147,7 @@ public class FumoBlocks {
             public ActionResult use(World world, PlayerEntity user, Hand hand) {
                 super.use(world, user, hand);
                 if (!world.isClient) {
-                    world.playSound(null, user.getBlockPos(), ModSoundEvents.randomFumo(), SoundCategory.BLOCKS, 1f, 1);
+                    world.playSound(null, user.getBlockPos(), SoundEventInit.randomFumo(), SoundCategory.BLOCKS, 1f, 1);
                     return ActionResult.SUCCESS_SERVER;
                 }
                 return ActionResult.SUCCESS;

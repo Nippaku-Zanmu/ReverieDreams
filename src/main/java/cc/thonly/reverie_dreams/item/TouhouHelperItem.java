@@ -7,6 +7,7 @@ import cc.thonly.reverie_dreams.server.DelayedTask;
 import eu.pb4.sgui.api.elements.BookElementBuilder;
 import eu.pb4.sgui.api.gui.BookGui;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.component.type.WrittenBookContentComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -28,6 +29,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TouhouHelperItem extends BasicPolymerItem {
     public TouhouHelperItem(String path, Settings settings) {
@@ -41,8 +43,8 @@ public class TouhouHelperItem extends BasicPolymerItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
     }
 
     @Override
@@ -89,11 +91,11 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("欢迎游玩东方Project模组，本书将介绍模组的游玩指南"),
                     Text.empty(),
                     Text.empty().append("导航目录："),
-                    Text.empty().append("- [祭坛摆放]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "3"))),
-                    Text.empty().append("- [弹幕合成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "5"))),
+                    Text.empty().append("- [祭坛摆放]").setStyle(Style.EMPTY.withClickEvent( new ClickEvent.ChangePage(3))),
+                    Text.empty().append("- [弹幕合成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(5))),
                     Text.empty().append("- [物品合成]"),
                     Text.empty().append("- [Fumo制作]"),
-                    Text.empty().append("- [配方管理器]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/touhou ui_relay_recipe")))
+                    Text.empty().append("- [配方管理器]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.RunCommand("/touhou ui_relay_recipe")))
             );
             // 2
             builder.addPage(Text.empty());
@@ -129,8 +131,8 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("通用弹幕配方："),
                     Text.empty().append("§a⏹ -> ").append("任意颜料"),
                     Text.empty().append("§b⏹ -> ").append(Text.translatable(Items.FIREWORK_STAR.getTranslationKey())),
-                    Text.empty().append("§c⏹ -> ").append(Text.translatable(ModItems.POWER.getTranslationKey())).append("*20"),
-                    Text.empty().append("§d⏹ -> ").append(Text.translatable(ModItems.POINT.getTranslationKey())).append("*20"),
+                    Text.empty().append("§c⏹ -> ").append(Text.translatable(ModItems.POWER.getTranslationKey())),
+                    Text.empty().append("§d⏹ -> ").append(Text.translatable(ModItems.POINT.getTranslationKey())),
                     Text.empty().append("§e⏹ -> ")
             );
             builder.signed();

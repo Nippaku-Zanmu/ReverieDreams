@@ -15,7 +15,7 @@ import cc.thonly.reverie_dreams.item.entry.DanmakuColor;
 import cc.thonly.reverie_dreams.item.entry.DanmakuItemType;
 import cc.thonly.reverie_dreams.item.tool.*;
 import cc.thonly.reverie_dreams.item.weapon.*;
-import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
+import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -122,11 +122,15 @@ public class ModItems {
     public static final Item SPELL_CARD_TEMPLATE = registerItemNoGroup(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
 
     // DISC
-    public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item HR02_08 = registerDiscItem(new BasicPolymerDiscItem("hr02_08", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR02_08.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.HR03_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item TH15_16 = registerDiscItem(new BasicPolymerDiscItem("th15_16", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_16.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item TH15_17 = registerDiscItem(new BasicPolymerDiscItem("th15_17", new Item.Settings().jukeboxPlayable(ModJukeboxSongs.TH15_17.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR02_08 = registerDiscItem(new BasicPolymerDiscItem("hr02_08", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS = registerDiscItem(new BasicPolymerDiscItem("melodic-taste-nightmare-before-crossroads", new Item.Settings().jukeboxPlayable(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item YV_FLOWER_CLOCK_AND_DREAMS = registerDiscItem(new BasicPolymerDiscItem("yv_flower_clock_and_dreams", new Item.Settings().jukeboxPlayable(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+
+    // 测试物品
+    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));
 
     static {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(itemGroup -> {
@@ -235,7 +239,7 @@ public class ModItems {
 //            };
 //
 //            world.spawnEntity(spellCardEntity);
-//            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), ModSoundEvents.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
+//            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), SoundEventInit.SPELL_CARD, user.getSoundCategory(), 1.0f, 1.0f);
 //        }
 //
 //        @Override

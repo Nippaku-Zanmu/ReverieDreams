@@ -22,17 +22,17 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerSwordItem extends SwordItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
+public abstract class BasicPolymerSwordItem extends BasicPolymerItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.DIAMOND_SWORD;
-    public static final List<SwordItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerSwordItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Item.Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);
     }
 
     public BasicPolymerSwordItem(Identifier identifier, ToolMaterial material, float attackDamage, float attackSpeed, Item.Settings settings) {
-        super(material, attackDamage, attackSpeed, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(identifier, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).sword(material, attackDamage, attackSpeed), Items.DIAMOND_SWORD);
         this.identifier = identifier;
         ITEMS.add(this);
     }
@@ -44,7 +44,7 @@ public abstract class BasicPolymerSwordItem extends SwordItem implements Polymer
 
     @Override
     public ItemStack getPolymerItemStack(ItemStack itemStack, TooltipType tooltipType, PacketContext context) {
-        ItemStack stack = PolymerItem.super.getPolymerItemStack(itemStack, tooltipType, context);
+        ItemStack stack = super.getPolymerItemStack(itemStack, tooltipType, context);
         return stack;
     }
 

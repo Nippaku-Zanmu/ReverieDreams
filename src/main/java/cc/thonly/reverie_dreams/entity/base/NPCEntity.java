@@ -18,7 +18,7 @@ public abstract class NPCEntity extends TameableEntity implements PlayerPolymerE
     @Override
     public abstract @Nullable LivingEntity getOwner();
 
-    @Override
-    public abstract @Nullable UUID getOwnerUuid();
+//    @Override
+//    public abstract @Nullable UUID getOwnerUuid();
 
 }

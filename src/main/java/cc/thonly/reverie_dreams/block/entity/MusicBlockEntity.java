@@ -19,6 +19,7 @@ import java.util.Map;
 @Getter
 public class MusicBlockEntity extends BlockEntity {
     private String select = null;
+    public boolean isFirst = true;
 
     public MusicBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.MUSIC_BLOCK_ENTITY, pos, state);
@@ -32,12 +33,18 @@ public class MusicBlockEntity extends BlockEntity {
     }
 
     public static synchronized void tick(World world, BlockPos pos, BlockState state, MusicBlockEntity blockEntity) {
-        if (world.isClient) return;
+        if (world.isClient()) return;
 
         boolean hasRedstone = world.isReceivingRedstonePower(pos);
 
         Map<BlockPos, SongPlayer> blockPos2SongPlayer = TouhouNotaUtils.blockMusicPlayCache.computeIfAbsent(world, w -> new HashMap<>());
         SongPlayer songPlayer = blockPos2SongPlayer.get(pos);
+
+        if (hasRedstone && blockEntity.isFirst && blockEntity.select != null) {
+            blockEntity.isFirst = false;
+            TouhouNotaUtils.playAt(world, pos, blockEntity.getSelect());
+            return;
+        }
 
         if (hasRedstone && songPlayer == null) {
             TouhouNotaUtils.playAt(world, pos, blockEntity.getSelect());
@@ -60,7 +67,7 @@ public class MusicBlockEntity extends BlockEntity {
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
-        this.select = nbt.getString("Select");
+        this.select = nbt.getString("Select").orElse("");
     }
 
     public int play() {

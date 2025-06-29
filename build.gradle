@@ -66,31 +66,31 @@ dependencies {
     modImplementation("eu.pb4:polymer-autohost:${polymer_version}")
     modImplementation("eu.pb4:polymer-networking:[${polymer_version}]")
 
-    modImplementation include("maven.modrinth:pfu:0.2.3+1.21.4")
+//    modImplementation include("maven.modrinth:pfu:0.2.3+1.21.4")
     modImplementation include("eu.pb4:factorytools:[${factorytools_version}]")
     modImplementation include("eu.pb4:sgui:[${sgui_version}]")
-    modImplementation include("xyz.nucleoid:server-translations-api:2.4.0+1.21.2-rc1")
+    modImplementation include("xyz.nucleoid:server-translations-api:2.5.1+1.21.5")
     modImplementation include("maven.modrinth:midnightlib:${midnightlib_version}")
 
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-block:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-chunk:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-block:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}")
+//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-chunk:${project.cca_version}")
 
     modImplementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
     modImplementation include("eu.pb4:map-canvas-api:${project.mapcanvas_version}")
 
-    modImplementation files('libs/resourceconfigapi-fabric-1.21.4-3.6.1.jar')
-    modImplementation files('libs/eiv-fabric-2.5.3+1.21.4.jar')
+    modImplementation files('libs/resourceconfigapi-fabric-1.21.5-3.7.0.jar')
+    modImplementation files('libs/eiv-fabric-2.5.3+1.21.5.jar')
 
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     compileOnly('org.geysermc.geyser:api:2.6.1-SNAPSHOT')
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
-    modCompileOnly 'maven.modrinth:polydex:1.2.4+1.21.1'
+    modCompileOnly 'maven.modrinth:polydex:1.5.0+1.21.5-rc2'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     implementation include('com.mohistmc:dynamicenum:0.3')

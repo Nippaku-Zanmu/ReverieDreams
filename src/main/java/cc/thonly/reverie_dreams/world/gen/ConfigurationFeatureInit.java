@@ -43,7 +43,7 @@ public class ConfigurationFeatureInit {
                 OreFeatureConfig.createTarget(deepslateReplaceables, ModBlocks.DEEPSLATE_ORB_ORE.getDefaultState()));
 
         registerContext(context, OVERWORLD_SILVER_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldSilverTargets, 15, 0.5F));
-        registerContext(context, OVERWORLD_ORB_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldOrbTargets, 13, 0.5F));
+        registerContext(context, OVERWORLD_ORB_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldOrbTargets, 7, 0.32F));
     }
 
     private static <FC extends FeatureConfig, F extends Feature<FC>> void registerContext(Registerable<ConfiguredFeature<?, ?>> context,

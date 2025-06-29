@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.reverie_dreams.datagen.generator.SoundProvider;
-import cc.thonly.reverie_dreams.sound.ModJukeboxSongs;
-import cc.thonly.reverie_dreams.sound.ModSoundEvents;
+import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
+import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -15,12 +15,13 @@ public class ModSoundProvider extends SoundProvider {
 
     @Override
     public void configured() {
-        this.addWithRecords(ModJukeboxSongs.HR01_01, null);
-        this.addWithRecords(ModJukeboxSongs.HR02_08, null);
-        this.addWithRecords(ModJukeboxSongs.HR03_01, null);
-        this.addWithRecords(ModJukeboxSongs.TH15_16, null);
-        this.addWithRecords(ModJukeboxSongs.TH15_17, null);
-        for (var soundEvent : ModSoundEvents.SOUND_EVENTS) {
+        this.addWithRecords(JukeboxSongInit.HR01_01, null);
+        this.addWithRecords(JukeboxSongInit.HR02_08, null);
+        this.addWithRecords(JukeboxSongInit.HR03_01, null);
+        this.addWithRecords(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS, null);
+        this.addWithRecords(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS, null);
+        this.addWithRecords(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE, null);
+        for (var soundEvent : SoundEventInit.SOUND_EVENTS) {
             this.addWithSoundEvent(soundEvent, null);
         }
     }

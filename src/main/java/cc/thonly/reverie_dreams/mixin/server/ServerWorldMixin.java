@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.mixin.server;
 
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.util.Vec3d2Player;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerWorld.class)
 public class ServerWorldMixin {
     @Inject(method = "playSound", at = @At("TAIL"))
-    public void onPlaySound(@Nullable PlayerEntity source, double x, double y, double z, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed, CallbackInfo ci) {
+    public void onPlaySound(@Nullable Entity source, double x, double y, double z, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed, CallbackInfo ci) {
         EarphoneItem.VEC_3_DS.add(new Vec3d2Player(new Vec3d(x, y, z), source));
     }
 }

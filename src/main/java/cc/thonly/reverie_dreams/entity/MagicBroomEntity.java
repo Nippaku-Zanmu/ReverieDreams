@@ -22,9 +22,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -88,7 +88,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
             stack.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
         }
         x.setItem(stack);
-        x.setModelTransformation(ModelTransformationMode.HEAD);
+        x.setItemDisplayContext(ItemDisplayContext.HEAD);
         x.setInvisible(true);
         x.setTeleportDuration(3);
         x.setScale(new Vector3f(1.2f));
@@ -160,7 +160,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
         Vec2f vec2f = this.getControlledRotation(controllingPlayer);
         this.setRotation(vec2f.y, vec2f.x);
         this.bodyYaw = this.headYaw = this.getYaw();
-        this.prevYaw = this.headYaw;
+        this.lastBodyYaw = this.headYaw;
 
         if (!this.summonItem.isEmpty() && !controllingPlayer.isInCreativeMode() && this.summonItem.isDamageable()) {
             this.damageTick++;
@@ -259,7 +259,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
             sItemOpt.ifPresent(itemStack -> this.summonItem = itemStack);
         }
         if (nbt.contains("OwnerUUID")) {
-            this.ownerUUID = nbt.getString("OwnerUUID");
+            this.ownerUUID = nbt.getString("OwnerUUID").orElse("null");
         }
     }
 

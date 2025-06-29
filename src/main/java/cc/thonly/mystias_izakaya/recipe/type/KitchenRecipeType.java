@@ -59,12 +59,18 @@ public class KitchenRecipeType extends BaseRecipeType<KitchenRecipe> {
                 result.resultOrPartial(error -> log.error("Failed to load kitchen recipe {}, {}", id, error))
                         .ifPresent(recipe -> {
                             this.add(registryKey, recipe);
-                            this.register(recipe.getType(), registryKey, recipe);
                         });
             } catch (IOException e) {
                 log.error("Failed to load kitchen recipe {}, {}, {}", id, e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public BaseRecipeType<KitchenRecipe> add(Identifier id, KitchenRecipe recipe) {
+        super.add(id, recipe);
+        this.register(recipe.getType(), id, recipe);;
+        return this;
     }
 
     public void register(KitchenType type, Identifier key, KitchenRecipe recipe) {

@@ -156,10 +156,11 @@ public class KitchenwareBlockEntity extends BlockEntity {
         SimpleInventory inventory = new SimpleInventory(6);
         Inventories.readNbt(nbt, inventory.heldStacks, registries);
         this.inventory = inventory;
-        this.tickLeft = nbt.getDouble("TickLeft");
-        this.tickSpeedBonus = nbt.getDouble("TickSpeedBonus");
-        if (nbt.contains("PreOutput")) {
-            String preOutputJson = nbt.getString("PreOutput");
+        this.tickLeft = nbt.getDouble("TickLeft").orElse(0.0);
+        this.tickSpeedBonus = nbt.getDouble("TickSpeedBonus").orElse(0.0);
+        Optional<String> pOutputOptional = nbt.getString("PreOutput");
+        if (pOutputOptional.isPresent()) {
+            String preOutputJson = pOutputOptional.get();
             JsonElement json = JsonParser.parseString(preOutputJson);
             Dynamic<JsonElement> input = new Dynamic<>(JsonOps.INSTANCE, json);
             DataResult<ItemStackRecipeWrapper> parse = ItemStackRecipeWrapper.CODEC.parse(input);

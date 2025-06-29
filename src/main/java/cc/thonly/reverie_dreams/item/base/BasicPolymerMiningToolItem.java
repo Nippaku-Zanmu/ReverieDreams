@@ -23,17 +23,30 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerMiningToolItem extends MiningToolItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
+public abstract class BasicPolymerMiningToolItem extends BasicPolymerItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.TRIAL_KEY;
-    public static final List<MiningToolItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerMiningToolItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerMiningToolItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);
     }
 
     public BasicPolymerMiningToolItem(Identifier identifier, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(material, ModTags.BlockTypeTag.MIN_TOOL, attackDamage, attackSpeed, material.applySwordSettings(settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), attackDamage, attackSpeed));
+        super(identifier, material
+                .applySwordSettings(
+                        settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)),
+                        attackDamage,
+                        attackSpeed
+                )
+                .tool(material,
+                        ModTags.BlockTypeTag.MIN_TOOL,
+                        attackDamage,
+                        attackSpeed,0.0F
+                ),
+                Items.TRIAL_KEY
+        );
+
         this.identifier = identifier;
         ITEMS.add(this);
     }
@@ -45,7 +58,7 @@ public abstract class BasicPolymerMiningToolItem extends MiningToolItem implemen
 
     @Override
     public ItemStack getPolymerItemStack(ItemStack itemStack, TooltipType tooltipType, PacketContext context) {
-        ItemStack stack = PolymerItem.super.getPolymerItemStack(itemStack, tooltipType, context);
+        ItemStack stack = super.getPolymerItemStack(itemStack, tooltipType, context);
         return stack;
     }
 

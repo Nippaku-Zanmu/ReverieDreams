@@ -22,17 +22,17 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerPickaxeItem extends PickaxeItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
+public abstract class BasicPolymerPickaxeItem extends BasicPolymerItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.DIAMOND_PICKAXE;
-    public static final List<PickaxeItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerPickaxeItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerPickaxeItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);
     }
 
     public BasicPolymerPickaxeItem(Identifier identifier, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(identifier, settings.pickaxe(material, attackDamage, attackSpeed).registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), Items.DIAMOND_PICKAXE);
         this.identifier = identifier;
         ITEMS.add(this);
     }
@@ -44,7 +44,7 @@ public abstract class BasicPolymerPickaxeItem extends PickaxeItem implements Pol
 
     @Override
     public ItemStack getPolymerItemStack(ItemStack itemStack, TooltipType tooltipType, PacketContext context) {
-        ItemStack stack = PolymerItem.super.getPolymerItemStack(itemStack, tooltipType, context);
+        ItemStack stack = super.getPolymerItemStack(itemStack, tooltipType, context);
         return stack;
     }
 

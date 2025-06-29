@@ -18,6 +18,7 @@ public class JukeBoxEntry {
     private final int length;
     private final int output;
     private JukeboxSong ref;
+
     public JukeBoxEntry(String id, RegistryKey<JukeboxSong> jukeboxSongRegistryKey, RegistryEntry.Reference<SoundEvent> soundEventReference, int length, int output) {
         this.id = id;
         this.jukeboxSongRegistryKey = jukeboxSongRegistryKey;

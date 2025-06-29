@@ -15,9 +15,4 @@ public class NueTrident extends BasicPolymerMiningToolItem {
         super(path, NUE_TRIDENT, attackDamage + 3.5f, attackSpeed - 2.8f, settings);
     }
 
-
-    @Override
-    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return !miner.isCreative();
-    }
 }
