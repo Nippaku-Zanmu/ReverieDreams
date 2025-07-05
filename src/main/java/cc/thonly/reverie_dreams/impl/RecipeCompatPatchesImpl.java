@@ -14,10 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @SuppressWarnings("unchecked")
@@ -59,7 +61,7 @@ public class RecipeCompatPatchesImpl {
             return this;
         }
 
-        public Builder<R> add(Item targetItem, Item ...compatItems) {
+        public Builder<R> add(Item targetItem, Item... compatItems) {
             for (Item item : compatItems) {
                 this.add(new CompatEntry(targetItem, item));
             }
@@ -131,10 +133,10 @@ public class RecipeCompatPatchesImpl {
                             Identifier oldId = view.getKey();
                             Identifier newIdentifier = null;
                             if (oldId == null) {
-                                oldId = Identifier.of(UUID.randomUUID().toString());
+                                oldId = Identifier.of("unknown_recipe_" + UUID.randomUUID());
                                 newIdentifier = oldId;
                             } else {
-                                newIdentifier = Identifier.of(oldId.getNamespace() + ":unknown_recipe_" + oldId.getPath() + "_" + itemId.toString().replaceAll(":", "_"));
+                                newIdentifier = Identifier.of(oldId.getNamespace() + ":" + oldId.getPath() + "_" + itemId.toString().replaceAll(":", "_"));
                             }
                             registries.put(newIdentifier, baseRecipe);
                         }

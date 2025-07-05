@@ -66,9 +66,12 @@ public class TouhouCommand implements CommandInit.CommandRegistration {
     }
 
     private int about(CommandContext<ServerCommandSource> context) {
-        BufferedImage iconBuffer = ImageToTextScanner.getInstance()
-                .loadImageFromJar("/assets/" + Touhou.MOD_ID + "/icon.png");
-        List<Text> iconText = ImageToTextScanner.getInstance()
+        Class<?> clazz = Touhou.class;
+        ImageToTextScanner instance = ImageToTextScanner.createInstance(clazz);
+        String path = ImageToTextScanner.ofNamespace(Touhou.MOD_ID, "icon.png");
+        BufferedImage iconBuffer = instance
+                .loadImageFromJar(path);
+        List<Text> iconText = instance
                 .renderImageToText(iconBuffer, 16, 16);
 
         String[] infoLines = new String[]{

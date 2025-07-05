@@ -10,7 +10,7 @@ public interface RegistrableObject<T extends RegistrableObject<T>> {
 
     public Codec<T> getCodec();
 
-    public default Boolean canReloadable() {
+    public default Boolean isDirect() {
         return false;
     }
 }

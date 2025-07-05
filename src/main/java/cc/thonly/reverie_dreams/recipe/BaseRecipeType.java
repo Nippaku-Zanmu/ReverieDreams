@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams.recipe;
 
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
-import cc.thonly.reverie_dreams.recipe.type.DanmakuRecipeType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -9,7 +8,6 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import eu.pb4.polymer.core.api.utils.PolymerObject;
-import eu.pb4.sgui.api.gui.SimpleGui;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;

@@ -69,19 +69,23 @@ public interface PlayerPolymerEntity extends PolymerEntity {
         var packet = PolymerEntityUtils.createMutablePlayerListPacket(EnumSet.of(PlayerListS2CPacket.Action.ADD_PLAYER));
         var profile = new GameProfile(((Entity) this).getUuid(), "");
         profile.getProperties().put("textures", this.getSkin());
-//        System.out.println(profile.getProperties().asMap().toString());;
-        packet.getEntries().add(new PlayerListS2CPacket.Entry(profile.getId(), profile, false, Integer.MAX_VALUE,  GameMode.ADVENTURE, Text.empty(), true,0, null));
+        packet.getEntries().add(new PlayerListS2CPacket.Entry(profile.getId(), profile, false, Integer.MAX_VALUE, GameMode.ADVENTURE, Text.empty(), true, 0, null));
         packetConsumer.accept(packet);
+    }
+
+    default void sendRefreshPacket() {
+        var e = (Entity) this;
+       PolymerEntityUtils.refreshEntity(e);
     }
 
     @Override
     default void modifyRawTrackedData(List<DataTracker.SerializedEntry<?>> data, ServerPlayerEntity player, boolean initial) {
         data.add(DataTracker.SerializedEntry.of(
-                PlayerEntityAccessor.getPLAYER_MODEL_PARTS(),
+                PlayerEntityAccessor.getPlayerModelParts(),
                 (byte) (0xFF & ~0x01)
         ));
         data.add(DataTracker.SerializedEntry.of(
-                EntityAccessor.getNAME_VISIBLE(),
+                EntityAccessor.getNameVisible(),
                 false
         ));
     }

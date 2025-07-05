@@ -2,7 +2,6 @@ package cc.thonly.reverie_dreams.item.base;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.item.entry.DanmakuColor;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 @Setter
@@ -30,12 +28,17 @@ import java.util.function.Consumer;
 @ToString
 public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implements DanmakuItemType {
     public static final Integer DEFAULT_COUNT = 3;
+
     public BasicPolymerDanmakuItem(String path, Settings settings, Item item) {
-        super(path, settings.maxCount(1), item != null ? item : Items.SNOWBALL);
+        super(path, settings.maxCount(1), item != null ? item : Items.TORCH);
+    }
+
+    public BasicPolymerDanmakuItem(Identifier identifier, Settings settings, Item item) {
+        super(identifier, settings.maxCount(1), item != null ? item : Items.TORCH);
     }
 
     public BasicPolymerDanmakuItem(String path, Settings settings) {
-        this(path, settings.maxCount(1), Items.SNOWBALL);
+        this(path, settings.maxCount(1), Items.TORCH);
     }
 
     @Override
@@ -53,6 +56,7 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
             }
 
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEventInit.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);
+            user.swingHand(hand);
             return ActionResult.SUCCESS_SERVER;
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
@@ -62,16 +66,13 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
         super.appendTooltip(stack, context, displayComponent, textConsumer, type);
-        Integer colorId = stack.getOrDefault(ModDataComponentTypes.Danmaku.COLOR, -1);
         Float damage = stack.getOrDefault(ModDataComponentTypes.Danmaku.DAMAGE, null);
         Float scale = stack.getOrDefault(ModDataComponentTypes.Danmaku.SCALE, null);
         Float speed = stack.getOrDefault(ModDataComponentTypes.Danmaku.SPEED, null);
         Integer count = stack.getOrDefault(ModDataComponentTypes.Danmaku.COUNT, DEFAULT_COUNT);
         String templateType = stack.getOrDefault(ModDataComponentTypes.Danmaku.TEMPLATE, Touhou.id("single").toString());
-        DanmakuColor colorEnum = DanmakuColor.fromIndex(colorId);
 
         textConsumer.accept(Text.empty());
-        textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.color")).append(colorEnum.getEnglishTranslation()));
         textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.damage")).append(String.valueOf(damage)));
         textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.speed")).append(String.valueOf(speed)));
         textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.count")).append(String.valueOf(count)));

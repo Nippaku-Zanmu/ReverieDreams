@@ -39,7 +39,8 @@ public class DanmakuGoal extends Goal {
         this.launcher = launcher != null ? launcher : DEFAULT_MOB_DANMAKU_FIRE_LAUNCHER;
         this.minDelayTicks = minDelayTicks;
         this.maxDelayTicks = maxDelayTicks;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+//        Goal.Control.MOVE,
+        this.setControls(EnumSet.of(Goal.Control.LOOK));
     }
 
     @Override
@@ -48,8 +49,8 @@ public class DanmakuGoal extends Goal {
         if (livingEntity == null || !livingEntity.isAlive()) {
             return false;
         }
-        if(livingEntity instanceof PlayerEntity player) {
-            if(player.isInCreativeMode()) {
+        if (livingEntity instanceof PlayerEntity player) {
+            if (player.isInCreativeMode()) {
                 return false;
             }
         }
@@ -93,13 +94,22 @@ public class DanmakuGoal extends Goal {
         this.mob.setPitch(pitchYaw[0]);
         this.mob.setYaw(pitchYaw[1]);
 
+        double distanceSq = this.self.squaredDistanceTo(this.attackTarget);
+        if (distanceSq > 64.0) {
+            if (this.mob.getNavigation().isIdle()) {
+                this.mob.getNavigation().startMovingTo(this.attackTarget, 1.5);
+            }
+        } else {
+            this.mob.getNavigation().stop();
+        }
+
         if (--this.updateCountdownTicks <= 0) {
             World world = this.self.getWorld();
             if (world instanceof ServerWorld serverWorld) {
                 this.launcher.fire(this.self, this.attackTarget, serverWorld);
                 this.launcher.sound(this.self);
             }
-            resetCooldown();
+            this.resetCooldown();
         }
     }
 }

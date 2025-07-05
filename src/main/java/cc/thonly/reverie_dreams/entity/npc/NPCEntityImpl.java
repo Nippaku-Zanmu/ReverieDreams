@@ -4,6 +4,8 @@ import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.reverie_dreams.entity.ai.goal.NpcBowAttackGoal;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
+import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.gui.NPCGui;
 import cc.thonly.reverie_dreams.interfaces.ItemStackImpl;
 import cc.thonly.reverie_dreams.inventory.NPCInventory;
@@ -72,7 +74,7 @@ import java.util.function.Predicate;
 @Setter
 public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob, NPCSettings {
     protected static final Item TAME_FOOD_ITEM = Items.CAKE;
-    protected final Property skin;
+    protected Property skin;
     protected NPCState npcState = NPCState.NORMAL;
     protected boolean isSit = false;
     protected String npcOwner = "";
@@ -119,11 +121,13 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     public NPCEntityImpl(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
-        this.skin = NPCEntitySkins.REIMU;
+        this.skin = MobSkins.DEFAULT.get();
         this.init();
         this.updateAttackType();
     }
-
+    public NPCEntityImpl(EntityType<? extends TameableEntity> entityType, World world, RoleSkin skin) {
+        this(entityType, world, skin.get());
+    }
     public NPCEntityImpl(EntityType<? extends TameableEntity> entityType, World world, Property skin) {
         super(entityType, world);
         this.skin = skin;
@@ -346,7 +350,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        if (!getWorld().isClient() && this instanceof NPCEntityNeutralImpl impl) {
+        if (!getWorld().isClient() && this instanceof NPCRoleEntityImpl impl) {
             if (stack.getItem() == ModItems.UPGRADED_HEALTH) {
                 AttributeContainer attributes = this.getAttributes();
                 EntityAttributeInstance max_health = attributes.getCustomInstance(EntityAttributes.MAX_HEALTH);

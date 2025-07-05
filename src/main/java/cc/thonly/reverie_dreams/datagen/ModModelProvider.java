@@ -3,12 +3,19 @@ package cc.thonly.reverie_dreams.datagen;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.FumoBlocks;
+import cc.thonly.reverie_dreams.block.BlockModels;
+import cc.thonly.reverie_dreams.block.Fumo;
+import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
+import cc.thonly.reverie_dreams.util.CropAgeUtil;
+import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
@@ -17,11 +24,14 @@ import net.minecraft.client.data.*;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.Identifier;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
-
+@Slf4j
 public class ModModelProvider extends FabricModelProvider {
     private final Map<Block, TexturedModel> uniqueModels = ImmutableMap.<Block, TexturedModel>builder()
             .build();
@@ -71,10 +81,41 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.DREAM_RED_BLOCK);
         blockStateModelGenerator.registerSimpleState(ModBlocks.MARISA_HAT_BLOCK);
 
-        for (Block block : FumoBlocks.getRegisteredFumo()) {
-            blockStateModelGenerator.registerSimpleState(block);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(BlockModels.EMPTY_TRANSPARENT_TRIPWIRE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(BlockModels.EMPTY_TRIPWIRE_FLAT);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(BlockModels.EMPTY_TRANSPARENT_PLANT_WATERLOGGED);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(BlockModels.EMPTY_TRANSPARENT_PLANT);
+
+
+        for (Fumo instance : Fumos.getView()) {
+            blockStateModelGenerator.registerSimpleState(instance.block());
         }
+
+        this.generateCropBlockModel(blockStateModelGenerator);
         this.generateMIBlock(blockStateModelGenerator);
+    }
+
+    public void generateCropBlockModel(BlockStateModelGenerator blockStateModelGenerator) {
+        Set<Map.Entry<Identifier, PolymerCropCreator.Instance>> views = PolymerCropCreator.getViews();
+        for (Map.Entry<Identifier, PolymerCropCreator.Instance> view : views) {
+            Identifier id = null;
+            try {
+                PolymerCropCreator.Instance instance = view.getValue();
+                id = instance.getIdentifier();
+                BasicCropBlock cropBlock = instance.getCropBlock();
+                PolymerCropCreator.ModelType modelType = instance.getModelType();
+                IntProperty ageProperty = cropBlock.getAgeProperty();
+                CropAgeModelProvider provider = instance.getProvider();
+
+                if (modelType == PolymerCropCreator.ModelType.CROSS) {
+                    blockStateModelGenerator.registerTintableCrossBlockStateWithStages(cropBlock, BlockStateModelGenerator.CrossType.NOT_TINTED, ageProperty, CropAgeUtil.toArray(ageProperty));
+                } else if (modelType == PolymerCropCreator.ModelType.CROP) {
+                    blockStateModelGenerator.registerCrop(cropBlock, ageProperty, provider.toArray());
+                }
+            } catch (Exception e) {
+                log.error("Can't generate crop block model {}, cause by {}", id, e.getCause());
+            }
+        }
     }
 
     @Override
@@ -87,6 +128,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.FUMO_ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.ROLE_ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.SPAWN_EGG, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DANMAKU, Models.GENERATED);
 
         // 材料
         itemModelGenerator.register(ModItems.POINT, Models.GENERATED);
@@ -168,7 +210,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GLOWING_NEEDLES_LITTLE_PEOPLE, Models.GENERATED);
 
         // 测试物品
-        itemModelGenerator.registerDyeable(ModItems.TEST_COLOR_DANMAKU_ITEM, 0);
+        itemModelGenerator.registerWithDyeableOverlay(ModItems.TEST_COLOR_DANMAKU_ITEM);
 
 //        itemModelGenerator.register(ModItems.EMPTY_SPELL_CARD, Models.GENERATED);
 
@@ -189,6 +231,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(MIBlocks.FRYING_PAN);
         blockStateModelGenerator.registerSimpleState(MIBlocks.GRILL);
         blockStateModelGenerator.registerSimpleState(MIBlocks.STEAMER);
+        blockStateModelGenerator.registerCooker(MIBlocks.COOKTOP, TexturedModel.ORIENTABLE);
         blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.BLACK_SALT_BLOCK);
     }
 
@@ -207,14 +250,14 @@ public class ModModelProvider extends FabricModelProvider {
 
     public void generateGuiItemModels(ItemModelGenerator itemModelGenerator) {
         Model guiSlotModel = item("custom_slot", TextureKey.LAYER0);
-        for (Item item : ModGuiItems.getRegisteredItems()) {
+        for (Item item : ModGuiItems.getGuiItemView()) {
             itemModelGenerator.register(item, guiSlotModel);
         }
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.getDanmakuItemView()) {
-            itemModelGenerator.register(item, Models.GENERATED);
+            itemModelGenerator.registerWithDyeableOverlay(item);
         }
     }
 

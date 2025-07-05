@@ -7,26 +7,22 @@ import cc.thonly.mystias_izakaya.datafixer.MIDataFixer;
 import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.item.MiItemGroups;
+import cc.thonly.mystias_izakaya.loot.MILootModifies;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
 import cc.thonly.reverie_dreams.Touhou;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +44,7 @@ public class MystiasIzakaya implements ModInitializer {
         MiItemGroups.registerItemGroups();
         MIRegistryManager.bootstrap();
         MiRecipeManager.bootstrap();
+        MILootModifies.bootstrap();
         MIDataFixer.bootstrap();
 
         UseBlockCallback.EVENT.register((playerEntity, world, hand, blockHitResult) -> {

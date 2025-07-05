@@ -34,9 +34,9 @@ public class BasePageGui extends SimpleGui {
             {"P", "W", "W", "W", "B", "W", "W", "W", "N"},
     };
     public static final int PER_PAGE_SIZE = 5 * 9;
-    public final GuiElementBuilder back = new GuiElementBuilder().setItem(ModGuiItems.BACK).setItemName(Text.of("Back")).setCallback(this::back);
-    public final GuiElementBuilder next = new GuiElementBuilder().setItem(ModGuiItems.NEXT).setItemName(Text.of("Next Page")).setCallback(this::next);
-    public final GuiElementBuilder prev = new GuiElementBuilder().setItem(ModGuiItems.PREV).setItemName(Text.of("Prev Page")).setCallback(this::prev);
+    public final GuiElementBuilder back = new GuiElementBuilder(ModGuiItems.BACK).setItemName(Text.of("Back")).setCallback(this::back);
+    public final GuiElementBuilder next = new GuiElementBuilder(ModGuiItems.NEXT).setItemName(Text.of("Next Page")).setCallback(this::next);
+    public final GuiElementBuilder prev = new GuiElementBuilder(ModGuiItems.PREV).setItemName(Text.of("Prev Page")).setCallback(this::prev);
     public int page = 0;
     public final int maxSize;
     public final List<GuiElementBuilder> displayList = new LinkedList<>();

@@ -187,7 +187,7 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
     }
 
     @Override
-    public Boolean canReloadable() {
+    public Boolean isDirect() {
         return true;
     }
 }

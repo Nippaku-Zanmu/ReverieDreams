@@ -5,32 +5,27 @@ import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.FumoBlocks;
+import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ModEntities;
-import cc.thonly.reverie_dreams.item.BasicDanmakuItemTypeItem;
+import cc.thonly.reverie_dreams.entity.npc.NPCRoles;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.item.entry.DanmakuItemType;
-import cc.thonly.reverie_dreams.lang.LanguageKeys;
 import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class ModSimpChineseLangProvider extends FabricLanguageProvider implements LangGenerator {
+public class ModSimpChineseLangProvider extends FabricLanguageProvider implements TranslationGenerationImpl {
     private static final Map<String, String> COLOR_NAME_TRANSLATION = new HashMap<>();
 
     static {
@@ -64,11 +59,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item_group.touhou.fumo", "Gensokyo: Reverie of Lost Dreams - Fumo");
         translationBuilder.add("item_group.touhou.spawn_egg", "Gensokyo: Reverie of Lost Dreams - 刷怪蛋");
         translationBuilder.add("item_group.touhou.role.spawn_egg", "Gensokyo: Reverie of Lost Dreams - 角色刷怪蛋");
-        translationBuilder.add("item.tooltip.color","颜色：");
-        translationBuilder.add("item.tooltip.damage","伤害：");
-        translationBuilder.add("item.tooltip.speed","速度：");
-        translationBuilder.add("item.tooltip.count","数量：");
-        translationBuilder.add("item.tooltip.base_type","弹幕轨迹：");
+        translationBuilder.add("item.tooltip.color", "颜色：");
+        translationBuilder.add("item.tooltip.damage", "伤害：");
+        translationBuilder.add("item.tooltip.speed", "速度：");
+        translationBuilder.add("item.tooltip.count", "数量：");
+        translationBuilder.add("item.tooltip.base_type", "弹幕轨迹：");
         translationBuilder.add(Touhou.id("recipe/danmaku_table").toTranslationKey(), "弹幕工作台");
         translationBuilder.add(Touhou.id("recipe/gensokyo_altar").toTranslationKey(), "幻想乡祭坛");
         translationBuilder.add(Touhou.id("recipe/strength_table").toTranslationKey(), "强化台");
@@ -80,6 +75,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         this.generateFumoTranslations(wrapperLookup, translationBuilder);
         this.generateSoundTranslations(wrapperLookup, translationBuilder);
         this.generateEntityTranslations(wrapperLookup, translationBuilder);
+        this.generateRoleTranslations(wrapperLookup, translationBuilder);
         this.generateEffectTranslations(wrapperLookup, translationBuilder);
         this.generateTestTranslations(wrapperLookup, translationBuilder);
 
@@ -102,7 +98,6 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item.reverie_dreams.music.no_music_selected", "§e未选择任何音乐，潜行右键选择。");
         translationBuilder.add("item.reverie_dreams.music.playing_music", "§b播放音乐：§f%s §7[乐器: %s]");
 
-        LanguageKeys.SIMP_CHINESE.build(translationBuilder);
         this.generateMITranslations(wrapperLookup, translationBuilder);
     }
 
@@ -113,7 +108,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add("item.tooltip.food_properties", "属性：");
         translationBuilder.add("item_group.kitchenware_item_group", "Gensokyo: Reverie of Lost Dreams - 厨具");
-        translationBuilder.add("item_group.Ingredients_item_group", "Gensokyo: Reverie of Lost Dreams - 食材");
+        translationBuilder.add("item_group.ingredients_item_group", "Gensokyo: Reverie of Lost Dreams - 食材");
+        translationBuilder.add("item_group.seed_item_group", "Gensokyo: Reverie of Lost Dreams - 种子");
         translationBuilder.add("item_group.food_item_group", "Gensokyo: Reverie of Lost Dreams - 食物");
 
         translationBuilder.add(MIBlocks.COOKING_POT, "煮锅");
@@ -121,6 +117,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.FRYING_PAN, "油锅");
         translationBuilder.add(MIBlocks.GRILL, "烧烤架");
         translationBuilder.add(MIBlocks.STEAMER, "蒸锅");
+        translationBuilder.add(MIBlocks.COOKTOP, "能量灶");
         translationBuilder.add(MIBlocks.BLACK_SALT_BLOCK, "黑盐块");
 
         translationBuilder.add(MIItems.BAMBOO_SHOOTS, "竹笋");
@@ -383,6 +380,17 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(FoodProperties.POPULAR_POSITIVE.getTranslateKey(), "流行的");
         translationBuilder.add(FoodProperties.SIGNATURE.getTranslateKey(), "招牌");
         translationBuilder.add(FoodProperties.CURSE.getTranslateKey(), "诅咒");
+
+        //种子
+        MIBlocks.CHILL.generateTranslation(translationBuilder, "辣椒种子");
+        MIBlocks.CUCUMBER.generateTranslation(translationBuilder, "黄瓜种子");
+        MIBlocks.GRAPE.generateTranslation(translationBuilder, "葡萄种子");
+        MIBlocks.ONION.generateTranslation(translationBuilder, "洋葱种子");
+        MIBlocks.RED_BEANS.generateTranslation(translationBuilder, "红豆种子");
+        MIBlocks.TOMATO.generateTranslation(translationBuilder, "番茄种子");
+        MIBlocks.TOON.generateTranslation(translationBuilder, "香椿种子");
+        MIBlocks.WHITE_RADISH.generateTranslation(translationBuilder, "白萝卜种子");
+        MIBlocks.SWEET_POTATO.generateTranslation(translationBuilder, "红薯种子");
     }
 
     public void generateEntityTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -390,12 +398,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item." + EntityType.getId(ModEntities.KILLER_BEE_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "杀人蜂刷怪蛋");
         translationBuilder.add(ModEntities.GHOST_ENTITY_TYPE.getTranslationKey(), "幽灵");
         translationBuilder.add("item." + EntityType.getId(ModEntities.GHOST_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "幽灵刷怪蛋");
-        translationBuilder.add(ModEntities.YouseiTypes.BLUE.getEntry().getTranslationKey(), "蓝色妖精");
-        translationBuilder.add("item." + EntityType.getId(ModEntities.YouseiTypes.BLUE.getEntry()).toString().replaceAll(":", ".") + "_spawn_egg", "蓝色妖精刷怪蛋");
-        translationBuilder.add(ModEntities.YouseiTypes.ORANGE.getEntry().getTranslationKey(), "橙色妖精");
-        translationBuilder.add("item." + EntityType.getId(ModEntities.YouseiTypes.ORANGE.getEntry()).toString().replaceAll(":", ".") + "_spawn_egg", "橙色妖精刷怪蛋");
-        translationBuilder.add(ModEntities.YouseiTypes.GREEN.getEntry().getTranslationKey(), "绿色妖精");
-        translationBuilder.add("item." + EntityType.getId(ModEntities.YouseiTypes.GREEN.getEntry()).toString().replaceAll(":", ".") + "_spawn_egg", "绿色妖精刷怪蛋");
+        translationBuilder.add(ModEntities.YOUSEI_ENTITY_TYPE.getTranslationKey(), "妖精");
+        translationBuilder.add("item." + EntityType.getId(ModEntities.YOUSEI_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "妖精刷怪蛋");
         translationBuilder.add(ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE.getTranslationKey(), "向日葵妖精");
         translationBuilder.add("item." + EntityType.getId(ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE).toString().replaceAll(":", ".") + "_spawn_egg", "向日葵妖精刷怪蛋");
         translationBuilder.add(ModEntities.GOBLIN_ENTITY_TYPE.getTranslationKey(), "哥布林");
@@ -418,14 +422,104 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
     }
 
-    public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        this.generateStatusEffect(translationBuilder, ModStatusEffects.ELIXIR_OF_LIFE, "不死");
-        this.generateStatusEffect(translationBuilder, ModStatusEffects.MENTAL_DISORDER, "精神错乱");
-        this.generateStatusEffect(translationBuilder, ModStatusEffects.BACK_OF_LIFE, "还生药");
+    public void generateRoleTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        TranslationExporter builder = TranslationGenerationImpl.createBuilder(wrapperLookup, translationBuilder);
+        // 主角组
+        builder.addRoleEntity(NPCRoles.REIMU, "博丽灵梦", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.CYAN_REIMU, "青灵梦", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MARISA, "雾雨魔理沙", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.RUMIA, "露米娅", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.CIRNO, "琪露诺", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MEIRIN, "红美铃", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.PATCHOULI, "帕秋莉·诺蕾姬", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SAKUYA, "十六夜咲夜", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.REMILIA, "蕾米莉亚·斯卡蕾特", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.FLANDRE, "芙兰朵露·斯卡蕾特", "刷怪蛋");
 
-        this.generatePotion(translationBuilder, ModPotions.ELIXIR_OF_LIFE_POTION, "蓬莱之药", "喷溅型蓬莱之药", "滞留型蓬莱之药");
-        this.generatePotion(translationBuilder, ModPotions.MENTAL_DISORDER_POTION, "精神错乱药水", "喷溅型精神错乱药水", "滞留型精神错乱药水");
-        this.generatePotion(translationBuilder, ModPotions.BACK_OF_LIFE_POTION, "还生药", "喷溅型还生药", "滞留型还生药");
+        // 妖妖梦
+        builder.addRoleEntity(NPCRoles.LETTY_WHITEROCK, "蕾蒂·霍瓦特洛克", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.CHEN, "八云橙", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.ALICE, "爱丽丝·玛格特罗依德", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.LILY_WHITE, "莉莉白", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.LUNASA_PRISMRIVER, "露娜萨·普莉兹姆利巴", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MERLIN_PRISMRIVER, "梅露兰·普莉兹姆利巴", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.LYRICA_PRISMRIVER, "莉莉卡·普莉兹姆利巴", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.RAN, "八云蓝", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YOUMU, "魂魄妖梦", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YUYUKO, "西行寺幽幽子", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YUKARI, "八云紫", "刷怪蛋");
+
+        // 永夜抄
+        builder.addRoleEntity(NPCRoles.MYSTIA_LORELEI, "米斯蒂娅·萝蕾拉", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.WRIGGLE_NIGHTBUG, "莉格露·奈特巴格", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KAMISHIRASAWA_KEINE, "上白泽慧音", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.REISEN, "铃仙·优昙华院·因幡", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.ERIN, "八意永琳", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HOURAISAN_KAGUYA, "蓬莱山辉夜", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HUZIWARA_NO_MOKOU, "藤原妹红", "刷怪蛋");
+
+        // 花映塚
+        builder.addRoleEntity(NPCRoles.SHIKIEIKI_YAMAXANADU, "四季映姬·夜摩仙那度", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KAZAMI_YUKA, "风见幽香", "刷怪蛋");
+
+        // 风神录
+        builder.addRoleEntity(NPCRoles.KAGIYAMA_HINA, "键山雏", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.INUBASHIRI_MOMIZI, "犬走椛", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KAWASIRO_NITORI, "河城荷取", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.AYA, "射命丸文", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KOCHIYA_SANAE, "东风谷早苗", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YASAKA_KANAKO, "八坂神奈子", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MORIYA_SUWAKO, "洩矢诹访子", "刷怪蛋");
+
+        // 地灵殿
+        builder.addRoleEntity(NPCRoles.KISUME, "琪斯美", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KURODANI_YAMAME, "黑山谷女", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MIZUHASHI_PARSEE, "水桥帕露西", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HOSHIGUMA_YUGI, "星熊勇仪", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KAENBYOU_RIN, "火焰猫燐", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KOMEIJI_SATORI, "古明地觉", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.REIUJI_UTSUH, "灵乌路空", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KOMEIJI_KOISHI, "古明地恋", "刷怪蛋");
+
+        // 星莲船
+        builder.addRoleEntity(NPCRoles.NAZRIN, "纳兹琳", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TATARA_KOGASA, "多多良小伞", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.NUE, "封兽鵺", "刷怪蛋");
+
+        // 神灵庙
+        builder.addRoleEntity(NPCRoles.KASODANI_KYOUKO, "幽谷响子", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MIYAKO_YOSHIKA, "宫古芳香", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KAKU_SEIGA, "霍青娥", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SOGA_NO_TOZIKO, "苏我屠自古", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MONONOBE_NO_FUTO, "物部布都", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TOYOSATOMIMI_NO_MIKO, "丰聪耳神子", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HOUJUU_NUE, "封兽鵺", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HUTATSUIWA_MAMIZOU, "二岩猯藏", "刷怪蛋");
+
+
+        // 三月精
+        builder.addRoleEntity(NPCRoles.STAR, "斯塔·萨菲雅", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.LUNAR, "露娜·切露德", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SUNNY, "桑尼·米尔克", "刷怪蛋");
+
+        // 其他
+        builder.addRoleEntity(NPCRoles.USAMI_RENKO, "宇佐见莲子", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MARIBEL_HEARN, "玛艾露贝莉·赫恩", "刷怪蛋");
+
+        // 黄昏
+        builder.addRoleEntity(NPCRoles.SUIKA, "伊吹萃香", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TENSHI, "比那名居天子", "刷怪蛋");
+    }
+
+    public void generateEffectTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        TranslationExporter builder = TranslationGenerationImpl.createBuilder(wrapperLookup, translationBuilder);
+        builder.add(ModStatusEffects.ELIXIR_OF_LIFE.value(), "不死");
+        builder.add(ModStatusEffects.MENTAL_DISORDER.value(), "精神错乱");
+        builder.add(ModStatusEffects.BACK_OF_LIFE.value(), "返生");
+
+        builder.generatePotion(ModPotions.ELIXIR_OF_LIFE_POTION, "蓬莱之药", "喷溅型蓬莱之药", "滞留型蓬莱之药");
+        builder.generatePotion(ModPotions.MENTAL_DISORDER_POTION, "精神错乱药水", "喷溅型精神错乱药水", "滞留型精神错乱药水");
+        builder.generatePotion(ModPotions.BACK_OF_LIFE_POTION, "还生药", "喷溅型还生药", "滞留型还生药");
 
     }
 
@@ -510,6 +604,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
         // 其他
 
+
 //        translationBuilder.add(ModItems.DEBUG_DANMAKU_ITEM, "调试弹幕");
 //        translationBuilder.add(ModItems.DEBUG_SPELL_CARD_ITEM, "调试符卡");
 //        translationBuilder.add(ModItems.DEBUG_SPELL_CARD_ITEM2, "调试符卡2");
@@ -518,36 +613,43 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateSoundTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        TranslationExporter builder = TranslationGenerationImpl.createBuilder(wrapperLookup, translationBuilder);
+
         for (var sound : SoundEventInit.FUMO_SOUNDS) {
-            this.generateSoundEventSubtitle(translationBuilder, sound, "fumo");
+            builder.generateSoundEventSubtitle(sound, "fumo");
         }
-        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.BIU, "满身疮痍");
-        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.POINT, "收点");
-        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.SPELL_CARD, "符卡释放");
-        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.UP, "升级");
-        this.generateSoundEventSubtitle(translationBuilder, SoundEventInit.FIRE, "弹幕发射");
+        builder.generateSoundEventSubtitle(SoundEventInit.BIU, "满身疮痍");
+        builder.generateSoundEventSubtitle(SoundEventInit.POINT, "收点");
+        builder.generateSoundEventSubtitle(SoundEventInit.SPELL_CARD, "符卡释放");
+        builder.generateSoundEventSubtitle(SoundEventInit.UP, "升级");
+        builder.generateSoundEventSubtitle(SoundEventInit.FIRE, "弹幕发射");
 
         this.generateDiscTranslations(wrapperLookup, translationBuilder);
         this.generateDanmakuType(wrapperLookup, translationBuilder);
     }
 
     public void generateDanmakuType(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.SINGLE, "线性");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.TRIPLE, "三线");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.BULLET, "子弹");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.HEART, "心形");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.X, "十字");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.STAR, "星星");
-        this.generateDanmakuType(translationBuilder, DanmakuTrajectories.RING, "圆环");
+        TranslationExporter builder = TranslationGenerationImpl.createBuilder(wrapperLookup, translationBuilder);
+
+        builder.generateDanmakuType(DanmakuTrajectories.SINGLE, "线性");
+        builder.generateDanmakuType(DanmakuTrajectories.TRIPLE, "三线");
+        builder.generateDanmakuType(DanmakuTrajectories.BULLET, "子弹");
+        builder.generateDanmakuType(DanmakuTrajectories.HEART, "心形");
+        builder.generateDanmakuType(DanmakuTrajectories.X, "十字");
+        builder.generateDanmakuType(DanmakuTrajectories.STAR, "星星");
+        builder.generateDanmakuType(DanmakuTrajectories.ROUND, "圆");
+        builder.generateDanmakuType(DanmakuTrajectories.RING, "环");
     }
 
     public void generateDiscTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey(), "蓬莱人形　～ Dolls in Pseudo Paradise. - 蓬莱伝説");
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey(), "莲台野夜行 - 过去的花 ～ Fairy of Flower");
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey(), "ZUN - 童祭　～ Innocent Treasures");
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey(), "Melodic-Taste-Nightmare-before-Crossroads");
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey(), "Yonder-Voice - 花時計と夢");
-        this.generateJukeBox(translationBuilder, JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey(), "Inchlings of the Shining Needle ~ Little Princess : 「Miracle Remix」");
+        TranslationExporter builder = TranslationGenerationImpl.createBuilder(wrapperLookup, translationBuilder);
+
+        builder.generateJukeBox(JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey(), "蓬莱人形　～ Dolls in Pseudo Paradise. - 蓬莱伝説");
+        builder.generateJukeBox(JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey(), "莲台野夜行 - 过去的花 ～ Fairy of Flower");
+        builder.generateJukeBox(JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey(), "ZUN - 童祭　～ Innocent Treasures");
+        builder.generateJukeBox(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey(), "Melodic-Taste-Nightmare-before-Crossroads");
+        builder.generateJukeBox(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey(), "Yonder-Voice - 花時計と夢");
+        builder.generateJukeBox(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey(), "Inchlings of the Shining Needle ~ Little Princess : 「Miracle Remix」");
     }
 
     public void generateBlockTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
@@ -592,77 +694,65 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateFumoTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.AYA), "射命丸文Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.ALICE), "爱丽丝Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.CHEN), "八云橙Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.BLUE_REIMU), "蓝灵梦Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.CHERRIES_SHION), "依神紫苑Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.CHIMATA), "天弓千亦Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.CIRNO), "琪露诺Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.CLOWNPIECE), "克劳恩皮丝Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.EIKI), "四季映姫Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.EIRIN), "八意永琳Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.FLAN), "芙兰朵露·斯卡蕾特Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.FLANDRE), "芙兰朵露·斯卡蕾特Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.HATATE), "姬海棠果Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.JOON), "依神女苑Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KAGUYA), "蓬莱山辉夜Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KANMARISA), "雾雨魔理沙Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KASEN), "茨木华扇Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KOGASA), "多多良小伞Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KOISHI), "古明地恋Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KOKORO), "秦心Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KORONE), "戌神沁音Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KOSUZU), "本居小铃Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.KYOU), "Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MARISA), "雾雨魔理沙Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MARISA_HAT), "雾雨魔理沙Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MCKY), "天弓千亦Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MEILING), "红美铃Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MELON), "伊吹萃香Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MOKOU), "藤原妹红Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MOMIJI), "犬走椛Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.MYSTIA), "米斯蒂娅·萝蕾拉Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NAZRIN), "娜兹玲Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NEBULA), "Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NEBUMO), "Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NEBUO), "Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NEW_REIMU), "博丽灵梦Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.NUE), "封兽鵺Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.PARSEE), "水桥帕露西Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.PATCHOULI), "帕秋莉·诺蕾姬Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.PC98_MARISA), "雾雨魔理沙Fumo（旧作）");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.RAN), "八云蓝Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.REIMU), "博丽灵梦Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.REISEN), "铃仙·优昙华院·因幡Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.REMILIA), "蕾米莉亚·斯卡蕾特Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.RENKO), "宇佐见莲子Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.RUMIA), "露米娅Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SAKUYA), "十六夜咲夜Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SANAE), "东风谷早苗Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SATORI), "古明地觉Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SEIJA), "鬼人正邪Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SHION), "依神紫苑Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SHIRO), "Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SHOU), "寅丸星Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SMART_CIRNO), "小琪露诺Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SNAILCHAN), "Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SUIKA), "伊吹萃香Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.SUWAKO), "洩矢诹访子Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.TAN_CIRNO), "大琪露诺Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.TENSHI), "比那名居天子Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.TEWI), "因幡帝Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.UTSUHO), "灵乌路空Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.WAKASAGIHIME), "若鹭姬Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.YOUMU), "魂魄妖梦Fumo");
-//        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.YUE), "Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.YUKARI), "八云紫Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.YUUKA), "风见幽香Fumo");
-        translationBuilder.add(unpackBlockObjectContainer(FumoBlocks.FumoEnum.YUYUKO), "西行寺幽幽子Fumo");
-    }
-
-    public Block unpackBlockObjectContainer(FumoBlocks.FumoEnum fumoEnum) {
-        return fumoEnum.getBlockObjectContainer().getValue();
+        translationBuilder.add(Fumos.AYA.block(), "射命丸文Fumo");
+        translationBuilder.add(Fumos.ALICE.block(), "爱丽丝Fumo");
+        translationBuilder.add(Fumos.CHEN.block(), "八云橙Fumo");
+        translationBuilder.add(Fumos.BLUE_REIMU.block(), "蓝灵梦Fumo");
+        translationBuilder.add(Fumos.CHERRIES_SHION.block(), "依神紫苑Fumo");
+        translationBuilder.add(Fumos.CHIMATA.block(), "天弓千亦Fumo");
+        translationBuilder.add(Fumos.CIRNO.block(), "琪露诺Fumo");
+        translationBuilder.add(Fumos.CLOWNPIECE.block(), "克劳恩皮丝Fumo");
+        translationBuilder.add(Fumos.EIKI.block(), "四季映姫Fumo");
+        translationBuilder.add(Fumos.EIRIN.block(), "八意永琳Fumo");
+        translationBuilder.add(Fumos.FLAN.block(), "芙兰朵露·斯卡蕾特Fumo");
+        translationBuilder.add(Fumos.FLANDRE.block(), "芙兰朵露·斯卡蕾特Fumo");
+        translationBuilder.add(Fumos.HATATE.block(), "姬海棠果Fumo");
+        translationBuilder.add(Fumos.JOON.block(), "依神女苑Fumo");
+        translationBuilder.add(Fumos.KAGUYA.block(), "蓬莱山辉夜Fumo");
+        translationBuilder.add(Fumos.KANMARISA.block(), "雾雨魔理沙Fumo");
+        translationBuilder.add(Fumos.KASEN.block(), "茨木华扇Fumo");
+        translationBuilder.add(Fumos.KOGASA.block(), "多多良小伞Fumo");
+        translationBuilder.add(Fumos.KOISHI.block(), "古明地恋Fumo");
+        translationBuilder.add(Fumos.KOKORO.block(), "秦心Fumo");
+        translationBuilder.add(Fumos.KOSUZU.block(), "本居小铃Fumo");
+        translationBuilder.add(Fumos.MARISA.block(), "雾雨魔理沙Fumo");
+        translationBuilder.add(Fumos.MARISA_HAT.block(), "雾雨魔理沙Fumo");
+        translationBuilder.add(Fumos.MCKY.block(), "天弓千亦Fumo");
+        translationBuilder.add(Fumos.MEILING.block(), "红美铃Fumo");
+        translationBuilder.add(Fumos.MELON.block(), "伊吹萃香Fumo");
+        translationBuilder.add(Fumos.MOKOU.block(), "藤原妹红Fumo");
+        translationBuilder.add(Fumos.MOMIJI.block(), "犬走椛Fumo");
+        translationBuilder.add(Fumos.MYSTIA.block(), "米斯蒂娅·萝蕾拉Fumo");
+        translationBuilder.add(Fumos.NAZRIN.block(), "娜兹玲Fumo");
+        translationBuilder.add(Fumos.NEW_REIMU.block(), "博丽灵梦Fumo");
+        translationBuilder.add(Fumos.NUE.block(), "封兽鵺Fumo");
+        translationBuilder.add(Fumos.PARSEE.block(), "水桥帕露西Fumo");
+        translationBuilder.add(Fumos.PATCHOULI.block(), "帕秋莉·诺蕾姬Fumo");
+        translationBuilder.add(Fumos.PC98_MARISA.block(), "雾雨魔理沙Fumo（旧作）");
+        translationBuilder.add(Fumos.RAN.block(), "八云蓝Fumo");
+        translationBuilder.add(Fumos.REIMU.block(), "博丽灵梦Fumo");
+        translationBuilder.add(Fumos.REISEN.block(), "铃仙·优昙华院·因幡Fumo");
+        translationBuilder.add(Fumos.REMILIA.block(), "蕾米莉亚·斯卡蕾特Fumo");
+        translationBuilder.add(Fumos.RENKO.block(), "宇佐见莲子Fumo");
+        translationBuilder.add(Fumos.RUMIA.block(), "露米娅Fumo");
+        translationBuilder.add(Fumos.SAKUYA.block(), "十六夜咲夜Fumo");
+        translationBuilder.add(Fumos.SANAE.block(), "东风谷早苗Fumo");
+        translationBuilder.add(Fumos.SATORI.block(), "古明地觉Fumo");
+        translationBuilder.add(Fumos.SEIJA.block(), "鬼人正邪Fumo");
+        translationBuilder.add(Fumos.SHION.block(), "依神紫苑Fumo");
+        translationBuilder.add(Fumos.SHOU.block(), "寅丸星Fumo");
+        translationBuilder.add(Fumos.SMART_CIRNO.block(), "小琪露诺Fumo");
+        translationBuilder.add(Fumos.SUIKA.block(), "伊吹萃香Fumo");
+        translationBuilder.add(Fumos.SUWAKO.block(), "洩矢诹访子Fumo");
+        translationBuilder.add(Fumos.TAN_CIRNO.block(), "大琪露诺Fumo");
+        translationBuilder.add(Fumos.TENSHI.block(), "比那名居天子Fumo");
+        translationBuilder.add(Fumos.TEWI.block(), "因幡帝Fumo");
+        translationBuilder.add(Fumos.UTSUHO.block(), "灵乌路空Fumo");
+        translationBuilder.add(Fumos.WAKASAGIHIME.block(), "若鹭姬Fumo");
+        translationBuilder.add(Fumos.YOUMU.block(), "魂魄妖梦Fumo");
+        translationBuilder.add(Fumos.YUKARI.block(), "八云紫Fumo");
+        translationBuilder.add(Fumos.YUUKA.block(), "风见幽香Fumo");
+        translationBuilder.add(Fumos.YUYUKO.block(), "西行寺幽幽子Fumo");
     }
 
     public void generateDanmakuItemTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder, boolean useChinese) {
@@ -697,19 +787,30 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         bulletTranslations.put("star_big", "大星弹");
         bulletTranslations.put("star_small", "小星弹");
 
-        for (DanmakuItemType itemEntry : ModItems.DANMAKU_ITEMS) {
-            List<BasicDanmakuItemTypeItem> values = itemEntry.getValues();
-            for (BasicDanmakuItemTypeItem item : values) {
-                Identifier identifier = Registries.ITEM.getId(item);
+        translationBuilder.add(DanmakuTypes.AMULET.getItem(), "札弹");
+        translationBuilder.add(DanmakuTypes.ARROWHEAD.getItem(), "鳞弹");
+        translationBuilder.add(DanmakuTypes.BALL.getItem(), "小玉");
+        translationBuilder.add(DanmakuTypes.BUBBLE.getItem(), "大玉");
+        translationBuilder.add(DanmakuTypes.BULLET.getItem(), "铳弹");
+        translationBuilder.add(DanmakuTypes.FIREBALL.getItem(), "火光弹");
+        translationBuilder.add(DanmakuTypes.FIREBALL_GLOWY.getItem(), "水光弹");
+        translationBuilder.add(DanmakuTypes.KUNAI.getItem(), "链弹");
+        translationBuilder.add(DanmakuTypes.RICE.getItem(), "米弹");
+        translationBuilder.add(DanmakuTypes.STAR.getItem(), "星弹");
 
-                String path = identifier.getPath();
-                String[] parts = path.split("/");
-
-                String key = parts[parts.length - 2];
-
-                String translationString = bulletTranslations.getOrDefault(key, "null");
-                translationBuilder.add(item, translationString);
-            }
-        }
+//        for (DanmakuItemType itemEntry : ModItems.DANMAKU_ITEMS) {
+//            List<BasicDanmakuItemTypeItem> values = itemEntry.getValues();
+//            for (BasicDanmakuItemTypeItem item : values) {
+//                Identifier identifier = Registries.ITEM.getId(item);
+//
+//                String path = identifier.getPath();
+//                String[] parts = path.split("/");
+//
+//                String key = parts[parts.length - 2];
+//
+//                String translationString = bulletTranslations.getOrDefault(key, "null");
+//                translationBuilder.add(item, translationString);
+//            }
+//        }
     }
 }

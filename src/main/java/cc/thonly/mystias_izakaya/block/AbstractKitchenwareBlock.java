@@ -44,7 +44,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -53,14 +52,14 @@ import java.util.UUID;
 @Setter
 @Getter
 @ToString
-public class AbstractKitchenwareBlock extends BlockWithEntity implements FactoryBlock, IdentifierGetter {
+public class AbstractKitchenwareBlock extends BlockWithEntity implements FactoryBlock, IdentifierGetter, TransparentFlatTripWire {
     public static final Set<AbstractKitchenwareBlock> KITCHENWARE_BLOCKS = new HashSet<>();
     public static final MapCodec<AbstractKitchenwareBlock> CODEC = createCodec(AbstractKitchenwareBlock::new);
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     private Identifier identifier;
-    private Vec3d offset = new Vec3d(0,0,0);
-    private Vector3f scale = new Vector3f(0,0,0);
+    private Vec3d offset = new Vec3d(0, 0, 0);
+    private Vector3f scale = new Vector3f(0, 0, 0);
     private final Boolean requiredEnergy;
     private final Double tickBonus;
 
@@ -157,11 +156,6 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
-    }
-
-    @Override
-    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return TransparentFlatTripWire.TRANSPARENT_FLAT_TRIPIWIRE;
     }
 
     @Override

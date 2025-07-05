@@ -1,30 +1,221 @@
 package cc.thonly.mystias_izakaya.block;
 
-import cc.thonly.mystias_izakaya.block.kitchenware.*;
+import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.item.MIItems;
+import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.base.BasicPolymerBlock;
 import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
 import cc.thonly.reverie_dreams.datagen.ModItemTagProvider;
+import cc.thonly.reverie_dreams.debug.DebugExportWriter;
 import cc.thonly.reverie_dreams.item.BasicBlockItem;
+import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import eu.pb4.polymer.blocks.api.BlockModelType;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 
-public class MIBlocks {
+import cc.thonly.mystias_izakaya.block.crop.*;
+import cc.thonly.mystias_izakaya.block.kitchenware.*;
+import net.minecraft.util.Identifier;
 
+import java.util.*;
+
+@Slf4j
+public class MIBlocks {
     public static final Block COOKING_POT = registerBlock(new CookingPot("cooking_pot", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
-    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board",0.0, false, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board", 0.0, false, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
     public static final Block FRYING_PAN = registerBlock(new FryingPan("frying_pan", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
     public static final Block GRILL = registerBlock(new Grill("grill", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
     public static final Block STEAMER = registerBlock(new Steamer("steamer", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block COOKTOP = registerBlock(new CooktopBlock("cooktop", AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.5f).luminance(blockState -> 13)));
     public static final Block BLACK_SALT_BLOCK = registerBlock(new BasicPolymerBlock("black_salt_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.SAND)));
 
-    public static void registerBlocks() {
+    public static final PolymerCropCreator.Instance CHILL = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("chill"))
+            .setFactory(id -> new ChillCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(7)
+            .setGain(MIItems.CHILI)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(7)
+                            .setKey(2, 3).setValue(1)
+                            .setKey(4).setValue(2)
+                            .setKey(5).setValue(3)
+                            .setKey(6).setValue(4)
+                            .setKey(7).setValue(5)
+                            .build()
+            )
+            .build();
 
+    public static final PolymerCropCreator.Instance CUCUMBER = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("cucumber"))
+            .setFactory(id -> new CucumberCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(7)
+            .setGain(MIItems.CUCUMBER)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(7)
+                            .setKey(2).setValue(1)
+                            .setKey(3).setValue(2)
+                            .setKey(4, 5).setValue(3)
+                            .setKey(6).setValue(4)
+                            .setKey(7).setValue(5)
+                            .build()
+            )
+            .build();
+
+    public static final PolymerCropCreator.Instance GRAPE = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("grape"))
+            .setFactory(id -> new GrapeCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(7)
+            .setGain(MIItems.GRAPE)
+            .setModelType(PolymerCropCreator.ModelType.CROP)
+            .setProvider(
+                    CropAgeModelProvider.create(7)
+                            .setKey(2).setValue(1)
+                            .setKey(3).setValue(2)
+                            .setKey(4).setValue(3)
+                            .setKey(5).setValue(4)
+                            .setKey(6).setValue(5)
+                            .setKey(7).setValue(6)
+                            .build()
+            )
+            .build();
+
+    public static final PolymerCropCreator.Instance ONION = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("onion"))
+            .setFactory(id -> new OnionCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(7)
+            .setGain(MIItems.ONION)
+            .setModelType(PolymerCropCreator.ModelType.CROP)
+            .setProvider(
+                    CropAgeModelProvider.create(7)
+                            .setKey(1).setValue(1)
+                            .setKey(2, 3).setValue(2)
+                            .setKey(4).setValue(3)
+                            .setKey(5).setValue(4)
+                            .setKey(6).setValue(5)
+                            .setKey(7).setValue(6)
+                            .build()
+            )
+            .build();
+
+    public static final PolymerCropCreator.Instance RED_BEANS = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("red_beans"))
+            .setFactory(id -> new RedBeansCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(6)
+            .setGain(MIItems.RED_BEANS)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(6)
+                            .setKey(1).setValue(1)
+                            .setKey(2).setValue(2)
+                            .setKey(3, 4).setValue(3)
+                            .setKey(5).setValue(4)
+                            .setKey(6).setValue(5)
+                            .build()
+            )
+            .build();
+
+    public static final PolymerCropCreator.Instance TOMATO = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("tomato"))
+            .setFactory(id -> new TomatoCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(6)
+            .setGain(MIItems.TOMATO)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(6)
+                            .setKey(2).setValue(1)
+                            .setKey(4).setValue(2)
+                            .setKey(5).setValue(3)
+                            .setKey(6).setValue(4)
+                            .build()
+            )
+            .build();
+    public static final PolymerCropCreator.Instance TOON = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("toon"))
+            .setFactory(id -> new ToonCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(8)
+            .setGain(MIItems.TOON)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(8)
+                            .setKey(2, 3).setValue(1)
+                            .setKey(4, 5).setValue(2)
+                            .setKey(6).setValue(3)
+                            .setKey(8).setValue(4)
+                            .build()
+            )
+            .build();
+    public static final PolymerCropCreator.Instance WHITE_RADISH = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("white_radish"))
+            .setFactory(id -> new WhiteRadishCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(8)
+            .setGain(MIItems.WHITE_RADISH)
+            .setModelType(PolymerCropCreator.ModelType.CROP)
+            .setProvider(
+                    CropAgeModelProvider.create(8)
+                            .setKey(2, 3).setValue(1)
+                            .setKey(4, 5).setValue(2)
+                            .setKey(6).setValue(3)
+                            .setKey(8).setValue(4)
+                            .build()
+            )
+            .build();
+    public static final PolymerCropCreator.Instance SWEET_POTATO = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("sweet_potato"))
+            .setFactory(id -> new SweetPotatoCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(6)
+            .setGain(MIItems.SWEET_POTATO)
+            .setModelType(PolymerCropCreator.ModelType.CROP)
+            .setProvider(
+                    CropAgeModelProvider.create(6)
+                            .setKey(2).setValue(1)
+                            .setKey(3).setValue(2)
+                            .setKey(4, 5).setValue(3)
+                            .setKey(6).setValue(4)
+                            .build()
+            )
+            .build();
+
+    public static final List<PolymerCropCreator.Instance> GRASS_DROPS = List.of(TOMATO, RED_BEANS, ONION, CUCUMBER, CHILL);
+    public static final List<PolymerCropCreator.Instance> CHEST_DROPS = List.of(SWEET_POTATO, WHITE_RADISH, TOON, RED_BEANS, GRAPE);
+
+//    public static final PolymerCropCreator.Instance TEST_CROP = PolymerCropCreator
+//            .createCreator(Touhou.id("test"))
+//            .setFactory(id -> new TestCropBlock(id, AbstractBlock.Settings.create()))
+//            .setMaxAge(7)
+//            .setModelType(PolymerCropCreator.ModelType.CROSS)
+//            .setProvider(
+//                    CropAgeModelProvider.create(7)
+//                            .setKey(2, 3).setValue(1)
+//                            .setKey(4, 5, 6).setValue(2)
+//                            .setKey(7).setValue(3)
+//                            .build()
+//            )
+//            .build();
+
+    public static void registerBlocks() {
+        if (Touhou.isDevMode()) {
+            DebugExportWriter output = DebugExportWriter.OUTPUT;
+            output.write("== Crop Block Textures ==");
+            for (Map.Entry<Identifier, PolymerCropCreator.Instance> view : PolymerCropCreator.getViews()) {
+                Set<String> strIds = new HashSet<>();
+                int[] array = view.getValue().getProvider().toArray();
+                for (int i : array) {
+                    strIds.add(view.getKey().toString() + "_stage" + i);
+                }
+                output.write("%s: \t%s", view.getKey(), strIds);
+            }
+            output.write("=========================");
+            output.write("");
+        }
     }
 
     public static Block registerBlock(IdentifierGetter block) {
@@ -69,5 +260,6 @@ public class MIBlocks {
         }
         return (Block) block;
     }
+
 
 }

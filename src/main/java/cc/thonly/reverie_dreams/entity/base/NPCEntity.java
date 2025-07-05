@@ -6,8 +6,6 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
 public abstract class NPCEntity extends TameableEntity implements PlayerPolymerEntity {
 
     protected NPCEntity(EntityType<? extends TameableEntity> entityType, World world) {

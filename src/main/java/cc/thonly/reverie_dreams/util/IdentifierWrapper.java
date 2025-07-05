@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class IdentifierWrapper {
-    private static final Map<String, IdentifierWrapper> CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, IdentifierWrapper> INSTANCES = new ConcurrentHashMap<>();
 
     private final String namespace;
     private final String path;
@@ -20,7 +20,7 @@ public class IdentifierWrapper {
 
     public static IdentifierWrapper of(String namespace, String path) {
         String key = namespace + ":" + path;
-        return CACHE.computeIfAbsent(key, k -> new IdentifierWrapper(namespace, path));
+        return INSTANCES.computeIfAbsent(key, k -> new IdentifierWrapper(namespace, path));
     }
 
     public static IdentifierWrapper of(Identifier id) {
@@ -40,7 +40,7 @@ public class IdentifierWrapper {
         }
     }
 
-    public Identifier toId() {
+    public Identifier build() {
         return Identifier.of(this.namespace, this.path);
     }
 

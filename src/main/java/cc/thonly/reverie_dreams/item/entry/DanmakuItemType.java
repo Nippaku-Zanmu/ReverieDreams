@@ -13,6 +13,7 @@ import java.util.Random;
 @Setter
 @Getter
 @ToString
+@Deprecated
 public class DanmakuItemType {
     public static final Codec<DanmakuItemType> CODEC = DanmakuItemBuilder.CODEC.xmap(
             DanmakuItemBuilder::build,

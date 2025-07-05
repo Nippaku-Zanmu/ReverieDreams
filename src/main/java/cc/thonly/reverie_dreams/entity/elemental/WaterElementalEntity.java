@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.entity.elemental;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -23,7 +23,7 @@ public class WaterElementalEntity extends NPCEntityImpl implements ElementalMob 
     public int aTick = 0;
 
     public WaterElementalEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world, NPCEntitySkins.WATER_ELEMENTAL);
+        super(entityType, world, MobSkins.WATER_ELEMENTAL.get());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.datagen.generator;
 
-import com.google.common.hash.Hashing;
+import com.google.common.hash.HashCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -70,7 +70,7 @@ public abstract class JukeboxProvider implements DataProvider {
                     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
                     Files.createDirectories(output.getParent());
 
-                    writer.write(output, bytes, Hashing.sha1().hashBytes(bytes));
+                    writer.write(output, bytes, HashCode.fromBytes(bytes));
                 }
 
             }

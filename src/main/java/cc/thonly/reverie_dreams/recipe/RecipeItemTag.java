@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.recipe;
 
-import cc.thonly.reverie_dreams.registry.RegistryManager;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.item.Item;

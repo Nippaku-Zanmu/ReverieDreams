@@ -27,8 +27,6 @@ import xyz.nucleoid.packettweaker.PacketContext;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static net.minecraft.item.ItemDisplayContext.FIXED;
-
 @Setter
 @Getter
 @ToString

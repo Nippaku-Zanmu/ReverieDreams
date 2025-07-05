@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.registry;
 
+import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -20,7 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Stream;
 
+@SuppressWarnings("UnusedReturnValue")
 @Getter
 @EqualsAndHashCode
 @ToString
@@ -37,8 +40,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     private Map<Identifier, T> baseIdToEntry = new Object2ObjectLinkedOpenHashMap<>();
     private DefaultValueGetter<T> defaultEntryGetter;
     private T defaultEntry;
-    private BootstrapBuilder<T> builder = (server) -> {
-    };
+    private List<BootstrapBuilder<T>> builders = new LinkedList<>();
     private ReloadableBootstrap<T> reloadableBootstrap = (manager) -> {
     };
     private boolean isFrozen = false;
@@ -102,7 +104,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         this.rawToEntry.put(this.rawToEntry.size(), value);
         this.idToEntry.put(key, value);
         value.setId(key);
-        if (!value.canReloadable()) {
+        if (!value.isDirect()) {
             this.staticIdToEntry.put(key, value);
         }
         return value;
@@ -116,7 +118,6 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         return idToEntry;
     }
 
-
     public T add(Integer rawId, Identifier key, T value) {
         if (this.rawToEntry.containsKey(rawId) || this.idToEntry.containsKey(key)) {
             return null;
@@ -125,7 +126,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         this.rawToEntry.put(rawId, value);
         this.idToEntry.put(key, value);
         value.setId(key);
-        if (!value.canReloadable()) {
+        if (!value.isDirect()) {
             this.staticIdToEntry.put(key, value);
         }
         return value;
@@ -139,7 +140,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         this.rawToEntry.put(rawId, value);
         this.idToEntry.put(key, value);
         value.setId(key);
-        if (!value.canReloadable()) {
+        if (!value.isDirect()) {
             this.staticIdToEntry.put(key, value);
         }
         return value;
@@ -157,7 +158,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
             this.rawToEntry.put(rawId, value);
         }
         value.setId(key);
-        if (!value.canReloadable()) {
+        if (!value.isDirect()) {
             this.staticIdToEntry.put(key, value);
         }
         return value;
@@ -190,11 +191,12 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     }
 
     public T getOrDefault(Integer rawId) {
-        return this.rawToEntry.getOrDefault(rawId, this.defaultEntry);
+        return this.rawToEntry.getOrDefault(rawId, this.defaultEntry != null ? this.defaultEntry : this.defaultEntryGetter.get())
+                ;
     }
 
     public T getOrDefault(Identifier key) {
-        return this.idToEntry.getOrDefault(key, this.defaultEntry);
+        return this.idToEntry.getOrDefault(key, this.defaultEntry != null ? this.defaultEntry : this.defaultEntryGetter.get());
     }
 
     public Optional<T> getOptional(Integer rawId) {
@@ -225,6 +227,10 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
 
     public Set<Integer> rawIds() {
         return this.rawToEntry.keySet();
+    }
+
+    public Stream<Map.Entry<Identifier, T>> stream() {
+        return this.idToEntry.entrySet().stream();
     }
 
     public Set<Identifier> keys() {
@@ -270,6 +276,11 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
 
     public Reference<T> createEntryReference(T value) {
         return Reference.of(value.getId(), value);
+    }
+
+    public StandaloneRegistry<T> defaultEntry(T defaultEntry) {
+        this.defaultEntry = defaultEntry;
+        return this;
     }
 
     public StandaloneRegistry<T> defaultEntry(DefaultValueGetter<T> getter) {
@@ -350,8 +361,8 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     }
 
     public StandaloneRegistry<T> build() {
-        this.builder = registry -> {
-        };
+        this.builders.add(registry -> {
+        });
         this.defaultEntry = this.defaultEntryGetter.get();
         return this;
     }
@@ -369,18 +380,20 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         return this;
     }
 
-    public StandaloneRegistry<T> build(BootstrapBuilder<T> builder) {
-        this.builder = builder;
+    @SafeVarargs
+    public final StandaloneRegistry<T> build(BootstrapBuilder<T>... builders) {
+        this.builders.addAll(Arrays.asList(builders));
         return this;
     }
 
-    public void apply() {
+    public StandaloneRegistry<T> apply() {
         if (!this.isFinished) {
-            this.builder.bootstrap(this);
+            this.builders.forEach(builder->builder.bootstrap(this));
             this.baseRawToEntry = new Object2ObjectLinkedOpenHashMap<>(this.rawToEntry);
             this.baseIdToEntry = new Object2ObjectLinkedOpenHashMap<>(this.idToEntry);
             this.isFinished = true;
         }
+        return this;
     }
 
     private Integer getRawIdByKey(Identifier key) {

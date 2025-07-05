@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.datagen.generator;
 
 import cc.thonly.reverie_dreams.sound.JukeBoxEntry;
 import cc.thonly.reverie_dreams.sound.SoundEventBuilder;
-import com.google.common.hash.Hashing;
+import com.google.common.hash.HashCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -107,7 +107,7 @@ public abstract class SoundProvider implements DataProvider {
                 }
                 String jsonString = this.gson.toJson(object);
                 byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
-                writer.write(output, bytes, Hashing.sha1().hashBytes(bytes));
+                writer.write(output, bytes, HashCode.fromBytes(bytes));
             }
         } catch (Exception err) {
             log.error("Can't export sounds.json: ", err);

@@ -3,7 +3,7 @@ package cc.thonly.mystias_izakaya.datagen.generator;
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.reverie_dreams.datagen.generator.DataGeneratorUtil;
-import com.google.common.hash.Hashing;
+import com.google.common.hash.HashCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -92,7 +92,7 @@ public abstract class IngredientProvider implements DataProvider {
                 byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
                 Files.createDirectories(output.getParent());
 
-                writer.write(output, bytes, Hashing.sha1().hashBytes(bytes));
+                writer.write(output, bytes, HashCode.fromBytes(bytes));
             }
         } catch (Exception err) {
             log.error("Error: ", err);

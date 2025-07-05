@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.mixin;
 
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
-import cc.thonly.reverie_dreams.entity.DanmakuEntity;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.interfaces.LivingEntityImpl;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.world.WorldGetter;

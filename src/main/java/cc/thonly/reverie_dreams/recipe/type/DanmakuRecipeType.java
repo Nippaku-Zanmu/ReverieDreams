@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.recipe.type;
 
-import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
@@ -11,7 +10,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;

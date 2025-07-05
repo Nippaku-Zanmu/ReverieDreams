@@ -16,6 +16,9 @@ public class BasicDanmakuItemTypeItem extends BasicPolymerDanmakuItem {
     public BasicDanmakuItemTypeItem(String path, Settings settings) {
         super(path, settings, Items.SNOWBALL);
     }
+    public BasicDanmakuItemTypeItem(Identifier identifier, Settings settings) {
+        super(identifier, settings, Items.SNOWBALL);
+    }
 
     @Override
     public void shoot(ServerWorld serverWorld, PlayerEntity user, Hand hand) {

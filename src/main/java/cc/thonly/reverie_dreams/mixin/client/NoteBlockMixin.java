@@ -2,7 +2,6 @@ package cc.thonly.reverie_dreams.mixin.client;
 
 import cc.thonly.reverie_dreams.TouhouClient;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
-import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;

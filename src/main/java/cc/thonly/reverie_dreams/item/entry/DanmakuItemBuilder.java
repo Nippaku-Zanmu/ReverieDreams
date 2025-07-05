@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@Deprecated
 public class DanmakuItemBuilder {
     public static final Codec<DanmakuItemBuilder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("path").forGetter(DanmakuItemBuilder::getPath),
@@ -57,7 +58,6 @@ public class DanmakuItemBuilder {
                             .component(ModDataComponentTypes.Danmaku.SPEED, this.speed)
                             .component(ModDataComponentTypes.Danmaku.SCALE, this.scale)
                             .component(ModDataComponentTypes.Danmaku.COUNT, 1)
-                            .component(ModDataComponentTypes.Danmaku.COLOR, color.getIndex())
                             .component(ModDataComponentTypes.Danmaku.TILE, this.tile)
                             .component(ModDataComponentTypes.Danmaku.INFINITE, this.infinite)
                             .component(ModDataComponentTypes.Danmaku.DAMAGE_TYPE, Touhou.id("generic").toString())

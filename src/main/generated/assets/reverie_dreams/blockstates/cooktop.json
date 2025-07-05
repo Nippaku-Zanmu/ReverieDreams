@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,lit=false": {
+      "model": "reverie_dreams:block/cooktop",
+      "y": 90
+    },
+    "facing=east,lit=true": {
+      "model": "reverie_dreams:block/cooktop_on",
+      "y": 90
+    },
+    "facing=north,lit=false": {
+      "model": "reverie_dreams:block/cooktop"
+    },
+    "facing=north,lit=true": {
+      "model": "reverie_dreams:block/cooktop_on"
+    },
+    "facing=south,lit=false": {
+      "model": "reverie_dreams:block/cooktop",
+      "y": 180
+    },
+    "facing=south,lit=true": {
+      "model": "reverie_dreams:block/cooktop_on",
+      "y": 180
+    },
+    "facing=west,lit=false": {
+      "model": "reverie_dreams:block/cooktop",
+      "y": 270
+    },
+    "facing=west,lit=true": {
+      "model": "reverie_dreams:block/cooktop_on",
+      "y": 270
+    }
+  }
+}

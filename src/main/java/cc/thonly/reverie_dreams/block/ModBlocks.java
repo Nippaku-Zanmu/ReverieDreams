@@ -73,6 +73,7 @@ public class ModBlocks {
     public static final Map<Block, Block> SPIRITUAL_BLOCKS = new HashMap<>();
 
     public static void registerBlocks() {
+        BlockModels.registerModels();
 //        SPIRITUAL_BLOCKS.put(BlockTypeTag.STRIPPED_OAK_LOG, ModBlocks.SPIRITUAL_OAK_LOG);
         StrippableBlockRegistry.register(SPIRITUAL_LOG, STRIPPED_SPIRITUAL_LOG);
     }

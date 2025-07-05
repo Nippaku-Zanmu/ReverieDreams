@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.item.weapon;
 
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
-import cc.thonly.reverie_dreams.entity.DanmakuEntity;
-import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
 import cc.thonly.reverie_dreams.server.DelayedTask;
@@ -31,7 +31,7 @@ public class TrumpetGun extends BasicPolymerItem implements DanmakuItemType {
             float pitch = user.getPitch();
             float yaw = user.getYaw();
             DelayedTask.repeat(world.getServer(), 3, 2, () -> {
-                DanmakuEntity entity = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), new ItemStack(ModItems.BULLET.random()), pitch, yaw, 1.4f, 0f, 0.0f, 1.5f);
+                DanmakuEntity entity = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.BULLET), pitch, yaw, 1.4f, 0f, 0.0f, 1.5f);
                 entity.playSound(SoundEventInit.FIRE, 1.0f, 1.0f);
             });
             ItemCooldownManager itemCooldownManager = player.getItemCooldownManager();

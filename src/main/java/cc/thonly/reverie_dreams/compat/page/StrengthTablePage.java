@@ -2,13 +2,9 @@ package cc.thonly.reverie_dreams.compat.page;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
-import cc.thonly.reverie_dreams.compat.PolydexCompatImpl;
-import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import eu.pb4.polydex.api.v1.recipe.*;
-import eu.pb4.polydex.impl.PolydexImpl;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;

@@ -2,12 +2,10 @@ package cc.thonly.reverie_dreams.gui.recipe.display;
 
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
-import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.component.Component;
-import net.minecraft.component.ComponentMap;
 import net.minecraft.component.MergedComponentMap;
 import net.minecraft.server.network.ServerPlayerEntity;
 

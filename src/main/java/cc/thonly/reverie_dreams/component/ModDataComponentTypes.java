@@ -15,8 +15,6 @@ public class ModDataComponentTypes {
     public static class Danmaku {
         public static final ComponentType<String> TEMPLATE = registerComponent("template",
                 ComponentType.<String>builder().codec(Codec.STRING).build());
-        public static final ComponentType<Integer> COLOR = registerComponent("color",
-                ComponentType.<Integer>builder().codec(Codec.INT).build());
         public static final ComponentType<Integer> COUNT = registerComponent("count",
                 ComponentType.<Integer>builder().codec(Codec.INT).build());
         public static final ComponentType<Float> DAMAGE = registerComponent("damage",

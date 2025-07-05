@@ -7,7 +7,6 @@ import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
-import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.google.common.collect.BiMap;
 import eu.pb4.sgui.api.ClickType;
@@ -62,23 +61,23 @@ public class KitchenBlockDisplayView extends SimpleGui implements DisplayView {
                 String c = grid[row][col];
                 int slot = row * 9 + col;
                 if (c.equalsIgnoreCase("X")) {
-                    GuiElementBuilder builder = new GuiElementBuilder().setItem(ModGuiItems.EMPTY_SLOT);
+                    GuiElementBuilder builder = new GuiElementBuilder(ModGuiItems.EMPTY_SLOT);
                     this.setSlot(slot, builder);
                 }
                 if (c.equalsIgnoreCase("T")) {
-                    GuiElementBuilder builder = new GuiElementBuilder().setItem(ModGuiItems.PROGRESS_TO_RESULT);
+                    GuiElementBuilder builder = new GuiElementBuilder(ModGuiItems.PROGRESS_TO_RESULT);
                     this.setSlot(slot, builder);
                 }
                 if (c.equalsIgnoreCase("P")) {
                     BiMap<KitchenRecipeType.KitchenType, Block> inverse = KitchenwareBlockEntity.BLOCK_2_KITCHEN_TYPE.inverse();
                     Block block = inverse.get(this.value.getType());
-                    this.setSlot(slot, new GuiElementBuilder().setItem(block.asItem()));
+                    this.setSlot(slot, new GuiElementBuilder(block.asItem()));
                 }
                 if (c.equalsIgnoreCase("B")) {
                     this.setSlot(slot, this.back);
                 }
                 if (c.equalsIgnoreCase("W")) {
-                    this.setSlot(slot, new GuiElementBuilder().setItem(Items.WHITE_STAINED_GLASS_PANE));
+                    this.setSlot(slot, new GuiElementBuilder(Items.WHITE_STAINED_GLASS_PANE));
                 }
                 if (c.equalsIgnoreCase("I")) {
                     if (slotIterator.hasNext()) {

@@ -4,7 +4,7 @@ import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ai.goal.NpcFollowOwnerGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.StatusEffectTargetGoal;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -22,7 +22,7 @@ public class GhostEntity extends NPCEntityImpl {
     protected int survivalTime = 0;
 
     public GhostEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world, NPCEntitySkins.Mob.GHOST);
+        super(entityType, world, MobSkins.GHOST.get());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GhostEntity extends NPCEntityImpl {
 
     @Override
     public boolean isPushable() {
-        return !this.getWorld().isDay();
+        return true;
     }
 
     @Override

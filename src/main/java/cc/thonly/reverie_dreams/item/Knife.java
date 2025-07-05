@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.entity.DanmakuEntity;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;

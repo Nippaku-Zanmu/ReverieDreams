@@ -1,11 +1,12 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
+import cc.thonly.reverie_dreams.entity.ai.SmartFlyGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.DanmakuGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.DifferentRevengeGoal;
 import cc.thonly.reverie_dreams.entity.holder.WingHolder;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.server.DelayedTask;
 import cc.thonly.reverie_dreams.util.ModelUtil;
 import com.mojang.authlib.properties.Property;
@@ -58,12 +59,12 @@ public class SunflowerYouseiEntity extends NPCEntityImpl implements Leashable, F
 
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new SitGoal(this));
-        this.goalSelector.add(2, new FlyGoal(this, 1.5));
+//        this.goalSelector.add(2, new SmartFlyGoal(this, 1.5));
 
 //        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
 
         this.goalSelector.add(3, new DanmakuGoal(this, (self, target, world) -> {
-            ItemStack stack = new ItemStack(ModItems.BUBBLE.random());
+            ItemStack stack = DanmakuTypes.random(DanmakuTypes.BUBBLE);
             float[] pitchYaw = MobDanmakuShooter.getPitchYaw(self, target);
             DelayedTask.repeat(world.getServer(), 2, 0.3f, () -> {
                 MobDanmakuShooter.spawn(world, self, stack, pitchYaw[0], pitchYaw[1] - 15.0f, 0.5f, 5.0f, 0.2f);

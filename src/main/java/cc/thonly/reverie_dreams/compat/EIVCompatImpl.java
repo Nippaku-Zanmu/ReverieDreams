@@ -2,15 +2,14 @@ package cc.thonly.reverie_dreams.compat;
 
 import cc.thonly.reverie_dreams.Touhou;
 import de.crafty.eiv.common.CommonEIVClient;
-import de.crafty.eiv.common.recipe.*;
+import de.crafty.eiv.common.recipe.ItemViewRecipes;
 import eu.pb4.polymer.core.api.other.PolymerScreenHandlerUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.fluid.*;
-import net.minecraft.item.*;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;

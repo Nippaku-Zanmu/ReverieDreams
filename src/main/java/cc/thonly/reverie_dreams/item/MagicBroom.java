@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.data.ModTags;
-import cc.thonly.reverie_dreams.entity.MagicBroomEntity;
+import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntity;
 import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
 import net.minecraft.entity.player.PlayerEntity;

@@ -17,7 +17,8 @@
 		"main": [
 			"nota.Nota",
 			"cc.thonly.reverie_dreams.Touhou",
-			"cc.thonly.mystias_izakaya.MystiasIzakaya"
+			"cc.thonly.mystias_izakaya.MystiasIzakaya",
+			"cc.thonly.reverie_dreams.debug.DebugExportInit"
 		],
 		"client": [
 			"cc.thonly.reverie_dreams.TouhouClient"

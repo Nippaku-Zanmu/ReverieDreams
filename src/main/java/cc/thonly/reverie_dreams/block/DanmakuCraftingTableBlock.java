@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-public class DanmakuCraftingTableBlock extends BasicPolymerBlockWithEntity implements BreakContainerDropper {
+public class DanmakuCraftingTableBlock extends BasicPolymerBlockWithEntity {
 
     public DanmakuCraftingTableBlock(String path, Settings settings) {
         super(path, BlockModelType.FULL_BLOCK, settings);

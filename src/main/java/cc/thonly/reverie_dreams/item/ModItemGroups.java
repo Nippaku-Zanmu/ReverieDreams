@@ -1,9 +1,13 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.FumoBlocks;
+import cc.thonly.reverie_dreams.block.Fumo;
+import cc.thonly.reverie_dreams.block.Fumos;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.entity.ModEntities;
+import cc.thonly.reverie_dreams.entity.npc.NPCRole;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -14,6 +18,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +35,7 @@ public class ModItemGroups {
             .displayName(Text.translatable("item_group.touhou"))
             .build();
     public static final ItemGroup TOUHOU_ITEM_GROUP_BULLET = PolymerItemGroupUtils.builder()
-            .icon(() -> new ItemStack(ModItems.AMULET.random()))
+            .icon(() -> new ItemStack(ModItems.DANMAKU))
             .displayName(Text.translatable("item_group.touhou.bullet"))
             .build();
     public static final ItemGroup TOUHOU_TEMPLATE_ITEM_GROUP_BULLET = PolymerItemGroupUtils.builder()
@@ -62,10 +68,8 @@ public class ModItemGroups {
             }
         });
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_BULLET_ITEM_GROUP_KEY).register(itemGroup -> {
-            for (Item item : ModItems.getDanmakuItemView()) {
-                itemGroup.add(item);
-            }
-//            itemGroup.add(ModItems.DEBUG_DANMAKU_ITEM);
+            List<ItemStack> color = DanmakuTypes.allColor();
+            color.forEach(itemGroup::add);
         });
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_TEMPLATE_ITEM_GROUP_KEY).register(itemGroup -> {
             Map<Identifier, ItemStack> registryView = SpellCardTemplates.getRegistryItemStackView();
@@ -76,8 +80,8 @@ public class ModItemGroups {
             }
         });
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_FUMO_ITEM_GROUP_KEY).register(itemGroup -> {
-            for (Item item : FumoBlocks.getRegisteredFumoItems()) {
-                itemGroup.add(item);
+            for (Fumo instance : Fumos.getView()) {
+                itemGroup.add(instance.item());
             }
         });
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_SPAWN_EGG_ITEM_GROUP_KEY).register(itemGroup -> {
@@ -86,8 +90,10 @@ public class ModItemGroups {
             }
         });
         ItemGroupEvents.modifyEntriesEvent(TOUHOU_ROLE_SPAWN_EGG_ITEM_GROUP_KEY).register(itemGroup -> {
-            for (Item item : ModEntities.getNpcSpawnEggItemView()) {
-                itemGroup.add(item);
+            Collection<NPCRole> roles = RegistryManager.NPC_ROLE.values();
+            for (NPCRole role : roles) {
+                Item egg = role.getEgg();
+                itemGroup.add(egg);
             }
         });
     }

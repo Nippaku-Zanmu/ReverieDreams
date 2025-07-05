@@ -11,6 +11,7 @@ b5cf61670afc3177cbd1813c42bbc9e8ed8bb7a6 data/minecraft/tags/block/mineable/pick
 3aaf154954d52d065ab30e1266fa30720be82caa data/minecraft/tags/block/slabs.json
 f7aa5aff8f8d46304fbe8d2f3ced4be70c950b4d data/minecraft/tags/block/stairs.json
 e67adc04eb8be77c1bbbbcb804feb9dc3f1f2783 data/minecraft/tags/block/trapdoors.json
+1a0122cafd9bfdf96ae9e6d16e7b4a68617e38b6 data/minecraft/tags/block/wooden_fences.json
 cfab2ab481bf476a645d326b87627918009b9e50 data/reverie_dreams/tags/block/empty.json
 db675c739a12dd6fcca085b4b562ac33e25e0d8f data/reverie_dreams/tags/block/fumo.json
 cfab2ab481bf476a645d326b87627918009b9e50 data/reverie_dreams/tags/block/min_tool.json

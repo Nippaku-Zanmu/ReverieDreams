@@ -1,6 +1,7 @@
 package cc.thonly.mystias_izakaya.block.entity;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
+import cc.thonly.mystias_izakaya.block.CooktopBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.gui.recipe.block.KitchenBlockGui;
@@ -63,6 +64,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
     private Double tickSpeedBonus;
     private UUID uuid = UUID.randomUUID();
     private final AbstractKitchenwareBlock block;
+    private WorkingState workingState = WorkingState.NONE;
 
     public KitchenwareBlockEntity(BlockPos pos, BlockState state) {
         super(MiBlockEntities.KITCHENWARE_BLOCK_ENTITY, pos, state);
@@ -72,14 +74,95 @@ public class KitchenwareBlockEntity extends BlockEntity {
         this.tickSpeedBonus = this.block.getTickBonus();
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity kitchenwareBlockEntity) {
-        KitchenwareBlockEntity blockEntity = kitchenwareBlockEntity.get();
+    public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity entity) {
+        KitchenwareBlockEntity blockEntity = entity.get();
         if (blockEntity.recipeType == null) {
             return;
         }
-        if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-            if (blockEntity.isWorking()) {
-                blockEntity.tickLeft -= blockEntity.tickSpeedBonus + 1.0;
+        if (world.isClient() || entity.recipeType == null) return;
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        BlockPos pos = entity.getPos();
+
+        switch (entity.workingState) {
+            case WorkingState.WORKING -> {
+                entity.tickLeft -= entity.tickSpeedBonus + 1.0;
+                serverWorld.spawnParticles(ParticleTypes.SNOWFLAKE, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 1, 0, 0.5, 0, 0.1);
+                if (entity.tickLeft <= 0.0) {
+                    entity.tickLeft = 0.0;
+                    entity.workingState = WorkingState.NONE;
+                    entity.handleOutput();
+                }
+                entity.markDirty();
+            }
+            case NONE_FUEL, NONE -> {
+                boolean b = entity.hasFuel();
+                if (b && entity.workingState == WorkingState.NONE && !entity.preOutput.isEmpty()) {
+                    Optional<CooktopBlockEntity> cooktop = entity.getCooktop();
+                    if (cooktop.isPresent()) {
+                        CooktopBlockEntity cooktopBlockEntity = cooktop.get();
+                        if (!(cooktopBlockEntity.ticks > 0)) {
+                            entity.useFuel();
+                            System.out.println(1);
+                        }
+                    }
+                    entity.setWorkingState(WorkingState.WORKING);
+                } else {
+                    entity.setWorkingState(WorkingState.NONE);
+                }
+            }
+        }
+    }
+
+    public Optional<CooktopBlockEntity> getCooktop() {
+        if (this.world == null) {
+            return Optional.empty();
+        }
+        BlockPos blockPos = this.getPos();
+        BlockPos down = blockPos.down();
+        BlockState blockState = this.world.getBlockState(down);
+        Block block = blockState.getBlock();
+        if (block != MIBlocks.COOKTOP) {
+            return Optional.empty();
+        }
+        if (!(this.world.getBlockEntity(down) instanceof CooktopBlockEntity cooktop)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(cooktop);
+        }
+    }
+
+    public void setOutput(ItemStack itemStack, Double time) {
+        this.setOutput(ItemStackRecipeWrapper.of(itemStack), time);
+    }
+
+    public void setOutput(ItemStackRecipeWrapper recipeWrapper, Double time) {
+        this.setPreOutput(recipeWrapper);
+        this.setTickLeft(time);
+        this.markDirty();
+    }
+
+    public void useFuel() {
+        Optional<CooktopBlockEntity> cooktop = this.getCooktop();
+        cooktop.ifPresent(CooktopBlockEntity::use);
+    }
+
+    public boolean hasFuel() {
+        Optional<CooktopBlockEntity> cooktop = this.getCooktop();
+        return cooktop.isPresent() && cooktop.get().isWorking();
+    }
+
+    public void handleOutput() {
+        KitchenwareBlockEntity blockEntity = this;
+        if (this.world == null || this.world.isClient()) {
+            return;
+        }
+        ServerWorld serverWorld = (ServerWorld) this.getWorld();
+        BlockPos blockPos = this.getPos();
+
+        if (blockEntity.isWorking()) {
+            blockEntity.tickLeft -= blockEntity.tickSpeedBonus + 1.0;
+            if (serverWorld != null) {
                 serverWorld.spawnParticles(
                         ParticleTypes.SNOWFLAKE,
                         blockPos.getX(),
@@ -91,39 +174,40 @@ public class KitchenwareBlockEntity extends BlockEntity {
                         0,
                         0.1
                 );
-                blockEntity.markDirty();
-            } else if (!blockEntity.isWorking() && !blockEntity.preOutput.getItemStack().isEmpty()) {
-                ItemStack prevStack = blockEntity.inventory.getStack(5);
-                if (!prevStack.isEmpty()) {
-                    Item item = prevStack.getItem();
-                    if (item != blockEntity.preOutput.getItemStack().getItem()) {
-                        blockEntity.throwItem(serverWorld, prevStack);
-                    }
-                    if (!ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
-                        blockEntity.throwItem(serverWorld, prevStack);
-                    }
-                }
-                if (ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
-                    if (prevStack.getCount() < prevStack.getMaxCount()) {
-                        prevStack.setCount(prevStack.getCount() + 1);
-                    } else {
-                        blockEntity.throwItem(serverWorld, prevStack);
-                        prevStack.setCount(prevStack.getCount() + 1);
-                    }
-
-                } else {
-                    blockEntity.inventory.setStack(5, blockEntity.preOutput.getItemStack().copy());
-                }
-                blockEntity.preOutput = DEFAULT_WRAPPER_FACTORY.get();
-
-                List<ServerPlayerEntity> nearbyPlayers = PlayerUtils.getNearbyPlayers(serverWorld, blockEntity.pos, 16);
-                for (ServerPlayerEntity player : nearbyPlayers) {
-                    player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 1.0f, 1.0f);
-                }
-
-                blockEntity.markDirty();
             }
+            blockEntity.markDirty();
+        } else if (!blockEntity.isWorking() && !blockEntity.preOutput.getItemStack().isEmpty()) {
+            ItemStack prevStack = blockEntity.inventory.getStack(5);
+            if (!prevStack.isEmpty()) {
+                Item item = prevStack.getItem();
+                if (item != blockEntity.preOutput.getItemStack().getItem()) {
+                    blockEntity.throwItem(serverWorld, prevStack);
+                }
+                if (!ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
+                    blockEntity.throwItem(serverWorld, prevStack);
+                }
+            }
+            if (ItemStack.areItemsAndComponentsEqual(blockEntity.preOutput.getItemStack(), prevStack)) {
+                if (prevStack.getCount() < prevStack.getMaxCount()) {
+                    prevStack.setCount(prevStack.getCount() + 1);
+                } else {
+                    blockEntity.throwItem(serverWorld, prevStack);
+                    prevStack.setCount(prevStack.getCount() + 1);
+                }
+
+            } else {
+                blockEntity.inventory.setStack(5, blockEntity.preOutput.getItemStack().copy());
+            }
+            blockEntity.preOutput = DEFAULT_WRAPPER_FACTORY.get();
+
+            List<ServerPlayerEntity> nearbyPlayers = PlayerUtils.getNearbyPlayers(serverWorld, blockEntity.pos, 16);
+            for (ServerPlayerEntity player : nearbyPlayers) {
+                player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 1.0f, 1.0f);
+            }
+
+            blockEntity.markDirty();
         }
+
     }
 
     public void throwItem(ServerWorld world, ItemStack prevItem) {
@@ -133,8 +217,9 @@ public class KitchenwareBlockEntity extends BlockEntity {
     }
 
     public boolean isWorking() {
-        return !(this.tickLeft <= 0);
+        return this.workingState == WorkingState.WORKING;
     }
+
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
@@ -142,6 +227,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         Inventories.writeNbt(nbt, inventory.heldStacks, registries);
         nbt.putDouble("TickLeft", this.tickLeft);
         nbt.putDouble("TickSpeedBonus", this.tickSpeedBonus);
+        nbt.putInt("WorkingState", this.workingState.getId());
         DataResult<JsonElement> dataResult = ItemStackRecipeWrapper.CODEC.encodeStart(JsonOps.INSTANCE, this.preOutput);
         Optional<JsonElement> result = dataResult.result();
         if (result.isPresent()) {
@@ -158,6 +244,7 @@ public class KitchenwareBlockEntity extends BlockEntity {
         this.inventory = inventory;
         this.tickLeft = nbt.getDouble("TickLeft").orElse(0.0);
         this.tickSpeedBonus = nbt.getDouble("TickSpeedBonus").orElse(0.0);
+        this.workingState = WorkingState.getFromInt(nbt.getInt("WorkingState").orElse(0));
         Optional<String> pOutputOptional = nbt.getString("PreOutput");
         if (pOutputOptional.isPresent()) {
             String preOutputJson = pOutputOptional.get();
@@ -171,5 +258,22 @@ public class KitchenwareBlockEntity extends BlockEntity {
 
     public KitchenwareBlockEntity get() {
         return this;
+    }
+
+    @Getter
+    public enum WorkingState {
+        NONE(0),
+        NONE_FUEL(1),
+        WORKING(2);
+        private final int id;
+
+        WorkingState(int id) {
+            this.id = id;
+        }
+
+        public static WorkingState getFromInt(int id) {
+            List<WorkingState> list = Arrays.stream(WorkingState.values()).filter(e -> e.id == id).toList();
+            return list.isEmpty() ? NONE : list.getFirst();
+        }
     }
 }

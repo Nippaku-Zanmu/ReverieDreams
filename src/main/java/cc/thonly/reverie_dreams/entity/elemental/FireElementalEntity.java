@@ -1,9 +1,7 @@
 package cc.thonly.reverie_dreams.entity.elemental;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -26,7 +24,7 @@ public class FireElementalEntity extends NPCEntityImpl implements ElementalMob {
     public int aTick = 10;
 
     public FireElementalEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world, NPCEntitySkins.FIRE_ELEMENTAL);
+        super(entityType, world, MobSkins.FIRE_ELEMENTAL.get());
     }
 
     @Override

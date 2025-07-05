@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.entity;
 
-import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.minecraft.entity.Entity;
@@ -14,7 +15,7 @@ public interface MobDanmakuShooter {
     MobDanmakuShooter DEFAULT = new MobDanmakuShooter() {
         @Override
         public void fire(LivingEntity self, Entity target, ServerWorld world) {
-            ItemStack stack = new ItemStack(ModItems.FIREBALL_GLOWY.random());
+            ItemStack stack = DanmakuTypes.random(DanmakuTypes.FIREBALL_GLOWY);
             float[] pitchYaw = getPitchYaw(self, target);
             spawn(world, self, stack, pitchYaw[0], pitchYaw[1] - 15.0f, 1.0f, 0f, 0.35f);
             spawn(world, self, stack, pitchYaw[0], pitchYaw[1], 1.05f, 0f, 0.35f);

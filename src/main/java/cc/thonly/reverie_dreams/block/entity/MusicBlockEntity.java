@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.block.entity;
 
-import cc.thonly.reverie_dreams.block.MusicBlock;
 import cc.thonly.reverie_dreams.util.TouhouNotaUtils;
 import lombok.Getter;
 import net.minecraft.block.BlockState;

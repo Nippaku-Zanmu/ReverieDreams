@@ -1,10 +1,21 @@
 package cc.thonly.reverie_dreams.registry;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.Fumo;
+import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageTypes;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
+import cc.thonly.reverie_dreams.entity.npc.NPCRole;
+import cc.thonly.reverie_dreams.entity.npc.NPCRoles;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
+import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
+import cc.thonly.reverie_dreams.entity.skin.RoleSkins;
+import cc.thonly.reverie_dreams.entity.variant.YouseiVariant;
+import cc.thonly.reverie_dreams.entity.variant.YouseiVariants;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.util.Identifier;
@@ -15,12 +26,28 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class RegistryManager {
     public static final Map<Identifier, StandaloneRegistry<?>> REGISTRIES = new Object2ObjectLinkedOpenHashMap<>();
+    public static final StandaloneRegistry<DanmakuType> DANMAKU_TYPE = ofEntry(DanmakuType.class, Touhou.id("danmaku_type"))
+            .codec(DanmakuType.CODEC)
+            .build(DanmakuTypes::bootstrap);
     public static final StandaloneRegistry<DanmakuTrajectory> DANMAKU_TRAJECTORY = ofEntry(DanmakuTrajectory.class, Touhou.id("danmaku_trajectory"))
             .codec(DanmakuTrajectory.CODEC)
             .build(DanmakuTrajectories::bootstrap);
     public static final StandaloneRegistry<DanmakuDamageType> DANMAKU_DAMAGE_TYPE = ofEntry(DanmakuDamageType.class, Touhou.id("danmaku_damage_type"))
             .codec(DanmakuDamageType.CODEC)
             .build(DanmakuDamageTypes::bootstrap);
+    public static final StandaloneRegistry<RoleSkin> ROLE_SKIN = ofEntry(RoleSkin.class, Touhou.id("role_skin"))
+            .codec(RoleSkin.CODEC)
+            .build(RoleSkins::bootstrap, MobSkins::bootstrap);
+    public static final StandaloneRegistry<NPCRole> NPC_ROLE = ofEntry(NPCRole.class, Touhou.id("npc_role"))
+            .codec(NPCRole.CODEC)
+            .build(NPCRoles::bootstrap);
+    public static final StandaloneRegistry<Fumo> FUMO = ofEntry(Fumo.class, Touhou.id("fumo"))
+            .codec(Fumo.CODEC)
+            .build(Fumos::bootstrap);
+    public static final StandaloneRegistry<YouseiVariant> YOUSEI_VARIANT = ofEntry(YouseiVariant.class, Touhou.id("yousei_variant"))
+            .codec(YouseiVariant.CODEC)
+            .defaultEntry(() -> YouseiVariants.BLUE)
+            .build(YouseiVariants::bootstrap);
 
     public static void bootstrap() {
         for (var entry : REGISTRIES.entrySet()) {

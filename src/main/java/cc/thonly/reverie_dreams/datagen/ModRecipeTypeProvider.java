@@ -6,25 +6,26 @@ import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.datagen.generator.RecipeTypeProvider;
+import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryWrapper;
-import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.item.BasicDanmakuItemTypeItem;
-import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.item.entry.DanmakuColor;
-import cc.thonly.reverie_dreams.item.entry.DanmakuItemType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 public class ModRecipeTypeProvider extends RecipeTypeProvider {
     public final Factory<DanmakuRecipe> danmakuRegistry = this.getOrCreateFactory(RecipeManager.DANMAKU_TYPE, DanmakuRecipe.class);
@@ -1025,27 +1026,49 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
     }
 
     public void generateDanmakuRecipe() {
-        for (DanmakuItemType entry : ModItems.DANMAKU_ITEMS) {
-            List<BasicDanmakuItemTypeItem> itemList = entry.getValues();
-            for (BasicDanmakuItemTypeItem itemEntry : itemList) {
-                Integer color = itemEntry.getComponents().get(ModDataComponentTypes.Danmaku.COLOR);
-                if (color != null) {
-                    DanmakuColor colorEnum = DanmakuColor.fromIndex(color);
-                    assert colorEnum != null;
-                    Item dye = colorEnum.getDye();
-
-                    DanmakuRecipe recipe = new DanmakuRecipe(
-                            new ItemStackRecipeWrapper(new ItemStack(dye, 1)),
-                            new ItemStackRecipeWrapper(new ItemStack(Items.FIREWORK_STAR, 1)),
-                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POWER, 35)),
-                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POINT, 35)),
-                            new ItemStackRecipeWrapper(ItemStack.EMPTY),
-                            new ItemStackRecipeWrapper(new ItemStack(itemEntry, 1))
-                    );
-                    this.danmakuRegistry.register(Registries.ITEM.getId(recipe.getOutput().getItem()), recipe);
-                }
+        Stream<Map.Entry<Identifier, DanmakuType>> stream = RegistryManager.DANMAKU_TYPE.stream();
+        stream.forEach(entry -> {
+            Identifier key = entry.getKey();
+            DanmakuType type = entry.getValue();
+            for (Pair<Item, ItemStack> pair : type.getColorPair()) {
+                Item dye = pair.getLeft();
+                ItemStack stack = pair.getRight();
+                Item item = stack.getItem();
+                Identifier itemId = Registries.ITEM.getId(item);
+                Identifier dyeId = Registries.ITEM.getId(dye);
+                Identifier registryKey = Identifier.of(itemId.getNamespace(), itemId.getPath() + "_dye_" + dyeId.getPath());
+                DanmakuRecipe recipe = new DanmakuRecipe(
+                        new ItemStackRecipeWrapper(new ItemStack(dye, 1)),
+                        new ItemStackRecipeWrapper(new ItemStack(Items.FIREWORK_STAR, 1)),
+                        new ItemStackRecipeWrapper(new ItemStack(ModItems.POWER, 35)),
+                        new ItemStackRecipeWrapper(new ItemStack(ModItems.POINT, 35)),
+                        new ItemStackRecipeWrapper(ItemStack.EMPTY),
+                        new ItemStackRecipeWrapper(stack)
+                );
+                this.danmakuRegistry.register(registryKey, recipe);
             }
-        }
+        });
+//        for (DanmakuItemType entry : ModItems.DANMAKU_ITEMS) {
+//            List<BasicDanmakuItemTypeItem> itemList = entry.getValues();
+//            for (BasicDanmakuItemTypeItem itemEntry : itemList) {
+//                Integer color = itemEntry.getComponents().get(ModDataComponentTypes.Danmaku.COLOR);
+//                if (color != null) {
+//                    DanmakuColor colorEnum = DanmakuColor.fromIndex(color);
+//                    assert colorEnum != null;
+//                    Item dye = colorEnum.getDye();
+//
+//                    DanmakuRecipe recipe = new DanmakuRecipe(
+//                            new ItemStackRecipeWrapper(new ItemStack(dye, 1)),
+//                            new ItemStackRecipeWrapper(new ItemStack(Items.FIREWORK_STAR, 1)),
+//                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POWER, 35)),
+//                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POINT, 35)),
+//                            new ItemStackRecipeWrapper(ItemStack.EMPTY),
+//                            new ItemStackRecipeWrapper(new ItemStack(itemEntry, 1))
+//                    );
+//                    this.danmakuRegistry.register(Registries.ITEM.getId(recipe.getOutput().getItem()), recipe);
+//                }
+//            }
+//        }
     }
 
     @Override

@@ -2,10 +2,8 @@ package cc.thonly.reverie_dreams;
 
 import cc.thonly.reverie_dreams.networking.CustomBytePayload;
 import cc.thonly.reverie_dreams.networking.CustomBytePayloadClient;
-import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.block.Block;

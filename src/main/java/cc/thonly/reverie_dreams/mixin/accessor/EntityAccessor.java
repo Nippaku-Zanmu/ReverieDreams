@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Entity.class)
 public interface EntityAccessor {
-    @Accessor
-    static TrackedData<Boolean> getNAME_VISIBLE() {
+    @Accessor("NAME_VISIBLE")
+    static TrackedData<Boolean> getNameVisible() {
         throw new UnsupportedOperationException();
     }
 }

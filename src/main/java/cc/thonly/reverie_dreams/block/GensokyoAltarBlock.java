@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity implements BreakContainerDropper {
+public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
     public static final Map<BlockState, AltarModel> STATE_TO_MODEL = new HashMap<>();
     public static final int[][] OFFSETS = {
             {0, -4}, {-3, -3}, {3, -3},

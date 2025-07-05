@@ -1,11 +1,12 @@
 package cc.thonly.reverie_dreams.datagen.generator;
 
-import com.google.common.hash.Hashing;
+import com.google.common.hash.HashCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
+@Slf4j
 @Environment(value = EnvType.CLIENT)
 public abstract class EquipmentAssetProvider implements DataProvider {
     public final FabricDataOutput output;
@@ -84,14 +86,14 @@ public abstract class EquipmentAssetProvider implements DataProvider {
                     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
                     try {
                         Files.createDirectories(output.getParent());
-                        writer.write(output, bytes, Hashing.sha1().hashBytes(bytes));
+                        writer.write(output, bytes, HashCode.fromBytes(bytes));
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error("Can't generate equipment asset {}", identifier.toString());
                     }
                 }
             });
         } catch (Exception err) {
-            err.printStackTrace();
+            log.error("Fail to generate equipment provider");
         }
     }
 

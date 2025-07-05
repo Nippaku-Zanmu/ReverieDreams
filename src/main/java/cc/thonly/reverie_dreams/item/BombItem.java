@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.item;
 
-import cc.thonly.reverie_dreams.entity.DanmakuEntity;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;

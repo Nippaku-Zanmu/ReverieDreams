@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.util;
 
 import cc.thonly.reverie_dreams.Touhou;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -14,36 +15,38 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class ImageToTextScanner {
-    private static ImageToTextScanner INSTANCE;
+    private static final Map<Class<?>, ImageToTextScanner> INSTANCES = new Object2ObjectOpenHashMap<>();
+    public static final LoaderFactory DEFAULT_FACTORY = (instance) -> {
+        instance.loadImageFromJar(ofNamespace(Touhou.MOD_ID, "icon.png"));
+    };
 
-    private final Map<Integer, List<Text>> cache = new HashMap<>();
-    private static final Class<?> CLAZZ = Touhou.class;
+    private final Map<Integer, List<Text>> caches = new HashMap<>();
+    private final Class<?> clazz;
 
-    private ImageToTextScanner() {
+
+    private ImageToTextScanner(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
+    public static ImageToTextScanner createInstance(Class<?> clazz) {
+        return INSTANCES.computeIfAbsent(clazz, (x) -> new ImageToTextScanner(clazz));
     }
 
     public static void bootstrap() {
-        CompletableFuture.runAsync(ImageToTextScanner::load);
+        CompletableFuture.runAsync(()-> {
+            ImageToTextScanner instance = ImageToTextScanner.createInstance(Touhou.class);
+            DEFAULT_FACTORY.onLoad(instance);
+        });
     }
 
-    private static void load() {
-        ImageToTextScanner instance = ImageToTextScanner.getInstance();
-        instance.loadImageFromJar("/assets/" + Touhou.MOD_ID + "/icon.png");
-    }
-
-    public static synchronized ImageToTextScanner getInstance() {
-        synchronized (ImageToTextScanner.class) {
-            if (INSTANCE == null) {
-                INSTANCE = new ImageToTextScanner();
-            }
-        }
-        return INSTANCE;
+    public static String ofNamespace(String namespace, String filename) {
+        return "/assets/" + namespace + "/" + filename;
     }
 
     public List<Text> renderImageToText(BufferedImage image, int width, int height) {
         int key = Objects.hash(width, height, imageHash(image));
-        if (cache.containsKey(key)) {
-            return cache.get(key);
+        if (this.caches.containsKey(key)) {
+            return this.caches.get(key);
         }
 
         List<Text> lines = new ArrayList<>();
@@ -68,12 +71,12 @@ public class ImageToTextScanner {
             lines.add(line);
         }
 
-        cache.put(key, lines);
+        caches.put(key, lines);
         return lines;
     }
 
     public BufferedImage loadImageFromJar(String pathInJar) {
-        try (InputStream stream = CLAZZ.getResourceAsStream(pathInJar)) {
+        try (InputStream stream = this.clazz.getResourceAsStream(pathInJar)) {
             if (stream == null) {
                 throw new IllegalArgumentException("Resource not found in JAR: " + pathInJar);
             }
@@ -94,6 +97,11 @@ public class ImageToTextScanner {
     }
 
     public void clearCache() {
-        cache.clear();
+        caches.clear();
+    }
+
+    @FunctionalInterface
+    public interface LoaderFactory {
+        void onLoad(ImageToTextScanner instance);
     }
 }

@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.danmaku;
 
-import cc.thonly.reverie_dreams.entity.DanmakuEntity;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;

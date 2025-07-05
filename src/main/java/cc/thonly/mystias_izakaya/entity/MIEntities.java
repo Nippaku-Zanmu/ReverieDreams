@@ -8,6 +8,7 @@ import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -38,8 +39,8 @@ public class MIEntities {
 
     public static void init() {
         BiomeModifications.addSpawn(
-                BiomeSelectors.tag(BiomeTags.IS_FOREST),
-                SpawnGroup.CREATURE,
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_FOREST),
+                SpawnGroup.MONSTER,
                 MIEntities.WILD_PIG_ENTITY_TYPE,
                 10,
                 2,

@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.mixin;
 
 
-import org.spongepowered.asm.mixin.*;
 import net.minecraft.component.ComponentChanges;
+import org.spongepowered.asm.mixin.Mixin;
 //import cc.thonly.reverie_dreams.test.AsyncCountdown;
 //
 //import com.mojang.serialization.Codec;
@@ -95,9 +95,9 @@ public class ComponentChangesMixin {
 //                                int j = 0;
 //                                ObjectIterator var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
-//                                Reference2ObjectMap.Entry block;
+//                                Reference2ObjectMap.Instance block;
 //                                while(var5.hasNext()) {
-//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    block = (Reference2ObjectMap.Instance)var5.next();
 //                                    if (((Optional)block.getValue()).isPresent()) {
 //                                        ++i;
 //                                    } else {
@@ -110,7 +110,7 @@ public class ComponentChangesMixin {
 //                                var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
 //                                while(var5.hasNext()) {
-//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    block = (Reference2ObjectMap.Instance)var5.next();
 //                                    Optional<?> optional = (Optional)block.getValue();
 //                                    if (optional.isPresent()) {
 //                                        ComponentType<?> componentType = (ComponentType)block.getKey();
@@ -122,7 +122,7 @@ public class ComponentChangesMixin {
 //                                var5 = Reference2ObjectMaps.fastIterable(componentChanges.changedComponents).iterator();
 //
 //                                while(var5.hasNext()) {
-//                                    block = (Reference2ObjectMap.Entry)var5.next();
+//                                    block = (Reference2ObjectMap.Instance)var5.next();
 //                                    if (((Optional)block.getValue()).isEmpty()) {
 //                                        ComponentType<?> componentType2 = (ComponentType)block.getKey();
 //                                        ComponentType.PACKET_CODEC.encode(registryByteBuf, componentType2);
@@ -158,7 +158,7 @@ public class ComponentChangesMixin {
 //                        return ComponentChanges.EMPTY;
 //                    } else {
 //                        Reference2ObjectMap<ComponentType<?>, Optional<?>> reference2ObjectMap = new Reference2ObjectArrayMap<>(changes.size());
-//                        for (Map.Entry<ComponentChanges.Type, Object> block : changes.entrySet()) {
+//                        for (Map.Instance<ComponentChanges.Type, Object> block : changes.entrySet()) {
 //                            ComponentChanges.Type type = block.getKey();
 //                            if (type.removed()) {
 //                                reference2ObjectMap.put(type.type(), Optional.empty());
@@ -175,7 +175,7 @@ public class ComponentChangesMixin {
 //                },
 //                (componentChanges) -> {
 //                    Reference2ObjectMap<ComponentChanges.Type, Object> reference2ObjectMap = new Reference2ObjectArrayMap<>(componentChanges.changedComponents.size());
-//                    for (Map.Entry<ComponentType<?>, Optional<?>> block : componentChanges.changedComponents.entrySet()) {
+//                    for (Map.Instance<ComponentType<?>, Optional<?>> block : componentChanges.changedComponents.entrySet()) {
 //                        ComponentType<?> componentType = block.getKey();
 //                        if (!componentType.shouldSkipSerialization()) {
 //                            Optional<?> optional = block.getValue();

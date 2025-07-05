@@ -55,11 +55,11 @@ public class GensokyoAltarDisplayView extends SimpleGui implements DisplayView {
                 String c = grid[row][col];
                 int slot = row * 9 + col;
                 if (c.equalsIgnoreCase("X")) {
-                    GuiElementBuilder builder = new GuiElementBuilder().setItem(ModGuiItems.EMPTY_SLOT);
+                    GuiElementBuilder builder = new GuiElementBuilder(ModGuiItems.EMPTY_SLOT);
                     this.setSlot(slot, builder);
                 }
                 if (c.equalsIgnoreCase("T")) {
-                    GuiElementBuilder builder = new GuiElementBuilder().setItem(ModGuiItems.PROGRESS_TO_RESULT);
+                    GuiElementBuilder builder = new GuiElementBuilder(ModGuiItems.PROGRESS_TO_RESULT);
                     this.setSlot(slot, builder);
                 }
                 if (c.equalsIgnoreCase("B")) {

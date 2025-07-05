@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.util.AnimationHelper;
 import cc.thonly.reverie_dreams.util.ModelUtil;
 import de.tomalbrc.bil.api.AnimatedEntity;

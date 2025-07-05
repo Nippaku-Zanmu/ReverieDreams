@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "reverie_dreams:block/toon_stage0"
+    },
+    "age=1": {
+      "model": "reverie_dreams:block/toon_stage1"
+    },
+    "age=2": {
+      "model": "reverie_dreams:block/toon_stage2"
+    },
+    "age=3": {
+      "model": "reverie_dreams:block/toon_stage3"
+    },
+    "age=4": {
+      "model": "reverie_dreams:block/toon_stage4"
+    },
+    "age=5": {
+      "model": "reverie_dreams:block/toon_stage5"
+    },
+    "age=6": {
+      "model": "reverie_dreams:block/toon_stage6"
+    },
+    "age=7": {
+      "model": "reverie_dreams:block/toon_stage7"
+    },
+    "age=8": {
+      "model": "reverie_dreams:block/toon_stage8"
+    }
+  }
+}

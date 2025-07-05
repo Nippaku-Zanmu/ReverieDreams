@@ -2,7 +2,6 @@ package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.ModItems;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,6 +22,7 @@ public class SpellCardTemplates {
         var star = registerTemplate(DanmakuTrajectories.STAR);
         var heart = registerTemplate(DanmakuTrajectories.HEART);
         var x = registerTemplate(DanmakuTrajectories.X);
+        var round = registerTemplate(DanmakuTrajectories.ROUND);
         var ring = registerTemplate(DanmakuTrajectories.RING);
     }
 

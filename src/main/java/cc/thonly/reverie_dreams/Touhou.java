@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams;
 
 import cc.thonly.reverie_dreams.armor.ModArmorMaterials;
-import cc.thonly.reverie_dreams.block.FumoBlocks;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
 import cc.thonly.reverie_dreams.command.CommandInit;
@@ -20,8 +19,14 @@ import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItemGroups;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.networking.*;
-import cc.thonly.reverie_dreams.recipe.*;
+import cc.thonly.reverie_dreams.networking.CSVersionPayload;
+import cc.thonly.reverie_dreams.networking.CustomBytePayload;
+import cc.thonly.reverie_dreams.networking.HelloPayload;
+import cc.thonly.reverie_dreams.networking.RegistrySyncPayload;
+import cc.thonly.reverie_dreams.recipe.ModRecipeSerializer;
+import cc.thonly.reverie_dreams.recipe.ModRecipeTypes;
+import cc.thonly.reverie_dreams.recipe.RecipeManager;
+import cc.thonly.reverie_dreams.registry.Key2ValueRegistryManager;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.server.DelayedTask;
 import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
@@ -121,7 +126,6 @@ public class Touhou implements ModInitializer {
         ModBlockStateTemplates.bootstrap();
         ModBlockEntities.registerBlockEntities();
         ModBlocks.registerBlocks();
-        FumoBlocks.registerFumoBlocks();
         ModItems.registerItems();
         ModItemGroups.registerItemGroups();
         ModEntityHolders.registerHolders();
@@ -139,6 +143,7 @@ public class Touhou implements ModInitializer {
         RecipeManager.bootstrap();
         ModServerResourceManager.init();
         RegistryManager.bootstrap();
+        Key2ValueRegistryManager.bootstrap();
         ModLootModifies.register();
         RecipeTypeCategoryManager.registerCategories();
         SpellCardTemplates.init();

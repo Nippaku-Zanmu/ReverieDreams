@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.gui.recipe.block;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.DanmakuCraftingTableBlockEntity;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
+import cc.thonly.reverie_dreams.gui.access.GuiElementBuilderAccessor;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
@@ -56,8 +57,7 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
                 char slotType = layout[row].charAt(col);
                 switch (slotType) {
                     case '#' -> {
-                        this.setSlot(slot, new GuiElementBuilder()
-                                .setItem(ModGuiItems.EMPTY_SLOT));
+                        this.setSlot(slot, new GuiElementBuilder(ModGuiItems.EMPTY_SLOT));
                     }
                     case 'C' -> {
                         cSlots.add(slot);
@@ -66,8 +66,7 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
                         );
                     }
                     case 'T' -> {
-                        this.setSlot(slot, new GuiElementBuilder()
-                                .setItem(ModGuiItems.PROGRESS_TO_RESULT)
+                        this.setSlot(slot, new GuiElementBuilder(ModGuiItems.PROGRESS_TO_RESULT)
                                 .setCallback((index, type, action) -> {
 
                                 })
@@ -100,9 +99,9 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
 
         if (this.tick > 2) {
             List<ItemStackRecipeWrapper> slots = getInputs();
-            System.out.println(slots);
+//            System.out.println(slots);
             List<DanmakuRecipe> recipeEntries = RecipeManager.DANMAKU_TYPE.getMatches(slots);
-            System.out.println(recipeEntries);
+//            System.out.println(recipeEntries);
             int resultIndex = 0;
 
             for (int slot : this.cSlots) {
@@ -110,11 +109,13 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
                     DanmakuRecipe recipeEntry = recipeEntries.get(resultIndex++);
                     ItemStackRecipeWrapper resultSlot = recipeEntry.getOutput();
                     ItemStack resultItemStack = resultSlot.getItemStack().copy();
-                    this.setSlot(slot, new GuiElementBuilder()
+                    GuiElementBuilder elementBuilder = new GuiElementBuilder()
                             .setItem(resultItemStack.getItem())
                             .setCount(resultItemStack.getCount())
-                            .setCallback((index, type, action) -> handleCrafting(index, recipeEntry))
-                    );
+                            .setCallback((index, type, action) -> handleCrafting(index, recipeEntry));
+                    GuiElementBuilderAccessor elementBuilderAccessor = (GuiElementBuilderAccessor) elementBuilder;
+                    elementBuilderAccessor.setItemStack(resultItemStack);
+                    this.setSlot(slot, elementBuilder);
                 } else {
                     this.setSlot(slot, new GuiElementBuilder()
                             .setItem(Items.AIR)

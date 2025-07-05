@@ -1,28 +1,25 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
-import cc.thonly.mystias_izakaya.block.MIBlocks;
-import cc.thonly.reverie_dreams.block.FumoBlocks;
+import cc.thonly.reverie_dreams.block.Fumo;
+import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.InvertedLootCondition;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.condition.MatchToolLootCondition;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -90,8 +87,8 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.DEEPSLATE_ORB_ORE, orbDropFunction);
         addDrop(ModBlocks.SILVER_BLOCK);
 
-        for (Block fumo : FumoBlocks.getRegisteredFumo()) {
-            addDrop(fumo);
+        for (Fumo fumo : Fumos.getView()) {
+            addDrop(fumo.block());
         }
 
         this.generateMI();
@@ -100,6 +97,11 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
     public void generateMI() {
         for (Block block : AbstractKitchenwareBlock.KITCHENWARE_BLOCKS) {
             addDrop(block);
+        }
+
+        for (Map.Entry<Identifier, PolymerCropCreator.Instance> view : PolymerCropCreator.getViews()) {
+            PolymerCropCreator.Instance instance = view.getValue();
+            instance.generateLoot(this);
         }
     }
 }

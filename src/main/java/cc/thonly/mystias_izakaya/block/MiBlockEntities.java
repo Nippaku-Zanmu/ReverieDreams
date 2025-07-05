@@ -1,5 +1,6 @@
 package cc.thonly.mystias_izakaya.block;
 
+import cc.thonly.mystias_izakaya.block.entity.CooktopBlockEntity;
 import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
 import cc.thonly.reverie_dreams.Touhou;
 import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
@@ -13,9 +14,14 @@ import net.minecraft.util.Identifier;
 
 public class MiBlockEntities {
     public static final BlockEntityType<KitchenwareBlockEntity> KITCHENWARE_BLOCK_ENTITY =
-            registerBlockEntity("cooking_pot_block_entity",
+            registerBlockEntity("kitchen_block",
                     KitchenwareBlockEntity::new,
                     MIBlocks.COOKING_POT, MIBlocks.CUTTING_BOARD, MIBlocks.FRYING_PAN, MIBlocks.GRILL, MIBlocks.STEAMER
+            );
+    public static final BlockEntityType<CooktopBlockEntity> COOKTOP_BLOCK_ENTITY =
+            registerBlockEntity("cooktop",
+                    CooktopBlockEntity::new,
+                    MIBlocks.COOKTOP
             );
 
     public static void registerBlockEntities() {

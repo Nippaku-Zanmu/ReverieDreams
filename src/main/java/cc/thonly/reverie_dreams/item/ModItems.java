@@ -6,13 +6,12 @@ import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
 import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
 import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDiscItem;
 import cc.thonly.reverie_dreams.item.debug.BattleStick;
-import cc.thonly.reverie_dreams.item.entry.DanmakuColor;
-import cc.thonly.reverie_dreams.item.entry.DanmakuItemType;
 import cc.thonly.reverie_dreams.item.tool.*;
 import cc.thonly.reverie_dreams.item.weapon.*;
 import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
@@ -20,7 +19,10 @@ import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -46,6 +48,7 @@ public class ModItems {
     public static final Item FUMO_ICON = registerIconItem(new BasicItem("fumo_icon", new Item.Settings()));
     public static final Item ROLE_ICON = registerIconItem(new BasicItem("role_icon", new Item.Settings()));
     public static final Item SPAWN_EGG = registerIconItem(new BasicItem("spawn_egg", new Item.Settings()));
+    public static final Item DANMAKU = registerIconItem(new BasicItem("danmaku", new Item.Settings()));
 
     // 材料
     public static final Item POINT = registerItem(new BasicItem("point", new Item.Settings()));
@@ -249,30 +252,31 @@ public class ModItems {
 //    });
 
     // 弹幕
-    public static final DanmakuItemType AMULET = DanmakuItemType.createBuilder("amulet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-    public static final DanmakuItemType ARROWHEAD = DanmakuItemType.createBuilder("arrowhead", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-    public static final DanmakuItemType BALL = DanmakuItemType.createBuilder("ball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
-    public static final DanmakuItemType BUBBLE = DanmakuItemType.createBuilder("bubble", List.of(DanmakuColor.GREY, DanmakuColor.RED, DanmakuColor.PURPLE, DanmakuColor.DARK_BLUE, DanmakuColor.BLUE), 2.5f, 1f, 1.0f, true, false).build();
-    public static final DanmakuItemType BULLET = DanmakuItemType.createBuilder("bullet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-    public static final DanmakuItemType FIREBALL = DanmakuItemType.createBuilder("fireball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
-    public static final DanmakuItemType FIREBALL_GLOWY = DanmakuItemType.createBuilder("fireball_glowy", DanmakuColor.ALL_COLOR, 1f, 1f, 1.0f, true, false).build();
-    public static final DanmakuItemType KUNAI = DanmakuItemType.createBuilder("kunai", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-    //public static final DanmakuItemType MENTOS = DanmakuItemType.createBuilder("mentos", ALL_COLOR, 2f, 1f, 1.0f, false).build(); // 暂占位
-    public static final DanmakuItemType RICE = DanmakuItemType.createBuilder("rice", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-    public static final DanmakuItemType STAR = DanmakuItemType.createBuilder("star", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
 
-    public static final List<DanmakuItemType> DANMAKU_ITEMS = List.of(
-            AMULET,
-            ARROWHEAD,
-            BALL,
-            BUBBLE,
-            BULLET,
-            FIREBALL,
-            FIREBALL_GLOWY,
-            KUNAI,
-            RICE,
-            STAR
-    );
+//    public static final DanmakuItemType AMULET = DanmakuItemType.createBuilder("amulet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final DanmakuItemType ARROWHEAD = DanmakuItemType.createBuilder("arrowhead", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final DanmakuItemType BALL = DanmakuItemType.createBuilder("ball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+//    public static final DanmakuItemType BUBBLE = DanmakuItemType.createBuilder("bubble", List.of(DanmakuColor.GREY, DanmakuColor.RED, DanmakuColor.PURPLE, DanmakuColor.DARK_BLUE, DanmakuColor.BLUE), 2.5f, 1f, 1.0f, true, false).build();
+//    public static final DanmakuItemType BULLET = DanmakuItemType.createBuilder("bullet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final DanmakuItemType FIREBALL = DanmakuItemType.createBuilder("fireball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+//    public static final DanmakuItemType FIREBALL_GLOWY = DanmakuItemType.createBuilder("fireball_glowy", DanmakuColor.ALL_COLOR, 1f, 1f, 1.0f, true, false).build();
+//    public static final DanmakuItemType KUNAI = DanmakuItemType.createBuilder("kunai", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    //public static final DanmakuItemType MENTOS = DanmakuItemType.createBuilder("mentos", ALL_COLOR, 2f, 1f, 1.0f, false).build(); // 暂占位
+//    public static final DanmakuItemType RICE = DanmakuItemType.createBuilder("rice", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final DanmakuItemType STAR = DanmakuItemType.createBuilder("star", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+
+//    public static final List<DanmakuItemType> DANMAKU_ITEMS = List.of(
+//            AMULET,
+//            ARROWHEAD,
+//            BALL,
+//            BUBBLE,
+//            BULLET,
+//            FIREBALL,
+//            FIREBALL_GLOWY,
+//            KUNAI,
+//            RICE,
+//            STAR
+//    );
 
 //    public static final Item DEBUG_DANMAKU_ITEM = registerDanmakuItemNoList(new BasicDanmakuItemTypeItem(
 //            "debug_danmaku",
@@ -297,6 +301,10 @@ public class ModItems {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
         ITEM_LIST.add((Item) item);
         return (Item) item;
+    }
+
+    public static Item registerDanmakuItemType(DanmakuType type) {
+        return registerDanmakuItem(new BasicDanmakuItemTypeItem(type.getRegistryKey(),type.createItemSettings()));
     }
 
     public static Item registerItemNoGroup(IdentifierGetter item) {

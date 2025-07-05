@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.inventory.NPCInventory;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
@@ -40,7 +40,7 @@ public class GoblinEntity extends NPCEntityImpl {
     }
 
     public GoblinEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world, NPCEntitySkins.GOBLIN);
+        super(entityType, world, MobSkins.GOBLIN.get());
         this.inventory.setMainHand(this.getRandomPickaxe());
         this.inventory.setOffHand(this.getRandomOffHand());
         if(GOLDEN_ITEMS.isEmpty()) {

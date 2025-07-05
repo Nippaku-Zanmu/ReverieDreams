@@ -13,10 +13,12 @@ import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
-import cc.thonly.reverie_dreams.util.WeakSet;
+import cc.thonly.reverie_dreams.util.WeakHashSet;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.block.Block;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.UseRemainderComponent;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -66,7 +69,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
     @Override
     public void init() {
-        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakSet<>());
+        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakHashSet<>());
         session.add(this);
         this.setTitle(Text.translatable(this.block.getTranslationKey()));
         for (int row = 0; row < GRID.length; row++) {
@@ -75,23 +78,21 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
                 int index = row * 9 + col;
 
                 switch (posChar) {
-                    case "X" -> this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.EMPTY_SLOT));
-                    case "N" ->
-                            this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.NEXT).setCallback((i, t, sat) -> {
-                                this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                if (this.page < this.maxPage) {
-                                    this.page++;
-                                    this.onTick();
-                                }
-                            }));
-                    case "P" ->
-                            this.setSlot(index, new GuiElementBuilder().setItem(ModGuiItems.PREV).setCallback((i, t, sat) -> {
-                                this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                if (this.page > 0) {
-                                    this.page--;
-                                    this.onTick();
-                                }
-                            }));
+                    case "X" -> this.setSlot(index, new GuiElementBuilder(ModGuiItems.EMPTY_SLOT));
+                    case "N" -> this.setSlot(index, new GuiElementBuilder(ModGuiItems.NEXT).setCallback((i, t, sat) -> {
+                        this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
+                        if (this.page < this.maxPage) {
+                            this.page++;
+                            this.onTick();
+                        }
+                    }));
+                    case "P" -> this.setSlot(index, new GuiElementBuilder(ModGuiItems.PREV).setCallback((i, t, sat) -> {
+                        this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
+                        if (this.page > 0) {
+                            this.page--;
+                            this.onTick();
+                        }
+                    }));
                     case "Z" -> {
                         GuiElementBuilder guiElementBuilder = new GuiElementBuilder().setItem(Items.AIR);
                         this.displayed.put(index, guiElementBuilder);
@@ -163,12 +164,16 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
         for (int i = 0; i < 5; i++) {
             ItemStack stack = inventory.getStack(i);
             if (!stack.isEmpty()) {
+                UseRemainderComponent useRemainderComponent = stack.get(DataComponentTypes.USE_REMAINDER);
+                if (useRemainderComponent != null) {
+                    ItemStack itemStack = useRemainderComponent.convertInto();
+                    this.blockEntity.throwItem((ServerWorld) blockEntity.getWorld(), itemStack);
+                }
                 stack.decrement(1);
             }
         }
-        this.blockEntity.setPreOutput(new ItemStackRecipeWrapper(output.copy()));
-        this.blockEntity.setTickLeft(recipe.getCostTime() * 20.0);
-        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakSet<>());
+        this.blockEntity.setOutput(new ItemStackRecipeWrapper(output.copy()), recipe.getCostTime() * 20.0);
+        Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakHashSet<>());
         for (KitchenBlockGui<?> gui : session) {
             if (gui.isOpen()) {
                 gui.close();
@@ -213,7 +218,8 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
         // 清空旧显示
         for (GuiElementBuilder builder : this.displayed.values()) {
-            builder.setItem(ModGuiItems.EMPTY_SLOT);
+            GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) builder;
+            accessor.setItemStack(ModGuiItems.EMPTY_SLOT.getDefaultStack());
         }
 
         int i = 0;

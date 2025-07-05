@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.entity.elemental;
 
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntitySkins;
+import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -28,7 +28,7 @@ public class IceElementalEntity extends NPCEntityImpl implements ElementalMob {
     public int aTick = 0;
 
     public IceElementalEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world, NPCEntitySkins.ICE_ELEMENTAL);
+        super(entityType, world, MobSkins.ICE_ELEMENTAL.get());
     }
 
     @Override

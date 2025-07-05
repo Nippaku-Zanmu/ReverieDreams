@@ -13,6 +13,7 @@ public class DanmakuTrajectories {
     public static final DanmakuTrajectory STAR = register(Touhou.id("star"), new PatternTrajectory(Pattern.BuiltIn.STAR));
     public static final DanmakuTrajectory HEART = register(Touhou.id("heart"), new PatternTrajectory(Pattern.BuiltIn.HEART));
     public static final DanmakuTrajectory X = register(Touhou.id("x"), new PatternTrajectory(Pattern.BuiltIn.X));
+    public static final DanmakuTrajectory ROUND = register(Touhou.id("round"), new RoundTrajectory());
     public static final DanmakuTrajectory RING = register(Touhou.id("ring"), new RingTrajectory());
 
     public static DanmakuTrajectory register(Identifier key, DanmakuTrajectory value) {

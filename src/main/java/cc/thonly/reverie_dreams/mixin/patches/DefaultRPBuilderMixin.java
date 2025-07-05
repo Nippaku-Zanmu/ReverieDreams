@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.mixin.patches;
 
-import eu.pb4.polymer.common.impl.CommonImpl;
 import eu.pb4.polymer.resourcepack.impl.generation.DefaultRPBuilder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;

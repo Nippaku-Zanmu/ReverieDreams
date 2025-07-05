@@ -52,8 +52,10 @@ public final class TouhouNotaUtils {
 
     public static void playAt(World world, BlockPos pos, String select) {
         if (select == null) {
+            System.out.println("null");
             return;
         }
+
         String filename = select.intern();
         MinecraftServer server = world.getServer();
 
@@ -67,54 +69,56 @@ public final class TouhouNotaUtils {
             return;
         }
 
-        Map<BlockPos, SongPlayer> blockPos2SongPlayer = blockMusicPlayCache.computeIfAbsent(world, k -> new HashMap<>());
-        SongPlayer songPlayer = blockPos2SongPlayer.get(pos);
-        if (songPlayer != null) {
-            songPlayer.setPlaying(false);
-            blockPos2SongPlayer.remove(pos);
-        }
-
-        PositionSongPlayer psp = new PositionSongPlayer(song, world);
-        psp.setBlockPos(new BlockPos(pos));
-        psp.setDistance(32);
-        psp.setRepeatMode(RepeatMode.ALL);
-        for (var sPlayer : playerManager.getPlayerList()) {
-            psp.addPlayer(sPlayer);
-        }
-        psp.setPlaying(true);
-        blockPos2SongPlayer.put(pos, psp);
-        AtomicInteger age = new AtomicInteger();
-        DelayedTask.whenTick(server, () -> {
-            if (world.isChunkLoaded(pos)) {
-                return false;
+        DelayedTask.create(server, 2, () -> {
+            Map<BlockPos, SongPlayer> blockPos2SongPlayer = blockMusicPlayCache.computeIfAbsent(world, k -> new HashMap<>());
+            SongPlayer songPlayer = blockPos2SongPlayer.get(pos);
+            if (songPlayer != null) {
+                songPlayer.setPlaying(false);
+                blockPos2SongPlayer.remove(pos);
             }
-            BlockState blockState = world.getBlockState(pos);
-            return !(blockState.getBlock() instanceof MusicBlock);
-        }, 4, () -> {
-            psp.setPlaying(false);
-            blockPos2SongPlayer.remove(pos);
-        }, () -> {
-            if (age.get() <= 4) {
-                age.getAndIncrement();
-            } else {
-                age.set(0);
-            }
-            if (psp.isPlaying()) {
-                ServerWorld serverWorld = (ServerWorld) world;
-                ParticleEffect particleEffect = ParticleTypes.NOTE;
 
-                double px = pos.getX() + 0.5;
-                double py = pos.getY() + 1;
-                double pz = pos.getZ() + 0.5;
-
-                serverWorld.spawnParticles(
-                        particleEffect,
-                        px, py, pz,
-                        1,
-                        0, 0, 0,
-                        0.01
-                );
+            PositionSongPlayer psp = new PositionSongPlayer(song, world);
+            psp.setBlockPos(new BlockPos(pos));
+            psp.setDistance(32);
+            psp.setRepeatMode(RepeatMode.ALL);
+            for (var sPlayer : playerManager.getPlayerList()) {
+                psp.addPlayer(sPlayer);
             }
+            psp.setPlaying(true);
+            blockPos2SongPlayer.put(pos, psp);
+            AtomicInteger age = new AtomicInteger();
+            DelayedTask.whenTick(server, () -> {
+                if (world.isChunkLoaded(pos)) {
+                    return false;
+                }
+                BlockState blockState = world.getBlockState(pos);
+                return !(blockState.getBlock() instanceof MusicBlock);
+            }, 4, () -> {
+                psp.setPlaying(false);
+                blockPos2SongPlayer.remove(pos);
+            }, () -> {
+                if (age.get() <= 4) {
+                    age.getAndIncrement();
+                } else {
+                    age.set(0);
+                }
+                if (psp.isPlaying()) {
+                    ServerWorld serverWorld = (ServerWorld) world;
+                    ParticleEffect particleEffect = ParticleTypes.NOTE;
+
+                    double px = pos.getX() + 0.5;
+                    double py = pos.getY() + 1;
+                    double pz = pos.getZ() + 0.5;
+
+                    serverWorld.spawnParticles(
+                            particleEffect,
+                            px, py, pz,
+                            1,
+                            0, 0, 0,
+                            0.01
+                    );
+                }
+            });
         });
     }
 

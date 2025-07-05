@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.damage;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
+import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import net.minecraft.entity.damage.DamageTypes;
 
 public class DanmakuDamageTypes {

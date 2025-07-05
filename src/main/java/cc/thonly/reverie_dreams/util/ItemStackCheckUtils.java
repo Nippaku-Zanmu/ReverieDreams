@@ -8,30 +8,26 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 @Slf4j
 public class ItemStackCheckUtils {
     public static void test() {
-        Stream<Item> stream = Registries.ITEM.stream();
-        List<Item> items = stream.toList();
-        Item now = null;
-        try {
-            for (Item item : items) {
-                if (item == Items.AIR) continue;
-                now = item;
-                ItemStack stack = item.getDefaultStack();
-                DataResult<JsonElement> element = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack);
-                JsonElement jsonElement = element.getOrThrow();
-                Optional<JsonElement> result = element.result();
-            }
-        } catch (Exception e) {
-            log.error("Error: Item: {}, exception: {}", now, e);
-        }
+        Registries.ITEM
+                .stream()
+                .parallel()
+                .filter(item -> item != Items.AIR)
+                .forEach(item -> {
+                    try {
+                        ItemStack stack = item.getDefaultStack();
+                        DataResult<JsonElement> result = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack);
+                        result.getOrThrow();
+                    } catch (Exception e) {
+                        log.error("Serialization error for item {}: {}", item, e.toString());
+                    }
+                });
     }
 }
