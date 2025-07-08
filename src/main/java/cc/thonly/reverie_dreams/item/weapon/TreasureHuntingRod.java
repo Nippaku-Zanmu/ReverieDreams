@@ -88,6 +88,7 @@ public class TreasureHuntingRod extends BasicPolymerSwordItem {
                     MutableText message = Text.empty();
                     message.append(Text.translatable("message.treasure_hunting_rod.find", roundedDistance, dx, dy, dz));
                     message.append(Text.translatable(blockReference.get().getTranslationKey()));
+
                     user.sendMessage(message, false);
 
                     world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), user.getSoundCategory(), 1.0f, 1.0f);

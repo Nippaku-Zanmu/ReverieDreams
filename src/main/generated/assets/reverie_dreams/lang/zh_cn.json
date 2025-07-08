@@ -660,6 +660,7 @@
   "jukebox_song.reverie_dreams.yv_flower_clock_and_dreams": "Yonder-Voice - 花時計と夢",
   "message.gensokyo_altar.miss_recipe": "§c未知合成仪式",
   "message.gensokyo_altar.miss_structure": "§c结构错误",
+  "message.treasure_hunting_rod.find": "离目标还有 %s 格，偏移：X=%s, Y=%s, Z=%s，目标：",
   "reverie_dreams.bullet": "子弹",
   "reverie_dreams.chireiden_role_card": "§3地灵殿§r角色卡",
   "reverie_dreams.eiyashou_role_card": "§d永夜抄§r角色卡",
