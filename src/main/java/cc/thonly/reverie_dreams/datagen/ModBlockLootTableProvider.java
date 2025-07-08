@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
+import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.block.Fumo;
 import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
@@ -103,5 +104,8 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
             PolymerCropCreator.Instance instance = view.getValue();
             instance.generateLoot(this);
         }
+
+        addDrop(MIBlocks.UDUMBARA_FLOWER);
+        addDrop(MIBlocks.TREMELLA);
     }
 }

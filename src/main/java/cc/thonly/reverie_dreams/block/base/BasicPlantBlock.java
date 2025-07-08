@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -96,12 +97,13 @@ public class BasicPlantBlock extends PlantBlock implements Fertilizable, Polymer
         }
 
         public void setState() {
-
+            Registry<World> worldRegistry = this.world.getRegistryManager().getOrThrow(RegistryKeys.WORLD);
+            int rawId = worldRegistry.getRawId(this.world);
             this.main.setScale(new Vector3f(0.5f));
             this.off.setScale(new Vector3f(0.5f));
             this.main.setRotation(0.0f, 45.0f);
             this.off.setRotation(0.0f, 135.0f);
-            int seed = this.blockPos.getX() + this.blockPos.getY() + this.blockPos.getZ();
+            long seed = this.blockPos.getX() + this.blockPos.getY() + this.blockPos.getZ() + rawId * 18L;
             Random random = new Random(seed);
             double offsetX = getRandomOffset(random);
             double offsetZ = getRandomOffset(random);

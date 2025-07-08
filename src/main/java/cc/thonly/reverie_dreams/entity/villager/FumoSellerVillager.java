@@ -15,6 +15,7 @@ import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.sgui.api.gui.MerchantGui;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.data.DataTracker;
@@ -108,6 +109,10 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
             }
             if (this.sessions.isEmpty()) {
                 ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+
+                this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, player.getPos());
+                this.getNavigation().stop();
+
                 SellerGui sellerGui = new SellerGui(serverPlayer, this);
                 sellerGui.open();
                 player.swingHand(hand);
@@ -132,7 +137,6 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
 
     public boolean cancel() {
         World world = this.getWorld();
-        System.out.println(this.prev);
         if (this.prev != null) {
             VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.getWorld());
             villager.setVillagerData(this.prev);
@@ -182,7 +186,7 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
 
         Collections.shuffle(allFumos, random);
 
-        int count = 5 + random.nextInt(5);
+        int count = 5 + random.nextInt(6);
         List<Fumo> selectedFumos = allFumos.subList(0, Math.min(count, allFumos.size()));
 
         for (Fumo fumo : selectedFumos) {

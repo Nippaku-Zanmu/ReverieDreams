@@ -73,6 +73,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(Touhou.id("recipe/kitchen").toTranslationKey(), "夜雀食堂");
         translationBuilder.add("message.gensokyo_altar.miss_structure", "§c结构错误");
         translationBuilder.add("message.gensokyo_altar.miss_recipe", "§c未知合成仪式");
+        translationBuilder.add("message.treasure_hunting_rod.find", "离目标还有 %s 格，偏移：X=%s, Y=%s, Z=%s，目标：");
 
         this.generateItemTranslations(wrapperLookup, translationBuilder);
         this.generateBlockTranslations(wrapperLookup, translationBuilder);

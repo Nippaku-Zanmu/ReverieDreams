@@ -75,7 +75,7 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
                 List.of(
                         this.ofItem(Items.PURPLE_DYE, 2), this.ofItem(Items.ENDER_PEARL, 6), this.ofItem(Items.REDSTONE_BLOCK, 1),
                         this.ofItem(Items.MAGENTA_DYE, 2), this.ofItem(Items.COPPER_INGOT),
-                        this.ofItem(Items.COPPER_INGOT), this.ofItem(Items.COPPER_INGOT), this.ofItem(Items.COPPER_INGOT)
+                        this.ofItem(Items.COPPER_INGOT, 6), this.ofItem(Items.COPPER_INGOT, 7), this.ofItem(Items.COPPER_INGOT, 8)
                 ),
                 this.ofItem(ModItems.GAP_BALL)
         ));
@@ -240,6 +240,15 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
                         this.ofItem(Items.NETHERITE_INGOT), this.ofItem(Items.OAK_LOG, 8), this.ofEmpty()
                 ),
                 this.ofItem(ModItems.NUE_TRIDENT)
+        ));
+        this.gensokyoAltarRecipe.register(ModItems.TREASURE_HUNTING_ROD, new GensokyoAltarRecipe(
+                this.ofItem(Items.DIAMOND_PICKAXE),
+                List.of(
+                        this.ofItem(Items.IRON_INGOT, 5), this.ofItem(Items.IRON_INGOT, 6), this.ofItem(Items.RABBIT_FOOT, 9),
+                        this.ofItem(Items.NETHERITE_INGOT), this.ofItem(Items.GOLD_INGOT, 10),
+                        this.ofItem(Items.NETHERITE_INGOT), this.ofItem(Items.REDSTONE, 8), this.ofItem(Items.STONE_BUTTON, 1)
+                ),
+                this.ofItem(ModItems.TREASURE_HUNTING_ROD)
         ));
         this.gensokyoAltarRecipe.register(ModItems.TRUMPET_GUN, new GensokyoAltarRecipe(
                 this.ofItem(Items.CROSSBOW),

@@ -17,7 +17,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -157,21 +163,38 @@ public final class PolymerCropCreator {
 
         public void generateLoot(FabricBlockLootTableProvider provider) {
             if (this.cropBlock != null && this.product != null) {
-                BlockStatePropertyLootCondition.Builder builder = BlockStatePropertyLootCondition
+                BlockStatePropertyLootCondition.Builder condition = BlockStatePropertyLootCondition
                         .builder(this.cropBlock)
                         .properties(
                                 StatePredicate.Builder
                                         .create()
                                         .exactMatch(this.cropBlock.getAgeProperty(), this.cropBlock.getMaxAge())
                         );
-                provider.addDrop(this.cropBlock, provider.cropDrops(this.cropBlock, this.product, this.seed, builder));
+//                LootTable.Builder lootTableBuilder = provider.cropDrops(this.cropBlock, this.product, this.seed, condition);
+                LootTable.Builder lootTableBuilder = LootTable.builder();
+                lootTableBuilder.pool(
+                        LootPool.builder()
+                                .conditionally(condition.build())
+                                .rolls(ConstantLootNumberProvider.create(1))
+                                .with(ItemEntry.builder(this.product)
+                                        .apply(SetCountLootFunction.builder(
+                                                UniformLootNumberProvider.create(1.0f, 3.0f)
+                                        ))
+                                )
+                                .with(ItemEntry.builder(this.seed)
+                                        .apply(SetCountLootFunction.builder(
+                                                UniformLootNumberProvider.create(2.0f, 3.0f)
+                                        ))
+                                )
+                );
+                provider.addDrop(this.cropBlock, lootTableBuilder);
             }
         }
-
     }
 
     public enum ModelType {
         CROSS(),
         CROP(),
+        ;
     }
 }
