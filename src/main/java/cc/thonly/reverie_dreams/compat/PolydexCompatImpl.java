@@ -7,7 +7,7 @@ import cc.thonly.reverie_dreams.compat.page.KitchenPage;
 import cc.thonly.reverie_dreams.compat.page.StrengthTablePage;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.recipe.type.DanmakuRecipeType;
 import cc.thonly.reverie_dreams.recipe.type.GensokyoAltarRecipeType;
 import cc.thonly.reverie_dreams.recipe.type.StrengthTableRecipeType;

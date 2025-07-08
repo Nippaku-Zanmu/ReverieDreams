@@ -3,9 +3,9 @@ package cc.thonly.reverie_dreams.gui.recipe.display;
 import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
+import cc.thonly.reverie_dreams.recipe.view.RecipeEntryWrapper;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
@@ -29,13 +29,13 @@ import java.util.List;
 @Slf4j
 @ToString(callSuper = true)
 public class DanmakuTableDisplayView extends SimpleGui implements DisplayView {
-    public final RecipeKey2ValueEntry<DanmakuRecipe> key2ValueEntry;
+    public final RecipeEntryWrapper<DanmakuRecipe> key2ValueEntry;
     public final Identifier key;
     public final DanmakuRecipe value;
     public final GuiElementBuilder back = new GuiElementBuilder().setItem(ModGuiItems.BACK).setSkullOwner(PlayerHeadInfo.GUI_ADD).setItemName(Text.of("Back")).setCallback(this::back);
     public final GuiOpeningPrevCallback prevGuiCallback;
 
-    public DanmakuTableDisplayView(ServerPlayerEntity player, RecipeKey2ValueEntry<DanmakuRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public DanmakuTableDisplayView(ServerPlayerEntity player, RecipeEntryWrapper<DanmakuRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.key2ValueEntry = key2ValueEntry;
         this.key = this.key2ValueEntry.getKey();

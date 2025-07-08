@@ -8,9 +8,11 @@ import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.misc.KnifeEntity;
 import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
+import cc.thonly.reverie_dreams.entity.villager.FumoSellerVillager;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -26,13 +28,16 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class ModEntities {
 
-    public static final List<Item> SPAWN_EGG_ITEM_LIST = new LinkedList<>();
+    public static final Map<EntityType<?>, Item> SPAWN_EGG_BIND = new Object2ObjectOpenHashMap<>();
+    public static final List<Item> SPAWN_EGG_ITEM_LIST = new ArrayList<>();
 
     public static Item registerSpawnEggItem(IdentifierGetter item) {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
@@ -57,6 +62,13 @@ public class ModEntities {
             registerEntity("spell_card",
                     EntityType.Builder.<SpellCardEntity>create(SpellCardEntity::new, SpawnGroup.MISC)
                             .build(of("danmaku_bullet")));
+    public static final EntityType<FumoSellerVillager> FUMO_SELLER_VILLAGER =
+            registerEntityWithSpawnEgg("fumo_seller_villager",
+                    EntityType.Builder.<FumoSellerVillager>create(FumoSellerVillager::new, SpawnGroup.MISC)
+                            .dimensions(0.6f, 1.95f).eyeHeight(1.62f).maxTrackingRange(10)
+                            .build(of("fumo_seller_villager")),
+                    () -> FumoSellerVillager.createLivingAttributes().build()
+            );
     public static final EntityType<KillerBeeEntity> KILLER_BEE_ENTITY_TYPE =
             registerEntityWithSpawnEgg("killer_bee",
                     EntityType.Builder.<KillerBeeEntity>create(KillerBeeEntity::new, SpawnGroup.MONSTER)
@@ -83,7 +95,7 @@ public class ModEntities {
                             .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                             .build());
     public static final EntityType<YouseiEntity> YOUSEI_ENTITY_TYPE = registerEntityWithSpawnEgg("yousei",
-            EntityType.Builder.<YouseiEntity>create((type, world) -> new YouseiEntity(type, world), SpawnGroup.MONSTER)
+            EntityType.Builder.<YouseiEntity>create(YouseiEntity::new, SpawnGroup.MONSTER)
                     .build(of("yousei")),
             () -> LivingEntity.createLivingAttributes()
                     .add(EntityAttributes.MAX_HEALTH, 25.0)
@@ -173,6 +185,7 @@ public class ModEntities {
         Item item = registerSpawnEggItem(new BasicPolymerSpawnEggItem(path + "_spawn_egg", (EntityType<? extends MobEntity>) entityTypeRef, new Item.Settings().modelId(Touhou.id("spawn_egg"))));
         PolymerEntityUtils.registerType(entityTypeRef);
         SPAWN_EGG_ITEM_LIST.add(item);
+        SPAWN_EGG_BIND.put(entityTypeRef, item);
         return entityTypeRef;
     }
 

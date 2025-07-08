@@ -1,0 +1,43 @@
+{
+  "core": {
+    "id": "minecraft:diamond_axe",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:diamond",
+      "count": 2
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:redstone_block",
+      "count": 2
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 9
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:breeze_rod",
+      "count": 5
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:air"
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:gungnir",
+    "count": 1
+  }
+}

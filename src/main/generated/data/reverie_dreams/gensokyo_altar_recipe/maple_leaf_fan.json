@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:oak_leaves",
+    "count": 48
+  },
+  "slots": [
+    {
+      "id": "minecraft:wind_charge",
+      "count": 16
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 9
+    },
+    {
+      "id": "minecraft:wind_charge",
+      "count": 16
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 9
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 9
+    },
+    {
+      "id": "minecraft:breeze_rod",
+      "count": 2
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 9
+    },
+    {
+      "id": "minecraft:wind_charge",
+      "count": 16
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:maple_leaf_fan",
+    "count": 1
+  }
+}

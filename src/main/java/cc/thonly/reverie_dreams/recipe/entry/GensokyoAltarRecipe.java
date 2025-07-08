@@ -1,17 +1,17 @@
 package cc.thonly.reverie_dreams.recipe.entry;
 
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.*;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Builder(toBuilder = true)
 public class GensokyoAltarRecipe extends BaseRecipe {
     public static final Codec<GensokyoAltarRecipe> CODEC = RecordCodecBuilder.create(instance ->
@@ -24,6 +24,17 @@ public class GensokyoAltarRecipe extends BaseRecipe {
     private final ItemStackRecipeWrapper core;
     private final List<ItemStackRecipeWrapper> slots;
     private final ItemStackRecipeWrapper output;
+
+    public GensokyoAltarRecipe(ItemStackRecipeWrapper core,
+                               List<ItemStackRecipeWrapper> slots,
+                               ItemStackRecipeWrapper output) {
+        this.core = core;
+        this.slots = new LinkedList<>(slots);
+        while (this.slots.size() < 8) {
+            this.slots.add(ItemStackRecipeWrapper.empty());
+        }
+        this.output = output;
+    }
 
     public List<ItemStackRecipeWrapper> getSlots() {
         return Collections.unmodifiableList(this.slots);

@@ -5,8 +5,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
 
 public class BasicPolymerDiscItem extends BasicPolymerItem {
-    public BasicPolymerDiscItem(String path, Settings settings, Item item) {
-        super(path, settings.maxCount(1).rarity(Rarity.UNCOMMON).translationKey(Items.MUSIC_DISC_5.getTranslationKey()), item);
+    public static final Item VANILLA_ITEM = Items.MUSIC_DISC_5;
+    public BasicPolymerDiscItem(String path, Settings settings) {
+        super(path, settings.maxCount(1).rarity(Rarity.UNCOMMON).translationKey(Items.MUSIC_DISC_5.getTranslationKey()), VANILLA_ITEM);
     }
 
 }

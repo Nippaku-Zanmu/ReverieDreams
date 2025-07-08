@@ -5,6 +5,7 @@ import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.loot.LootPool;
@@ -15,14 +16,26 @@ import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class MILootModifies {
+    public static final List<RegistryKey<LootTable>> TRUFFLE_DROPS = createTruffleDrops();
+
+    public static List<RegistryKey<LootTable>> createTruffleDrops() {
+        ArrayList<RegistryKey<LootTable>> keys = new ArrayList<>();
+        keys.add(vanillaKey("blocks/oak_log"));
+        keys.add(vanillaKey("blocks/birch_log"));
+        keys.add(vanillaKey("blocks/dark_oak_log"));
+        keys.add(vanillaKey("blocks/spruce_log"));
+        return keys;
+    }
+
     public static final RegistryKey<LootTable> OPEN_MINESHAFT_CHEST = LootTables.ABANDONED_MINESHAFT_CHEST;
     public static final RegistryKey<LootTable> BLOCKS_SHORT_GRASS = vanillaKey("blocks/short_grass");
     public static final RegistryKey<LootTable> BAMBOO_SAPLING = vanillaKey("blocks/bamboo_sapling");
@@ -42,7 +55,6 @@ public class MILootModifies {
                 tableBuilder.pool(poolBuilder);
             }
         });
-
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (source.isBuiltin() && key.equals(FISHING)) {
                 tableBuilder.modifyPools(tb -> {
@@ -66,6 +78,16 @@ public class MILootModifies {
                 return builder.build();
             }
             return table;
+        });
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (TRUFFLE_DROPS.contains(key)) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.3f));
+
+                poolBuilder.with(ItemEntry.builder(MIItems.TRUFFLE).weight(10));
+                tableBuilder.pool(poolBuilder);
+            }
         });
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (key.equals(OPEN_MINESHAFT_CHEST)) {

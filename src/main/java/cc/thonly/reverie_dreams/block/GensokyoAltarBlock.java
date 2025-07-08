@@ -5,7 +5,7 @@ import cc.thonly.reverie_dreams.block.entity.GensokyoAltarBlockEntity;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
 import cc.thonly.reverie_dreams.gui.recipe.block.GensokyoAltarGui;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.recipe.type.GensokyoAltarRecipeType;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.virtualentity.BlockModel;
@@ -29,6 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -64,22 +67,26 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
             ServerWorld serverWorld = (ServerWorld) world;
             if (player.isSneaking()) {
                 if (!b) {
+                    serverPlayer.sendMessage(Text.translatable("message.gensokyo_altar.miss_structure"), false);
                     return ActionResult.SUCCESS_SERVER;
                 }
                 SimpleInventory inventory = blockEntity.getInventory();
-                GensokyoAltarRecipe craft = craft(inventory, pos);
+                GensokyoAltarRecipe craft = this.tryCraft(inventory, pos);
                 if (craft != null) {
                     List<ServerPlayerEntity> players = serverWorld.getPlayers();
                     for (var serverPlayerEntity : players) {
-                        serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.ENCHANT, true, false, pos.getX(), pos.getY() + 1, pos.getZ(), 10000, 6, 6, 6, 0.5);
-                        serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.WITCH, true, false, pos.getX(), pos.getY() + 1 , pos.getZ(), 10000, 0, 0, 0, 0.5);
+                        serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.ENCHANT, true, false, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 10000, 6, 6, 6, 0.5);
+                        serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.WITCH, true, false, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 10000, 0, 0, 0, 0.5);
                         for (var offset : OFFSETS) {
-                            serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.PORTAL, true, false, offset[0], pos.getY(), offset[1], 800, 3, 5, 3, 0.5);
+                            serverWorld.spawnParticles(serverPlayerEntity, ParticleTypes.PORTAL, true, false, offset[0] + 0.5, pos.getY(), offset[1] + 0.5, 800, 3, 5, 3, 0.5);
                         }
                     }
                     inventory.clear();
                     inventory.setStack(8, craft.getOutput().getItemStack().copy());
+                    world.playSound(null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS);
                     blockEntity.markDirty();
+                } else {
+                    serverPlayer.sendMessage(Text.translatable("message.gensokyo_altar.miss_recipe"), false);
                 }
             } else {
                 GensokyoAltarGui gui = new GensokyoAltarGui(serverPlayer, state, world, pos);
@@ -104,7 +111,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
         return super.onBreak(world, pos, state, player);
     }
 
-    protected GensokyoAltarRecipe craft(SimpleInventory inventory, BlockPos pos) {
+    protected GensokyoAltarRecipe tryCraft(SimpleInventory inventory, BlockPos pos) {
         List<GensokyoAltarRecipe> matches = GensokyoAltarRecipeType.getInstance().getMatches(List.of(
                 new ItemStackRecipeWrapper(inventory.getStack(0)),
                 new ItemStackRecipeWrapper(inventory.getStack(1)),
@@ -169,7 +176,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
         }
 
         public GensokyoAltarBlockEntity getBlockEntityFromWorld() {
-            if(this.world == null) return null;
+            if (this.world == null) return null;
             return (GensokyoAltarBlockEntity) this.world.getBlockEntity(this.pos);
         }
 
@@ -178,7 +185,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
 
         public void update() {
             this.blockEntity = this.getBlockEntityFromWorld();
-            if(this.blockEntity == null) return;
+            if (this.blockEntity == null) return;
             this.inventory = this.blockEntity.getInventory();
 
             for (int i = 0; i < this.itemStackDisplay.length; i++) {

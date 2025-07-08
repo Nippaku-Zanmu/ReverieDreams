@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:paper",
+    "R": "minecraft:redstone"
+  },
+  "pattern": [
+    " R ",
+    "R#R",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:role_card"
+  }
+}

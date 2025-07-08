@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.datagen.generator;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import com.google.common.hash.HashCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -44,12 +46,32 @@ public abstract class RecipeTypeProvider implements DataProvider {
         this.future = future;
     }
 
+    public ItemStackRecipeWrapper ofEmpty() {
+        return ItemStackRecipeWrapper.empty();
+    }
+
     public ItemStackRecipeWrapper ofItem(ItemStack item) {
-        return new ItemStackRecipeWrapper(item);
+        return ItemStackRecipeWrapper.of(item);
     }
 
     public ItemStackRecipeWrapper ofItem(Item item) {
-        return new ItemStackRecipeWrapper(item.getDefaultStack());
+        return ItemStackRecipeWrapper.of(item);
+    }
+
+    public ItemStackRecipeWrapper ofItem(Block block) {
+        return ItemStackRecipeWrapper.of(block.asItem());
+    }
+
+    public ItemStackRecipeWrapper ofItem(Block block, int amount) {
+        return ItemStackRecipeWrapper.of(block.asItem(), amount);
+    }
+
+    public ItemStackRecipeWrapper ofItem(Item item, int amount) {
+        return ItemStackRecipeWrapper.of(item, amount);
+    }
+
+    public ItemStackRecipeWrapper ofItem(Item item, int amount, ComponentChanges components) {
+        return ItemStackRecipeWrapper.of(item, amount, components);
     }
 
     public List<ItemStackRecipeWrapper> ofList(Item... items) {
@@ -68,8 +90,8 @@ public abstract class RecipeTypeProvider implements DataProvider {
         return wrappers;
     }
 
-    public List<ItemStackRecipeWrapper> ofList(ItemStackRecipeWrapper... StackRecipeWrappers) {
-        return new LinkedList<>(Arrays.asList(StackRecipeWrappers));
+    public List<ItemStackRecipeWrapper> ofList(ItemStackRecipeWrapper... stackRecipeWrappers) {
+        return new LinkedList<>(Arrays.asList(stackRecipeWrappers));
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +115,7 @@ public abstract class RecipeTypeProvider implements DataProvider {
 
     public abstract void configured();
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void export(DataWriter writer) {
         try {
             Path path = Paths.get(DataGeneratorUtil.OUTPUT_DIR);

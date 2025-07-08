@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
-import cc.thonly.reverie_dreams.entity.ai.goal.NpcAttackWithOwnerGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.NPCAttackWithOwnerGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.SleepAtNightGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.WakeUpGoal;
 import com.mojang.authlib.properties.Property;
@@ -48,7 +48,7 @@ public class NPCEntityMonsterImpl extends NPCEntityImpl {
         this.goalSelector.add(10, new LookAroundGoal(this));
 
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
-        this.targetSelector.add(2, new NpcAttackWithOwnerGoal(this));
+        this.targetSelector.add(2, new NPCAttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
 
     }

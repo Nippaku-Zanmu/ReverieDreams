@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:honey_bottle",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 8
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:sugar",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 8
+    },
+    {
+      "id": "minecraft:ghast_tear",
+      "count": 8
+    },
+    {
+      "id": "minecraft:diamond",
+      "count": 4
+    },
+    {
+      "id": "minecraft:blaze_rod",
+      "count": 8
+    },
+    {
+      "id": "minecraft:fermented_spider_eye",
+      "count": 8
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:ibukiho",
+    "count": 1
+  }
+}

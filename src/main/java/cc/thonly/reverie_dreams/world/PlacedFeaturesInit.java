@@ -8,10 +8,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.YOffset;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.*;
 
 import java.util.List;
@@ -19,7 +16,8 @@ import java.util.List;
 public class PlacedFeaturesInit {
     public static final RegistryKey<PlacedFeature> OVERWORLD_SILVER_ORE_KEY = getOrCreateRegistryKey("overworld_silver_ore_placed");
     public static final RegistryKey<PlacedFeature> OVERWORLD_ORB_ORE_KEY = getOrCreateRegistryKey("overworld_orb_ore_placed");
-
+    public static final RegistryKey<PlacedFeature> UDUMBARA_FLOWER_KEY = getOrCreateRegistryKey("udumbara_flower_placed");
+    public static final RegistryKey<PlacedFeature> TREMELLA_KEY = getOrCreateRegistryKey("tremella_placed");
     public static void bootstrap(Registerable<PlacedFeature> context) {
         var registryLookup = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
 
@@ -28,6 +26,16 @@ public class PlacedFeaturesInit {
         );
         register(context, OVERWORLD_ORB_ORE_KEY, registryLookup.getOrThrow(ConfigurationFeatureInit.OVERWORLD_ORB_ORE_KEY),
                 Modifiers.modifiersCount(7, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80)))
+        );
+        register(context, UDUMBARA_FLOWER_KEY, registryLookup.getOrThrow(ConfigurationFeatureInit.UDUMBARA_FLOWER_KEY),
+                RarityFilterPlacementModifier.of(5),
+                SquarePlacementModifier.of(),
+                PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of()
+        );
+        register(context, TREMELLA_KEY, registryLookup.getOrThrow(ConfigurationFeatureInit.TREMELLA_KEY),
+                RarityFilterPlacementModifier.of(6),
+                SquarePlacementModifier.of(),
+                PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of()
         );
     }
 

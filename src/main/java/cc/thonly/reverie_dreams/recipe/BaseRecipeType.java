@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.recipe;
 
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -39,7 +38,7 @@ public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObj
 
     public BaseRecipeType<R> add(Identifier id, R recipe) {
         if (!this.registries.containsKey(id)) {
-            recipe.setRawId(nextRawId++);
+            recipe.setRawId(this.nextRawId++);
         } else {
             recipe.setRawId(this.registries.get(id).getRawId());
         }

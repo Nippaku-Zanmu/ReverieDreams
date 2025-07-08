@@ -8,6 +8,9 @@ import cc.thonly.reverie_dreams.world.WorldGetter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -33,6 +36,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.EnumSet;
 
+@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityImpl {
     @Shadow
@@ -57,6 +61,10 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     @Shadow
     protected abstract @Nullable SoundEvent getHurtSound(DamageSource source);
 
+    @Shadow
+    @Nullable
+    public abstract EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
+
     @Unique
     public double manpozuchiUsingState = 1;
     @Unique
@@ -70,17 +78,25 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
         super(type, world);
     }
 
-    @Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
-    public void getMaxHealth(CallbackInfoReturnable<Float> ci) {
-        float baseMaxHealth = ci.getReturnValue();
-        float modifiedMaxHealth = baseMaxHealth + this.maxHealthModifier;
-
-        if (modifiedMaxHealth < 1.0f) {
-            modifiedMaxHealth = 1.0f;
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void setMaxHealth(EntityType<? extends LivingEntity> entityType, World world, CallbackInfo ci) {
+        EntityAttributeInstance maxHealthAttributeInstance = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
+        if (maxHealthAttributeInstance != null) {
+            maxHealthAttributeInstance.setBaseValue(this.getMaxHealth() + this.maxHealthModifier);
         }
-
-        ci.setReturnValue(modifiedMaxHealth);
     }
+
+//    @Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
+//    public void getMaxHealth(CallbackInfoReturnable<Float> ci) {
+//        float baseMaxHealth = ci.getReturnValue();
+//        float modifiedMaxHealth = baseMaxHealth + this.maxHealthModifier;
+//
+//        if (modifiedMaxHealth < 1.0f) {
+//            modifiedMaxHealth = 1.0f;
+//        }
+//
+//        ci.setReturnValue(modifiedMaxHealth);
+//    }
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
@@ -152,15 +168,15 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         boolean bl1 = this.deathInElixir(world, source, amount, cir);
         if (!bl1) {
-            this.deathByDanmaku(world, source, amount, cir);
+            this.deathByDanmakuEntity(world, source, amount, cir);
         }
     }
 
     @Unique
-    public boolean deathByDanmaku(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public boolean deathByDanmakuEntity(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if ((this.getHealth() - amount <= 0f) && source.getSource() instanceof DanmakuEntity) {
             Entity self = (Entity) this;
-            self.playSound(SoundEventInit.BIU, 0.35F, 1.0F);
+            self.playSound(SoundEventInit.BIU, 0.32F, 1.0F);
             return true;
         }
         return false;
@@ -222,11 +238,15 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     @Override
     public void setMaxHealthModifier(float value) {
         this.maxHealthModifier = value;
+        EntityAttributeInstance maxHealthAttributeInstance = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
+        if (maxHealthAttributeInstance != null) {
+            maxHealthAttributeInstance.setBaseValue(this.getMaxHealth() + this.maxHealthModifier);
+        }
     }
 
     @Override
     public float getMaxHealthModifier() {
-        return (float) this.maxHealthModifier;
+        return this.maxHealthModifier;
     }
 
     @Override

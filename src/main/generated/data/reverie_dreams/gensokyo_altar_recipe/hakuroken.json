@@ -1,0 +1,42 @@
+{
+  "core": {
+    "id": "minecraft:iron_sword",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:soul_sand",
+      "count": 8
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 9
+    },
+    {
+      "id": "reverie_dreams:silver_ingot",
+      "count": 12
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 7
+    },
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "minecraft:stripped_cherry_log",
+      "count": 4
+    },
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "reverie_dreams:speed_feather",
+      "count": 4
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:hakuroken",
+    "count": 1
+  }
+}

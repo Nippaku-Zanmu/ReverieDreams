@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:compass",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:redstone_block",
+      "count": 8
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 12
+    },
+    {
+      "id": "minecraft:coal_block",
+      "count": 1
+    },
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 16
+    },
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 16
+    },
+    {
+      "id": "minecraft:coal_block",
+      "count": 1
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 12
+    },
+    {
+      "id": "minecraft:redstone_block",
+      "count": 8
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:bagua_furnace",
+    "count": 1
+  }
+}

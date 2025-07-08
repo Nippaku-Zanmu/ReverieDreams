@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.item.BasicDanmakuTypeItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import cc.thonly.reverie_dreams.util.ItemColor;
 import com.mojang.serialization.Codec;
@@ -13,6 +13,8 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -55,7 +57,8 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
     }
 
     public void register() {
-        this.item = ModItems.registerDanmakuItemType(this);
+        this.item = new BasicDanmakuTypeItem(this.getRegistryKey(), this.createItemSettings().component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046)));
+        Registry.register(Registries.ITEM, Identifier.of(this.id.getNamespace(), "danmaku/" + this.id.getPath()), this.item);
     }
 
     public List<Pair<Item, ItemStack>> getColorPair() {

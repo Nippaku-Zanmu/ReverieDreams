@@ -1,8 +1,9 @@
 package cc.thonly.reverie_dreams.gui.recipe.display;
 
+import cc.thonly.reverie_dreams.gui.access.GuiElementBuilderAccessor;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
-import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.view.RecipeEntryWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.component.Component;
@@ -19,9 +20,9 @@ public interface DisplayView {
 
     }
 
-    public static SimpleGui create(Class<? extends SimpleGui> clazz, ServerPlayerEntity player, RecipeKey2ValueEntry<?> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public static SimpleGui create(Class<? extends SimpleGui> clazz, ServerPlayerEntity player, RecipeEntryWrapper<?> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         try {
-            Constructor<?> constructor = clazz.getConstructor(ServerPlayerEntity.class, RecipeKey2ValueEntry.class, GuiOpeningPrevCallback.class);
+            Constructor<?> constructor = clazz.getConstructor(ServerPlayerEntity.class, RecipeEntryWrapper.class, GuiOpeningPrevCallback.class);
             return (SimpleGui) constructor.newInstance(player, key2ValueEntry, prevGuiCallback);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             return null;
@@ -29,16 +30,10 @@ public interface DisplayView {
     }
 
 
-    default GuiElementBuilder getGuiElementBuilder(ItemStackRecipeWrapper recipeSlot) {
-        GuiElementBuilder guiElementBuilder = new GuiElementBuilder()
-                .setItem(recipeSlot.getItem())
-                .setCount(recipeSlot.getCount());
-        MergedComponentMap components = recipeSlot.getItemStack().components;
-        Iterator<Component<?>> iterator = components.stream().iterator();
-        while (iterator.hasNext()) {
-            Component<Object> next = (Component<Object>) iterator.next();
-            guiElementBuilder.setComponent(next.type(), next.value());
-        }
+    default GuiElementBuilder getGuiElementBuilder(ItemStackRecipeWrapper recipe) {
+        GuiElementBuilder guiElementBuilder = new GuiElementBuilder();
+        GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) guiElementBuilder;
+        accessor.setItemStack(recipe.getItemStack());
         return guiElementBuilder;
     }
 

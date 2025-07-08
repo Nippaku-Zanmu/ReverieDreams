@@ -1,0 +1,42 @@
+{
+  "core": {
+    "id": "minecraft:iron_ingot",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "minecraft:blue_wool",
+      "count": 3
+    },
+    {
+      "id": "minecraft:purple_wool",
+      "count": 3
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 9
+    },
+    {
+      "id": "minecraft:pink_wool",
+      "count": 3
+    },
+    {
+      "id": "minecraft:stripped_cherry_log",
+      "count": 5
+    },
+    {
+      "id": "minecraft:cherry_sapling",
+      "count": 1
+    },
+    {
+      "id": "minecraft:air"
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:papilio_pattern_fan",
+    "count": 1
+  }
+}

@@ -6,8 +6,8 @@ import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.view.RecipeEntryWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import com.google.common.collect.BiMap;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
@@ -33,13 +33,13 @@ import java.util.List;
 @Slf4j
 @ToString(callSuper = true)
 public class KitchenBlockDisplayView extends SimpleGui implements DisplayView {
-    public final RecipeKey2ValueEntry<KitchenRecipe> key2ValueEntry;
+    public final RecipeEntryWrapper<KitchenRecipe> key2ValueEntry;
     public final Identifier key;
     public final KitchenRecipe value;
     public final GuiElementBuilder back = new GuiElementBuilder().setItem(ModGuiItems.BACK).setSkullOwner(PlayerHeadInfo.GUI_ADD).setItemName(Text.of("Back")).setCallback(this::back);
     public final GuiOpeningPrevCallback prevGuiCallback;
 
-    public KitchenBlockDisplayView(ServerPlayerEntity player, RecipeKey2ValueEntry<KitchenRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
+    public KitchenBlockDisplayView(ServerPlayerEntity player, RecipeEntryWrapper<KitchenRecipe> key2ValueEntry, GuiOpeningPrevCallback prevGuiCallback) {
         super(ScreenHandlerType.GENERIC_9X5, player, false);
         this.key2ValueEntry = key2ValueEntry;
         this.key = this.key2ValueEntry.getKey();

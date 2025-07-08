@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:black_wool",
+    "X": "minecraft:white_wool",
+    "Y": "minecraft:leather"
+  },
+  "pattern": [
+    " X ",
+    "X#X",
+    "XYX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:marisa_hat"
+  }
+}

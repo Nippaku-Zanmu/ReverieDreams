@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "reverie_dreams:music_block",
+    "X": "minecraft:spruce_planks",
+    "Y": "minecraft:string"
+  },
+  "pattern": [
+    " X ",
+    "XYX",
+    "X#X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:violin"
+  }
+}

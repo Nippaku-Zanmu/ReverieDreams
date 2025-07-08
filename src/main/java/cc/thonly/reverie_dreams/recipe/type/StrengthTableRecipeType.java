@@ -2,13 +2,15 @@ package cc.thonly.reverie_dreams.recipe.type;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
-import cc.thonly.reverie_dreams.item.BasicDanmakuItemTypeItem;
+import cc.thonly.reverie_dreams.item.BasicDanmakuTypeItem;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.SpellCardTemplateItem;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
@@ -79,7 +81,8 @@ public class StrengthTableRecipeType extends BaseRecipeType<StrengthTableRecipe>
                 log.error("Failed to load strength table recipe {}, {}, {}", id, e.getMessage(), e);
             }
         }
-        List<Item> danmakuItemView = ModItems.getDanmakuItemView();
+        List<Item> danmakuItemView = RegistryManager.DANMAKU_TYPE
+                .values().stream().map(DanmakuType::getItem).toList();
         List<ItemStack> danmakuItemStackView = danmakuItemView.stream().map(Item::getDefaultStack).toList();
         List<ItemStack> templateStackView = SpellCardTemplates.getRegistryItemStackView().values().stream().map(ItemStack::copy).toList();
 
@@ -159,7 +162,7 @@ public class StrengthTableRecipeType extends BaseRecipeType<StrengthTableRecipe>
         ItemStack offStack = off.getItemStack().copy();
         Item mainItem = mainStack.getItem();
         Item offItem = offStack.getItem();
-        boolean isDanmakuItem = mainItem instanceof BasicDanmakuItemTypeItem;
+        boolean isDanmakuItem = mainItem instanceof BasicDanmakuTypeItem;
         boolean isSpellCardTemplate = offItem instanceof SpellCardTemplateItem;
         boolean isSpeedItem = offItem == ModItems.SPEED_FEATHER;
         boolean isSlime = offItem == Items.SLIME_BLOCK;

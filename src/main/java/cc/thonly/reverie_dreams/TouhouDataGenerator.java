@@ -17,6 +17,7 @@ public class TouhouDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModSimpChineseLangProvider::new);
         pack.addProvider(ModItemTagProvider::new);
         pack.addProvider(ModBlockTagProvider::new);
+        pack.addProvider(ModEntityTagProvider::new);
         pack.addProvider(ModModelProvider::new);
         pack.addProvider(ModRecipeProvider::new);
         pack.addProvider(ModBlockLootTableProvider::new);

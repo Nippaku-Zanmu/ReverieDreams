@@ -1,0 +1,42 @@
+{
+  "core": {
+    "id": "minecraft:diamond_block",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "reverie_dreams:red_orb",
+      "count": 10
+    },
+    {
+      "id": "reverie_dreams:blue_orb",
+      "count": 10
+    },
+    {
+      "id": "reverie_dreams:yellow_orb",
+      "count": 10
+    },
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "reverie_dreams:green_orb",
+      "count": 10
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 1
+    },
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "reverie_dreams:purple_orb",
+      "count": 10
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:horai-dama_no_eda",
+    "count": 1
+  }
+}

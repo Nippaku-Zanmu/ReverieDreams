@@ -135,7 +135,7 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
         return Text.translatable(this.id.toTranslationKey("food_property"));
     }
 
-    public String getTranslateKey() {
+    public String translateKey() {
         return this.id.toTranslationKey("food_property");
     }
 

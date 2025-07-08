@@ -1,0 +1,43 @@
+{
+  "core": {
+    "id": "minecraft:netherite_hoe",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:netherite_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 3
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:blaze_rod",
+      "count": 4
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 4
+    },
+    {
+      "id": "minecraft:coal",
+      "count": 11
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:levatin",
+    "count": 1
+  }
+}

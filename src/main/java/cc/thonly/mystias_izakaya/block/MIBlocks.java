@@ -3,6 +3,7 @@ package cc.thonly.mystias_izakaya.block;
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.base.BasicPlantBlock;
 import cc.thonly.reverie_dreams.block.base.BasicPolymerBlock;
 import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
 import cc.thonly.reverie_dreams.datagen.ModItemTagProvider;
@@ -15,6 +16,7 @@ import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -35,6 +37,9 @@ public class MIBlocks {
     public static final Block STEAMER = registerBlock(new Steamer("steamer", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
     public static final Block COOKTOP = registerBlock(new CooktopBlock("cooktop", AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.5f).luminance(blockState -> 13)));
     public static final Block BLACK_SALT_BLOCK = registerBlock(new BasicPolymerBlock("black_salt_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.SAND)));
+
+    public static final Block UDUMBARA_FLOWER = registerBlock(new BasicPlantBlock("udumbara_flower", createPlantSettings()));
+    public static final Block TREMELLA = registerBlock(new BasicPlantBlock("tremella", createPlantSettings()));
 
     public static final PolymerCropCreator.Instance CHILL = PolymerCropCreator
             .createCreator(MystiasIzakaya.id("chill"))
@@ -184,8 +189,8 @@ public class MIBlocks {
             )
             .build();
 
-    public static final List<PolymerCropCreator.Instance> GRASS_DROPS = List.of(TOMATO, RED_BEANS, ONION, CUCUMBER, CHILL);
-    public static final List<PolymerCropCreator.Instance> CHEST_DROPS = List.of(SWEET_POTATO, WHITE_RADISH, TOON, RED_BEANS, GRAPE);
+    public static final List<PolymerCropCreator.Instance> GRASS_DROPS = new ArrayList<>(List.of(TOMATO, RED_BEANS, ONION, CUCUMBER, CHILL));
+    public static final List<PolymerCropCreator.Instance> CHEST_DROPS = new ArrayList<>(List.of(SWEET_POTATO, WHITE_RADISH, TOON, RED_BEANS, GRAPE));
 
 //    public static final PolymerCropCreator.Instance TEST_CROP = PolymerCropCreator
 //            .createCreator(Touhou.id("test"))
@@ -200,6 +205,10 @@ public class MIBlocks {
 //                            .build()
 //            )
 //            .build();
+
+    public static AbstractBlock.Settings createPlantSettings() {
+        return AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY);
+    }
 
     public static void registerBlocks() {
         if (Touhou.isDevMode()) {

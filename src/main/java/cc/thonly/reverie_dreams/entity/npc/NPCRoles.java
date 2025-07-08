@@ -13,6 +13,8 @@ public class NPCRoles extends AbstractSkinBootstrap {
     public static final NPCRole REIMU = registerRole(new NPCRole(Touhou.id("reimu"), RoleSkins.REIMU));
     public static final NPCRole CYAN_REIMU = registerRole(new NPCRole(Touhou.id("cyan_reimu"), RoleSkins.CYAN_REIMU));
     public static final NPCRole MARISA = registerRole(new NPCRole(Touhou.id("marisa"), RoleSkins.MARISA));
+
+    // 红魔乡
     public static final NPCRole RUMIA = registerRole(new NPCRole(Touhou.id("rumia"), RoleSkins.RUMIA));
     public static final NPCRole CIRNO = registerRole(new NPCRole(Touhou.id("cirno"), RoleSkins.CIRNO));
     public static final NPCRole MEIRIN = registerRole(new NPCRole(Touhou.id("meirin"), RoleSkins.HOAN_MEIRIN));
@@ -86,11 +88,11 @@ public class NPCRoles extends AbstractSkinBootstrap {
     public static final NPCRole LUNAR = registerRole(new NPCRole(Touhou.id("lunar"), RoleSkins.LUNAR));
     public static final NPCRole SUNNY = registerRole(new NPCRole(Touhou.id("sunny"), RoleSkins.SUNNY));
 
-    // 其他
+    // 秘封
     public static final NPCRole USAMI_RENKO = registerRole(new NPCRole(Touhou.id("usami_renko"), RoleSkins.USAMI_RENKO));
     public static final NPCRole MARIBEL_HEARN = registerRole(new NPCRole(Touhou.id("maribel_hearn"), RoleSkins.MARIBEL_HEARN));
 
-    // 黄昏
+    // 黄昏边境
     public static final NPCRole SUIKA = registerRole(new NPCRole(Touhou.id("suika"), RoleSkins.SUIKA));
     public static final NPCRole TENSHI = registerRole(new NPCRole(Touhou.id("tenshi"), RoleSkins.TENSHI));
 
@@ -110,7 +112,6 @@ public class NPCRoles extends AbstractSkinBootstrap {
 
     public static NPCRole registerRole(Identifier id, NPCRole role) {
         NPCRole entry = RegistryManager.register(REGISTRY_KEY, id, role);
-        entry.build();
-        return entry;
+        return entry.build();
     }
 }

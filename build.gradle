@@ -96,10 +96,11 @@ dependencies {
 
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
-//    compileOnly files('libs/api-2.7.0-20250505.182211-26.jar')
-//    compileOnly files('libs/core-2.7.0-20250505.182211-26.jar')
-//    compileOnly files('libs/common-2.7.0-20250505.182211-26.jar')
-    compileOnly('org.geysermc.geyser:api:2.7.0-SNAPSHOT')
+    compileOnly files('libs/geyser-api-2.7.0-SNAPSHOT.jar')
+    compileOnly files('libs/geyser-base-api-1.0.1.jar')
+    compileOnly files('libs/geyser-cumulus-1.1.1.jar')
+    compileOnly files('libs/geyser-events-1.1-SNAPSHOT.jar')
+//    compileOnly('org.geysermc.geyser:api:2.7.0-SNAPSHOT')
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
     modCompileOnly 'maven.modrinth:polydex:1.5.0+1.21.5-rc2'

@@ -86,7 +86,7 @@ public class GensokyoAltarPage implements PolydexPage {
         } else if (s.equals("I")) {
             int i = input.get();
             input.incrementAndGet();
-            if (i + 1 < this.value.getSlots().size()) {
+            if (i < this.value.getSlots().size()) {
                 return this.value.getSlots().get(i).getItemStack().copy();
             }
         } else if (s.equals("O")) {

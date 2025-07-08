@@ -6,7 +6,7 @@ import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
 import cc.thonly.reverie_dreams.command.CommandInit;
 import cc.thonly.reverie_dreams.compat.ModCompats;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.config.TouhouConfiguration;
+import cc.thonly.reverie_dreams.config.ReverieDreamsConfiguration;
 import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.data.ModLootModifies;
 import cc.thonly.reverie_dreams.data.ModServerResourceManager;
@@ -23,8 +23,6 @@ import cc.thonly.reverie_dreams.networking.CSVersionPayload;
 import cc.thonly.reverie_dreams.networking.CustomBytePayload;
 import cc.thonly.reverie_dreams.networking.HelloPayload;
 import cc.thonly.reverie_dreams.networking.RegistrySyncPayload;
-import cc.thonly.reverie_dreams.recipe.ModRecipeSerializer;
-import cc.thonly.reverie_dreams.recipe.ModRecipeTypes;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.registry.Key2ValueRegistryManager;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
@@ -98,7 +96,7 @@ public class Touhou implements ModInitializer {
     @Override
     public void onInitialize() {
         CardboardWarning.checkAndAnnounce();
-        MidnightConfig.init(MOD_ID, TouhouConfiguration.class);
+        MidnightConfig.init(MOD_ID, ReverieDreamsConfiguration.class);
         if (isDevMode()) {
             LOGGER.warn("=====================================================");
             LOGGER.warn("You are using development version of Gensokyo: Reverie of Lost Dreams!");
@@ -138,8 +136,6 @@ public class Touhou implements ModInitializer {
 
         // 初始化其他注册内容
         CommandInit.init();
-        ModRecipeTypes.init();
-        ModRecipeSerializer.init();
         RecipeManager.bootstrap();
         ModServerResourceManager.init();
         RegistryManager.bootstrap();
@@ -219,7 +215,7 @@ public class Touhou implements ModInitializer {
     }
 
     public static boolean isDevMode() {
-        return DEV_MODE || TouhouConfiguration.DEBUG_MODE;
+        return DEV_MODE || ReverieDreamsConfiguration.DEBUG_MODE;
     }
 
     public static boolean isHasConnector() {

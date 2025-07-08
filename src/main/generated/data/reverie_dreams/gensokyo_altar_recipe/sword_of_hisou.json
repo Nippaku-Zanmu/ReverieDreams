@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:golden_sword",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 7
+    },
+    {
+      "id": "minecraft:diamond",
+      "count": 5
+    },
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 6
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 6
+    },
+    {
+      "id": "minecraft:blaze_rod",
+      "count": 4
+    },
+    {
+      "id": "reverie_dreams:ingredient/peach",
+      "count": 7
+    },
+    {
+      "id": "minecraft:apple",
+      "count": 6
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:sword_of_hisou",
+    "count": 1
+  }
+}

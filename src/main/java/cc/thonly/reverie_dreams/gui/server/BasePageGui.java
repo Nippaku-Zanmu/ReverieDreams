@@ -5,7 +5,7 @@ import cc.thonly.reverie_dreams.gui.recipe.GuiStackGetter;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGuiInfo;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeInfo;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import cc.thonly.reverie_dreams.recipe.RecipeKey2ValueEntry;
+import cc.thonly.reverie_dreams.recipe.view.RecipeEntryWrapper;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
@@ -42,7 +42,7 @@ public class BasePageGui extends SimpleGui {
     public final List<GuiElementBuilder> displayList = new LinkedList<>();
     public final RecipeTypeGuiInfo<? extends BasePageGui> recipeGuiInfo;
     public final RecipeTypeInfo recipeTypeInfo;
-    public final List<RecipeKey2ValueEntry<?>> entries;
+    public final List<RecipeEntryWrapper<?>> entries;
     public boolean updated = true;
     public GuiOpeningPrevCallback prevGuiCallback;
 
@@ -53,7 +53,7 @@ public class BasePageGui extends SimpleGui {
         this.entries = new LinkedList<>();
         Map<Identifier, ?> registryView = this.recipeTypeInfo.getRecipeType().getRegistryView();
         for (Map.Entry<Identifier, ?> entry : registryView.entrySet()) {
-            this.entries.add(new RecipeKey2ValueEntry<>(entry.getKey(), entry.getValue()));
+            this.entries.add(new RecipeEntryWrapper<>(entry.getKey(), entry.getValue()));
         }
         this.maxSize = this.entries.size();
         this.prevGuiCallback = prevGuiCallback;

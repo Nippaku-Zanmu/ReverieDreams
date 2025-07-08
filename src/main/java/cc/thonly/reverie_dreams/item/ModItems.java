@@ -6,7 +6,6 @@ import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
 import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
 import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
-import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
@@ -19,6 +18,8 @@ import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
@@ -41,7 +42,7 @@ public class ModItems {
     private static final List<Item> DANMAKU_LIST = new ArrayList<>();
 
     // 调试
-    public static final Item BATTLE_STICK = registerItemNoGroup(new BattleStick("battle_stick", new Item.Settings()));
+    public static final Item BATTLE_STICK = registerSimpleItem(new BattleStick("battle_stick", new Item.Settings()));
 
     // 图标
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
@@ -75,6 +76,7 @@ public class ModItems {
     public static final Item MAPLE_LEAF_FAN = registerItem(new MapleLeafFan("maple_leaf_fan", 0, 0, new Item.Settings()));
     public static final Item EARPHONE = registerItem(new EarphoneItem("earphone", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(EarphoneArmorMaterial.BASE_DURABILITY))));
     public static final Item KOISHI_HAT = registerItem(new KoishiHatItem("koishi_hat", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(KoishiHatArmorMaterial.BASE_DURABILITY))));
+    public static final Item FUMO_LICENSE = registerItem(new FumoLicenseItem("fumo_license", new Item.Settings()));
 
     // 武器
     public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
@@ -122,18 +124,21 @@ public class ModItems {
     public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
 
     // 符卡模板
-    public static final Item SPELL_CARD_TEMPLATE = registerItemNoGroup(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
+    public static final Item SPELL_CARD_TEMPLATE = registerSimpleItem(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
+
+    // 角色卡模板
+    public static final Item ROLE_CARD = registerSimpleItem(new RoleCardItem("role_card", new Item.Settings().maxCount(1).component(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT.with(DataComponentTypes.DYED_COLOR, true)).component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(RoleCard.DEFAULT_COLOR.intValue()))));
 
     // DISC
-    public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item HR02_08 = registerDiscItem(new BasicPolymerDiscItem("hr02_08", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS = registerDiscItem(new BasicPolymerDiscItem("melodic-taste-nightmare-before-crossroads", new Item.Settings().jukeboxPlayable(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item YV_FLOWER_CLOCK_AND_DREAMS = registerDiscItem(new BasicPolymerDiscItem("yv_flower_clock_and_dreams", new Item.Settings().jukeboxPlayable(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
-    public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey()), Items.MUSIC_DISC_5));
+    public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey())));
+    public static final Item HR02_08 = registerDiscItem(new BasicPolymerDiscItem("hr02_08", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR02_08.getJukeboxSongRegistryKey())));
+    public static final Item HR03_01 = registerDiscItem(new BasicPolymerDiscItem("hr03_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR03_01.getJukeboxSongRegistryKey())));
+    public static final Item MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS = registerDiscItem(new BasicPolymerDiscItem("melodic-taste-nightmare-before-crossroads", new Item.Settings().jukeboxPlayable(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey())));
+    public static final Item YV_FLOWER_CLOCK_AND_DREAMS = registerDiscItem(new BasicPolymerDiscItem("yv_flower_clock_and_dreams", new Item.Settings().jukeboxPlayable(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey())));
+    public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey())));
 
     // 测试物品
-    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));
+//    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));
 
     static {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(itemGroup -> {
@@ -303,11 +308,7 @@ public class ModItems {
         return (Item) item;
     }
 
-    public static Item registerDanmakuItemType(DanmakuType type) {
-        return registerDanmakuItem(new BasicDanmakuItemTypeItem(type.getRegistryKey(),type.createItemSettings()));
-    }
-
-    public static Item registerItemNoGroup(IdentifierGetter item) {
+    public static Item registerSimpleItem(IdentifierGetter item) {
         return Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
     }
 
@@ -320,12 +321,6 @@ public class ModItems {
     public static Item registerDiscItem(IdentifierGetter item) {
         Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
         DISC_LIST.add((Item) item);
-        return (Item) item;
-    }
-
-    public static Item registerDanmakuItem(IdentifierGetter item) {
-        Registry.register(Registries.ITEM, item.getIdentifier(), (Item) item);
-        DANMAKU_LIST.add((Item) item);
         return (Item) item;
     }
 
@@ -344,10 +339,6 @@ public class ModItems {
 
     public static List<Item> getDiscItemView() {
         return List.copyOf(DISC_LIST);
-    }
-
-    public static List<Item> getDanmakuItemView() {
-        return List.copyOf(DANMAKU_LIST);
     }
 
     public static List<Item> getIconItems() {

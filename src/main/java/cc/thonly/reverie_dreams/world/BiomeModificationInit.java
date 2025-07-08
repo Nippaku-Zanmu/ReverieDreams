@@ -1,19 +1,24 @@
 package cc.thonly.reverie_dreams.world;
 
 import cc.thonly.reverie_dreams.entity.ModEntities;
-import cc.thonly.reverie_dreams.entity.YouseiEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 
 public class BiomeModificationInit {
     public static final int BASE_WEIGHT = 80;
 
     public static void init() {
+        addBlock();
+        addFlower();
+        addEntity();
+    }
+
+    public static void addBlock() {
         // 银矿石
         BiomeModifications.addFeature(
                 BiomeSelectors.foundInOverworld(),
@@ -26,6 +31,24 @@ public class BiomeModificationInit {
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 PlacedFeaturesInit.OVERWORLD_ORB_ORE_KEY
         );
+    }
+
+    public static void addFlower() {
+        // 幻昙华花
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.SNOWY_PLAINS, BiomeKeys.FLOWER_FOREST),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                PlacedFeaturesInit.UDUMBARA_FLOWER_KEY
+        );
+        // 银耳丛
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.FOREST, BiomeKeys.DARK_FOREST, BiomeKeys.BIRCH_FOREST),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                PlacedFeaturesInit.TREMELLA_KEY
+        );
+    }
+
+    public static void addEntity() {
         // 妖精
         BiomeModifications.addSpawn(
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_TEMPERATE),

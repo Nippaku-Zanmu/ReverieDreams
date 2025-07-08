@@ -8,9 +8,12 @@ import cc.thonly.reverie_dreams.block.Fumo;
 import cc.thonly.reverie_dreams.block.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.item.RoleCard;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.CropAgeUtil;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
@@ -27,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.Identifier;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -106,6 +110,7 @@ public class ModModelProvider extends FabricModelProvider {
                 PolymerCropCreator.ModelType modelType = instance.getModelType();
                 IntProperty ageProperty = cropBlock.getAgeProperty();
                 CropAgeModelProvider provider = instance.getProvider();
+//                System.out.println(Arrays.toString(provider.toArray()));
 
                 if (modelType == PolymerCropCreator.ModelType.CROSS) {
                     blockStateModelGenerator.registerTintableCrossBlockStateWithStages(cropBlock, BlockStateModelGenerator.CrossType.NOT_TINTED, ageProperty, CropAgeUtil.toArray(ageProperty));
@@ -154,6 +159,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.TIME_STOP_CLOCK, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARPHONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.KOISHI_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FUMO_LICENSE, Models.GENERATED);
+
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.WIND_BLESSING_CANE, Models.HANDHELD);
@@ -201,6 +208,9 @@ public class ModModelProvider extends FabricModelProvider {
         // 符卡
         itemModelGenerator.register(ModItems.SPELL_CARD_TEMPLATE, Models.GENERATED);
 
+        // 角色卡
+        itemModelGenerator.registerDyeable(ModItems.ROLE_CARD, RoleCard.DEFAULT_COLOR.intValue());
+
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
         itemModelGenerator.register(ModItems.HR02_08, Models.GENERATED);
@@ -210,7 +220,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GLOWING_NEEDLES_LITTLE_PEOPLE, Models.GENERATED);
 
         // 测试物品
-        itemModelGenerator.registerWithDyeableOverlay(ModItems.TEST_COLOR_DANMAKU_ITEM);
+//        itemModelGenerator.registerWithDyeableOverlay(ModItems.TEST_COLOR_DANMAKU_ITEM);
 
 //        itemModelGenerator.register(ModItems.EMPTY_SPELL_CARD, Models.GENERATED);
 
@@ -233,6 +243,9 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(MIBlocks.STEAMER);
         blockStateModelGenerator.registerCooker(MIBlocks.COOKTOP, TexturedModel.ORIENTABLE);
         blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.BLACK_SALT_BLOCK);
+
+        blockStateModelGenerator.registerTintableCross(MIBlocks.UDUMBARA_FLOWER, BlockStateModelGenerator.CrossType.NOT_TINTED);
+        blockStateModelGenerator.registerTintableCross(MIBlocks.TREMELLA, BlockStateModelGenerator.CrossType.NOT_TINTED);
     }
 
     public void generateMIItem(ItemModelGenerator itemModelGenerator) {
@@ -256,7 +269,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
-        for (Item item : ModItems.getDanmakuItemView()) {
+        for (Item item : RegistryManager.DANMAKU_TYPE.values().stream().map(DanmakuType::getItem).toList()) {
             itemModelGenerator.registerWithDyeableOverlay(item);
         }
     }

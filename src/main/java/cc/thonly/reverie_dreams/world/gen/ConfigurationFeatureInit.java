@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.world.gen;
 
+import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.world.gen.feature.CraterFeature;
@@ -12,10 +13,8 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.rule.BlockMatchRuleTest;
 import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.structure.rule.TagMatchRuleTest;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
 
@@ -25,6 +24,9 @@ public class ConfigurationFeatureInit {
 
     public static final RegistryKey<ConfiguredFeature<?, ?>> OVERWORLD_SILVER_ORE_KEY = getOrCreateRegistryKey("overworld_silver_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> OVERWORLD_ORB_ORE_KEY = getOrCreateRegistryKey("overworld_orb_ore");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> UDUMBARA_FLOWER_KEY = getOrCreateRegistryKey("udumbara_flower");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> TREMELLA_KEY = getOrCreateRegistryKey("tremella_flower");
+
 
     public static void init() {
 
@@ -44,6 +46,15 @@ public class ConfigurationFeatureInit {
 
         registerContext(context, OVERWORLD_SILVER_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldSilverTargets, 15, 0.5F));
         registerContext(context, OVERWORLD_ORB_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldOrbTargets, 7, 0.32F));
+
+        registerContext(context, UDUMBARA_FLOWER_KEY, Feature.FLOWER,
+                new RandomPatchFeatureConfig(32, 4, 1,
+                        PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(BlockStateProvider.of(MIBlocks.UDUMBARA_FLOWER))
+                        )));
+        registerContext(context, TREMELLA_KEY, Feature.FLOWER,
+                new RandomPatchFeatureConfig(32, 5, 2,
+                        PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(BlockStateProvider.of(MIBlocks.TREMELLA))
+                        )));
     }
 
     private static <FC extends FeatureConfig, F extends Feature<FC>> void registerContext(Registerable<ConfiguredFeature<?, ?>> context,

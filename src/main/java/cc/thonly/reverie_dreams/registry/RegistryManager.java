@@ -16,6 +16,8 @@ import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkins;
 import cc.thonly.reverie_dreams.entity.variant.YouseiVariant;
 import cc.thonly.reverie_dreams.entity.variant.YouseiVariants;
+import cc.thonly.reverie_dreams.item.RoleCard;
+import cc.thonly.reverie_dreams.item.RoleCards;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.util.Identifier;
@@ -41,6 +43,9 @@ public class RegistryManager {
     public static final StandaloneRegistry<NPCRole> NPC_ROLE = ofEntry(NPCRole.class, Touhou.id("npc_role"))
             .codec(NPCRole.CODEC)
             .build(NPCRoles::bootstrap);
+    public static final StandaloneRegistry<RoleCard> ROLE_CARD = ofEntry(RoleCard.class, Touhou.id("role_card"))
+            .codec(RoleCard.CODEC)
+            .build(RoleCards::bootstrap);
     public static final StandaloneRegistry<Fumo> FUMO = ofEntry(Fumo.class, Touhou.id("fumo"))
             .codec(Fumo.CODEC)
             .build(Fumos::bootstrap);

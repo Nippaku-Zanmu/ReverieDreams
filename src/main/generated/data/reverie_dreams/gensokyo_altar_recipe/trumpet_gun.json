@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:crossbow",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "reverie_dreams:power_block",
+      "count": 5
+    },
+    {
+      "id": "minecraft:fermented_spider_eye",
+      "count": 2
+    },
+    {
+      "id": "minecraft:rabbit_foot",
+      "count": 5
+    },
+    {
+      "id": "reverie_dreams:power_block",
+      "count": 4
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 5
+    },
+    {
+      "id": "minecraft:honeycomb",
+      "count": 1
+    },
+    {
+      "id": "minecraft:iron_nugget",
+      "count": 3
+    },
+    {
+      "id": "minecraft:blaze_rod",
+      "count": 3
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:trumpet_gun",
+    "count": 1
+  }
+}

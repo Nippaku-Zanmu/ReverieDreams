@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.registry;
 
 import com.sun.nio.sctp.IllegalUnbindException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,8 @@ public class Key2ValueRegistry<K, V> implements Serializable {
     private final Map<Integer, V> rawToEntry;
     @Getter(AccessLevel.PROTECTED)
     private final Map<K, V> keyToEntry;
+    @Getter(AccessLevel.PROTECTED)
+    private final Map<V, K> entryToKey;
 
     protected Key2ValueRegistry(Identifier key, Class<K> klass, Class<V> vlass) {
         if (key == null) {
@@ -38,6 +41,7 @@ public class Key2ValueRegistry<K, V> implements Serializable {
         this.key = key;
         this.rawToEntry = new Object2ObjectLinkedOpenHashMap<>();
         this.keyToEntry = new Object2ObjectLinkedOpenHashMap<>();
+        this.entryToKey = new Object2ObjectLinkedOpenHashMap<>();
         this.klass = klass;
         this.vlass = vlass;
         Key2ValueRegistryManager.REGISTRIES.put(key, this);
@@ -84,6 +88,7 @@ public class Key2ValueRegistry<K, V> implements Serializable {
         int raw = this.rawToEntry.size();
         this.rawToEntry.put(raw, value);
         this.keyToEntry.put(key, value);
+        this.entryToKey.put(value, key);
         return value;
     }
 
@@ -92,12 +97,7 @@ public class Key2ValueRegistry<K, V> implements Serializable {
     }
 
     public K getKey(V value) {
-        for (Map.Entry<K, V> entry : this.keyToEntry.entrySet()) {
-            if (Objects.equals(entry.getValue(), value)) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return this.entryToKey.get(value);
     }
 
     public Optional<V> getOptional(K key) {
@@ -105,7 +105,7 @@ public class Key2ValueRegistry<K, V> implements Serializable {
     }
 
     public Optional<K> getKeyOptional(V value) {
-        return Optional.ofNullable(getKey(value));
+        return Optional.ofNullable(this.getKey(value));
     }
 
     public Stream<K> keysStream() {

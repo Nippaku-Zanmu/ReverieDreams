@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "reverie_dreams:music_block",
+    "X": "minecraft:gold_ingot",
+    "Y": "minecraft:stone_button",
+    "Z": "minecraft:redstone"
+  },
+  "pattern": [
+    "XXX",
+    "XY#",
+    "ZYX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:trumpet"
+  }
+}

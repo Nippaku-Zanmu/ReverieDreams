@@ -1,12 +1,11 @@
 package cc.thonly.mystias_izakaya.block.entity;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
-import cc.thonly.mystias_izakaya.block.CooktopBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.block.MiBlockEntities;
 import cc.thonly.mystias_izakaya.gui.recipe.block.KitchenBlockGui;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
-import cc.thonly.reverie_dreams.recipe.slot.ItemStackRecipeWrapper;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.util.PlayerUtils;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

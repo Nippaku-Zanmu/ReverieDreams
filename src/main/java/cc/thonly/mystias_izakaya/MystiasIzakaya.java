@@ -6,7 +6,7 @@ import cc.thonly.mystias_izakaya.component.MIDataComponentTypes;
 import cc.thonly.mystias_izakaya.datafixer.MIDataFixer;
 import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
-import cc.thonly.mystias_izakaya.item.MiItemGroups;
+import cc.thonly.mystias_izakaya.item.MIItemGroups;
 import cc.thonly.mystias_izakaya.loot.MILootModifies;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
@@ -41,7 +41,7 @@ public class MystiasIzakaya implements ModInitializer {
         MiBlockEntities.registerBlockEntities();
         MIItems.registerItems();
         MIEntities.init();
-        MiItemGroups.registerItemGroups();
+        MIItemGroups.registerItemGroups();
         MIRegistryManager.bootstrap();
         MiRecipeManager.bootstrap();
         MILootModifies.bootstrap();

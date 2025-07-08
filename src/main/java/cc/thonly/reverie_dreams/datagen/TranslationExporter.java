@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.datagen;
 
 import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
+import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.npc.NPCRole;
 import lombok.Getter;
@@ -25,10 +26,12 @@ import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Map;
 
 @CanIgnoreReturnValue
 @Getter
 public class TranslationExporter implements TranslationGenerationImpl {
+    public static final Map<EntityType<?>, Item> MAPPER = ModEntities.SPAWN_EGG_BIND;
     private final RegistryWrapper.WrapperLookup wrapperLookup;
     private final FabricLanguageProvider.TranslationBuilder translationBuilder;
 
@@ -94,6 +97,15 @@ public class TranslationExporter implements TranslationGenerationImpl {
 
     public TranslationExporter add(Path existingLanguageFile) throws IOException {
         this.translationBuilder.add(existingLanguageFile);
+        return this;
+    }
+
+    public TranslationExporter add(EntityType<?> entityType, String name, String spawnEggName) {
+        this.add(entityType, name);
+        Item item = MAPPER.get(entityType);
+        if (item != null) {
+            this.add(item ,spawnEggName);
+        }
         return this;
     }
 

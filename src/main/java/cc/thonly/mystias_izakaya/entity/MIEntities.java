@@ -21,12 +21,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BiomeTags;
 
 @SuppressWarnings("unchecked")
 public class MIEntities {
     public static final EntityType<WildPigEntity> WILD_PIG_ENTITY_TYPE =
-            registerEntityNotSpawnEgg("wild_pig",
+            registerEntityWithSpawnEgg("wild_pig",
                     EntityType.Builder.<WildPigEntity>create(WildPigEntity::new, SpawnGroup.MONSTER)
                             .build(of("wild_pig")),
                     () -> AnimalEntity.createAnimalAttributes()
@@ -58,12 +57,13 @@ public class MIEntities {
         return entityTypeRef;
     }
 
-    private static <T extends Entity> EntityType<T> registerEntityNotSpawnEgg(String path, EntityType<T> entityType, ModEntities.CreateAttributesFunction createAttributesFunction) {
+    private static <T extends Entity> EntityType<T> registerEntityWithSpawnEgg(String path, EntityType<T> entityType, ModEntities.CreateAttributesFunction createAttributesFunction) {
         EntityType<T> entityTypeRef = Registry.register(Registries.ENTITY_TYPE, MystiasIzakaya.id(path), entityType);
         FabricDefaultAttributeRegistry.register((EntityType<? extends MobEntity>) entityTypeRef, createAttributesFunction.apply());
         Item item = registerSpawnEggItem(new BasicPolymerSpawnEggItem(path + "_spawn_egg", (EntityType<? extends MobEntity>) entityTypeRef, new Item.Settings().modelId(MystiasIzakaya.id("spawn_egg"))));
         PolymerEntityUtils.registerType(entityTypeRef);
         ModEntities.SPAWN_EGG_ITEM_LIST.add(item);
+        ModEntities.SPAWN_EGG_BIND.put(entityTypeRef, item);
         return entityTypeRef;
     }
 

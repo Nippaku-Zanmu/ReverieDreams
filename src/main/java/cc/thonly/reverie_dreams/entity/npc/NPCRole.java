@@ -5,7 +5,6 @@ import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
-import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import com.mojang.authlib.properties.Property;
 import com.mojang.serialization.Codec;

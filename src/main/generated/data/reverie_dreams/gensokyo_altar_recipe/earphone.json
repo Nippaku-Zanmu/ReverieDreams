@@ -1,0 +1,42 @@
+{
+  "core": {
+    "id": "minecraft:iron_helmet",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:amethyst_shard",
+      "count": 5
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 6
+    },
+    {
+      "id": "minecraft:amethyst_shard",
+      "count": 5
+    },
+    {
+      "id": "minecraft:sculk_sensor",
+      "count": 9
+    },
+    {
+      "id": "minecraft:sculk_sensor",
+      "count": 9
+    },
+    {
+      "id": "minecraft:air"
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 18
+    },
+    {
+      "id": "minecraft:air"
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:earphone",
+    "count": 1
+  }
+}
