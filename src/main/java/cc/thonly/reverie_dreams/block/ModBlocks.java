@@ -9,6 +9,7 @@ import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerHangingSignItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSignItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import cc.thonly.reverie_dreams.world.ModSaplingGenerator;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.Getter;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
@@ -34,19 +35,9 @@ public class ModBlocks {
     public static final Block GENSOKYO_ALTAR = registerBlock(new GensokyoAltarBlock("gensokyo_altar", AbstractBlock.Settings.copy(Blocks.ENCHANTING_TABLE).luminance((state) -> 7)));
     public static final Block MUSIC_BLOCK = registerBlock(new MusicBlock("music_block", AbstractBlock.Settings.copy(Blocks.NOTE_BLOCK)));
 
-    public static final Block SPIRITUAL_LOG = registerBlock(new BasicPillarBlock("spiritual_log", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));
-    public static final Block SPIRITUAL_WOOD = registerBlock(new BasicPillarBlock("spiritual_wood", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));
-    public static final Block STRIPPED_SPIRITUAL_LOG = registerBlock(new BasicPillarBlock("stripped_spiritual_log", AbstractBlock.Settings.copy(Blocks.OAK_LOG).nonOpaque()));
-    public static final Block STRIPPED_SPIRITUAL_WOOD = registerBlock(new BasicPillarBlock("stripped_spiritual_wood", AbstractBlock.Settings.copy(Blocks.OAK_WOOD).nonOpaque()));
-    public static final Block SPIRITUAL_PLANKS = registerBlock(new BasicPolymerBlock("spiritual_planks", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
-    public static final Block SPIRITUAL_STAIR = registerBlock(new BasicPolymerStairsBlock("spiritual_stair", SPIRITUAL_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_SLAB = registerBlock(new BasicPolymerSlabBlock("spiritual_slab", SPIRITUAL_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_DOOR = registerBlock(new BasicPolymerDoorBlock("spiritual_door", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_TRAPDOOR = registerBlock(new BasicPolymerTrapdoorBlock("spiritual_trapdoor", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_FENCE = registerBlock(new BasicPolymerFenceBlock("spiritual_fence", AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_FENCE_GATE = registerBlock(new BasicPolymerFenceGateBlock("spiritual_fence_gate", WoodType.OAK, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-    public static final Block SPIRITUAL_BUTTON = registerBlock(new BasicPolymerButtonBlock("spiritual_button", BlockSetType.OAK, 30, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-//    public static final Block SPIRITUAL_SIGN = registerBlock(new BasicPolymerSignBlock("spiritual_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
+    public static final WoodCreator SPIRITUAL = WoodCreator.create("spiritual", ModSaplingGenerator.SPIRITUAL_TREE).build();
+
+    //    public static final Block SPIRITUAL_SIGN = registerBlock(new BasicPolymerSignBlock("spiritual_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
 //    public static final Block SPIRITUAL_WALL_SIGN = registerBlock(new BasicPolymerWallSignBlock("spiritual_wall_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
 //    public static final SignBlockGroup SPIRITUAL_SIGN_GROUP = registerSignBlock(SPIRITUAL_SIGN, SPIRITUAL_WALL_SIGN);
 //    public static final Block SPIRITUAL_HANGING_SIGN = registerBlock(new BasicPolymerHangingSignBlock("spiritual_hanging_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
@@ -68,15 +59,13 @@ public class ModBlocks {
 
     public static final Block DREAM_RED_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_red_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));
     public static final Block DREAM_BLUE_BLOCK = registerBlock(new BasicPolymerBlock("dream_world_blue_line_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.BEDROCK)));
-    public static final Block MARISA_HAT_BLOCK = registerBlock(new MarisaHatBlock("marisa_hat", new Vec3d(0,0,0), AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)), new Item.Settings().maxCount(1).component(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.HEAD).swappable(false).build()));
-
-    public static final Map<Block, Block> SPIRITUAL_BLOCKS = new HashMap<>();
+    public static final Block MARISA_HAT_BLOCK = registerBlock(new MarisaHatBlock("marisa_hat", new Vec3d(0, 0, 0), AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)), new Item.Settings().maxCount(1).component(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.HEAD).swappable(false).build()));
 
     public static void registerBlocks() {
         BlockModels.registerModels();
 //        SPIRITUAL_BLOCKS.put(BlockTypeTag.STRIPPED_OAK_LOG, ModBlocks.SPIRITUAL_OAK_LOG);
-        StrippableBlockRegistry.register(SPIRITUAL_LOG, STRIPPED_SPIRITUAL_LOG);
     }
+
     public static Block registerBlock(IdentifierGetter block) {
         return registerBlock(block, new Item.Settings());
     }

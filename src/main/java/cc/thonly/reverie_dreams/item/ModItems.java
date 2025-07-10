@@ -15,31 +15,36 @@ import cc.thonly.reverie_dreams.item.tool.*;
 import cc.thonly.reverie_dreams.item.weapon.*;
 import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class ModItems {
     private static final List<Item> ICON_LIST = new ArrayList<>();
     private static final List<Item> ITEM_LIST = new ArrayList<>();
     private static final List<Item> DISC_LIST = new ArrayList<>();
-    private static final List<Item> DANMAKU_LIST = new ArrayList<>();
 
     // 调试
     public static final Item BATTLE_STICK = registerSimpleItem(new BattleStick("battle_stick", new Item.Settings()));
@@ -68,31 +73,31 @@ public class ModItems {
     public static final Item TOUHOU_HELPER = registerItem(new TouhouHelperItem("touhou_helper", new Item.Settings()));
     public static final Item UPGRADED_HEALTH = registerItem(new UpgradedHealthItem("upgraded_health", new Item.Settings()));
     public static final Item BOMB = registerItem(new BombItem("bomb", new Item.Settings().useCooldown(2.0f)));
-    public static final Item HORAI_DAMA_NO_EDA = registerItem(new BasicItem("horai-dama_no_eda", new Item.Settings()));
     public static final Item CROSSING_CHISEL = registerItem(new CrossingChisel("crossing_chisel", new Item.Settings()));
     public static final Item GAP_BALL = registerItem(new GapBall("gap_ball", new Item.Settings()));
-    public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
     public static final Item TIME_STOP_CLOCK = registerItem(new TimeStopClock("time_stop_clock", new Item.Settings()));
-    public static final Item MAPLE_LEAF_FAN = registerItem(new MapleLeafFan("maple_leaf_fan", 0, 0, new Item.Settings()));
     public static final Item EARPHONE = registerItem(new EarphoneItem("earphone", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(EarphoneArmorMaterial.BASE_DURABILITY))));
     public static final Item KOISHI_HAT = registerItem(new KoishiHatItem("koishi_hat", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(KoishiHatArmorMaterial.BASE_DURABILITY))));
     public static final Item FUMO_LICENSE = registerItem(new FumoLicenseItem("fumo_license", new Item.Settings()));
 
     // 武器
     public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
+    public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
     public static final Item WIND_BLESSING_CANE = registerItem(new WindBlessingCane("wind_blessing_cane", 0, 0, new Item.Settings()));
     public static final Item MAGIC_BROOM = registerItem(new MagicBroom("magic_broom", 0, 0, new Item.Settings()));
     public static final Item KNIFE = registerItem(new Knife("knife", 0f, 0f, new Item.Settings()));
+    public static final Item GUNGNIR = registerItem(new Gungnir("gungnir", 0, 0, new Item.Settings()));
+    public static final Item LEVATIN = registerItem(new Levatin("levatin", 0, 0, new Item.Settings()));
     public static final Item ROKANKEN = registerItem(new Rokanken("rokanken", 1f, 0.5f, new Item.Settings()));
     public static final Item HAKUROKEN = registerItem(new Hakuroken("hakuroken", 1f, 1f, new Item.Settings()));
     public static final Item PAPILIO_PATTERN_FAN = registerItem(new PapilioPatternFan("papilio_pattern_fan", 0f, 1f, new Item.Settings()));
-    public static final Item GUNGNIR = registerItem(new Gungnir("gungnir", 0, 0, new Item.Settings()));
-    public static final Item LEVATIN = registerItem(new Levatin("levatin", 0, 0, new Item.Settings()));
+    public static final Item HORAI_DAMA_NO_EDA = registerItem(new HoraiDamaNoEdaItem("horai-dama_no_eda", 0, 0, new Item.Settings()));
+    public static final Item MAPLE_LEAF_FAN = registerItem(new MapleLeafFan("maple_leaf_fan", 0, 0, new Item.Settings()));
     public static final Item IBUKIHO = registerItem(new Ibukiho("ibukiho", 0, 0, new Item.Settings()));
     public static final Item SWORD_OF_HISOU = registerItem(new SwordOfHisou("sword_of_hisou", 0, 0, new Item.Settings()));
     public static final Item MANPOZUCHI = registerItem(new ManpozuchiItem("manpozuchi", 0, 0, new Item.Settings()));
     public static final Item NUE_TRIDENT = registerItem(new NueTrident("nue_trident", 0, 0, new Item.Settings()));
-    public static final Item TRUMPET_GUN = registerItem(new TrumpetGun("trumpet_gun", new Item.Settings()));
+    public static final Item TRUMPET_GUN = registerItem(new TrumpetGun("trumpet_gun", new Item.Settings().repairable(Items.GOLD_BLOCK)));
     public static final Item TREASURE_HUNTING_ROD = registerItem(new TreasureHuntingRod("treasure_hunting_rod", 0, 0, new Item.Settings()));
     public static final Item VIOLIN = registerItem(new MusicalInstrumentItem("violin", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.FLUTE)));
     public static final Item KEYBOARD = registerItem(new MusicalInstrumentItem("keyboard", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.PLING)));
@@ -123,11 +128,10 @@ public class ModItems {
     public static final Item MAGIC_ICE_LEGGINGS = registerItem(new BasicArmorItem("magic_ice_leggings", MagicIceArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
     public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
 
-    // 符卡模板
-    public static final Item SPELL_CARD_TEMPLATE = registerSimpleItem(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
-
-    // 角色卡模板
-    public static final Item ROLE_CARD = registerSimpleItem(new RoleCardItem("role_card", new Item.Settings().maxCount(1).component(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT.with(DataComponentTypes.DYED_COLOR, true)).component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(RoleCard.DEFAULT_COLOR.intValue()))));
+    // 模板
+    public static final Item SPELL_CARD_TEMPLATE = registerItem(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
+    public static final Item ROLE_CARD = registerItem(new RoleCardItem("role_card", new Item.Settings().maxCount(1).component(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT.with(DataComponentTypes.DYED_COLOR, true)).component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(RoleCard.DEFAULT_COLOR.intValue()))));
+    public static final Item ROLE_ARCHIVE = registerItem(new RoleFollowerArchiveItem("role_archive", new Item.Settings().maxCount(1)));
 
     // DISC
     public static final Item HR01_01 = registerDiscItem(new BasicPolymerDiscItem("hr01_01", new Item.Settings().jukeboxPlayable(JukeboxSongInit.HR01_01.getJukeboxSongRegistryKey())));
@@ -297,8 +301,26 @@ public class ModItems {
         for (var disc : DISC_LIST) {
             discStack.add(disc.getDefaultStack());
         }
+        List<Item> silverItems = new ArrayList<>(List.of(SILVER_SWORD, SILVER_AXE, SILVER_PICKAXE, SILVER_HOE, SILVER_HOE));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(itemGroup -> {
             itemGroup.addAfter(Items.MUSIC_DISC_PIGSTEP, discStack);
+        });
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+            if (!world.isClient() && silverItems.contains(player.getStackInHand(hand).getItem())) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    DynamicRegistryManager registryManager = world.getRegistryManager();
+                    Registry<EntityType<?>> registry = registryManager.getOrThrow(RegistryKeys.ENTITY_TYPE);
+                    Optional<RegistryEntryList.Named<EntityType<?>>> listOptional = registry.getOptional(EntityTypeTags.UNDEAD);
+                    if (listOptional.isPresent()) {
+                        RegistryEntryList.Named<EntityType<?>> list = listOptional.get();
+                        boolean contains = list.contains(RegistryEntry.of(livingEntity.getType()));
+                        if (contains) {
+                            livingEntity.damage((ServerWorld) world, world.getDamageSources().magic(), 1.0F);
+                        }
+                    }
+                }
+            }
+            return ActionResult.PASS;
         });
     }
 

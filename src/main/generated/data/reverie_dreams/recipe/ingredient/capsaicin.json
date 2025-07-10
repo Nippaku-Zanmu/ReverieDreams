@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "reverie_dreams:ingredient/chili",
+    "X": "minecraft:glass_bottle"
+  },
+  "pattern": [
+    "#",
+    "X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:ingredient/capsaicin"
+  }
+}

@@ -35,7 +35,7 @@ public class TouhouHelperItem extends BasicPolymerItem {
                 settings.maxCount(1)
                         .rarity(Rarity.EPIC)
                         .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                        ,
+                ,
                 Items.KNOWLEDGE_BOOK
         );
     }
@@ -47,7 +47,7 @@ public class TouhouHelperItem extends BasicPolymerItem {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if(!world.isClient() && user instanceof ServerPlayerEntity player) {
+        if (!world.isClient() && user instanceof ServerPlayerEntity player) {
             ItemStack itemStack = user.getStackInHand(hand);
             user.useBook(itemStack, hand);
             user.incrementStat(Stats.USED.getOrCreateStat(this));
@@ -89,43 +89,46 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("欢迎游玩东方Project模组，本书将介绍模组的游玩指南"),
                     Text.empty(),
                     Text.empty().append("导航目录："),
-                    Text.empty().append("- [祭坛摆放]").setStyle(Style.EMPTY.withClickEvent( new ClickEvent.ChangePage(3))),
-                    Text.empty().append("- [弹幕合成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(5))),
-                    Text.empty().append("- [物品合成]"),
-                    Text.empty().append("- [Fumo制作]"),
-                    Text.empty().append("- [配方管理器]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.RunCommand("/touhou ui_relay_recipe")))
+                    Text.empty().append("> [祭坛摆放]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(3))),
+                    Text.empty().append("> [弹幕合成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(4))),
+                    Text.empty().append("> [Fumo制作]"),
+                    Text.empty().append("").setStyle(Style.EMPTY),
+                    Text.empty().append("配方管理器：/touhou recipe").setStyle(Style.EMPTY)
             );
             // 2
             builder.addPage(Text.empty());
             // 3
             builder.addPage(
                     Text.literal("祭坛摆放："),
-                    Text.empty().append("§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹"),
-                    Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
-                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
-                    Text.empty().append("§d⏹§b⏹§b⏹§e⏹§b⏹§b⏹§d⏹"),
-                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
-                    Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
-                    Text.empty().append("§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹"),
-                    Text.empty(),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§d⏹§b⏹§b⏹§b⏹§e⏹§b⏹§b⏹§b⏹§d⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹：").append(Text.translatable(Items.AIR.getTranslationKey())),
-                    Text.empty().append("§c⏹：").append(Text.translatable(ModBlocks.STRIPPED_SPIRITUAL_LOG.getTranslationKey())),
+                    Text.empty().append("§c⏹：").append(Text.translatable(ModBlocks.SPIRITUAL.log().getTranslationKey())),
                     Text.empty().append("§e⏹：").append(Text.translatable(ModBlocks.GENSOKYO_ALTAR.getTranslationKey())),
                     Text.empty().append("注意：").append("§c⏹§r一共摆放三层")
             );
             // 4
-            builder.addPage(Text.empty());
-            // 5
             builder.addPage(
                     Text.empty().append("弹幕工作台："),
                     Text.empty().append("弹幕工作台是一个合成弹幕的工作方块，里面共有5个槽位可以摆放物品合成，合成类型为有序合成"),
                     Text.empty(),
                     Text.empty().append("合成配方："),
-                    Text.empty().append("§b⏹⏹⏹"),
-                    Text.empty().append("§b⏹⏹⏹"),
-                    Text.empty().append("§b⏹⏹⏹")
+                    Text.empty().append("§c⏹§c⏹§c⏹"),
+                    Text.empty().append("§c⏹§e⏹§c⏹"),
+                    Text.empty().append("§c⏹§c⏹§c⏹"),
+                    Text.empty().append("§e⏹").append(Text.translatable(Items.CRAFTING_TABLE.getTranslationKey())),
+                    Text.empty().append("§c⏹").append(Text.translatable(Items.REDSTONE.getTranslationKey()))
             );
+            // 5
             builder.addPage(
+                    Text.empty().append("弹幕工作台："),
                     Text.empty().append("通用弹幕配方："),
                     Text.empty().append("§a⏹ -> ").append("任意颜料"),
                     Text.empty().append("§b⏹ -> ").append(Text.translatable(Items.FIREWORK_STAR.getTranslationKey())),
@@ -133,6 +136,7 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("§d⏹ -> ").append(Text.translatable(ModItems.POINT.getTranslationKey())),
                     Text.empty().append("§e⏹ -> ")
             );
+
             builder.signed();
             return builder;
         }

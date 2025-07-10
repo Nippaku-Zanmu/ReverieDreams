@@ -10,13 +10,14 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class Ibukiho extends BasicPolymerSwordItem {
-    public static final ToolMaterial IBUKIHO = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 1561, 8.0f, 5.5f, 10, ModTags.ItemTypeTag.EMPTY);
+    public static final ToolMaterial IBUKIHO = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 1561, 8.0f, 5.5f, 10, ItemTags.WART_BLOCKS);
 
     public Ibukiho(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, IBUKIHO,

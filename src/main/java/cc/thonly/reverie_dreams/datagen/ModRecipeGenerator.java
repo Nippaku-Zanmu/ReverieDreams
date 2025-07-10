@@ -3,15 +3,23 @@ package cc.thonly.reverie_dreams.datagen;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.block.WoodCreator;
 import cc.thonly.reverie_dreams.item.ModItems;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.block.Block;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.data.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 
 public class ModRecipeGenerator extends RecipeGenerator {
     public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModItems.RAW_SILVER);
@@ -89,13 +97,149 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_wool", conditionsFromItem(Items.WHITE_WOOL))
                 .offerTo(exporter, getRecipeName(ModItems.FUMO_LICENSE));
 
+
+        this.generateWoodCreator(ModBlocks.SPIRITUAL);
+        this.generateWoodCreator(MIBlocks.LEMON);
+        this.generateWoodCreator(MIBlocks.GINKGO);
+
         this.generateWorkBlock();
         this.generateOrb();
         this.generateSilver();
         this.generateMagicIce();
         this.generateMusicBlock();
+        this.generateIngredient();
         this.generateMIPlant2Ingredient();
         this.generateMICookRecipe();
+    }
+
+    private void generateWoodCreator(WoodCreator creator) {
+        RegistryEntryLookup<Item> itemImpl = this.registries.getOrThrow(RegistryKeys.ITEM);
+        Block log = creator.log();
+        Block wood = creator.wood();
+        Block strippedLog = creator.strippedLog();
+        Block strippedWood = creator.strippedWood();
+        Block planks = creator.planks();
+        Block stair = creator.stair();
+        Block slab = creator.slab();
+        Block door = creator.door();
+        Block trapdoor = creator.trapdoor();
+        Block fence = creator.fence();
+        Block fenceGate = creator.fenceGate();
+        Block button = creator.button();
+
+        generateFamily(creator.getBlockFamily(), FeatureSet.empty());
+
+        // 原木 -> 木板（shapeless）
+        ShapelessRecipeJsonBuilder.create(itemImpl, RecipeCategory.DECORATIONS, planks, 4)
+                .input(log)
+                .group("planks")
+                .criterion("has_log", conditionsFromItem(log))
+                .offerTo(exporter, convertBetween(planks, log));
+
+        ShapelessRecipeJsonBuilder.create(itemImpl, RecipeCategory.DECORATIONS, planks, 4)
+                .input(wood)
+                .group("planks")
+                .criterion("has_wood", conditionsFromItem(wood))
+                .offerTo(exporter, convertBetween(planks, wood));
+        // 去皮木 -> 木板（shapeless）
+        ShapelessRecipeJsonBuilder.create(itemImpl, RecipeCategory.DECORATIONS, planks, 4)
+                .input(strippedLog)
+                .group("planks")
+                .criterion("has_log", conditionsFromItem(log))
+                .offerTo(exporter, convertBetween(planks, strippedLog));
+
+        ShapelessRecipeJsonBuilder.create(itemImpl, RecipeCategory.DECORATIONS, planks, 4)
+                .input(strippedWood)
+                .group("planks")
+                .criterion("has_wood", conditionsFromItem(wood))
+                .offerTo(exporter, convertBetween(planks, strippedWood));
+
+        // 木板 -> 楼梯
+        createStairsRecipe(stair, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 -> 台阶
+        createSlabRecipe(RecipeCategory.DECORATIONS, slab, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 + 棍子 -> 栅栏
+        createFenceRecipe(fence, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 + 棍子 -> 栅栏门
+        createFenceGateRecipe(fenceGate, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 -> 活板门
+        createTrapdoorRecipe(trapdoor, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 -> 门
+        createDoorRecipe(door, Ingredient.ofItem(planks))
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+
+        // 木板 -> 按钮
+        createButtonRecipe(button, Ingredient.ofItem(planks)).
+                group("wooden_button")
+                .criterion("has_planks", conditionsFromItem(planks))
+                .offerTo(exporter);
+    }
+
+    private void generateIngredient() {
+        createShaped(RecipeCategory.FOOD, MIItems.CHEESE)
+                .pattern("##")
+                .pattern("##")
+                .input('#', Items.MILK_BUCKET)
+                .criterion("has_milk", conditionsFromItem(Items.MILK_BUCKET))
+                .offerTo(exporter, getRecipeName(MIItems.CHEESE));
+        createShaped(RecipeCategory.FOOD, MIItems.BUTTER)
+                .pattern("#")
+                .pattern("#")
+                .pattern("X")
+                .input('#', Items.MILK_BUCKET)
+                .input('X', Items.BOWL)
+                .criterion("has_milk", conditionsFromItem(MIItems.FLOUR))
+                .offerTo(exporter, getRecipeName(MIItems.BUTTER));
+        createShaped(RecipeCategory.FOOD, MIItems.FLOUR)
+                .pattern("##")
+                .pattern("##")
+                .input('#', Items.WHEAT)
+                .criterion("has_wheat", conditionsFromItem(Items.WHEAT))
+                .offerTo(exporter, getRecipeName(MIItems.FLOUR));
+        createShaped(RecipeCategory.FOOD, MIItems.TOFU)
+                .pattern("##")
+                .pattern("##")
+                .input('#', MIBlocks.SOY_BEANS.getSeed())
+                .criterion("has_soy_beans", conditionsFromItem(MIBlocks.SOY_BEANS.getSeed()))
+                .offerTo(exporter, getRecipeName(MIItems.TOFU));
+        createShaped(RecipeCategory.FOOD, MIItems.CAPSAICIN)
+                .pattern("#")
+                .pattern("X")
+                .input('#', MIItems.CHILI)
+                .input('X', Items.GLASS_BOTTLE)
+                .criterion("has_chili", conditionsFromItem(MIItems.CHILI))
+                .offerTo(exporter, getRecipeName(MIItems.CAPSAICIN));
+        createShaped(RecipeCategory.FOOD, MIItems.CREAM)
+                .pattern("#")
+                .pattern("#")
+                .pattern("X")
+                .input('#', Items.MILK_BUCKET)
+                .input('X', Items.GLASS_BOTTLE)
+                .criterion("has_chili", conditionsFromItem(MIItems.CHILI))
+                .offerTo(exporter, getRecipeName(MIItems.CREAM));
+
+//        createShaped(RecipeCategory.FOOD, MIItems.FLOWERS)
+//                .pattern("##")
+//                .pattern("##")
+//                .input('#', ItemTags.FLOWERS)
+//                .criterion("has_wheat", conditionsFromItem(Items.WHEAT))
+//                .offerTo(exporter, getRecipeName(MIItems.FLOUR));
     }
 
     private void generateMusicBlock() {
@@ -174,7 +318,7 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .offerTo(exporter, getRecipeName(ModBlocks.STRENGTH_TABLE));
     }
 
-    private void generateOrb(){
+    private void generateOrb() {
         // 宝玉 / 宝玉块
         offerIngotToBlockRecipe(exporter, ModItems.RED_ORB, ModBlocks.RED_ORB_BLOCK.asItem());
         offerBlockToIngotRecipe(exporter, ModBlocks.RED_ORB_BLOCK.asItem(), ModItems.RED_ORB);

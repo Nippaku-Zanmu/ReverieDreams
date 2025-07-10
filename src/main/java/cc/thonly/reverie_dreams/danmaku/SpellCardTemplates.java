@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.ModItems;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,8 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SpellCardTemplates {
-    private static final Map<Identifier, DanmakuTrajectory> TEMPLATES = new LinkedHashMap<>();
-    private static final Map<Identifier, ItemStack> TEMPLATE_ITEM_STACKS = new LinkedHashMap<>();
+    private static final Map<Identifier, DanmakuTrajectory> TEMPLATES = new Object2ObjectLinkedOpenHashMap<>();
+    private static final Map<Identifier, ItemStack> TEMPLATE_ITEM_STACKS = new Object2ObjectLinkedOpenHashMap<>();
     static {
         var simple = registerTemplate(DanmakuTrajectories.SINGLE);
         var triple = registerTemplate(DanmakuTrajectories.TRIPLE);
@@ -30,10 +31,10 @@ public class SpellCardTemplates {
 
     }
 
-    public static DanmakuTrajectory registerTemplate(DanmakuTrajectory value) {
-        Identifier id = value.getId();
+    public static DanmakuTrajectory registerTemplate(DanmakuTrajectory entry) {
+        Identifier id = entry.getId();
         assert id != null;
-        return registerTemplate(id, value);
+        return registerTemplate(id, entry);
     }
 
     public static DanmakuTrajectory registerTemplate(Identifier key, DanmakuTrajectory value) {

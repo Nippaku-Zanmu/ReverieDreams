@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams.registry;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.Fumo;
-import cc.thonly.reverie_dreams.block.Fumos;
+import cc.thonly.reverie_dreams.fumo.Fumo;
+import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageTypes;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;

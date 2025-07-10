@@ -15,7 +15,19 @@ public class BiomeModificationInit {
     public static void init() {
         addBlock();
         addFlower();
+        addTree();
         addEntity();
+    }
+
+    public static void addTree() {
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.BIRCH_FOREST, BiomeKeys.SAVANNA),
+                GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeaturesInit.SPIRITUAL_TREE_KEY);
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.FOREST),
+                GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeaturesInit.LEMON_TREE_KEY);
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.SAVANNA, BiomeKeys.JUNGLE),
+                GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeaturesInit.GINKGO_TREE_KEY);
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.FOREST, BiomeKeys.JUNGLE),
+                GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeaturesInit.PEACH_TREE_KEY);
     }
 
     public static void addBlock() {

@@ -9,6 +9,7 @@ import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.datagen.generator.RecipeTypeProvider;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.item.RoleCards;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
@@ -46,6 +47,101 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
     }
 
     public void generateRoleCard() {
+        RoleCards.PROTAGONIST_GROUP
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.REDSTONE_BLOCK, 2), ItemStackRecipeWrapper.of(Items.OBSIDIAN, 5))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KOUMAKYOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.SOUL_SAND, 12), ItemStackRecipeWrapper.of(Items.NETHERRACK, 12))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.YOUYOUMU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.CHERRY_LEAVES, 26), ItemStackRecipeWrapper.of(Items.IRON_SWORD, 1))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.EIYASHOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.BAMBOO, 50), ItemStackRecipeWrapper.of(Items.END_STONE, 24))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KAEIZUKA
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.DANDELION, 30), ItemStackRecipeWrapper.of(Items.ALLIUM, 30))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.FUUJINROKU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.LEAF_LITTER, 40), ItemStackRecipeWrapper.of(Items.STONE, 40))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.CHIREIDEN
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.ROSE_BUSH, 40), ItemStackRecipeWrapper.of(Items.NETHERRACK, 45))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.SEIRENSEN
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.GOLD_INGOT, 28), ItemStackRecipeWrapper.of(Items.BIRCH_BOAT, 1))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.SHINREIBYOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.SOUL_SAND, 38), ItemStackRecipeWrapper.of(Items.ROTTEN_FLESH, 18))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KISHINJOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.BLAZE_ROD, 26), ItemStackRecipeWrapper.of(Items.NETHER_BRICKS, 30))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KANJUDEN
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.END_STONE, 32), ItemStackRecipeWrapper.of(Items.NETHERRACK, 32))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.TENKUUSHOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.GRASS_BLOCK, 29), ItemStackRecipeWrapper.of(Items.LEAF_LITTER, 43))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KIKEIJUU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.DIRT, 44), ItemStackRecipeWrapper.of(Items.BLAZE_POWDER, 30))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KOURYUUDOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.GOLD_INGOT, 31), ItemStackRecipeWrapper.of(Items.DIAMOND, 23))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.JUUOUEN
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.LEATHER, 26), ItemStackRecipeWrapper.of(Items.PORKCHOP, 20))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.KINJOUKYOU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.STONE, 31), ItemStackRecipeWrapper.of(Items.GOLD_INGOT, 38))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.SANGETSUSEI
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.END_STONE, 28), ItemStackRecipeWrapper.of(Items.GLOWSTONE, 26))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.HIFUU
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.BOOK, 19), ItemStackRecipeWrapper.of(Items.ENDER_EYE, 20))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
+        RoleCards.TASOGARE_FURONTIA
+                .createRecipeBuilder()
+                .itemStack(ItemStackRecipeWrapper.of(Items.GLASS_BOTTLE, 20), ItemStackRecipeWrapper.of(MIItems.PEACH, 15))
+                .build()
+                .apply(this.gensokyoAltarRecipe);
 
     }
 

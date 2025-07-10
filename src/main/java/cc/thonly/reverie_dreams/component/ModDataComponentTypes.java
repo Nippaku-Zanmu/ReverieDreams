@@ -41,7 +41,6 @@ public class ModDataComponentTypes {
             ComponentType.<Identifier>builder()
                     .codec(Identifier.CODEC)
                     .build());
-
     public static final ComponentType<Integer> MAX_DISTANCE = registerComponent("max_disatance",
             ComponentType.<Integer>builder()
                     .codec(Codec.INT)
@@ -62,9 +61,22 @@ public class ModDataComponentTypes {
             ComponentType.<NoteBlockInstrument>builder()
                     .codec(MusicalInstrumentItem.NOTE_BLOCK_INSTRUMENT_CODEC)
                     .build());
+    public static final ComponentType<RoleFollowerArchive> ROLE_FOLLOWER_ARCHIVE = registerComponent("role_follower_archive",
+            ComponentType.<RoleFollowerArchive>builder()
+                    .codec(RoleFollowerArchive.CODEC)
+                    .build()
+            );
+    public static final ComponentType<Boolean> ROLE_CAN_RESPAWN = registerComponent("role_can_respawn",
+            ComponentType.<Boolean>builder()
+                    .codec(Codec.BOOL)
+                    .build()
+            );
+
+    static {
+        Danmaku.init();
+    }
 
     public static void init() {
-        Danmaku.init();
     }
 
     public static <T> ComponentType<T> registerComponent(String path, ComponentType<T> componentType) {

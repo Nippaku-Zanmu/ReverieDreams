@@ -4,10 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BedBlockMixin",
-    "ComponentChangesMixin",
     "EntityMixin",
     "ExampleMixin",
-    "GuiElementBuilderMixin",
+    "GuiElementBuilderMixinImpl",
     "ItemStackMixin",
     "LevelSummaryMixin",
     "LivingEntityMixin",

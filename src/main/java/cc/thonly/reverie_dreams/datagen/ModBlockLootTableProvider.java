@@ -2,14 +2,18 @@ package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
-import cc.thonly.reverie_dreams.block.Fumo;
-import cc.thonly.reverie_dreams.block.Fumos;
+import cc.thonly.reverie_dreams.block.WoodCreator;
+import cc.thonly.reverie_dreams.fumo.Fumo;
+import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.item.Item;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -25,6 +29,25 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
+    private final Function<WoodCreator, Void> woodCreatorLootFunction = (creator) -> {
+        creator.stream().forEach((block -> {
+            if (block instanceof DoorBlock) {
+                this.doorDrops(block);
+                return;
+            }
+            if (block instanceof LeavesBlock) {
+                this.leavesDrops(block, creator.sapling(), 0.2f);
+                return;
+            }
+            if (block instanceof SlabBlock) {
+                this.slabDrops(block);
+                return;
+            }
+            this.addDrop(block);
+        }));
+        return null;
+    };
+
     public ModBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
@@ -35,18 +58,9 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.STRENGTH_TABLE);
         addDrop(ModBlocks.GENSOKYO_ALTAR);
         addDrop(ModBlocks.MUSIC_BLOCK);
-        addDrop(ModBlocks.SPIRITUAL_LOG);
-        addDrop(ModBlocks.SPIRITUAL_WOOD);
-        addDrop(ModBlocks.SPIRITUAL_PLANKS);
-        addDrop(ModBlocks.SPIRITUAL_STAIR);
-        addDrop(ModBlocks.SPIRITUAL_SLAB);
-        addDrop(ModBlocks.SPIRITUAL_DOOR);
-        addDrop(ModBlocks.SPIRITUAL_TRAPDOOR);
-        addDrop(ModBlocks.SPIRITUAL_FENCE);
-        addDrop(ModBlocks.SPIRITUAL_FENCE_GATE);
-        addDrop(ModBlocks.SPIRITUAL_BUTTON);
-        addDrop(ModBlocks.STRIPPED_SPIRITUAL_LOG);
-        addDrop(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
+
+        woodCreatorLootFunction.apply(ModBlocks.SPIRITUAL);
+
         addDrop(ModBlocks.MAGIC_ICE_BLOCK);
         addDrop(ModBlocks.MARISA_HAT_BLOCK);
 
@@ -105,6 +119,16 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
             instance.generateLoot(this);
         }
 
+        woodCreatorLootFunction.apply(MIBlocks.LEMON);
+        addDrop(MIBlocks.LEMON_FRUIT_LEAVES, MIBlocks.LEMON.sapling());
+
+        woodCreatorLootFunction.apply(MIBlocks.GINKGO);
+        addDrop(MIBlocks.GINKGO_FRUIT_LEAVES, MIBlocks.GINKGO.sapling());
+
+        woodCreatorLootFunction.apply(MIBlocks.PEACH);
+        addDrop(MIBlocks.PEACH_FRUIT_LEAVES, MIBlocks.PEACH.sapling());
+
+        addDrop(MIBlocks.BLACK_SALT_BLOCK);
         addDrop(MIBlocks.UDUMBARA_FLOWER);
         addDrop(MIBlocks.TREMELLA);
     }

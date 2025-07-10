@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.block.base;
 
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import eu.pb4.polymer.blocks.api.PolymerBlockModel;
@@ -25,6 +26,7 @@ public class BasicPolymerSaplingBlock extends SaplingBlock implements PolymerTex
         super(generator, settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = identifier;
         this.model = PolymerBlockResourceUtils.requestBlock(BlockModelType.PLANT_BLOCK, PolymerBlockModel.of(Identifier.of(this.getIdentifier().getNamespace(), "block/" + this.getIdentifier().getPath())));
+        ModBlockTagProvider.SAPLINGS.add(this);
     }
 
     public BasicPolymerSaplingBlock(String path, SaplingGenerator generator, Settings settings) {

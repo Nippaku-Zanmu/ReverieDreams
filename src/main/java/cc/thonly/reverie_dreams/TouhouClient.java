@@ -23,37 +23,7 @@ public class TouhouClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-//  In 1.21.4
-//        ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
-//            if (client.isIntegratedServerRunning()) {
-//                GameProfile localProfile = client.getGameProfile();
-//                GameProfile serverProfile = networkHandler.getProfile();
-//
-//                if (localProfile.getId().equals(serverProfile.getId())) {
-////                    PolymerResourcePackMod.generateAndCall(Touhou.getServer(), false, text -> {}, () -> {});
-//                    client.reloadResources().thenRun(() -> {
-//                    });
-//                }
-//            }
-//        });
-        PayloadTypeRegistry.playS2C().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC); // 客户端接收来自服务端的包
         ClientPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayloadClient.Receiver::receiveClient);
-
-//        Identifier id = id("hatenaki_kaze_no_kisekisae");
-//        SoundEvent sound = SoundEvent.of(id);
-//        SoundInstance soundInstance = new PositionedSoundInstance(sound.id(), SoundCategory.RECORDS, 1.0f, 1.0f, SoundInstance.createRandom(), false, 0, SoundInstance.AttenuationType.NONE, 0.0, 0.0, 0.0, true);;
-//        ((AbstractSoundInstanceAccessor) soundInstance).setRepeat(true);
-//        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-//            if (client.currentScreen instanceof TitleScreen) {
-//                if (!client.getSoundManager().isPlaying(soundInstance)) {
-//                    isPlayed = true;
-//                    MusicTracker musicTracker = client.getMusicTracker();
-//                    musicTracker.stop();
-//                    client.getSoundManager().stopAll();
-//                    client.getSoundManager().play(soundInstance);
-//                }
-//            }
-//        });
     }
 
     public static Identifier id(String id) {

@@ -10,6 +10,7 @@ import cc.thonly.mystias_izakaya.item.MIItemGroups;
 import cc.thonly.mystias_izakaya.loot.MILootModifies;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
+import cc.thonly.mystias_izakaya.villager.MIVillagerTradeModifier;
 import cc.thonly.reverie_dreams.Touhou;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,7 @@ public class MystiasIzakaya implements ModInitializer {
         MIItemGroups.registerItemGroups();
         MIRegistryManager.bootstrap();
         MiRecipeManager.bootstrap();
+        MIVillagerTradeModifier.bootstrap();
         MILootModifies.bootstrap();
         MIDataFixer.bootstrap();
 

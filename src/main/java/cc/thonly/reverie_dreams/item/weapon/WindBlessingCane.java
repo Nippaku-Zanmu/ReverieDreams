@@ -2,19 +2,21 @@ package cc.thonly.reverie_dreams.item.weapon;
 
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.WindChargeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
 public class WindBlessingCane extends BasicPolymerSwordItem {
-    public static final ToolMaterial WIND_BLESSING_CANE = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 250, 4.0f, 3.5f, 5, ModTags.ItemTypeTag.EMPTY);
+    public static final ToolMaterial WIND_BLESSING_CANE = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 250, 4.0f, 3.5f, 5, ItemTags.IRON_TOOL_MATERIALS);
 
     public WindBlessingCane(String path, float attackDamage, float attackSpeed, Item.Settings settings) {
         super(path, WIND_BLESSING_CANE, attackDamage + 1f, attackSpeed - 2.4f, settings);

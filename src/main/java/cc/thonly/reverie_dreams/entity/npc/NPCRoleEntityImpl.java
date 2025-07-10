@@ -32,21 +32,26 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
         this.goalSelector.add(2, new WakeUpGoal(this));
         this.goalSelector.add(3, new SleepAtNightGoal(this, 1.0));
 
-        this.goalSelector.add(4, new NpcTemptGoal(this, 1.2, stack -> stack.isOf(TAME_FOOD_ITEM), false));
+        this.goalSelector.add(4, new NPCTemptGoal(this, 1.2, stack -> stack.isOf(TAME_FOOD_ITEM), false));
         //        this.goalSelector.add(4, this.bowAttackGoal);
         //        this.goalSelector.add(4, this.meleeAttackGoal);
-        this.goalSelector.add(6, new NpcFollowOwnerGoal(this, 1.0, 2.0f, 10.0f));
-        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(6, new NPCFollowOwnerGoal(this, 1.0, 2.0f, 10.0f));
+//        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(8, new NPCWanderAroundFarGoal(this, 1.0));
 
+        this.goalSelector.add(10, new NPCLookAroundGoal(this));
         this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(10, new LookAtEntityGoal(this, NPCEntityImpl.class, 8.0f));
-        this.goalSelector.add(10, new LookAroundGoal(this));
 
-        this.targetSelector.add(1, new NpcTrackOwnerAttackerGoal(this));
+        this.targetSelector.add(1, new NPCTrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new NPCAttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
 
+    }
+
+    @Override
+    public KeepInventoryTypes getKeepInventoryType() {
+        return KeepInventoryTypes.ARCHIVED;
     }
 
     @Override

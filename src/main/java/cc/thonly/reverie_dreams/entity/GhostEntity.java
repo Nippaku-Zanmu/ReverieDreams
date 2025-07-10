@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
-import cc.thonly.reverie_dreams.entity.ai.goal.NpcFollowOwnerGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.NPCFollowOwnerGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.StatusEffectTargetGoal;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
@@ -83,7 +83,7 @@ public class GhostEntity extends NPCEntityImpl {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new SitGoal(this));
 
-        this.goalSelector.add(6, new NpcFollowOwnerGoal(this, 1.0, 2.0f, 10.0f));
+        this.goalSelector.add(6, new NPCFollowOwnerGoal(this, 1.0, 2.0f, 10.0f));
         this.goalSelector.add(7, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
 

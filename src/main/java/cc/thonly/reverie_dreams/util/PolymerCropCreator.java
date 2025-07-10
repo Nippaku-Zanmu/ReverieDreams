@@ -21,6 +21,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.entry.LeafEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
@@ -60,8 +61,7 @@ public final class PolymerCropCreator {
     /**
      * 设置此作物的掉落物既是种子。
      */
-    public PolymerCropCreator self(Item gainAndSeed) {
-        this.gain = gainAndSeed;
+    public PolymerCropCreator self() {
         this.selfSeed = true;
         return this;
     }
@@ -76,22 +76,21 @@ public final class PolymerCropCreator {
         BasicCropBlock cropBlock = Registry.register(Registries.BLOCK, this.identifier, basicCropBlock);
 
         Item seedItem;
+        Identifier seedId = Identifier.of(this.identifier.getNamespace(), this.identifier.getPath() + "_seeds");
+        seedItem = Registry.register(
+                Registries.ITEM,
+                seedId,
+                new BasicPolymerBlockItem(
+                        seedId,
+                        cropBlock,
+                        new Item.Settings()
+                                .registryKey(RegistryKey.of(RegistryKeys.ITEM, seedId))
+                                .useItemPrefixedTranslationKey(),
+                        Items.WHEAT_SEEDS
+                )
+        );
         if (this.selfSeed) {
-            seedItem = this.gain;
-        } else {
-            Identifier seedId = Identifier.of(this.identifier.getNamespace(), this.identifier.getPath() + "_seeds");
-            seedItem = Registry.register(
-                    Registries.ITEM,
-                    seedId,
-                    new BasicPolymerBlockItem(
-                            seedId,
-                            cropBlock,
-                            new Item.Settings()
-                                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, seedId))
-                                    .useItemPrefixedTranslationKey(),
-                            Items.WHEAT_SEEDS
-                    )
-            );
+            this.gain = seedItem;
         }
 
         cropBlock.setSeed(seedItem);
@@ -172,20 +171,35 @@ public final class PolymerCropCreator {
                         );
 //                LootTable.Builder lootTableBuilder = provider.cropDrops(this.cropBlock, this.product, this.seed, condition);
                 LootTable.Builder lootTableBuilder = LootTable.builder();
+                LeafEntry.Builder<?> productEntry = ItemEntry.builder(this.product)
+                        .apply(SetCountLootFunction.builder(
+                                UniformLootNumberProvider.create(1.0f, 3.0f)
+                        ));
+                LeafEntry.Builder<?> seedEntry = ItemEntry.builder(this.seed)
+                        .apply(SetCountLootFunction.builder(
+                                UniformLootNumberProvider.create(1.0f, 2.0f)
+                        ));
+                LeafEntry.Builder<?> baseSeedEntry = ItemEntry.builder(this.seed)
+                        .apply(SetCountLootFunction.builder(
+                                ConstantLootNumberProvider.create(1)
+                        ));
                 lootTableBuilder.pool(
                         LootPool.builder()
                                 .conditionally(condition.build())
                                 .rolls(ConstantLootNumberProvider.create(1))
-                                .with(ItemEntry.builder(this.product)
-                                        .apply(SetCountLootFunction.builder(
-                                                UniformLootNumberProvider.create(1.0f, 3.0f)
-                                        ))
-                                )
-                                .with(ItemEntry.builder(this.seed)
-                                        .apply(SetCountLootFunction.builder(
-                                                UniformLootNumberProvider.create(2.0f, 3.0f)
-                                        ))
-                                )
+                                .with(baseSeedEntry)
+                );
+                lootTableBuilder.pool(
+                        LootPool.builder()
+                                .conditionally(condition.build())
+                                .rolls(ConstantLootNumberProvider.create(1))
+                                .with(productEntry)
+                );
+                lootTableBuilder.pool(
+                        LootPool.builder()
+                                .conditionally(condition.build())
+                                .rolls(ConstantLootNumberProvider.create(1))
+                                .with(seedEntry)
                 );
                 provider.addDrop(this.cropBlock, lootTableBuilder);
             }

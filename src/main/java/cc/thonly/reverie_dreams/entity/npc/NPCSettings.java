@@ -4,6 +4,7 @@ import java.util.Set;
 
 public interface NPCSettings {
     enum KeepInventoryTypes {
+        ARCHIVED,
         DROP_ALL_ITEM,
         NOT_DROP_ANY,
         ONLY_HAND_AND_ARMOR

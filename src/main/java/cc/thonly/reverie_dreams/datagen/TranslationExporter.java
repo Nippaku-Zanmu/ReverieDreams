@@ -30,7 +30,7 @@ import java.util.Map;
 
 @CanIgnoreReturnValue
 @Getter
-public class TranslationExporter implements TranslationGenerationImpl {
+public class TranslationExporter implements TranslationCreatorImpl {
     public static final Map<EntityType<?>, Item> MAPPER = ModEntities.SPAWN_EGG_BIND;
     private final RegistryWrapper.WrapperLookup wrapperLookup;
     private final FabricLanguageProvider.TranslationBuilder translationBuilder;

@@ -6,6 +6,7 @@ import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
 import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
+import cc.thonly.reverie_dreams.item.tool.SilverMaterial;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class Knife extends BasicPolymerSwordItem implements DanmakuItemType {
     public Knife(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(
                 path,
-                ToolMaterial.IRON,
+                SilverMaterial.INSTANCE,
                 attackDamage + 3.0f,
                 attackSpeed - 2f,
                 settings

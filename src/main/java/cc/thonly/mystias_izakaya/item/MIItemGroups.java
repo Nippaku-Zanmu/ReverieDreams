@@ -2,6 +2,7 @@ package cc.thonly.mystias_izakaya.item;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
+import cc.thonly.reverie_dreams.block.WoodCreator;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -67,6 +68,8 @@ public class MIItemGroups {
             }
             itemGroup.add(MIBlocks.UDUMBARA_FLOWER);
             itemGroup.add(MIBlocks.TREMELLA);
+            WoodCreator.INSTANCES.forEach((instance)-> itemGroup.add(instance.sapling()));
+
         });
         ItemGroupEvents.modifyEntriesEvent(FOOD_ITEM_GROUP_KEY).register(itemGroup -> {
             for (Item item : MIItems.FOOD_ITEMS) {

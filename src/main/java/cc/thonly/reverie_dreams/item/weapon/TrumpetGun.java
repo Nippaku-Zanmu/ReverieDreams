@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class TrumpetGun extends BasicPolymerItem implements DanmakuItemType {
 
     public TrumpetGun(String path, Settings settings) {
-        super(path, settings.maxCount(1).maxDamage(250), Items.TRIAL_KEY);
+        super(path, settings.maxCount(1).maxDamage(150), Items.TRIAL_KEY);
     }
 
     @Override

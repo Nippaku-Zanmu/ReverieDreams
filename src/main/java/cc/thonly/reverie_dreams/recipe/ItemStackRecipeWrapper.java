@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -120,11 +121,37 @@ public class ItemStackRecipeWrapper {
         return ItemStack.areItemsAndComponentsEqual(this.itemStack, other) && (other.getCount() >= this.itemStack.getCount());
     }
 
+    public static ItemStackRecipeWrapper findEquivalentKey(Map<ItemStackRecipeWrapper, ?> map, ItemStackRecipeWrapper key) {
+        for (ItemStackRecipeWrapper candidate : map.keySet()) {
+            if (candidate.test(key.getItemStack())) {
+                return candidate;
+            }
+        }
+        return key;
+    }
+
+
     public boolean matchesAndSufficient(ItemStack other) {
         if (other == null) return false;
         if (!other.isOf(itemStack.getItem())) return false;
         if (!Objects.equals(other.components, itemStack.components)) return false;
         return other.getCount() >= itemStack.getCount();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof ItemStackRecipeWrapper other)) return false;
+        return ItemStack.areEqual(this.itemStack, other.itemStack);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + Item.getRawId(itemStack.getItem());
+        result = 31 * result + (itemStack.getComponents() != null ? itemStack.getComponents().hashCode() : 0);
+        result = 31 * result + itemStack.getCount();
+        return result;
     }
 
     public ItemStack getOrThrow() {

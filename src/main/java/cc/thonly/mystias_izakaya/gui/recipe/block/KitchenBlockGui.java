@@ -8,7 +8,7 @@ import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
-import cc.thonly.reverie_dreams.gui.access.GuiElementBuilderAccessor;
+import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
@@ -218,7 +218,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
         // 清空旧显示
         for (GuiElementBuilder builder : this.displayed.values()) {
-            GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) builder;
+            GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) builder;
             accessor.setItemStack(ModGuiItems.EMPTY_SLOT.getDefaultStack());
         }
 
@@ -230,7 +230,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             ItemStack output = this.buildFoodTags(recipe, new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
 
             GuiElementBuilder builder = entry.getValue();
-            GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) builder;
+            GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) builder;
             accessor.setItemStack(output);
             builder.setCallback((slotIndex, clickType, actionType) -> {
                 handleCrafting(output, recipe);

@@ -1,6 +1,9 @@
 package cc.thonly.reverie_dreams.recipe.type;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.item.RoleFollowerArchiveItem;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
@@ -11,6 +14,9 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -58,6 +64,20 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
                 log.error("Failed to load gensokyo altar recipe {}, {}, {}", id, e.getMessage(), e);
             }
         }
+        this.registerDynamicRecipe();
+    }
+
+    public void registerDynamicRecipe() {
+        this.add(Touhou.id("role_archive"), new GensokyoAltarRecipe(ItemStackRecipeWrapper.of(ModItems.ROLE_ARCHIVE), List.of(
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 4)
+        ), ItemStackRecipeWrapper.of(ModItems.ROLE_ARCHIVE)));
     }
 
     @Override
@@ -65,36 +85,83 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
 
     }
 
+    public List<GensokyoAltarRecipe> getModifierRecipe(List<ItemStackRecipeWrapper> wrappers) {
+        List<GensokyoAltarRecipe> matches = new ArrayList<>();
+        ItemStackRecipeWrapper coreWrapper = wrappers.get(8);
+        if (coreWrapper.getItem() instanceof RoleFollowerArchiveItem) {
+            ItemStackRecipeWrapper slot0 = wrappers.get(0);
+            ItemStackRecipeWrapper slot1 = wrappers.get(1);
+            ItemStackRecipeWrapper slot2 = wrappers.get(2);
+            ItemStackRecipeWrapper slot3 = wrappers.get(3);
+            ItemStackRecipeWrapper slot4 = wrappers.get(4);
+            ItemStackRecipeWrapper slot5 = wrappers.get(5);
+            ItemStackRecipeWrapper slot6 = wrappers.get(6);
+            ItemStackRecipeWrapper slot7 = wrappers.get(7);
+            if (
+                    slot0.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot1.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot2.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot3.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot4.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot5.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot6.test(new ItemStack(Items.DIAMOND, 4)) &&
+                            slot7.test(new ItemStack(Items.DIAMOND, 4))
+            ) {
+                ItemStackRecipeWrapper resultWrapper = coreWrapper.copy();
+                ItemStack itemStack = resultWrapper.getItemStack();
+                itemStack.set(ModDataComponentTypes.ROLE_CAN_RESPAWN, true);
+                return new ArrayList<>(
+                        List.of(
+                                new GensokyoAltarRecipe(coreWrapper, List.of(
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4)
+                                ), ItemStackRecipeWrapper.of(itemStack))
+                        )
+                );
+            }
+        }
+        return matches;
+    }
+
     @Override
     public List<GensokyoAltarRecipe> getMatches(List<ItemStackRecipeWrapper> wrappers) {
         if (wrappers.size() < 8) return List.of();
-        List<GensokyoAltarRecipe> matches = new ArrayList<>();
+        List<GensokyoAltarRecipe> matches = this.getModifierRecipe(wrappers);
 
-        for (GensokyoAltarRecipe recipe : stream().toList()) {
-            List<ItemStackRecipeWrapper> slots = recipe.getSlots();
-            ItemStackRecipeWrapper slot0 = slots.get(0);
-            ItemStackRecipeWrapper slot1 = slots.get(1);
-            ItemStackRecipeWrapper slot2 = slots.get(2);
-            ItemStackRecipeWrapper slot3 = slots.get(3);
-            ItemStackRecipeWrapper slot4 = slots.get(4);
-            ItemStackRecipeWrapper slot5 = slots.get(5);
-            ItemStackRecipeWrapper slot6 = slots.get(6);
-            ItemStackRecipeWrapper slot7 = slots.get(7);
-            ItemStackRecipeWrapper slot8 = recipe.getCore();
-            if (
-                    wrappers.get(0).test(slot0.getItemStack()) &&
-                    wrappers.get(1).test(slot1.getItemStack()) &&
-                    wrappers.get(2).test(slot2.getItemStack()) &&
-                    wrappers.get(3).test(slot3.getItemStack()) &&
-                    wrappers.get(4).test(slot4.getItemStack()) &&
-                    wrappers.get(5).test(slot5.getItemStack()) &&
-                    wrappers.get(6).test(slot6.getItemStack()) &&
-                    wrappers.get(7).test(slot7.getItemStack()) &&
-                    wrappers.get(8).test(slot8.getItemStack())
-            ) {
-                matches.add(recipe);
+        if (matches.isEmpty()) {
+            for (GensokyoAltarRecipe recipe : stream().toList()) {
+                List<ItemStackRecipeWrapper> slots = recipe.getSlots();
+                ItemStackRecipeWrapper slot0 = slots.get(0);
+                ItemStackRecipeWrapper slot1 = slots.get(1);
+                ItemStackRecipeWrapper slot2 = slots.get(2);
+                ItemStackRecipeWrapper slot3 = slots.get(3);
+                ItemStackRecipeWrapper slot4 = slots.get(4);
+                ItemStackRecipeWrapper slot5 = slots.get(5);
+                ItemStackRecipeWrapper slot6 = slots.get(6);
+                ItemStackRecipeWrapper slot7 = slots.get(7);
+                ItemStackRecipeWrapper slot8 = recipe.getCore();
+                if (
+                        wrappers.get(0).test(slot0.getItemStack()) &&
+                                wrappers.get(1).test(slot1.getItemStack()) &&
+                                wrappers.get(2).test(slot2.getItemStack()) &&
+                                wrappers.get(3).test(slot3.getItemStack()) &&
+                                wrappers.get(4).test(slot4.getItemStack()) &&
+                                wrappers.get(5).test(slot5.getItemStack()) &&
+                                wrappers.get(6).test(slot6.getItemStack()) &&
+                                wrappers.get(7).test(slot7.getItemStack()) &&
+                                wrappers.get(8).test(slot8.getItemStack())
+                ) {
+                    matches.add(recipe);
+                }
             }
         }
+
         return matches;
     }
 

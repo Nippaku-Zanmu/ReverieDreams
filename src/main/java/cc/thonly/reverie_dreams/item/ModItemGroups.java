@@ -1,25 +1,22 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.Fumo;
-import cc.thonly.reverie_dreams.block.Fumos;
+import cc.thonly.reverie_dreams.fumo.Fumo;
+import cc.thonly.reverie_dreams.fumo.Fumos;
+import cc.thonly.reverie_dreams.block.WoodCreator;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
-import cc.thonly.reverie_dreams.entity.ModEntities;
-import cc.thonly.reverie_dreams.entity.npc.NPCRole;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +49,6 @@ public class ModItemGroups {
             .displayName(Text.translatable("item_group.touhou.role_card"))
             .build();
 
-
     static {
         PolymerItemGroupUtils.registerPolymerItemGroup(ITEM_GROUP_KEY, ITEM_GROUP);
         PolymerItemGroupUtils.registerPolymerItemGroup(BULLET_ITEM_GROUP_KEY, ITEM_GROUP_BULLET);
@@ -66,6 +62,10 @@ public class ModItemGroups {
             for (Item item : ModItems.getItemView()) {
                 itemGroup.add(item);
             }
+            for (WoodCreator instance : WoodCreator.INSTANCES) {
+                instance.stream().forEach(block -> itemGroup.add(block.asItem()));
+            }
+            itemGroup.add(ModItems.ROLE_CARD);
         });
         ItemGroupEvents.modifyEntriesEvent(BULLET_ITEM_GROUP_KEY).register(itemGroup -> {
             List<ItemStack> color = DanmakuTypes.allColor();

@@ -1,25 +1,25 @@
 package cc.thonly.reverie_dreams.entity.villager;
 
-import cc.thonly.reverie_dreams.block.Fumo;
+import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.mixin.accessor.VillagerEntityAccessor;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.sgui.api.gui.MerchantGui;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.passive.WanderingTraderEntity;
@@ -48,9 +48,14 @@ import java.util.*;
 @Slf4j
 @Getter
 public class FumoSellerVillager extends WanderingTraderEntity implements PolymerEntity {
+    public static final int MAX_LEVEL = 5;
+    public static final int[] EXPS = {50, 100, 150, 200, 250};
     private static final Gson GSON = new Gson();
     private final Set<SellerGui> sessions = new HashSet<>();
     private VillagerData prev;
+    private SellInfo sellInfo = new SellInfo(new Object2ObjectOpenHashMap<>());
+    private int level = 0;
+    private int exp = 0;
 
     public FumoSellerVillager(EntityType<? extends WanderingTraderEntity> entityType, World world) {
         super(entityType, world);
@@ -69,6 +74,38 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
         super(ModEntities.FUMO_SELLER_VILLAGER, world);
         this.prev = prevEntity.getVillagerData();
     }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.level > MAX_LEVEL) {
+            this.level = MAX_LEVEL;
+        }
+    }
+
+    public void trade(ItemStackRecipeWrapper wrapper) {
+        World world = this.getWorld();
+        Random random = new Random();
+        this.exp += random.nextInt(9, 25);
+        world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS);
+        this.sellInfo.sell(this.getVillagerSeed(), wrapper);
+        this.tryLevelUp();
+    }
+
+    public void tryLevelUp() {
+        while (this.level < MAX_LEVEL && this.exp >= EXPS[this.level]) {
+            this.exp -= EXPS[this.level];
+            this.level++;
+
+            this.getWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS);
+        }
+
+        if (this.level >= MAX_LEVEL) {
+            this.level = MAX_LEVEL;
+            this.exp = Math.min(this.exp, EXPS[MAX_LEVEL - 1]);
+        }
+    }
+
 
     @Override
     public void modifyRawTrackedData(List<DataTracker.SerializedEntry<?>> data, ServerPlayerEntity player, boolean initial) {
@@ -110,7 +147,7 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
             if (this.sessions.isEmpty()) {
                 ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
 
-                this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, player.getPos());
+                this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, player.getPos().add(0, 1, 0));
                 this.getNavigation().stop();
 
                 SellerGui sellerGui = new SellerGui(serverPlayer, this);
@@ -161,6 +198,16 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
             Optional<VillagerData> result = parse.result();
             result.ifPresent((data) -> this.prev = data);
         }
+        this.level = nbt.getInt("Level").orElse(0);
+        Optional<String> sellInfoData = nbt.getString("SellInfoData");
+        if (sellInfoData.isPresent()) {
+            String jsonString = sellInfoData.get();
+            JsonElement element = JsonParser.parseString(jsonString);
+            Dynamic<JsonElement> input = new Dynamic<>(JsonOps.INSTANCE, element);
+            DataResult<SellInfo> parse = SellInfo.CODEC.parse(input);
+            Optional<SellInfo> result = parse.result();
+            result.ifPresent((data) -> this.sellInfo = data);
+        }
     }
 
     @Override
@@ -174,7 +221,15 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
                 nbt.putString("PrevVillagerData", GSON.toJson(element));
             }
         }
-
+        nbt.putInt("Level", this.level);
+        if (this.sellInfo != null) {
+            DataResult<JsonElement> dataResult = SellInfo.CODEC.encodeStart(JsonOps.INSTANCE, this.sellInfo);
+            Optional<JsonElement> result = dataResult.result();
+            if (result.isPresent()) {
+                JsonElement element = result.get();
+                nbt.putString("SellInfoData", GSON.toJson(element));
+            }
+        }
     }
 
     public List<TradeOffer> getVillagerOffers() {
@@ -186,18 +241,19 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
 
         Collections.shuffle(allFumos, random);
 
-        int count = 5 + random.nextInt(6);
+        int count = 4 + random.nextInt(5) + this.level;
         List<Fumo> selectedFumos = allFumos.subList(0, Math.min(count, allFumos.size()));
 
         for (Fumo fumo : selectedFumos) {
             Item item = fumo.item();
             ItemStack sellItem = new ItemStack(item);
+            ItemStackRecipeWrapper wrapper = ItemStackRecipeWrapper.of(sellItem);
 
             int emeraldAmount = 31 + random.nextInt(14);
             TradedItem first = new TradedItem(Items.EMERALD, emeraldAmount);
             TradedItem second = new TradedItem(Items.WHITE_WOOL, 32);
 
-            TradeOffer offer = new TradeOffer(first, Optional.of(second), sellItem, 3, 1, 0.05f);
+            TradeOffer offer = new TradeOffer(first, Optional.of(second), sellItem, Math.max(0, 2 - this.sellInfo.getSellArchive(seed, wrapper)), 1, 0.05f);
             offers.add(offer);
         }
 
@@ -234,6 +290,14 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
             for (TradeOffer offer : villagerOffers) {
                 this.addTrade(offer);
             }
+        }
+
+        @Override
+        public boolean onTrade(TradeOffer offer) {
+            TradeOffer copied = offer.copy();
+            this.self.trade(ItemStackRecipeWrapper.of(copied.copySellItem()));
+            this.self.trade(copied);
+            return super.onTrade(offer);
         }
 
         @Override

@@ -3,6 +3,8 @@ package cc.thonly.mystias_izakaya.block;
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.WoodCreator;
+import cc.thonly.reverie_dreams.block.base.BasicFruitLeavesBlock;
 import cc.thonly.reverie_dreams.block.base.BasicPlantBlock;
 import cc.thonly.reverie_dreams.block.base.BasicPolymerBlock;
 import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
@@ -12,6 +14,7 @@ import cc.thonly.reverie_dreams.item.BasicBlockItem;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.world.ModSaplingGenerator;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
@@ -37,6 +40,15 @@ public class MIBlocks {
     public static final Block STEAMER = registerBlock(new Steamer("steamer", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
     public static final Block COOKTOP = registerBlock(new CooktopBlock("cooktop", AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.5f).luminance(blockState -> 13)));
     public static final Block BLACK_SALT_BLOCK = registerBlock(new BasicPolymerBlock("black_salt_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.SAND)));
+
+    public static final WoodCreator LEMON = WoodCreator.create("lemon", ModSaplingGenerator.LEMON_TREE).build();
+    public static final Block LEMON_FRUIT_LEAVES = registerBlock(new BasicFruitLeavesBlock("lemon_fruit_leaves", MIItems.LEMON, LEMON.leaves(), AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+
+    public static final WoodCreator GINKGO = WoodCreator.create("ginkgo", ModSaplingGenerator.GINKGO_TREE).build();
+    public static final Block GINKGO_FRUIT_LEAVES = registerBlock(new BasicFruitLeavesBlock("ginkgo_fruit_leaves", MIItems.GINKGO, GINKGO.leaves(), AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+
+    public static final WoodCreator PEACH = WoodCreator.create("peach", ModSaplingGenerator.PEACH_TREE).build();
+    public static final Block PEACH_FRUIT_LEAVES = registerBlock(new BasicFruitLeavesBlock("peach_fruit_leaves", MIItems.PEACH, PEACH.leaves(), AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
 
     public static final Block UDUMBARA_FLOWER = registerBlock(new BasicPlantBlock("udumbara_flower", createPlantSettings()));
     public static final Block TREMELLA = registerBlock(new BasicPlantBlock("tremella", createPlantSettings()));
@@ -188,8 +200,41 @@ public class MIBlocks {
                             .build()
             )
             .build();
+    public static final PolymerCropCreator.Instance BROCCOLI = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("broccoli"))
+            .setFactory(id -> new SweetPotatoCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(6)
+            .setGain(MIItems.BROCCOLI)
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(6)
+                            .setKey(2).setValue(1)
+                            .setKey(3).setValue(2)
+                            .setKey(4).setValue(3)
+                            .setKey(5).setValue(4)
+                            .setKey(6).setValue(5)
+                            .build()
+            )
+            .build();
+    public static final PolymerCropCreator.Instance SOY_BEANS = PolymerCropCreator
+            .createCreator(MystiasIzakaya.id("soy_beans"))
+            .setFactory(id -> new RedBeansCrop(id, AbstractBlock.Settings.create()))
+            .setMaxAge(6)
+            .self()
+            .setModelType(PolymerCropCreator.ModelType.CROSS)
+            .setProvider(
+                    CropAgeModelProvider.create(6)
+                            .setKey(1).setValue(1)
+                            .setKey(2).setValue(2)
+                            .setKey(3, 4).setValue(3)
+                            .setKey(5).setValue(4)
+                            .setKey(6).setValue(5)
+                            .build()
+            )
+            .build();
 
-    public static final List<PolymerCropCreator.Instance> GRASS_DROPS = new ArrayList<>(List.of(TOMATO, RED_BEANS, ONION, CUCUMBER, CHILL));
+
+    public static final List<PolymerCropCreator.Instance> GRASS_DROPS = new ArrayList<>(List.of(TOMATO, RED_BEANS, ONION, CUCUMBER, CHILL, BROCCOLI, SOY_BEANS));
     public static final List<PolymerCropCreator.Instance> CHEST_DROPS = new ArrayList<>(List.of(SWEET_POTATO, WHITE_RADISH, TOON, RED_BEANS, GRAPE));
 
 //    public static final PolymerCropCreator.Instance TEST_CROP = PolymerCropCreator

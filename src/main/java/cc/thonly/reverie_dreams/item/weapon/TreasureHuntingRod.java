@@ -10,8 +10,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -27,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class TreasureHuntingRod extends BasicPolymerSwordItem {
     public static final List<TagKey<Block>> ORE_BLOCK_TAGS = new ArrayList<>();
-    public static final ToolMaterial MATERIAL = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 300, 4.0f, 4.5f, 5, ModTags.ItemTypeTag.EMPTY);
+    public static final ToolMaterial MATERIAL = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 300, 4.0f, 4.5f, 5, ItemTags.DIAMOND_TOOL_MATERIALS);
 
     static {
         ORE_BLOCK_TAGS.add(BlockTags.GOLD_ORES);
@@ -57,53 +59,66 @@ public class TreasureHuntingRod extends BasicPolymerSwordItem {
 
                 BlockPos origin = player.getBlockPos();
                 int radius = 8;
-                AtomicBoolean found = new AtomicBoolean(false);
-                AtomicReference<Block> blockReference = new AtomicReference<>();
-                AtomicReference<BlockPos> blockPosReference = new AtomicReference<>();
 
-                BlockPos.iterate(
+                // 记录最近矿物数据
+                double minDistance = Double.MAX_VALUE;
+                BlockPos closestOrePos = null;
+                Block closestOreBlock = null;
+
+                for (BlockPos pos : BlockPos.iterate(
                         origin.add(-radius, -radius, -radius),
-                        origin.add(radius, radius, radius)
-                ).forEach(pos -> {
-                    if (world.isInBuildLimit(pos)) {
-                        BlockState blockState = world.getBlockState(pos);
-                        if (isOre(blockState)) {
-                            blockReference.set(blockState.getBlock());
-                            blockPosReference.set(pos);
-                            found.set(true);
+                        origin.add(radius, radius, radius))) {
+
+                    if (!world.isInBuildLimit(pos)) continue;
+
+                    BlockState state = world.getBlockState(pos);
+                    if (isOre(state)) {
+                        int dx = pos.getX() - origin.getX();
+                        int dy = pos.getY() - origin.getY();
+                        int dz = pos.getZ() - origin.getZ();
+                        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestOrePos = pos.toImmutable();
+                            closestOreBlock = state.getBlock();
                         }
                     }
-                });
-
-                if (found.get()) {
-                    BlockPos entityPos = user.getBlockPos();
-                    BlockPos blockPos = blockPosReference.get();
-
-                    int dx = blockPos.getX() - entityPos.getX();
-                    int dy = blockPos.getY() - entityPos.getY();
-                    int dz = blockPos.getZ() - entityPos.getZ();
-
-                    double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                    int roundedDistance = (int) Math.round(distance);
-                    MutableText message = Text.empty();
-                    message.append(Text.translatable("message.treasure_hunting_rod.find", roundedDistance, dx, dy, dz));
-                    message.append(Text.translatable(blockReference.get().getTranslationKey()));
-
-                    user.sendMessage(message, false);
-
-                    world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), user.getSoundCategory(), 1.0f, 1.0f);
                 }
 
+                // 找到了矿物
+                if (closestOrePos != null) {
+                    int dx = closestOrePos.getX() - origin.getX();
+                    int dy = closestOrePos.getY() - origin.getY();
+                    int dz = closestOrePos.getZ() - origin.getZ();
+                    int roundedDistance = (int) minDistance;
+
+                    MutableText message = Text.translatable(
+                            "message.treasure_hunting_rod.find", roundedDistance, dx, dy, dz
+                    ).append(" ").append(Text.translatable(closestOreBlock.getTranslationKey()));
+
+                    player.sendMessage(message, false);
+
+                    world.playSound(null, player.getX(), player.getEyeY(), player.getZ(),
+                            SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(),
+                            SoundCategory.PLAYERS, 1.0f, 1.0f);
+                } else {
+                    player.sendMessage(Text.translatable("message.treasure_hunting_rod.not_found"), false);
+                }
+
+                // 伤害和冷却
                 if (!player.isInCreativeMode()) {
                     stack.damage(1, player);
                 }
 
-                cooldown.set(stack, 35);
+                cooldown.set(stack, 35); // 设置冷却
                 return ActionResult.SUCCESS_SERVER;
             }
         }
+
         return super.use(world, user, hand);
     }
+
 
     public static boolean isOre(BlockState blockState) {
         for (TagKey<Block> tag : ORE_BLOCK_TAGS) {

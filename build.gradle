@@ -94,6 +94,8 @@ dependencies {
     modImplementation files('libs/resourceconfigapi-fabric-1.21.5-3.7.0.jar')
     modImplementation files('libs/eiv-fabric-2.5.3+1.21.5.jar')
 
+    modCompileOnly files('libs/polydex2eiv-1.0.4.jar')
+
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     compileOnly files('libs/geyser-api-2.7.0-SNAPSHOT.jar')

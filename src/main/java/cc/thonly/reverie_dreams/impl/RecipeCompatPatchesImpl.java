@@ -24,19 +24,16 @@ import java.util.UUID;
 @Slf4j
 @SuppressWarnings("unchecked")
 public class RecipeCompatPatchesImpl {
-    public static <R extends BaseRecipe> Builder<R> getOrCreateBuilder(BaseRecipeType<R> baseRecipeType) {
+    public static synchronized <R extends BaseRecipe> Builder<R> getOrCreateBuilder(BaseRecipeType<R> baseRecipeType) {
         return (Builder<R>) Builder.INSTANCE.computeIfAbsent(baseRecipeType, (x) -> new Builder<>(baseRecipeType));
     }
 
-    public static void apply() {
-        for (Map.Entry<BaseRecipeType<?>, Builder<?>> baseRecipeTypeBuilderEntry : Builder.INSTANCE.entrySet()) {
-            BaseRecipeType<?> recipeType = baseRecipeTypeBuilderEntry.getKey();
-            Builder<?> builder = baseRecipeTypeBuilderEntry.getValue();
-            Map<Identifier, ?> registries = builder.getRegistries();
-            for (Map.Entry<Identifier, ?> registry : registries.entrySet()) {
-                log.info("Registered compatibility recipe {}", registry.getKey().toString());
-                recipeType.add(registry.getKey(), registry.getValue());
-            }
+    public static synchronized void apply(BaseRecipeType<?> recipeType) {
+        Builder<?> builder = getOrCreateBuilder(recipeType);
+        Map<Identifier, ?> registries = builder.getRegistries();
+        for (Map.Entry<Identifier, ?> registry : registries.entrySet()) {
+            log.info("Registered compatibility recipe {}", registry.getKey().toString());
+            recipeType.add(registry.getKey(), registry.getValue());
         }
     }
 
@@ -138,7 +135,7 @@ public class RecipeCompatPatchesImpl {
                             } else {
                                 newIdentifier = Identifier.of(oldId.getNamespace() + ":" + oldId.getPath() + "_" + itemId.toString().replaceAll(":", "_"));
                             }
-                            registries.put(newIdentifier, baseRecipe);
+                            this.registries.put(newIdentifier, baseRecipe);
                         }
                     }
                 }
@@ -148,7 +145,6 @@ public class RecipeCompatPatchesImpl {
             return this;
         }
 
-        @SuppressWarnings("unchecked")
         private <T> T cloneWithLombokBuilder(T object) {
             try {
                 Method toBuilder = object.getClass().getMethod("toBuilder");

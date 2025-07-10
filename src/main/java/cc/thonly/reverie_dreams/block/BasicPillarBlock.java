@@ -27,13 +27,13 @@ public class BasicPillarBlock extends PillarBlock implements PolymerTexturedBloc
     public BasicPillarBlock(Identifier identifier, Settings settings) {
         super(settings.nonOpaque().registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = identifier;
+        model[0] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + identifier.getPath()), 90, 90));
+        model[1] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + identifier.getPath()), 0, 0));
+        model[2] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + identifier.getPath()), 90, 0));
     }
 
     public BasicPillarBlock(String path, Settings settings) {
         this(Touhou.id(path), settings);
-        model[0] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + path), 90, 90));
-        model[1] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + path), 0, 0));
-        model[2] = PolymerBlockResourceUtils.requestBlock(BlockModelType.FULL_BLOCK, PolymerBlockModel.of(Touhou.id("block/" + path), 90, 0));
     }
 
     @Override

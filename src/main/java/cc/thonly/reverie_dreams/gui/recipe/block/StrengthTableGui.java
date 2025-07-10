@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.gui.recipe.block;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.StrengthenTableBlockEntity;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
-import cc.thonly.reverie_dreams.gui.access.GuiElementBuilderAccessor;
+import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
@@ -62,7 +62,7 @@ public class StrengthTableGui extends AnvilInputGui implements GuiCommon {
             ItemStackRecipeWrapper outputItemWrapper = entry.getOutput();
             this.output = new GuiElementBuilder()
                     .setCallback((index, type, action) -> click());
-            GuiElementBuilderAccessor outputAccessor = (GuiElementBuilderAccessor) this.output;
+            GuiElementBuilderAccessorImpl outputAccessor = (GuiElementBuilderAccessorImpl) this.output;
             outputAccessor.setItemStack(outputItemWrapper.getItemStack().copy());
         } else {
             this.output = new GuiElementBuilder().setItem(Items.AIR);

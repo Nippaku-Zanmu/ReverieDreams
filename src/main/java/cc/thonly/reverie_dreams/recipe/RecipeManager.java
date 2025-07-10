@@ -58,17 +58,18 @@ public class RecipeManager {
         return null;
     }
 
-
     public static void onReload(ResourceManager manager) {
         RecipeCompatPatchesImpl.Builder.INSTANCE.clear();
         RECIPE_TYPES.forEach((key, recipeType) -> {
             try {
                 recipeType.removeAll();
                 recipeType.reload(manager);
+                recipeType.sort();
+                recipeType.assignRawId();
                 RecipeCompatPatchesCallback.EVENT.invoker().onLoad();
-                RecipeCompatPatchesImpl.apply();
                 RecipeInjectCallback.EVENT.invoker().onLoad(recipeType);
                 log.info("Reloaded Recipe Type {}", key.toString());
+                RecipeCompatPatchesImpl.apply(recipeType);
             } catch (Exception e) {
                 log.error("Can't reload recipes {}, {}", key, e);
             }

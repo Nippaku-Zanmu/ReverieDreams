@@ -4,7 +4,7 @@ import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.BasicDanmakuTypeItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
-import cc.thonly.reverie_dreams.util.ItemColor;
+import cc.thonly.reverie_dreams.registry.ItemColor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
@@ -65,9 +65,10 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
         List<Pair<Item, ItemStack>> pairList = new LinkedList<>();
         ItemStack defaultStack = this.item.getDefaultStack();
         for (Map.Entry<Item, Long> itemLongEntry : ItemColor.getView().entrySet()) {
+            Item dyeItem = itemLongEntry.getKey();
             ItemStack stack = defaultStack.copy();
             stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(itemLongEntry.getValue().intValue()));
-            pairList.add(new Pair<>(itemLongEntry.getKey(), stack));
+            pairList.add(new Pair<>(dyeItem, stack));
         }
         return pairList;
     }

@@ -18,6 +18,7 @@ import net.minecraft.item.MaceItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -40,7 +41,7 @@ public class ManpozuchiItem extends BasicPolymerPickaxeItem {
     public static final float KNOCKBACK_RANGE = 3.5f;
     private static final float KNOCKBACK_POWER = 0.7f;
 
-    public static final ToolMaterial MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, ModTags.ItemTypeTag.EMPTY);
+    public static final ToolMaterial MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, ItemTags.GOLD_TOOL_MATERIALS);
 
     public ManpozuchiItem(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, MATERIAL, attackDamage + 2.0f, attackSpeed - 2.8f, settings);

@@ -5,12 +5,11 @@ import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
-import cc.thonly.reverie_dreams.gui.access.GuiElementBuilderAccessor;
+import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
 import cc.thonly.reverie_dreams.gui.recipe.GuiOpeningPrevCallback;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGetter;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeGuiInfo;
 import cc.thonly.reverie_dreams.gui.recipe.display.*;
-import cc.thonly.reverie_dreams.gui.server.BasePageGui;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
@@ -41,7 +40,12 @@ public class RecipeTypeCategoryManager {
     public static final Map<Identifier, RecipeTypeGuiInfo<? extends BasePageGui>> REGISTRIES = new Object2ObjectOpenHashMap<>();
     public static final List<RecipeTypeGuiInfo<? extends BasePageGui>> CATEGORY_ENTRIES = new LinkedList<>();
 
-    public static void registerCategory(RecipeTypeGuiInfo<? extends BasePageGui> type) {
+    public static final Identifier DANMAKU_TABLE_ICON = Touhou.id("recipe/danmaku_table");
+    public static final Identifier GENSOKYO_ALTAR_ICON = Touhou.id("recipe/gensokyo_altar");
+    public static final Identifier STRENGTH_TABLE_ICON = Touhou.id("recipe/strength_table");
+    public static final Identifier KITCHEN_ICON = Touhou.id("recipe/kitchen");
+
+    public static void addCategoryType(RecipeTypeGuiInfo<? extends BasePageGui> type) {
         CATEGORY_ENTRIES.add(type);
         REGISTRIES.put(type.getId(), type);
     }
@@ -72,7 +76,7 @@ public class RecipeTypeCategoryManager {
                     recipeView.open();
                 }
             } catch (Exception e) {
-                log.error("Can't create view instance", e);
+                log.error("Can't create view type instance", e);
             }
         }
     }
@@ -84,7 +88,7 @@ public class RecipeTypeCategoryManager {
 
     @SuppressWarnings("unchecked")
     public static void registerCategories() {
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), Touhou.id("recipe/danmaku_table"), BasePageGui.class,
+        addCategoryType(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.POWER), DANMAKU_TABLE_ICON, BasePageGui.class,
                 DanmakuTableDisplayView.class,
                 DanmakuRecipeType::getInstance,
                 ((gui, slotIndex) -> {
@@ -98,12 +102,12 @@ public class RecipeTypeCategoryManager {
                                 SimpleGui view = new DanmakuTableDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
                                 view.open();
                             });
-                    GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) icon;
+                    GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) icon;
                     accessor.setItemStack(key2ValueEntry.getValue().getOutput().getItemStack());
                     gui.setSlot(gui.getGridSlot(slotIndex), icon);
                 })
         ));
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModItems.ICON), Touhou.id("recipe/gensokyo_altar"), BasePageGui.class,
+        addCategoryType(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.GENSOKYO_ALTAR), GENSOKYO_ALTAR_ICON, BasePageGui.class,
                 GensokyoAltarDisplayView.class,
                 GensokyoAltarRecipeType::getInstance,
                 ((gui, slotIndex) -> {
@@ -117,12 +121,12 @@ public class RecipeTypeCategoryManager {
                                 SimpleGui view = new GensokyoAltarDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
                                 view.open();
                             });
-                    GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) icon;
+                    GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) icon;
                     accessor.setItemStack(key2ValueEntry.getValue().getOutput().getItemStack());
                     gui.setSlot(gui.getGridSlot(slotIndex), icon);
                 })
         ));
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.STRENGTH_TABLE), Touhou.id("recipe/strength_table"), BasePageGui.class,
+        addCategoryType(new RecipeTypeGuiInfo<>(new ItemStack(ModBlocks.STRENGTH_TABLE), STRENGTH_TABLE_ICON, BasePageGui.class,
                 StrengthTableDisplayView.class,
                 StrengthTableRecipeType::getInstance,
                 ((gui, slotIndex) -> {
@@ -136,12 +140,12 @@ public class RecipeTypeCategoryManager {
                                 SimpleGui view = new StrengthTableDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
                                 view.open();
                             });
-                    GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) icon;
+                    GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) icon;
                     accessor.setItemStack(key2ValueEntry.getValue().getOutput().getItemStack());
                     gui.setSlot(gui.getGridSlot(slotIndex), icon);
                 })
         ));
-        registerCategory(new RecipeTypeGuiInfo<>(new ItemStack(MIBlocks.COOKING_POT), Touhou.id("recipe/kitchen"), BasePageGui.class,
+        addCategoryType(new RecipeTypeGuiInfo<>(new ItemStack(MIBlocks.COOKING_POT), KITCHEN_ICON, BasePageGui.class,
                 KitchenBlockDisplayView.class,
                 KitchenRecipeType::getInstance,
                 ((gui, slotIndex) -> {
@@ -155,7 +159,7 @@ public class RecipeTypeCategoryManager {
                                 SimpleGui view = new KitchenBlockDisplayView(gui.getPlayer(), key2ValueEntry, () -> new BasePageGui(gui.getPlayer(), gui.getRecipeGuiInfo(), gui.getRecipeTypeInfo(), gui.getPrevGuiCallback()));
                                 view.open();
                             });
-                    GuiElementBuilderAccessor accessor = (GuiElementBuilderAccessor) icon;
+                    GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) icon;
                     accessor.setItemStack(key2ValueEntry.getValue().getOutput().getItemStack());
                     gui.setSlot(gui.getGridSlot(slotIndex), icon);
                 })

@@ -27,9 +27,14 @@ public class ModTags {
     public static class ItemTypeTag {
         public static final TagKey<Item> EMPTY = of("empty");
         public static final TagKey<Item> FUMO = of("fumo");
+        public static final TagKey<Item> ORB_BLOCK = of("orb");
         public static final TagKey<Item> ARMOR = of("armor");
         public static final TagKey<Item> SILVER_TOOL_MATERIALS = of("silver_tool_materials");
         public static final TagKey<Item> MAGIC_ICE_TOOL_MATERIALS = of("magic_ice_tool_materials");
+        public static final TagKey<Item> POWER_BLOCK = of("power_block");
+        public static final TagKey<Item> POINT_BLOCK = of("point_block");
+        public static final TagKey<Item> SILVER_BLOCK = of("silver_block");
+        public static final TagKey<Item> PEACH = of("peach");
 
         private static TagKey<Item> of(String id) {
             return TagKey.of(RegistryKeys.ITEM, Touhou.id(id));

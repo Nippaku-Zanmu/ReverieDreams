@@ -2,6 +2,8 @@ package cc.thonly.reverie_dreams.data;
 
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.entity.HairballEntity;
 import cc.thonly.reverie_dreams.entity.Yousei;
 import cc.thonly.reverie_dreams.item.ModItems;
@@ -17,6 +19,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetComponentsLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
@@ -26,9 +29,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ModLootModifies {
+    public static final RegistryKey<LootTable> VILLAGE_WEAPONSMITH_CHEST = LootTables.VILLAGE_WEAPONSMITH_CHEST;
+    public static final RegistryKey<LootTable> END_CITY_TREASURE_CHEST = LootTables.END_CITY_TREASURE_CHEST;
     public static final RegistryKey<LootTable> OPEN_MINESHAFT_CHEST = LootTables.ABANDONED_MINESHAFT_CHEST;
 
     public static void register() {
@@ -39,6 +45,23 @@ public class ModLootModifies {
                         .conditionally(RandomChanceLootCondition.builder(0.2f));
                 for (var item : ModItems.getDiscItemView()) {
                     poolBuilder.with(ItemEntry.builder(item).weight(8));
+                }
+                tableBuilder.pool(poolBuilder);
+            }
+        });
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (key.equals(OPEN_MINESHAFT_CHEST) || key.equals(VILLAGE_WEAPONSMITH_CHEST) || key.equals(END_CITY_TREASURE_CHEST)) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.2f));
+                for (var entry : SpellCardTemplates.getRegistryItemStackView().entrySet()) {
+                    ItemStack itemStack = entry.getValue();
+                    String templateId = itemStack.get(ModDataComponentTypes.Danmaku.TEMPLATE);
+                    if (templateId == null) continue;
+
+                    poolBuilder.with(ItemEntry.builder(itemStack.getItem())
+                            .apply(SetComponentsLootFunction.builder(ModDataComponentTypes.Danmaku.TEMPLATE, templateId))
+                            .weight(6));
                 }
                 tableBuilder.pool(poolBuilder);
             }

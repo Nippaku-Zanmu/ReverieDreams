@@ -130,7 +130,7 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
     }
 
     public boolean canUse(World world, BlockPos center) {
-        Block blockType = ModBlocks.STRIPPED_SPIRITUAL_LOG;
+        Block blockType = ModBlocks.SPIRITUAL.strippedLog();
 
         for (int dy = 0; dy <= 2; dy++) {
             for (int i = 0; i < OFFSETS.length; i++) {

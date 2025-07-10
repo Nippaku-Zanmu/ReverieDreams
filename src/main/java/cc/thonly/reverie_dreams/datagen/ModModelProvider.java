@@ -3,13 +3,12 @@ package cc.thonly.reverie_dreams.datagen;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.block.BlockModels;
-import cc.thonly.reverie_dreams.block.Fumo;
-import cc.thonly.reverie_dreams.block.Fumos;
-import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.block.*;
 import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
+import cc.thonly.reverie_dreams.fumo.Fumo;
+import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.RoleCard;
@@ -24,13 +23,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
-import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.Identifier;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -44,14 +41,7 @@ public class ModModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    private final BlockFamily SPIRITUAL_PLANKS = BlockFamilies.register(ModBlocks.SPIRITUAL_PLANKS)
-            .slab(ModBlocks.SPIRITUAL_SLAB)
-            .stairs(ModBlocks.SPIRITUAL_STAIR)
-            .fence(ModBlocks.SPIRITUAL_FENCE)
-            .fenceGate(ModBlocks.SPIRITUAL_FENCE_GATE)
-            .button(ModBlocks.SPIRITUAL_BUTTON)
-            .group("wooden").unlockCriterionName("has_planks")
-            .build();
+//    private final BlockFamily SPIRITUAL_PLANKS =
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
@@ -60,12 +50,13 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(ModBlocks.GENSOKYO_ALTAR);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MUSIC_BLOCK);
 
-        blockStateModelGenerator.createLogTexturePool(ModBlocks.SPIRITUAL_LOG).log(ModBlocks.SPIRITUAL_LOG).wood(ModBlocks.SPIRITUAL_WOOD);
-        blockStateModelGenerator.createLogTexturePool(ModBlocks.STRIPPED_SPIRITUAL_LOG).log(ModBlocks.STRIPPED_SPIRITUAL_LOG).wood(ModBlocks.STRIPPED_SPIRITUAL_WOOD);
-        this.registerFamily(blockStateModelGenerator, SPIRITUAL_PLANKS);
-
-        blockStateModelGenerator.registerDoor(ModBlocks.SPIRITUAL_DOOR);
-        blockStateModelGenerator.registerTrapdoor(ModBlocks.SPIRITUAL_TRAPDOOR);
+        this.registerWoodCreator(blockStateModelGenerator, ModBlocks.SPIRITUAL);
+        this.registerWoodCreator(blockStateModelGenerator, MIBlocks.LEMON);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.LEMON_FRUIT_LEAVES);
+        this.registerWoodCreator(blockStateModelGenerator, MIBlocks.GINKGO);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.GINKGO_FRUIT_LEAVES);
+        this.registerWoodCreator(blockStateModelGenerator, MIBlocks.PEACH);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.PEACH_FRUIT_LEAVES);
 
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MAGIC_ICE_BLOCK);
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.POINT_BLOCK);
@@ -110,7 +101,6 @@ public class ModModelProvider extends FabricModelProvider {
                 PolymerCropCreator.ModelType modelType = instance.getModelType();
                 IntProperty ageProperty = cropBlock.getAgeProperty();
                 CropAgeModelProvider provider = instance.getProvider();
-//                System.out.println(Arrays.toString(provider.toArray()));
 
                 if (modelType == PolymerCropCreator.ModelType.CROSS) {
                     blockStateModelGenerator.registerTintableCrossBlockStateWithStages(cropBlock, BlockStateModelGenerator.CrossType.NOT_TINTED, ageProperty, CropAgeUtil.toArray(ageProperty));
@@ -152,10 +142,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.TOUHOU_HELPER, Models.GENERATED);
         itemModelGenerator.register(ModItems.UPGRADED_HEALTH, Models.GENERATED);
         itemModelGenerator.register(ModItems.BOMB, Models.GENERATED);
-        itemModelGenerator.register(ModItems.HORAI_DAMA_NO_EDA, Models.GENERATED);
         itemModelGenerator.register(ModItems.CROSSING_CHISEL, Models.GENERATED);
         itemModelGenerator.register(ModItems.GAP_BALL, Models.GENERATED);
-        itemModelGenerator.register(ModItems.BAGUA_FURNACE);
         itemModelGenerator.register(ModItems.TIME_STOP_CLOCK, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARPHONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.KOISHI_HAT, Models.GENERATED);
@@ -163,14 +151,16 @@ public class ModModelProvider extends FabricModelProvider {
 
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.BAGUA_FURNACE);
         itemModelGenerator.register(ModItems.WIND_BLESSING_CANE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAGIC_BROOM);
         itemModelGenerator.register(ModItems.KNIFE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.GUNGNIR, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.LEVATIN, Models.HANDHELD);
         itemModelGenerator.register(ModItems.ROKANKEN, Models.HANDHELD);
         itemModelGenerator.register(ModItems.HAKUROKEN, Models.HANDHELD);
         itemModelGenerator.register(ModItems.PAPILIO_PATTERN_FAN, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.GUNGNIR, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.LEVATIN, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.HORAI_DAMA_NO_EDA, Models.GENERATED);
         itemModelGenerator.register(ModItems.IBUKIHO, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SWORD_OF_HISOU, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAPLE_LEAF_FAN, Models.HANDHELD);
@@ -210,6 +200,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         // 角色卡
         itemModelGenerator.registerDyeable(ModItems.ROLE_CARD, RoleCard.DEFAULT_COLOR.intValue());
+        itemModelGenerator.register(ModItems.ROLE_ARCHIVE, Models.GENERATED);
 
         // 唱片
         itemModelGenerator.register(ModItems.HR01_01, Models.GENERATED);
@@ -289,6 +280,16 @@ public class ModModelProvider extends FabricModelProvider {
 
     private static Model item(String parent, TextureKey... requiredTextureKeys) {
         return new Model(Optional.of(Touhou.id("item/" + parent)), Optional.empty(), requiredTextureKeys);
+    }
+
+    private void registerWoodCreator(BlockStateModelGenerator blockStateModelGenerator, WoodCreator creator) {
+        blockStateModelGenerator.createLogTexturePool(creator.log()).log(creator.log()).wood(creator.wood());
+        blockStateModelGenerator.createLogTexturePool(creator.strippedLog()).log(creator.strippedLog()).wood(creator.strippedWood());
+        blockStateModelGenerator.registerCubeAllModelTexturePool(creator.leaves());
+        blockStateModelGenerator.registerTintableCross(creator.sapling(), BlockStateModelGenerator.CrossType.NOT_TINTED);
+        this.registerFamily(blockStateModelGenerator, creator.getBlockFamily());
+        blockStateModelGenerator.registerDoor(creator.door());
+        blockStateModelGenerator.registerTrapdoor(creator.trapdoor());
     }
 
     private void registerFamily(BlockStateModelGenerator generator, BlockFamily family) {

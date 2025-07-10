@@ -1,0 +1,51 @@
+{
+  "core": {
+    "id": "reverie_dreams:role_card",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "reverie_dreams:point",
+      "count": 14
+    },
+    {
+      "id": "reverie_dreams:point",
+      "count": 15
+    },
+    {
+      "id": "minecraft:blaze_rod",
+      "count": 26
+    },
+    {
+      "id": "reverie_dreams:point",
+      "count": 16
+    },
+    {
+      "id": "reverie_dreams:power",
+      "count": 18
+    },
+    {
+      "id": "minecraft:nether_bricks",
+      "count": 30
+    },
+    {
+      "id": "reverie_dreams:power",
+      "count": 19
+    },
+    {
+      "id": "reverie_dreams:power",
+      "count": 20
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:role_card",
+    "count": 1,
+    "components": {
+      "minecraft:item_name": {
+        "translate": "reverie_dreams.kishinjou_role_card"
+      },
+      "minecraft:dyed_color": 16761692,
+      "reverie_dreams:role_card_id": "reverie_dreams:kishinjou"
+    }
+  }
+}

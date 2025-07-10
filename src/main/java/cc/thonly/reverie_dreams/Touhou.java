@@ -35,6 +35,7 @@ import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
 import cc.thonly.reverie_dreams.util.ImageToTextScanner;
 import cc.thonly.reverie_dreams.util.ItemStackCheckUtils;
+import cc.thonly.reverie_dreams.util.ModrinthAPI;
 import cc.thonly.reverie_dreams.util.NetworkingUtils;
 import cc.thonly.reverie_dreams.world.BiomeModificationInit;
 import cc.thonly.reverie_dreams.world.data.BlockPosStorage;
@@ -150,6 +151,28 @@ public class Touhou implements ModInitializer {
         CompletableFuture.runAsync(ItemStackCheckUtils::test);
 
         CompletableFuture.runAsync(() -> {
+            ModrinthAPI.Entry latest = ModrinthAPI.get();
+            if (latest == null) {
+                LOGGER.error("Unable to check for new version");
+                return;
+            }
+            if (VERSION.equals("unknown")) {
+                LOGGER.error("Unable to detect local version number");
+                return;
+            }
+            String versionNumber = latest.getVersion_number();
+
+            int cmp = ModrinthAPI.compareVersion(versionNumber, VERSION);
+            if (cmp > 0) {
+                LOGGER.info("A newer version is available: " + versionNumber);
+            } else if (cmp < 0) {
+                LOGGER.info("You're using a newer version than latest: " + VERSION);
+            } else {
+                LOGGER.info("You're using the latest version: " + VERSION);
+            }
+        });
+
+        CompletableFuture.runAsync(() -> {
             boolean reachable = NetworkingUtils.isReachable("textures.minecraft.net", 5000);
             if (!reachable) {
                 LOGGER.error("Unable to connect to the Minecraft network, unexpected behavior may occur");
@@ -178,7 +201,9 @@ public class Touhou implements ModInitializer {
                 playerSideVersion.put(player, version);
             }
         });
+
         PayloadTypeRegistry.playC2S().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayload.Receiver::receiveServer);
 
         ServerLivingEntityEvents.ALLOW_DEATH.register((livingEntity, damageSource, v) -> {
@@ -200,6 +225,7 @@ public class Touhou implements ModInitializer {
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         PolymerResourcePackUtils.markAsRequired();
         ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"), id("entity"));
+
     }
 
     public static String getSystemLanguage() {

@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
-import cc.thonly.reverie_dreams.entity.ai.SmartFlyGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.DanmakuGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.UniversalLivingAngerGoal;
 import cc.thonly.reverie_dreams.entity.holder.WingHolder;

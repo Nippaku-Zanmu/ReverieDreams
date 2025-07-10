@@ -8,7 +8,7 @@ import net.minecraft.server.command.ServerCommandSource;
 
 public class CommandInit {
     public static void init() {
-        registerCommand(new TouhouCommand());
+        registerCommand(new MainCommand());
     }
 
     public static void registerCommand(CommandRegistration registry) {

@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.registry;
 
-import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -47,7 +46,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     private boolean isFinished = false;
     private boolean reloadable = false;
     private boolean sync = false;
-    private Codec<StandaloneRegistry<T>> registrySchemaCodec;
+    private Codec<StandaloneRegistry<T>> entriesCodec;
     private Codec<T> entryCodec;
 
     public StandaloneRegistry(Identifier key) {
@@ -57,7 +56,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         this.key = key;
         this.rawToEntry = new Object2ObjectLinkedOpenHashMap<>();
         this.idToEntry = new Object2ObjectLinkedOpenHashMap<>();
-        this.idToReference = new Object2ObjectOpenHashMap<>();
+        this.idToReference = new Object2ObjectLinkedOpenHashMap<>();
     }
 
     public StandaloneRegistry(Identifier key, Map<Identifier, T> idToEntry) {
@@ -70,7 +69,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
         this.key = key;
         this.rawToEntry = new Object2ObjectLinkedOpenHashMap<>();
         this.idToEntry = idToEntry;
-        this.idToReference = new Object2ObjectOpenHashMap<>();
+        this.idToReference = new Object2ObjectLinkedOpenHashMap<>();
     }
 
     public static <T extends RegistrableObject<T>> Codec<StandaloneRegistry<T>> createCodec(
@@ -80,19 +79,19 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
                 Codec.unboundedMap(Codec.INT, tCodec).fieldOf("rawToEntry").forGetter(schema -> schema.rawToEntry),
                 Codec.unboundedMap(Identifier.CODEC, tCodec).fieldOf("idToEntry").forGetter(schema -> schema.idToEntry)
         ).apply(instance, (rawToEntry, idToEntry) -> {
-            StandaloneRegistry<T> schema = new StandaloneRegistry<>(key);
-            schema.rawToEntry.putAll(rawToEntry);
-            schema.idToEntry.putAll(idToEntry);
+            StandaloneRegistry<T> registry = new StandaloneRegistry<>(key);
+            registry.rawToEntry.putAll(rawToEntry);
+            registry.idToEntry.putAll(idToEntry);
             for (var entry : idToEntry.entrySet()) {
                 entry.getValue().setId(entry.getKey());
             }
-            return schema;
+            return registry;
         }));
     }
 
     public StandaloneRegistry<T> codec(Codec<T> tCodec) {
         this.entryCodec = tCodec;
-        this.registrySchemaCodec = createCodec(this.key, tCodec);
+        this.entriesCodec = createCodec(this.key, tCodec);
         return this;
     }
 
@@ -153,7 +152,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
 
         this.idToEntry.put(key, value);
 
-        Integer rawId = getRawIdByKey(key);
+        Integer rawId = this.getRawIdByKey(key);
         if (rawId != null) {
             this.rawToEntry.put(rawId, value);
         }
@@ -191,8 +190,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     }
 
     public T getOrDefault(Integer rawId) {
-        return this.rawToEntry.getOrDefault(rawId, this.defaultEntry != null ? this.defaultEntry : this.defaultEntryGetter.get())
-                ;
+        return this.rawToEntry.getOrDefault(rawId, this.defaultEntry != null ? this.defaultEntry : this.defaultEntryGetter.get());
     }
 
     public T getOrDefault(Identifier key) {

@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.recipe;
 
+import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -7,9 +8,11 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import eu.pb4.polymer.core.api.utils.PolymerObject;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.item.Item;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
@@ -19,7 +22,7 @@ import java.util.stream.Stream;
 @Slf4j
 @ToString
 public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObject {
-    private final Map<Identifier, R> registries = new Object2ObjectOpenHashMap<>();
+    protected final Map<Identifier, R> registries = new Object2ObjectLinkedOpenHashMap<>();
     private int nextRawId = 0;
 
     public abstract void reload(ResourceManager manager);
@@ -52,12 +55,39 @@ public abstract class BaseRecipeType<R extends BaseRecipe> implements PolymerObj
         this.add(key, (R) value);
     }
 
+    public void sort() {
+        Map<Item, LinkedList<R>> sign = new LinkedHashMap<>();
+        Map<Identifier, R> all = new LinkedHashMap<>();
+        for (Map.Entry<Identifier, R> recipeEntry : this.registries.entrySet()) {
+            R recipe = recipeEntry.getValue();
+            Item item = recipe.getOutput().getItem();
+            LinkedList<R> list = sign.computeIfAbsent(item, i -> new LinkedList<>());
+            list.add(recipe);
+        }
+        for (Map.Entry<Item, LinkedList<R>> linkEntry : sign.entrySet()) {
+            LinkedList<R> list = linkEntry.getValue();
+            for (R recipe : list) {
+                all.put(recipe.getId(), recipe);
+            }
+        }
+        this.registries.clear();
+        this.registries.putAll(all);
+    }
+
+    public void assignRawId() {
+        int nextId = 0;
+        for (Map.Entry<Identifier, R> next : this.registries.entrySet()) {
+            R recipeEntry = next.getValue();
+            recipeEntry.setRawId(nextId++);
+        }
+    }
+
     public R getRecipeById(Identifier id) {
         return this.registries.get(id);
     }
 
     public Map<Identifier, R> getRegistryView() {
-        return Map.copyOf(this.registries);
+        return new LinkedHashMap<>(this.registries);
     }
 
     public List<Identifier> keys() {

@@ -2,7 +2,9 @@ package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.item.base.FoodItem;
-import cc.thonly.reverie_dreams.entity.ai.goal.NpcBowAttackGoal;
+import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.component.RoleFollowerArchive;
+import cc.thonly.reverie_dreams.entity.ai.goal.NPCBowAttackGoal;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
@@ -35,6 +37,7 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -102,7 +105,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         ARROW_ITEMS.add(Items.SPECTRAL_ARROW);
     }
 
-    private final NpcBowAttackGoal<NPCEntityImpl> bowAttackGoal = new NpcBowAttackGoal<>(this, 1.0, 20, 15.0f);
+    private final NPCBowAttackGoal<NPCEntityImpl> bowAttackGoal = new NPCBowAttackGoal<>(this, 1.0, 20, 15.0f);
     private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.5, false) {
         @Override
         public void stop() {
@@ -125,9 +128,11 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         this.init();
         this.updateAttackType();
     }
+
     public NPCEntityImpl(EntityType<? extends TameableEntity> entityType, World world, RoleSkin skin) {
         this(entityType, world, skin.get());
     }
+
     public NPCEntityImpl(EntityType<? extends TameableEntity> entityType, World world, Property skin) {
         super(entityType, world);
         this.skin = skin;
@@ -177,7 +182,6 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         NbtCompound nbtInventory;
         nbtInventory = nbt.getCompound("Inventory").orElse(new NbtCompound());
 
-
         NbtCompound headInventory;
         headInventory = nbt.getCompound("HeadInventory").orElse(new NbtCompound());
 
@@ -224,7 +228,6 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
 
         this.updateAttackType();
-//        System.out.println(nbt.toString());
     }
 
     @Override
@@ -302,7 +305,11 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         super.onDeath(damageSource);
         World world = this.getEntityWorld();
         KeepInventoryTypes keepInventoryType = this.getKeepInventoryType();
-        if (keepInventoryType == KeepInventoryTypes.DROP_ALL_ITEM) {
+        if (keepInventoryType == KeepInventoryTypes.ARCHIVED) {
+            ItemStack archive = this.toArchive();
+            ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), archive);
+            world.spawnEntity(itemEntity);
+        } else if (keepInventoryType == KeepInventoryTypes.DROP_ALL_ITEM) {
             for (int i = 0; i < this.inventory.size(); i++) {
                 if (this.getDonDropSlotIndex().contains(i)) continue;
                 ItemStack copiedStack = this.inventory.getStack(i).copy();
@@ -475,7 +482,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return super.interactMob(player, hand);
     }
 
-//    @Override
+    //    @Override
     public void setOwnerUuid(@Nullable UUID uuid) {
         if (uuid != null) {
             this.npcOwner = uuid.toString();
@@ -516,8 +523,14 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                     this.loot(serverWorld, itemEntity);
                 }
             }
+            this.velocityModified = true;
         }
         super.tickMovement();
+    }
+
+    @Override
+    public void onTrackedDataSet(TrackedData<?> data) {
+        super.onTrackedDataSet(data);
     }
 
     @Override
@@ -799,6 +812,13 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
             }
         }
         return result;
+    }
+
+    public ItemStack toArchive() {
+        ItemStack itemStack = ModItems.ROLE_ARCHIVE.getDefaultStack();
+        itemStack.set(ModDataComponentTypes.ROLE_FOLLOWER_ARCHIVE, new RoleFollowerArchive(this.getType(), this, this.getRegistryManager()));
+        itemStack.set(ModDataComponentTypes.ROLE_CAN_RESPAWN, false);
+        return itemStack;
     }
 
     //    @Override

@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -23,6 +24,7 @@ import xyz.nucleoid.packettweaker.PacketContext;
 public class BasicPolymerBlock extends Block implements PolymerBlock, PolymerTexturedBlock, IdentifierGetter {
     Identifier identifier;
     BlockState polymerBlockState;
+    Item item;
 
     public BasicPolymerBlock(String path, BlockModelType blockModelType, Settings settings) {
         this(Touhou.id(path), blockModelType, settings);
