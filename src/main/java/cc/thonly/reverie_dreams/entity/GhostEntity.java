@@ -15,6 +15,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
 public class GhostEntity extends NPCEntityImpl {
@@ -73,11 +75,6 @@ public class GhostEntity extends NPCEntityImpl {
     }
 
     @Override
-    public boolean isCollidable() {
-        return !this.getWorld().isDay();
-    }
-
-    @Override
     protected void initGoals() {
         super.initGoals();
         this.goalSelector.add(0, new SwimGoal(this));
@@ -96,15 +93,15 @@ public class GhostEntity extends NPCEntityImpl {
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("SurvivalTime", this.survivalTime);
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
+        view.putInt("SurvivalTime", this.survivalTime);
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.survivalTime = nbt.getInt("SurvivalTime").orElse(0);
+    public void readCustomData(ReadView view) {
+        super.readCustomData(view);
+        this.survivalTime = view.getInt("SurvivalTime", 0);
     }
 
     @Override

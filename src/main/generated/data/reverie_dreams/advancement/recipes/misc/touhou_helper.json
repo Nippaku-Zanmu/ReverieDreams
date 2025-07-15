@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:touhou_helper"
+        "recipe": "reverie_dreams:touhou_helper"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:touhou_helper"
+      "reverie_dreams:touhou_helper"
     ]
   }
 }

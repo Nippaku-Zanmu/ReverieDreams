@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.item;
 
+import cc.thonly.minecraft.text.TextUtil;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.component.RoleFollowerArchive;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -50,14 +50,14 @@ public class RoleFollowerArchiveItem extends BasicPolymerItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
         super.appendTooltip(stack, context, displayComponent, textConsumer, type);
-        RoleFollowerArchive archive = stack.get(ModDataComponentTypes.ROLE_FOLLOWER_ARCHIVE);
-        if (archive != null) {
-            String name = archive.getName();
-            MutableText main = Text.empty();
-            MutableText mutableText = Text.Serialization.fromJson(name, Touhou.getDynamicRegistryManager());
-            main.append("Name: ");
-            main.append(mutableText);
-            textConsumer.accept(main);
-        }
+//        RoleFollowerArchive archive = stack.get(ModDataComponentTypes.ROLE_FOLLOWER_ARCHIVE);
+//        if (archive != null) {
+//            String name = archive.getNameJson();
+//            MutableText main = Text.empty();
+//            Text mutableText = TextUtil.decode(name).orElse(Text.empty());
+//            main.append("Name: ");
+//            main.append(mutableText);
+//            textConsumer.accept(main);
+//        }
     }
 }

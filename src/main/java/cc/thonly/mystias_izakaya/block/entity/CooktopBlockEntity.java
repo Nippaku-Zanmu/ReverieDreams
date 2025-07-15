@@ -15,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -68,17 +70,17 @@ public class CooktopBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        nbt.putInt("Energy", this.ticks);
-        Inventories.writeNbt(nbt, this.inventory.heldStacks, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putInt("Energy", this.ticks);
+        Inventories.writeData(view, this.inventory.heldStacks);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        this.ticks = nbt.getInt("Energy").orElse(0);
-        Inventories.readNbt(nbt, this.inventory.heldStacks, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        this.ticks = view.getInt("Energy",0);
+        Inventories.readData(view, this.inventory.heldStacks);
     }
 
 }

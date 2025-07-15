@@ -10,11 +10,25 @@ import net.minecraft.village.VillagerProfession;
 
 public class MIVillagerTradeModifier {
     public static void bootstrap() {
-        TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 3, factories -> {
-            // Lv.3：稀有野味
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 2, factories -> {
+            // Lv.3
             factories.add((e, r) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 6),
                     new ItemStack(MIItems.VENISON, 5),
+                    4, 10, 0.05f
+            ));
+
+        });
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 3, factories -> {
+            // Lv.4
+            factories.add((e, r) -> new TradeOffer(
+                    new TradedItem(Items.EMERALD, 10),
+                    new ItemStack(MIItems.WAGYU_BEEF, 6),
+                    4, 10, 0.05f
+            ));
+            factories.add((e, r) -> new TradeOffer(
+                    new TradedItem(Items.EMERALD, 8),
+                    new ItemStack(MIItems.WILD_BOAR_MEAT, 5),
                     4, 10, 0.05f
             ));
 
@@ -29,6 +43,11 @@ public class MIVillagerTradeModifier {
             factories.add((e, r) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 3),
                     new ItemStack(MIItems.PLUM, 4),
+                    6, 3, 0.04f
+            ));
+            factories.add((e, r) -> new TradeOffer(
+                    new TradedItem(Items.EMERALD, 7),
+                    new ItemStack(MIItems.PINE_NUT, 3),
                     6, 3, 0.04f
             ));
         });

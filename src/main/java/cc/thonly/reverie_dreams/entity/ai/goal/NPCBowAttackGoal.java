@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.entity.ai.goal;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.inventory.NPCInventory;
+import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.Entity;
@@ -125,7 +125,7 @@ public class NPCBowAttackGoal<T extends TameableEntity> extends Goal {
             if (!bl && this.targetSeeingTicker < -60) {
                 (this.actor).clearActiveItem();
             } else if (bl && (i = (this.actor).getItemUseTime()) >= 20) {
-                NPCInventory inventory = ((NPCEntityImpl) this.actor).getInventory();
+                NPCInventoryImpl inventory = ((NPCEntityImpl) this.actor).getInventory();
                 boolean canNext = false;
                 if(inventory.containsAny(NPCEntityImpl.ARROW_ITEMS)) {
                     for (int j = 0; j < inventory.size(); j++) {

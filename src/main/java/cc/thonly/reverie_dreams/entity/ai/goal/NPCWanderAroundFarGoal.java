@@ -11,7 +11,7 @@ public class NPCWanderAroundFarGoal extends WanderAroundGoal {
     protected final float probability;
 
     public NPCWanderAroundFarGoal(PathAwareEntity pathAwareEntity, double d) {
-        this(pathAwareEntity, d, 0.001f);
+        this(pathAwareEntity, d, CHANCE);
     }
 
     public NPCWanderAroundFarGoal(PathAwareEntity mob, double speed, float probability) {
@@ -34,6 +34,6 @@ public class NPCWanderAroundFarGoal extends WanderAroundGoal {
 
     @Override
     public boolean canStart() {
-        return this.mob.getAttacker() != null && super.canStart();
+        return this.mob.getAttacker() == null && super.canStart();
     }
 }

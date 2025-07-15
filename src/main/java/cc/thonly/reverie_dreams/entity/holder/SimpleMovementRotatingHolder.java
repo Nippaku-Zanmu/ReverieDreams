@@ -6,13 +6,14 @@ import de.tomalbrc.bil.core.holder.wrapper.DisplayWrapper;
 import de.tomalbrc.bil.core.model.Model;
 import de.tomalbrc.bil.core.model.Pose;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 
-public class SimpleMovementRotatingHolder <T extends LivingEntity & AnimatedEntity> extends LivingEntityHolder<T> {
+public class SimpleMovementRotatingHolder<T extends LivingEntity & AnimatedEntity> extends LivingEntityHolder<T> {
     private float lastYaw = 0.f;
     private float lastPitch = 0.f;
 
@@ -21,7 +22,7 @@ public class SimpleMovementRotatingHolder <T extends LivingEntity & AnimatedEnti
     }
 
     @Override
-    protected void applyPose(Pose pose, DisplayWrapper display) {
+    protected void applyPose(ServerPlayerEntity serverPlayer, Pose pose, DisplayWrapper<?> display) {
         var translation = new Vector3f(0, -0.1f, 0);
         Matrix4f matrix4f = new Matrix4f().translate(translation);
 
@@ -39,17 +40,17 @@ public class SimpleMovementRotatingHolder <T extends LivingEntity & AnimatedEnti
                     .rotateLocalX(lastPitch)
                     .rotateLocalY(-lastYaw + MathHelper.PI);
 
-            display.element().setTransformation(matrix4f);
-            display.element().startInterpolationIfDirty();
+            display.element().setTransformation(serverPlayer, matrix4f);
+            display.element().startInterpolationIfDirty(serverPlayer);
         }
     }
 
     @Override
-    public void updateElement(DisplayWrapper display, @Nullable Pose pose) {
+    public void updateElement(ServerPlayerEntity serverPlayer, DisplayWrapper<?> display, @Nullable Pose pose) {
         if (pose == null) {
-            this.applyPose(display.getLastPose(), display);
+            this.applyPose(serverPlayer, display.getLastPose(serverPlayer), display);
         } else {
-            this.applyPose(pose, display);
+            this.applyPose(serverPlayer, pose, display);
         }
     }
 

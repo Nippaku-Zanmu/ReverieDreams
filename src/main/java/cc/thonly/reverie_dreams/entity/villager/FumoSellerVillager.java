@@ -37,6 +37,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.village.*;
@@ -187,9 +189,9 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        Optional<String> prevVillagerData = nbt.getString("PrevVillagerData");
+    protected void readCustomData(ReadView view) {
+        super.readCustomData(view);
+        Optional<String> prevVillagerData = view.getOptionalString("PrevVillagerData");
         if (prevVillagerData.isPresent()) {
             String jsonString = prevVillagerData.get();
             JsonElement element = JsonParser.parseString(jsonString);
@@ -198,8 +200,8 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
             Optional<VillagerData> result = parse.result();
             result.ifPresent((data) -> this.prev = data);
         }
-        this.level = nbt.getInt("Level").orElse(0);
-        Optional<String> sellInfoData = nbt.getString("SellInfoData");
+        this.level = view.getInt("Level",0);
+        Optional<String> sellInfoData = view.getOptionalString("SellInfoData");
         if (sellInfoData.isPresent()) {
             String jsonString = sellInfoData.get();
             JsonElement element = JsonParser.parseString(jsonString);
@@ -211,23 +213,23 @@ public class FumoSellerVillager extends WanderingTraderEntity implements Polymer
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
         if (this.prev != null) {
             DataResult<JsonElement> dataResult = VillagerData.CODEC.encodeStart(JsonOps.INSTANCE, this.prev);
             Optional<JsonElement> result = dataResult.result();
             if (result.isPresent()) {
                 JsonElement element = result.get();
-                nbt.putString("PrevVillagerData", GSON.toJson(element));
+                view.putString("PrevVillagerData", GSON.toJson(element));
             }
         }
-        nbt.putInt("Level", this.level);
+        view.putInt("Level", this.level);
         if (this.sellInfo != null) {
             DataResult<JsonElement> dataResult = SellInfo.CODEC.encodeStart(JsonOps.INSTANCE, this.sellInfo);
             Optional<JsonElement> result = dataResult.result();
             if (result.isPresent()) {
                 JsonElement element = result.get();
-                nbt.putString("SellInfoData", GSON.toJson(element));
+                view.putString("SellInfoData", GSON.toJson(element));
             }
         }
     }

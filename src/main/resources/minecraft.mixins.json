@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "cc.thonly.minecraft.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ItemStackNbtMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+  ]
+}

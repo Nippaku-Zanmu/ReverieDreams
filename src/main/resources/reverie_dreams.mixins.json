@@ -27,6 +27,7 @@
     "compat.PolymerCommonUtilsMixin",
     "compat.PolymerItemGroupContentAddS2CPayloadMixin",
     "patches.DefaultRPBuilderMixin",
+    "patches.PolymerBlockUtilsMixin",
     "patches.ResourcePackManagerMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin",

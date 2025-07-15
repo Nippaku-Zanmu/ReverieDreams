@@ -73,11 +73,13 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("gui.npc.info.uuid", "§d通用唯一识别码: %s");
         translationBuilder.add("gui.npc.info.health", "§d生命值: %s/%s");
         translationBuilder.add("gui.npc.info.armor", "§d护甲值: %s");
-        translationBuilder.add("gui.npc.mode.0", "§b当前模式为: §a正常");
-        translationBuilder.add("gui.npc.mode.1", "§b当前模式为: §a禁止移动");
-        translationBuilder.add("gui.npc.mode.2", "§b当前模式为: §a潜行");
-        translationBuilder.add("gui.npc.mode.3", "§b当前模式为: §a坐下");
-        translationBuilder.add("gui.npc.mode.4", "§b当前模式为: §a工作中");
+
+        translationBuilder.add("gui.npc.mode.0", "§b当前模式为: §a跟随");
+        translationBuilder.add("gui.npc.mode.1", "§b当前模式为: §a正常");
+        translationBuilder.add("gui.npc.mode.2", "§b当前模式为: §a禁止移动");
+        translationBuilder.add("gui.npc.mode.3", "§b当前模式为: §a潜行");
+        translationBuilder.add("gui.npc.mode.4", "§b当前模式为: §a坐下");
+        translationBuilder.add("gui.npc.mode.5", "§b当前模式为: §a工作中");
 
         translationBuilder.add("item.reverie_dreams.music.no_files", "§c未找到任何可用的音乐文件！");
         translationBuilder.add("item.reverie_dreams.music.switch_music", "§a切换音乐为：§f%s");
@@ -612,7 +614,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.SILVER_NUGGET, "银粒");
         translationBuilder.add(ModItems.SILVER_SWORD, "银剑");
         translationBuilder.add(ModItems.SILVER_AXE, "银斧");
-        translationBuilder.add(ModItems.SILVER_PICKAXE, "银稿");
+        translationBuilder.add(ModItems.SILVER_PICKAXE, "银镐");
         translationBuilder.add(ModItems.SILVER_SHOVEL, "银锹");
         translationBuilder.add(ModItems.SILVER_HOE, "银锄");
         translationBuilder.add(ModItems.SILVER_HELMET, "银头盔");
@@ -716,7 +718,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.SPIRITUAL.stair(), "绳文杉楼梯");
         translationBuilder.add(ModBlocks.SPIRITUAL.slab(), "绳文杉台阶");
         translationBuilder.add(ModBlocks.SPIRITUAL.door(), "绳文杉门");
-        translationBuilder.add(ModBlocks.SPIRITUAL.trapdoor(), "绳文杉活版门");
+//        translationBuilder.add(ModBlocks.SPIRITUAL.trapdoor(), "绳文杉活版门");
         translationBuilder.add(ModBlocks.SPIRITUAL.fence(), "绳文杉栅栏");
         translationBuilder.add(ModBlocks.SPIRITUAL.fenceGate(), "绳文杉栅栏门");
         translationBuilder.add(ModBlocks.SPIRITUAL.button(), "绳文杉按钮");
@@ -731,7 +733,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.LEMON.stair(), "柠檬楼梯");
         translationBuilder.add(MIBlocks.LEMON.slab(), "柠檬台阶");
         translationBuilder.add(MIBlocks.LEMON.door(), "柠檬门");
-        translationBuilder.add(MIBlocks.LEMON.trapdoor(), "柠檬活版门");
+//        translationBuilder.add(MIBlocks.LEMON.trapdoor(), "柠檬活版门");
         translationBuilder.add(MIBlocks.LEMON.fence(), "柠檬栅栏");
         translationBuilder.add(MIBlocks.LEMON.fenceGate(), "柠檬栅栏门");
         translationBuilder.add(MIBlocks.LEMON.button(), "柠檬按钮");
@@ -747,7 +749,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.GINKGO.stair(), "白果楼梯");
         translationBuilder.add(MIBlocks.GINKGO.slab(), "白果台阶");
         translationBuilder.add(MIBlocks.GINKGO.door(), "白果门");
-        translationBuilder.add(MIBlocks.GINKGO.trapdoor(), "白果活版门");
+//        translationBuilder.add(MIBlocks.GINKGO.trapdoor(), "白果活版门");
         translationBuilder.add(MIBlocks.GINKGO.fence(), "白果栅栏");
         translationBuilder.add(MIBlocks.GINKGO.fenceGate(), "白果栅栏门");
         translationBuilder.add(MIBlocks.GINKGO.button(), "白果按钮");
@@ -763,7 +765,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.PEACH.stair(), "桃木楼梯");
         translationBuilder.add(MIBlocks.PEACH.slab(), "桃木台阶");
         translationBuilder.add(MIBlocks.PEACH.door(), "桃木门");
-        translationBuilder.add(MIBlocks.PEACH.trapdoor(), "桃木活版门");
+//        translationBuilder.add(MIBlocks.PEACH.trapdoor(), "桃木活版门");
         translationBuilder.add(MIBlocks.PEACH.fence(), "桃木栅栏");
         translationBuilder.add(MIBlocks.PEACH.fenceGate(), "桃木栅栏门");
         translationBuilder.add(MIBlocks.PEACH.button(), "桃木按钮");

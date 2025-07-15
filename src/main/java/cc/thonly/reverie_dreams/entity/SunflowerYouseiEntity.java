@@ -6,6 +6,7 @@ import cc.thonly.reverie_dreams.entity.ai.goal.DanmakuGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.DifferentRevengeGoal;
 import cc.thonly.reverie_dreams.entity.holder.WingHolder;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
+import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.server.DelayedTask;
 import cc.thonly.reverie_dreams.util.ModelUtil;
 import com.mojang.authlib.properties.Property;
@@ -23,6 +24,7 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
@@ -34,6 +36,9 @@ public class SunflowerYouseiEntity extends NPCEntityImpl implements Leashable, F
 
     public SunflowerYouseiEntity(EntityType<? extends TameableEntity> entityType, World world, Property skin) {
         super(entityType, world, skin);
+        NPCInventoryImpl inventory = this.getInventory();
+        inventory.setHead(Items.SUNFLOWER.getDefaultStack());
+        inventory.setMainHand(Items.SUNFLOWER.getDefaultStack());
     }
 
     @Override
@@ -65,7 +70,7 @@ public class SunflowerYouseiEntity extends NPCEntityImpl implements Leashable, F
         this.goalSelector.add(3, new DanmakuGoal(this, (self, target, world) -> {
             ItemStack stack = DanmakuTypes.random(DanmakuTypes.BUBBLE);
             float[] pitchYaw = MobDanmakuShooter.getPitchYaw(self, target);
-            DelayedTask.repeat(world.getServer(), 2, 0.3f, () -> {
+            DelayedTask.repeat(world.getServer(), 2, 0.8f, () -> {
                 MobDanmakuShooter.spawn(world, self, stack, pitchYaw[0], pitchYaw[1] - 15.0f, 0.5f, 5.0f, 0.2f);
                 MobDanmakuShooter.spawn(world, self, stack, pitchYaw[0], pitchYaw[1], 0.5f, 5.0f, 0.2f);
                 MobDanmakuShooter.spawn(world, self, stack, pitchYaw[0], pitchYaw[1] + 15.0f, 0.5f, 5.0f, 0.2f);
@@ -89,4 +94,10 @@ public class SunflowerYouseiEntity extends NPCEntityImpl implements Leashable, F
     public String getFactionId() {
         return "mob";
     }
+
+    @Override
+    public boolean cannotDespawn() {
+        return false;
+    }
+
 }

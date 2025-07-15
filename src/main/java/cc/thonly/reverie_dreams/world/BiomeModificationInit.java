@@ -63,13 +63,13 @@ public class BiomeModificationInit {
     public static void addEntity() {
         // 妖精
         BiomeModifications.addSpawn(
-                BiomeSelectors.tag(ConventionalBiomeTags.IS_TEMPERATE),
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),
                 SpawnGroup.MONSTER,
-                ModEntities.YOUSEI_ENTITY_TYPE, 60, 1, 2
+                ModEntities.YOUSEI_ENTITY_TYPE, 20, 1, 2
         );
         // 向日葵妖精
         BiomeModifications.addSpawn(
-                BiomeSelectors.tag(ConventionalBiomeTags.IS_TEMPERATE),
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),
                 SpawnGroup.MONSTER,
                 ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE, 6, 1, 3
         );
@@ -87,7 +87,7 @@ public class BiomeModificationInit {
         );
         // 哥布林
         BiomeModifications.addSpawn(
-                BiomeSelectors.tag(BiomeTags.MINESHAFT_HAS_STRUCTURE),
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_DESERT),
                 SpawnGroup.MONSTER,
                 ModEntities.GOBLIN_ENTITY_TYPE, 50 / 5, 1, 1
         );

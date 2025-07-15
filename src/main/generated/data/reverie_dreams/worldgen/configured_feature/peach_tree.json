@@ -32,10 +32,10 @@
           "data": {
             "Name": "reverie_dreams:peach_fruit_leaves",
             "Properties": {
-              "distance": "7",
+              "distance": "1",
               "fruit_age": "0",
-              "persistent": "false",
-              "waterlogged": "false"
+              "persistent": "true",
+              "waterlogged": "true"
             }
           },
           "weight": 1

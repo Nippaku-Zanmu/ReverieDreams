@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:marisa_hat"
+        "recipe": "reverie_dreams:marisa_hat"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:marisa_hat"
+      "reverie_dreams:marisa_hat"
     ]
   }
 }

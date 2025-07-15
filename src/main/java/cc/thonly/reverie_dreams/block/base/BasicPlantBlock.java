@@ -99,8 +99,10 @@ public class BasicPlantBlock extends PlantBlock implements Fertilizable, Polymer
         public void setState() {
             Registry<World> worldRegistry = this.world.getRegistryManager().getOrThrow(RegistryKeys.WORLD);
             int rawId = worldRegistry.getRawId(this.world);
-            this.main.setScale(new Vector3f(0.5f));
-            this.off.setScale(new Vector3f(0.5f));
+
+            this.main.setScale(new Vector3f(0.5f, 0.5f, 0.01f));
+            this.off.setScale(new Vector3f(0.5f, 0.5f, 0.01f));
+
             this.main.setRotation(0.0f, 45.0f);
             this.off.setRotation(0.0f, 135.0f);
             long seed = this.blockPos.getX() + this.blockPos.getY() + this.blockPos.getZ() + rawId * 18L;

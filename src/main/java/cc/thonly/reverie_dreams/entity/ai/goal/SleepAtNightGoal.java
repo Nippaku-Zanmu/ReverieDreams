@@ -1,27 +1,31 @@
 package cc.thonly.reverie_dreams.entity.ai.goal;
 
+import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
+import java.util.*;
 
 public class SleepAtNightGoal extends Goal {
-    private final PathAwareEntity entity;
+    private final NPCEntityImpl entity;
     private final double speed;
     private BlockPos bedPos;
-    private int sleepTick = 0;
 
-    public SleepAtNightGoal(PathAwareEntity entity, double speed) {
+    public SleepAtNightGoal(NPCEntityImpl entity, double speed) {
         this.entity = entity;
         this.speed = speed;
     }
 
     @Override
     public boolean canStart() {
-        if (!this.entity.getWorld().isNight() || this.entity.isSleeping()) return false;
+        if (!entity.getWorld().isNight() || entity.isSleeping()) {
+            return false;
+        }
 
         this.bedPos = findNearbyBed();
         return this.bedPos != null;
@@ -29,41 +33,84 @@ public class SleepAtNightGoal extends Goal {
 
     @Override
     public void start() {
-        if (bedPos != null) {
-            this.entity.getNavigation().startMovingTo(bedPos.getX(), bedPos.getY(), bedPos.getZ(), this.speed);
+        if (this.bedPos != null) {
+            this.entity.getNavigation().startMovingTo(
+                    bedPos.getX() + 0.5,
+                    bedPos.getY(),
+                    bedPos.getZ() + 0.5,
+                    this.speed
+            );
+
         }
-    }
-
-
-    @Override
-    public boolean shouldContinue() {
-        return !this.entity.isSleeping() && bedPos != null && entity.squaredDistanceTo(Vec3d.ofCenter(bedPos)) > 1.5;
     }
 
     @Override
     public void tick() {
-        if (bedPos != null && entity.squaredDistanceTo(Vec3d.ofCenter(bedPos)) < 2) {
-            if (!this.entity.getWorld().isClient) {
-                if (sleepTick >= 20) {
-                    entity.sleep(bedPos);
-                    sleepTick = 0;
-                }
-            }
+        if (this.bedPos == null) {
+            return;
         }
-        if (sleepTick >= 20 || entity.isSleeping()) sleepTick = 0;
-        else sleepTick++;
+
+        int bedWakeCd = this.entity.getBedWakeCd();
+        if (bedWakeCd > 0) {
+            this.entity.setBedWakeCd(bedWakeCd - 1);
+            this.bedPos = null;
+            return;
+        }
+
+        double distanceSq = this.entity.squaredDistanceTo(Vec3d.ofCenter(this.bedPos));
+//        System.out.println("Distance to bed: " + Math.sqrt(distanceSq));
+//        System.out.println("Current Pos: " + this.entity.getBlockPos() + ", Bed Pos: " + bedPos);
+        if (distanceSq <= 2.25) {
+//            System.out.println("Sleeping...");
+            this.entity.sleep(this.bedPos);
+            this.entity.getNavigation().stop();
+            this.bedPos = null;
+        }
+    }
+
+    @Override
+    public boolean shouldContinue() {
+        return this.bedPos != null && !entity.isSleeping();
+    }
+
+    @Override
+    public void stop() {
+        this.bedPos = null;
+    }
+
+    private double dist(BlockPos a, BlockPos b) {
+        double dx = a.getX() - b.getX();
+        double dy = a.getY() - b.getY();
+        double dz = a.getZ() - b.getZ();
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     private BlockPos findNearbyBed() {
-        BlockPos entityPos = entity.getBlockPos();
-        for (BlockPos pos : BlockPos.iterateOutwards(entityPos, 10, 3, 10)) {
-            BlockState state = entity.getWorld().getBlockState(pos);
-            if (state.getBlock() instanceof BedBlock) {
-                if ((!state.get(BedBlock.OCCUPIED))) {
-                    if (state.get(BedBlock.PART) == BedPart.HEAD) return pos;
+        BlockPos entityPos = this.entity.getBlockPos();
+        World world = this.entity.getWorld();
+        List<BlockPos> list = new ArrayList<>();
+        for (int i = -10; i < 10; i++) {
+            for (int j = -5; j < 5; j++) {
+                for (int k = -10; k < 10; k++) {
+                    list.add(entityPos.add(i, j, k));
                 }
             }
         }
-        return null;
+        Map<Double, BlockPos> hashMap = new HashMap<>();
+        for (BlockPos pos : list) {
+            BlockState blockState = world.getBlockState(pos);
+            if (blockState.getBlock() instanceof BedBlock) {
+                boolean a = blockState.get(BedBlock.OCCUPIED);
+                boolean b = blockState.get(BedBlock.PART) == BedPart.HEAD;
+                if (!a && b) {
+                    hashMap.put(dist(pos, entityPos), pos);
+                }
+            }
+        }
+        if (hashMap.isEmpty()) {
+            return null;
+        }
+        double idx = hashMap.keySet().stream().min(Double::compareTo).get();
+        return hashMap.get(idx);
     }
 }

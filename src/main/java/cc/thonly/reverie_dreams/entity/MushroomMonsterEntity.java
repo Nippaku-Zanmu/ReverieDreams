@@ -98,7 +98,7 @@ public class MushroomMonsterEntity extends PathAwareEntity implements AnimatedEn
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             Random random = Random.create();
             int count = random.nextInt(4);

@@ -46,6 +46,10 @@ public class ModLootModifies {
                 for (var item : ModItems.getDiscItemView()) {
                     poolBuilder.with(ItemEntry.builder(item).weight(8));
                 }
+                poolBuilder.with(ItemEntry.builder(ModItems.UPGRADED_HEALTH_FRAGMENT).weight(10));
+                poolBuilder.with(ItemEntry.builder(ModItems.BOMB_FRAGMENT).weight(10));
+                poolBuilder.with(ItemEntry.builder(ModItems.UPGRADED_HEALTH).weight(10));
+                poolBuilder.with(ItemEntry.builder(ModItems.BOMB).weight(10));
                 tableBuilder.pool(poolBuilder);
             }
         });

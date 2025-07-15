@@ -11,19 +11,24 @@ import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
-public class ModItemTagProvider extends FabricTagProvider<Item> {
+public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final Set<Item> FENCES = new HashSet<>();
     public static final Set<Item> FENCE_GATES = new HashSet<>();
     public static final Set<Item> STAIRS = new HashSet<>();
@@ -34,88 +39,109 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
     public static final Set<Item> DOORS = new HashSet<>();
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-        super(output, RegistryKeys.ITEM, registriesFuture);
+        super(output, registriesFuture);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagProvider<Item>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.ItemTypeTag.EMPTY);
-        empty.add(Items.BEDROCK);
+        // === 基础工具方法 ===
+        BiConsumer<TagKey<Item>, Collection<? extends Item>> addAll = (tag, items) -> valueLookupBuilder(tag).add(items.toArray(Item[]::new));
 
-        FabricTagProvider<Item>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.ItemTypeTag.FUMO);
+        // === 通用 Tag ===
+        valueLookupBuilder(ModTags.ItemTypeTag.EMPTY).add(Items.BEDROCK);
+        addAll.accept(ModTags.ItemTypeTag.FUMO, Fumos.getView().stream().map(Fumo::item).toList());
+        addAll.accept(ItemTags.CREEPER_DROP_MUSIC_DISCS, ModItems.getDiscItemView());
 
-        for (Fumo instance : Fumos.getView()) {
-            fumo.add(instance.item());
-        }
+        // === 工具类 Tag ===
+        addAll.accept(ItemTags.SWORDS, BasicPolymerSwordItem.ITEMS);
+        addAll.accept(ItemTags.PICKAXES, BasicPolymerPickaxeItem.ITEMS);
+        addAll.accept(ItemTags.AXES, BasicPolymerAxeItem.ITEMS);
+        addAll.accept(ItemTags.SHOVELS, BasicPolymerShovelItem.ITEMS);
+        addAll.accept(ItemTags.HOES, BasicPolymerHoeItem.ITEMS);
 
-        FabricTagProvider<Item>.FabricTagBuilder creeperDropMusicDisc = getOrCreateTagBuilder(ItemTags.CREEPER_DROP_MUSIC_DISCS);
-        for (var item : ModItems.getDiscItemView()) {
-            creeperDropMusicDisc.add(item);
-        }
+        // === 盔甲类 Tag ===
+        addAll.accept(ItemTags.HEAD_ARMOR, BasicPolymerArmorItem.HEAD_ITEMS);
+        addAll.accept(ItemTags.CHEST_ARMOR, BasicPolymerArmorItem.CHEST_ITEMS);
+        addAll.accept(ItemTags.LEG_ARMOR, BasicPolymerArmorItem.LEG_ITEMS);
+        addAll.accept(ItemTags.FOOT_ARMOR, BasicPolymerArmorItem.FEET_ITEMS);
+        addAll.accept(ModTags.ItemTypeTag.ARMOR, BasicPolymerArmorItem.ITEMS);
 
-        FabricTagProvider<Item>.FabricTagBuilder swordItem = getOrCreateTagBuilder(ItemTags.SWORDS);
-        BasicPolymerSwordItem.ITEMS.forEach(swordItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder pickaxeItem = getOrCreateTagBuilder(ItemTags.PICKAXES);
-        BasicPolymerPickaxeItem.ITEMS.forEach(pickaxeItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder axeItem = getOrCreateTagBuilder(ItemTags.AXES);
-        BasicPolymerAxeItem.ITEMS.forEach(axeItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder shovelItem = getOrCreateTagBuilder(ItemTags.SHOVELS);
-        BasicPolymerShovelItem.ITEMS.forEach(shovelItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder hoeItem = getOrCreateTagBuilder(ItemTags.HOES);
-        BasicPolymerHoeItem.ITEMS.forEach(hoeItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder headItem = getOrCreateTagBuilder(ItemTags.HEAD_ARMOR);
-        BasicPolymerArmorItem.HEAD_ITEMS.forEach(headItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder chestItem = getOrCreateTagBuilder(ItemTags.CHEST_ARMOR);
-        BasicPolymerArmorItem.CHEST_ITEMS.forEach(chestItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder legItem = getOrCreateTagBuilder(ItemTags.LEG_ARMOR);
-        BasicPolymerArmorItem.LEG_ITEMS.forEach(legItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder feetItem = getOrCreateTagBuilder(ItemTags.FOOT_ARMOR);
-        BasicPolymerArmorItem.FEET_ITEMS.forEach(feetItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder armorItem = getOrCreateTagBuilder(ModTags.ItemTypeTag.ARMOR);
-        BasicPolymerArmorItem.ITEMS.forEach(armorItem::add);
-        FabricTagProvider<Item>.FabricTagBuilder sliverToolMaterials = getOrCreateTagBuilder(ModTags.ItemTypeTag.SILVER_TOOL_MATERIALS);
-        sliverToolMaterials.add(ModItems.SILVER_INGOT);
-        FabricTagProvider<Item>.FabricTagBuilder magicIceToolMaterials = getOrCreateTagBuilder(ModTags.ItemTypeTag.MAGIC_ICE_TOOL_MATERIALS);
-        magicIceToolMaterials.add(ModBlocks.MAGIC_ICE_BLOCK.asItem());
-        FabricTagProvider<Item>.FabricTagBuilder orbBlocks = getOrCreateTagBuilder(ModTags.ItemTypeTag.ORB_BLOCK);
-        orbBlocks.add(
+        // === 工具材料 ===
+        valueLookupBuilder(ModTags.ItemTypeTag.SILVER_TOOL_MATERIALS).add(ModItems.SILVER_INGOT);
+        valueLookupBuilder(ModTags.ItemTypeTag.MAGIC_ICE_TOOL_MATERIALS).add(ModBlocks.MAGIC_ICE_BLOCK.asItem());
+
+        // === 自定义方块 ===
+        valueLookupBuilder(ModTags.ItemTypeTag.ORB_BLOCK).add(
                 ModBlocks.RED_ORB_BLOCK.asItem(),
                 ModBlocks.YELLOW_ORB_BLOCK.asItem(),
                 ModBlocks.BLUE_ORB_BLOCK.asItem(),
                 ModBlocks.GREEN_ORB_BLOCK.asItem(),
                 ModBlocks.PURPLE_ORB_BLOCK.asItem()
         );
-        FabricTagProvider<Item>.FabricTagBuilder powerBlocks = getOrCreateTagBuilder(ModTags.ItemTypeTag.POWER_BLOCK);
-        FabricTagProvider<Item>.FabricTagBuilder pointBlocks = getOrCreateTagBuilder(ModTags.ItemTypeTag.POINT_BLOCK);
-        FabricTagProvider<Item>.FabricTagBuilder silverBlocks = getOrCreateTagBuilder(ModTags.ItemTypeTag.SILVER_BLOCK);
-        powerBlocks.add(ModBlocks.POWER_BLOCK.asItem());
-        pointBlocks.add(ModBlocks.POINT_BLOCK.asItem());
-        silverBlocks.add(ModBlocks.SILVER_BLOCK.asItem());
+        valueLookupBuilder(ModTags.ItemTypeTag.POWER_BLOCK).add(ModBlocks.POWER_BLOCK.asItem());
+        valueLookupBuilder(ModTags.ItemTypeTag.POINT_BLOCK).add(ModBlocks.POINT_BLOCK.asItem());
+        valueLookupBuilder(ModTags.ItemTypeTag.SILVER_BLOCK).add(ModBlocks.SILVER_BLOCK.asItem());
 
-        FabricTagProvider<Item>.FabricTagBuilder peach = getOrCreateTagBuilder(ModTags.ItemTypeTag.PEACH);
-        peach.add(MIItems.PEACH);
+        // === 兼容物品 ===
+        valueLookupBuilder(ConventionalItemTags.FOODS).add(MIItems.FOOD_ITEMS);
+        valueLookupBuilder(ModTags.ItemTypeTag.PEACH).add(MIItems.PEACH);
 
-        FabricTagProvider<Item>.FabricTagBuilder fences = getOrCreateTagBuilder(ItemTags.FENCES).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(ItemTags.FENCE_GATES).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder stairs = getOrCreateTagBuilder(ItemTags.STAIRS).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder slabs = getOrCreateTagBuilder(ItemTags.SLABS).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder buttons = getOrCreateTagBuilder(ItemTags.BUTTONS).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder trapdoors = getOrCreateTagBuilder(ItemTags.TRAPDOORS).setReplace(false);
-        FabricTagProvider<Item>.FabricTagBuilder doors = getOrCreateTagBuilder(ItemTags.DOORS).setReplace(false);
-        FENCES.forEach(fences::add);
-        FENCE_GATES.forEach(fenceGates::add);
-        STAIRS.forEach(stairs::add);
-        SLABS.forEach(slabs::add);
-        BUTTONS.forEach(buttons::add);
-        TRAPDOORS.forEach(trapdoors::add);
-        DOORS.forEach(doors::add);
+        // === 方块物品分类 ===
+        Map<TagKey<Item>, Collection<? extends ItemConvertible>> blockItemGroups = Map.of(
+                ItemTags.FENCES, FENCES,
+                ItemTags.FENCE_GATES, FENCE_GATES,
+                ItemTags.STAIRS, STAIRS,
+                ItemTags.SLABS, SLABS,
+                ItemTags.BUTTONS, BUTTONS,
+                ItemTags.TRAPDOORS, TRAPDOORS,
+                ItemTags.DOORS, DOORS
+        );
+        blockItemGroups.forEach((tag, list) -> {
+            ProvidedTagBuilder<Item, Item> builder = valueLookupBuilder(tag);
+            list.forEach(item -> builder.add(item.asItem()));
+        });
 
-        FabricTagProvider<Item>.FabricTagBuilder seeds = getOrCreateTagBuilder(ConventionalItemTags.SEEDS);
-        Set<Map.Entry<Identifier, PolymerCropCreator.Instance>> views = PolymerCropCreator.getViews();
-        for (Map.Entry<Identifier, PolymerCropCreator.Instance> view : views) {
-            PolymerCropCreator.Instance instance = view.getValue();
-            seeds.add(instance.getSeed());
+        // === 种子 ===
+        ProvidedTagBuilder<Item, Item> seeds = valueLookupBuilder(ConventionalItemTags.SEEDS);
+        for (var entry : PolymerCropCreator.getViews()) {
+            seeds.add(entry.getValue().getSeed());
         }
+
+        // === 模组兼容扩展 ===
+        this.configureCompat(wrapperLookup);
+    }
+
+
+    protected void configureCompat(RegistryWrapper.WrapperLookup wrapperLookup) {
+        // Farmer'delight
+        ProvidedTagBuilder<Item, Item> onion = valueLookupCommon("crops/onion");
+        ProvidedTagBuilder<Item, Item> tomatoCrop = valueLookupCommon("crops/tomato");
+        ProvidedTagBuilder<Item, Item> cabbage = valueLookupCommon("crops/cabbage");
+        ProvidedTagBuilder<Item, Item> rawSalmon = valueLookupCommon("foods/raw_salmon");
+        ProvidedTagBuilder<Item, Item> rawFish = valueLookupCommon("foods/raw_fish");
+        ProvidedTagBuilder<Item, Item> tomatoFood = valueLookupCommon("foods/tomato");
+
+        onion.add(MIItems.ONION);
+        tomatoCrop.add(MIItems.TOMATO);
+        rawSalmon.add(MIItems.SALMON);
+        rawFish.add(MIItems.SALMON, MIItems.HAGFISH, MIItems.TUNA, MIItems.SUPREME_TUNA);
+        tomatoFood.add(MIItems.TOMATO);
+
+        ProvidedTagBuilder<Item, Item> meals = valueLookupFarmerDelight("meals");
+        meals.add(
+                MIItems.BLACK_PORK,
+                MIItems.VENISON,
+                MIItems.WAGYU_BEEF,
+                MIItems.WILD_BOAR_MEAT
+        );
+    }
+
+    private ProvidedTagBuilder<Item, Item> valueLookupFarmerDelight(String name) {
+        return valueLookupBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("farmersdelight",name)));
+    }
+
+    private ProvidedTagBuilder<Item, Item> valueLookupCommon(String name) {
+        return valueLookupBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("c",name)));
     }
 
 }

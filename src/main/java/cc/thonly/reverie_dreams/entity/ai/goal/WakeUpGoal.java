@@ -1,31 +1,39 @@
 package cc.thonly.reverie_dreams.entity.ai.goal;
 
+import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.world.World;
 
 public class WakeUpGoal extends Goal {
-    private final PathAwareEntity entity;
+    private final NPCEntityImpl entity;
 
-    public WakeUpGoal(PathAwareEntity entity) {
+    public WakeUpGoal(NPCEntityImpl entity) {
         this.entity = entity;
     }
+
     @Override
     public boolean canStart() {
-        boolean result = entity.isSleeping() && entity.getWorld().isDay();
-//        System.out.println("WakeUpGoal.canStart: " + result + " | sleeping: " + entity.isSleeping() + " | isDay: " + entity.getWorld().isDay());
-        return result;
+        World world = this.entity.getWorld();
+        return !world.isClient && this.entity.getWorld().isDay();
     }
 
     @Override
     public void start() {
-        entity.wakeUp();
+        this.entity.wakeUp();
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(entity.isSleeping() && entity.getWorld().isDay()) {
-            entity.wakeUp();
+        if (canStart()) {
+            start();
         }
     }
+
+    @Override
+    public boolean shouldContinue() {
+        return true;
+    }
+
 }

@@ -42,22 +42,16 @@ public class NPCFollowOwnerGoal extends Goal {
         if (livingEntity == null) {
             return false;
         }
-        if(this.tameable instanceof NPCEntityImpl impl) {
-            NPCState state = impl.getNpcState();
-            if(state == NPCState.NO_WALK || state == NPCState.SEATED || state == NPCState.WORKING) {
-                return false;
-            }
-        }
-        if(this.tameable.isSitting()) {
+        if (this.tameable.isSitting()) {
             return false;
         }
-        if(this.tameable.getAttacking() != null) {
+        if (this.tameable.getAttacking() != null) {
             if (this.tameable.getAttacking().isAlive()) {
                 return false;
             }
             return false;
         }
-        if(this.tameable.getTarget() != null) {
+        if (this.tameable.getTarget() != null) {
             if (this.tameable.getTarget().isAlive()) {
                 return false;
             }
@@ -66,11 +60,20 @@ public class NPCFollowOwnerGoal extends Goal {
         if (this.tameable.cannotFollowOwner()) {
             return false;
         }
-        if (this.tameable.squaredDistanceTo(livingEntity) < (double)(this.minDistance * this.minDistance)) {
+        if (this.tameable.squaredDistanceTo(livingEntity) < (double) (this.minDistance * this.minDistance)) {
             return false;
         }
+        if (this.tameable instanceof NPCEntityImpl impl) {
+            NPCState state = impl.getNpcState();
+            if (state == NPCState.NO_WALK || state == NPCState.SEATED || state == NPCState.WORKING) {
+                return false;
+            }
+            if (state == NPCState.FOLLOW) {
+                return true;
+            }
+        }
         this.owner = livingEntity;
-        return true;
+        return false;
     }
 
     @Override
@@ -81,7 +84,7 @@ public class NPCFollowOwnerGoal extends Goal {
         if (this.tameable.cannotFollowOwner()) {
             return false;
         }
-        return !(this.tameable.squaredDistanceTo(this.owner) <= (double)(this.maxDistance * this.maxDistance));
+        return !(this.tameable.squaredDistanceTo(this.owner) <= (double) (this.maxDistance * this.maxDistance));
     }
 
     @Override
@@ -100,6 +103,12 @@ public class NPCFollowOwnerGoal extends Goal {
 
     @Override
     public void tick() {
+        if (this.owner == null && this.tameable != null) {
+            this.owner = this.tameable.getOwner();
+        }
+        if (this.tameable == null || this.owner == null) {
+            return;
+        }
         boolean bl = this.tameable.shouldTryTeleportToOwner();
         if (!bl) {
             this.tameable.getLookControl().lookAt(this.owner, 10.0f, this.tameable.getMaxLookPitchChange());
@@ -113,7 +122,7 @@ public class NPCFollowOwnerGoal extends Goal {
                 this.tameable.tryTeleportToOwner();
             }
         } else {
-            if(this.tameable.getAttacking() == null) {
+            if (this.tameable.getAttacking() == null) {
                 this.navigation.startMovingTo(this.owner, this.speed);
             }
         }

@@ -165,7 +165,7 @@ public final class TouhouNotaUtils {
             id2SongCache.remove(id);
         }, () -> {
             if (esp.isPlaying()) {
-                ServerWorld serverWorld = player.getServerWorld();
+                ServerWorld serverWorld = player.getWorld();
                 ParticleEffect particleEffect = ParticleTypes.NOTE;
 
                 Vec3d frontVec = player.getRotationVec(1.0F);

@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:fumo_license"
+        "recipe": "reverie_dreams:fumo_license"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:fumo_license"
+      "reverie_dreams:fumo_license"
     ]
   }
 }

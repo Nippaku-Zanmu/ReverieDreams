@@ -33,6 +33,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -221,30 +223,30 @@ public class KitchenwareBlockEntity extends BlockEntity {
 
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory.heldStacks, registries);
-        nbt.putDouble("TickLeft", this.tickLeft);
-        nbt.putDouble("TickSpeedBonus", this.tickSpeedBonus);
-        nbt.putInt("WorkingState", this.workingState.getId());
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        Inventories.writeData(view, inventory.heldStacks);
+        view.putDouble("TickLeft", this.tickLeft);
+        view.putDouble("TickSpeedBonus", this.tickSpeedBonus);
+        view.putInt("WorkingState", this.workingState.getId());
         DataResult<JsonElement> dataResult = ItemStackRecipeWrapper.CODEC.encodeStart(JsonOps.INSTANCE, this.preOutput);
         Optional<JsonElement> result = dataResult.result();
         if (result.isPresent()) {
             JsonElement element = result.get();
-            nbt.putString("PreOutput", GSON.toJson(element));
+            view.putString("PreOutput", GSON.toJson(element));
         }
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
         SimpleInventory inventory = new SimpleInventory(6);
-        Inventories.readNbt(nbt, inventory.heldStacks, registries);
+        Inventories.readData(view, inventory.heldStacks);
         this.inventory = inventory;
-        this.tickLeft = nbt.getDouble("TickLeft").orElse(0.0);
-        this.tickSpeedBonus = nbt.getDouble("TickSpeedBonus").orElse(0.0);
-        this.workingState = WorkingState.getFromInt(nbt.getInt("WorkingState").orElse(0));
-        Optional<String> pOutputOptional = nbt.getString("PreOutput");
+        this.tickLeft = view.getDouble("TickLeft",0.0);
+        this.tickSpeedBonus = view.getDouble("TickSpeedBonus",0.0);
+        this.workingState = WorkingState.getFromInt(view.getInt("WorkingState",0));
+        Optional<String> pOutputOptional = view.getOptionalString("PreOutput");
         if (pOutputOptional.isPresent()) {
             String preOutputJson = pOutputOptional.get();
             JsonElement json = JsonParser.parseString(preOutputJson);

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:strength_table"
+        "recipe": "reverie_dreams:strength_table"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:strength_table"
+      "reverie_dreams:strength_table"
     ]
   }
 }

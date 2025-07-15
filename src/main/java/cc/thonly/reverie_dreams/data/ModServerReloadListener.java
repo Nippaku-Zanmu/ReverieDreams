@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.data;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.impl.RegistryManagerReloadCallback;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
@@ -8,7 +9,7 @@ import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
-public class ModServerReloadListener  implements SimpleSynchronousResourceReloadListener {
+public class ModServerReloadListener implements SimpleSynchronousResourceReloadListener {
     @Override
     public Identifier getFabricId() {
         return Touhou.id("data");
@@ -18,10 +19,11 @@ public class ModServerReloadListener  implements SimpleSynchronousResourceReload
     public void reload(ResourceManager manager) {
         RecipeManager.onReload(manager);
         for (var entry : RegistryManager.REGISTRIES.entrySet()) {
-            StandaloneRegistry<?> standaloneRegistry = entry.getValue();
-            if (standaloneRegistry.isReloadable() && standaloneRegistry.getReloadableBootstrap() != null) {
-                standaloneRegistry.reset();
-                standaloneRegistry.getReloadableBootstrap().reload(manager);
+            StandaloneRegistry<?> registry = entry.getValue();
+            if (registry.isReloadable() && !registry.getReloadableBuilders().isEmpty()) {
+                registry.reset();
+                registry.getReloadableBuilders().forEach(boot -> boot.reload(manager));
+                RegistryManagerReloadCallback.EVENT.invoker().onLoad(registry);
             }
         }
         this.onLoad(manager);

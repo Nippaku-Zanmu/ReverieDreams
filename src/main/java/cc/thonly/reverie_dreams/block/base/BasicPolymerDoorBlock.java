@@ -31,10 +31,17 @@ import xyz.nucleoid.packettweaker.PacketContext;
 
 @Getter
 public class BasicPolymerDoorBlock extends DoorBlock implements FactoryBlock, PolymerTexturedBlock, IdentifierGetter {
-    private final BlockState NORTH_DOOR;
-    private final BlockState EAST_DOOR;
-    private final BlockState SOUTH_DOOR;
-    private final BlockState WEST_DOOR;
+    private static final BlockState NORTH_DOOR;
+    private static final BlockState EAST_DOOR;
+    private static final BlockState SOUTH_DOOR;
+    private static final BlockState WEST_DOOR;
+    static {
+        NORTH_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.NORTH_DOOR);
+        EAST_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.EAST_DOOR);
+        SOUTH_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.SOUTH_DOOR);
+        WEST_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.WEST_DOOR);
+    }
+
     protected final ItemStack MODEL_TOP_RIGHT;
     protected final ItemStack MODEL_TOP_LEFT;
     protected final ItemStack MODEL_BOTTOM_RIGHT;
@@ -44,12 +51,6 @@ public class BasicPolymerDoorBlock extends DoorBlock implements FactoryBlock, Po
     public BasicPolymerDoorBlock(Identifier identifier, Settings settings) {
         super(BlockSetType.OAK, settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
         this.identifier = identifier;
-
-        NORTH_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.NORTH_DOOR);
-        EAST_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.EAST_DOOR);
-        SOUTH_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.SOUTH_DOOR);
-        WEST_DOOR = PolymerBlockResourceUtils.requestEmpty(BlockModelType.WEST_DOOR);
-
         MODEL_TOP_RIGHT = ItemDisplayElementUtil.getModel(Identifier.of(identifier.getNamespace(), "block/%s_top_left".formatted(identifier.getPath())));
         MODEL_TOP_LEFT = ItemDisplayElementUtil.getModel(Identifier.of(identifier.getNamespace(), "block/%s_top_right".formatted(identifier.getPath())));
         MODEL_BOTTOM_RIGHT = ItemDisplayElementUtil.getModel(Identifier.of(identifier.getNamespace(), "block/%s_bottom_left".formatted(identifier.getPath())));

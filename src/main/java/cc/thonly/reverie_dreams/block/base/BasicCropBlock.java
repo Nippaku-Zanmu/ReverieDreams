@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.block.base;
 
 import cc.thonly.reverie_dreams.block.crop.TransparentPlant;
+import cc.thonly.reverie_dreams.compat.BorukvaFoodCompatImpl;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
@@ -22,6 +23,7 @@ import net.minecraft.block.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -96,7 +98,11 @@ public abstract class BasicCropBlock extends PlantBlock implements Fertilizable,
 
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isOf(Blocks.FARMLAND);
+        if (!BorukvaFoodCompatImpl.hasBorukvaFood()) {
+            return floor.isOf(Blocks.FARMLAND);
+        } else {
+            return floor.isOf(Blocks.FARMLAND) || floor.isOf(BorukvaFoodCompatImpl.BETTER_FARMLAND);
+        }
     }
 
     @Override
@@ -186,6 +192,8 @@ public abstract class BasicCropBlock extends PlantBlock implements Fertilizable,
         }
         return f;
     }
+
+
 
     @Override
     public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {

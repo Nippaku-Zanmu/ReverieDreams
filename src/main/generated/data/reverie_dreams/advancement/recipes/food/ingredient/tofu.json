@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ingredient/tofu"
+        "recipe": "reverie_dreams:ingredient/tofu"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ingredient/tofu"
+      "reverie_dreams:ingredient/tofu"
     ]
   }
 }

@@ -1,4 +1,4 @@
-// 1.21.5	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Block Loot Tables
+// 1.21.7	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Block Loot Tables
 7a2447ded52a047621f168e9b35dd45360f1c3c7 data/reverie_dreams/loot_table/blocks/black_salt_block.json
 05894f7238a45ffdd2878d86139e542d3ce06f2d data/reverie_dreams/loot_table/blocks/broccoli.json
 4600fc9324ce883c1178ed984dadd90afdc7a6c5 data/reverie_dreams/loot_table/blocks/chill.json
@@ -77,7 +77,6 @@ cac91a732ab2c4664b2261f1808e907a81acbfe6 data/reverie_dreams/loot_table/blocks/g
 cd845d965962e6a3e0f612dd1e66c44edbba51c8 data/reverie_dreams/loot_table/blocks/ginkgo_planks.json
 05c0df81a6f1da08f8697d4bcad2969ebddc1452 data/reverie_dreams/loot_table/blocks/ginkgo_sapling.json
 1283680a4745db9ce31d78ab5bcb6fbd5d70172f data/reverie_dreams/loot_table/blocks/ginkgo_stair.json
-6e782aac3cc9784ec2488878afb67a4a2ce8c5fc data/reverie_dreams/loot_table/blocks/ginkgo_trapdoor.json
 1e0cb5e49ae2671cdb8a4237860ea18d99db1938 data/reverie_dreams/loot_table/blocks/ginkgo_wood.json
 bb5470b88bfab56abba9f9db33700c35247c8f45 data/reverie_dreams/loot_table/blocks/grape.json
 c87f5bcbe6ef0304324bf00742441f0c451422ec data/reverie_dreams/loot_table/blocks/grill.json
@@ -89,7 +88,6 @@ fce9d46f1eb8ff4f759ed48de26a481a3b80a1ed data/reverie_dreams/loot_table/blocks/l
 93899998de43d210af70cdecb881c09cd5410be3 data/reverie_dreams/loot_table/blocks/lemon_planks.json
 21af2158ab15d567f454a4a704e351a044bdd733 data/reverie_dreams/loot_table/blocks/lemon_sapling.json
 47f669e385b0b3a0679a3207cdb3f8ee390e5e66 data/reverie_dreams/loot_table/blocks/lemon_stair.json
-55bb319fcebdaa98135c37dac23596c20c6869f7 data/reverie_dreams/loot_table/blocks/lemon_trapdoor.json
 ee5a3e9ae15de238273df5245bf12304bfebb7e7 data/reverie_dreams/loot_table/blocks/lemon_wood.json
 f80a4684a4a05e066b0046558560f3fe1e960a31 data/reverie_dreams/loot_table/blocks/magic_ice.json
 8bcf381f76b6360336129f61628b6b87d827f3bc data/reverie_dreams/loot_table/blocks/marisa_hat.json
@@ -104,7 +102,6 @@ f6ee1f33386e244efabe11c39403f6dfa0cace94 data/reverie_dreams/loot_table/blocks/p
 9de1af67fdcc83c6f405b7f030569b6499ee8262 data/reverie_dreams/loot_table/blocks/peach_planks.json
 1e3af325717cbf74b4acafd713b646c8c072d03f data/reverie_dreams/loot_table/blocks/peach_sapling.json
 b4a308e4c85ba41a6d3ac699f624a5ba89b2efcc data/reverie_dreams/loot_table/blocks/peach_stair.json
-d22d7cc413714c2a4f66af05cbdb519f82350956 data/reverie_dreams/loot_table/blocks/peach_trapdoor.json
 4fc832f1e8e2d4a83c367a18e0500d883946f32c data/reverie_dreams/loot_table/blocks/peach_wood.json
 e62ea50ae0e70c246c588214b11d87071f7684fe data/reverie_dreams/loot_table/blocks/point_block.json
 ade00837a00244b04f2aa7952d69c067c347eb4d data/reverie_dreams/loot_table/blocks/power_block.json
@@ -119,7 +116,6 @@ eff9584d25b8c52459974da3c170e88f60fa4dbd data/reverie_dreams/loot_table/blocks/s
 48404ea2bee1ce458aa4f6a4847d73bd6e09986e data/reverie_dreams/loot_table/blocks/spiritual_planks.json
 a415093d81f9023c7a242de7bb77144f6ca94f59 data/reverie_dreams/loot_table/blocks/spiritual_sapling.json
 238488f5c33968a9ec905fe5c2213865cfc0a58c data/reverie_dreams/loot_table/blocks/spiritual_stair.json
-ee422baac236ca1abdb9beaa965e5ac394557ff3 data/reverie_dreams/loot_table/blocks/spiritual_trapdoor.json
 a5cf6ea9fd7bb91cf5855757bf4198578063085c data/reverie_dreams/loot_table/blocks/spiritual_wood.json
 d14aaff6a5ab5bfc5055325326e826ffed796dac data/reverie_dreams/loot_table/blocks/steamer.json
 bee5394b934d9d7601d3c1a9d9428f0ef6e9a846 data/reverie_dreams/loot_table/blocks/strength_table.json

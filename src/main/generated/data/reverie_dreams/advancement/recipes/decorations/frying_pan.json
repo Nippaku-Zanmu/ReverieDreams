@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:frying_pan"
+        "recipe": "reverie_dreams:frying_pan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:frying_pan"
+      "reverie_dreams:frying_pan"
     ]
   }
 }

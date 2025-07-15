@@ -97,6 +97,15 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_wool", conditionsFromItem(Items.WHITE_WOOL))
                 .offerTo(exporter, getRecipeName(ModItems.FUMO_LICENSE));
 
+        // 烟火之星
+        createShaped(RecipeCategory.MISC, Items.FIREWORK_STAR)
+                .pattern(" # ")
+                .pattern("#X#")
+                .pattern(" # ")
+                .input('#', Items.GUNPOWDER)
+                .input('X', Items.SAND)
+                .criterion("has_sand", conditionsFromItem(Items.GUNPOWDER))
+                .offerTo(exporter, "rd_provided_" + getRecipeName(Items.FIREWORK_STAR));
 
         this.generateWoodCreator(ModBlocks.SPIRITUAL);
         this.generateWoodCreator(MIBlocks.LEMON);
@@ -122,7 +131,7 @@ public class ModRecipeGenerator extends RecipeGenerator {
         Block stair = creator.stair();
         Block slab = creator.slab();
         Block door = creator.door();
-        Block trapdoor = creator.trapdoor();
+//        Block trapdoor = creator.trapdoor();
         Block fence = creator.fence();
         Block fenceGate = creator.fenceGate();
         Block button = creator.button();
@@ -174,10 +183,10 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_planks", conditionsFromItem(planks))
                 .offerTo(exporter);
 
-        // 木板 -> 活板门
-        createTrapdoorRecipe(trapdoor, Ingredient.ofItem(planks))
-                .criterion("has_planks", conditionsFromItem(planks))
-                .offerTo(exporter);
+//        // 木板 -> 活板门
+//        createTrapdoorRecipe(trapdoor, Ingredient.ofItem(planks))
+//                .criterion("has_planks", conditionsFromItem(planks))
+//                .offerTo(exporter);
 
         // 木板 -> 门
         createDoorRecipe(door, Ingredient.ofItem(planks))
@@ -359,6 +368,9 @@ public class ModRecipeGenerator extends RecipeGenerator {
 
         // 烧银矿
         offerSmelting(SILVER, RecipeCategory.MISC, ModItems.SILVER_INGOT, 0.7F, 250, "silver_ingot");
+        offerBlasting(SILVER, RecipeCategory.MISC, ModItems.SILVER_INGOT, 0.7F, 250, "silver_ingot");
+        offerSmelting(SILVER, RecipeCategory.MISC, ModBlocks.SILVER_ORE, 0.7F, 250, "silver_ingot");
+        offerBlasting(SILVER, RecipeCategory.MISC, ModBlocks.SILVER_ORE, 0.7F, 250, "silver_ingot");
 
     }
 

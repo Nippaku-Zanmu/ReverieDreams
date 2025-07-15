@@ -28,7 +28,7 @@ import java.util.List;
 public abstract class BasicPolymerSwordItem extends BasicPolymerItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.DIAMOND_SWORD;
-    public static final List<BasicPolymerItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerSwordItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerSwordItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Item.Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);

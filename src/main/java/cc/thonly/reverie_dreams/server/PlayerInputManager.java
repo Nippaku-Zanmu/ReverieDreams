@@ -21,9 +21,17 @@ public class PlayerInputManager {
     private final List<ServerPlayerEntity> LEFTS = new ArrayList<>();
     private final List<ServerPlayerEntity> RIGHTS = new ArrayList<>();
     private final List<ServerPlayerEntity> JUMPS = new ArrayList<>();
-    private final List<ServerPlayerEntity> SNEAKS = new ArrayList<>();
+//    private final List<ServerPlayerEntity> SNEAKS = new ArrayList<>();
     private final List<ServerPlayerEntity> SPRINTS = new ArrayList<>();
-    private final List<List<ServerPlayerEntity>> LIST = List.of(FORWARDS, BACKWARDS, LEFTS, RIGHTS, JUMPS, SNEAKS, SPRINTS);
+    private final List<List<ServerPlayerEntity>> LIST = List.of(
+            FORWARDS,
+            BACKWARDS,
+            LEFTS,
+            RIGHTS,
+            JUMPS,
+//            SNEAKS,
+            SPRINTS
+    );
     private final Map<ServerPlayerEntity, PlayerInput> currentInputs = new HashMap<>();
 
     private PlayerInputManager() {
@@ -60,21 +68,21 @@ public class PlayerInputManager {
                 if (input.jump()) {
                     JUMPS.add(player);
                 }
-                if (input.sneak()) {
-                    SNEAKS.add(player);
-                }
+//                if (input.sneak()) {
+//                    SNEAKS.add(player);
+//                }
                 if (input.sprint()) {
                     SPRINTS.add(player);
                 }
             }
             if (packet instanceof ClientCommandC2SPacket cCC2SPacket) {
                 ClientCommandC2SPacket.Mode mode = cCC2SPacket.getMode();
-                if (mode.equals(ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY)) {
-                    SNEAKS.add(player);
-                }
-                if (mode.equals(ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY)) {
-                    SNEAKS.remove(player);
-                }
+//                if (mode.equals(ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY)) {
+//                    SNEAKS.add(player);
+//                }
+//                if (mode.equals(ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY)) {
+//                    SNEAKS.remove(player);
+//                }
                 if (mode.equals(ClientCommandC2SPacket.Mode.START_SPRINTING)) {
                     SPRINTS.add(player);
                 }
@@ -93,7 +101,7 @@ public class PlayerInputManager {
             case InputKey.LEFT -> inputManager.LEFTS.contains(player);
             case InputKey.RIGHT -> inputManager.RIGHTS.contains(player);
             case InputKey.JUMP -> inputManager.JUMPS.contains(player);
-            case InputKey.SNEAK -> inputManager.SNEAKS.contains(player);
+//            case InputKey.SNEAK -> inputManager.SNEAKS.contains(player);
             case InputKey.SPRINT -> inputManager.SPRINTS.contains(player);
             default -> false;
         };

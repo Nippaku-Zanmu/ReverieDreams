@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.entity.misc;
 
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.entity.holder.MagicBroomHolder;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.server.PlayerInputManager;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils;
@@ -31,6 +32,8 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec2f;
@@ -207,7 +210,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         if (this.summonItem.isEmpty()) {
             return;
         }
@@ -241,27 +244,24 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        DynamicRegistryManager registryManager = this.getRegistryManager();
-        if (!this.summonItem.isEmpty()) {
-            NbtElement itemNbt = this.summonItem.toNbt(registryManager);
-            nbt.put("SummonedItem", itemNbt);
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
+        if (!this.summonItem.isEmpty()) {;
+            view.putString("SummonedItem", ItemStackRecipeWrapper.toJson(ItemStackRecipeWrapper.of(this.summonItem)));
         }
-        nbt.putString("OwnerUUID", this.ownerUUID);
+        view.putString("OwnerUUID", this.ownerUUID);
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
+    protected void readCustomData(ReadView view) {
+        super.readCustomData(view);
         DynamicRegistryManager registryManager = this.getRegistryManager();
-        if (nbt.contains("SummonedItem")) {
-            Optional<ItemStack> sItemOpt = ItemStack.fromNbt(registryManager, nbt.get("SummonedItem"));
-            sItemOpt.ifPresent(itemStack -> this.summonItem = itemStack);
-        }
-        if (nbt.contains("OwnerUUID")) {
-            this.ownerUUID = nbt.getString("OwnerUUID").orElse("null");
-        }
+        Optional<ItemStackRecipeWrapper> summonedItemOptional = ItemStackRecipeWrapper.toWrapper(view.getString("SummonedItem", ""));
+        summonedItemOptional.ifPresent(itemStack -> this.summonItem = itemStack.getItemStack());
+
+
+            this.ownerUUID = view.getString("OwnerUUID","null");
+
     }
 
     @Override

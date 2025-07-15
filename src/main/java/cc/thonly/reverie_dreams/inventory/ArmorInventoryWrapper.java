@@ -9,6 +9,7 @@ import net.minecraft.entity.EquipmentSlot;
 
 @Setter
 @Getter
+@Deprecated
 public class ArmorInventoryWrapper {
     public static final SlotFilter HELMET_FILTER = stack -> {
         EquippableComponent equippable = stack.getComponents().get(DataComponentTypes.EQUIPPABLE);

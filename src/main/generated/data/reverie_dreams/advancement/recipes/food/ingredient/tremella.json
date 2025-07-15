@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ingredient/tremella"
+        "recipe": "reverie_dreams:ingredient/tremella"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ingredient/tremella"
+      "reverie_dreams:ingredient/tremella"
     ]
   }
 }

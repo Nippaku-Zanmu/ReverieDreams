@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:magic_ice_boots"
+        "recipe": "reverie_dreams:magic_ice_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:magic_ice_boots"
+      "reverie_dreams:magic_ice_boots"
     ]
   }
 }

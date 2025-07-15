@@ -7,6 +7,8 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 
 @Getter
@@ -18,16 +20,16 @@ public class StrengthenTableBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory.heldStacks, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        Inventories.writeData(view, inventory.heldStacks);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
         SimpleInventory inventory = new SimpleInventory(2);
-        Inventories.readNbt(nbt, inventory.heldStacks, registries);
+        Inventories.readData(view, inventory.heldStacks);
         this.inventory = inventory;
     }
 }

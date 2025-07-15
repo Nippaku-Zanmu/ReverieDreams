@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Leashable;
+import net.minecraft.entity.ai.brain.task.OpenDoorsTask;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,24 +30,35 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
 
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new SitGoal(this));
-        this.goalSelector.add(2, new WakeUpGoal(this));
+//        this.goalSelector.add(2, new WakeUpGoal(this));
         this.goalSelector.add(3, new SleepAtNightGoal(this, 1.0));
 
         this.goalSelector.add(4, new NPCTemptGoal(this, 1.2, stack -> stack.isOf(TAME_FOOD_ITEM), false));
         //        this.goalSelector.add(4, this.bowAttackGoal);
         //        this.goalSelector.add(4, this.meleeAttackGoal);
+
         this.goalSelector.add(6, new NPCFollowOwnerGoal(this, 1.0, 2.0f, 10.0f));
-//        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(8, new NPCWanderAroundFarGoal(this, 1.0));
 
         this.goalSelector.add(10, new NPCLookAroundGoal(this));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, NPCEntityImpl.class, 8.0f));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f, 0.02f, true));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, NPCEntityImpl.class, 8.0f, 0.02f, true));
 
         this.targetSelector.add(1, new NPCTrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new NPCAttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
 
+        this.getNavigation().setCanOpenDoors(true);
+    }
+
+    @Override
+    public void tick() {
+        World world = this.getWorld();
+        if (!world.isClient && world.isDay()) {
+            this.wakeUp();
+        }
+        super.tick();
     }
 
     @Override

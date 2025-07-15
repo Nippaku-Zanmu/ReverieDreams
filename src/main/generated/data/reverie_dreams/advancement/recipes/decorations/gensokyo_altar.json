@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:gensokyo_altar"
+        "recipe": "reverie_dreams:gensokyo_altar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:gensokyo_altar"
+      "reverie_dreams:gensokyo_altar"
     ]
   }
 }

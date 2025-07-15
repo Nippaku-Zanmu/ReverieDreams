@@ -29,8 +29,9 @@ public class NPCAttackWithOwnerGoal extends TrackTargetGoal {
         if (livingEntity == null) {
             return false;
         }
-        if (livingEntity instanceof Tameable targetEntity) {
-            if (this.tameable.getOwner() == targetEntity.getOwner()) {
+        if (livingEntity.getAttacking() instanceof TameableEntity livingTamable) {
+            LivingEntity owner1 = livingTamable.getOwner();
+            if (owner1 == livingEntity) {
                 return false;
             }
         }

@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class BasicPolymerShovelItem extends ShovelItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.DIAMOND_SHOVEL;
-    public static final List<ShovelItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerShovelItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerShovelItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);

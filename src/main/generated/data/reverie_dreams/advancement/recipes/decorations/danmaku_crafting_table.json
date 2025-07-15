@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:danmaku_crafting_table"
+        "recipe": "reverie_dreams:danmaku_crafting_table"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:danmaku_crafting_table"
+      "reverie_dreams:danmaku_crafting_table"
     ]
   }
 }

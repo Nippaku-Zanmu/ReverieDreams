@@ -10,12 +10,14 @@ import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.gui.NPCGui;
 import cc.thonly.reverie_dreams.interfaces.ItemStackImpl;
-import cc.thonly.reverie_dreams.inventory.NPCInventory;
+import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.util.ItemUtils;
 import com.google.common.collect.ImmutableList;
 import com.mojang.authlib.properties.Property;
+import eu.pb4.polymer.core.mixin.block.packet.ServerChunkLoadingManagerAccessor;
+import eu.pb4.polymer.core.mixin.entity.EntityTrackerAccessor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.advancement.criterion.Criteria;
@@ -29,7 +31,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -51,19 +52,25 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.*;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.item.consume.ConsumeEffect;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.EntityPositionSyncS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerChunkLoadingManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -77,26 +84,35 @@ import java.util.function.Predicate;
 @Setter
 public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob, NPCSettings {
     protected static final Item TAME_FOOD_ITEM = Items.CAKE;
+    // 皮肤
     protected Property skin;
+    // 实体信息
     protected NPCState npcState = NPCState.NORMAL;
-    protected boolean isSit = false;
+    protected boolean sit = false;
     protected String npcOwner = "";
     protected String seatUUID = "";
-    protected boolean isPause = false;
-    protected NPCInventory inventory = new NPCInventory(NPCGui.size());
     protected ArmorStandEntity seat;
+    protected boolean paused = false;
+    // 背包
+    protected NPCInventoryImpl inventory = new NPCInventoryImpl(NPCInventoryImpl.MAX_SIZE);
+    // 回血
     protected int healthTick = 0;
     protected int maxHealthTick = 20 * 8;
+    // 攻击tick
     protected int updateAttackTick = 0;
     protected int maxUpdateAttackTick = 20 * 2 + 1;
+    // 饥饿
     protected float nutrition = 20;
     protected float saturation = 20;
     protected int exhaustionLevel = 0;
-    protected float hungerTick;
-    protected boolean isSleepingCustom = false;
+    protected float hungerTick = 0f;
+    // 工作
     protected BlockPos workingPos = new BlockPos(0, 0, 0);
-    protected BlockPos sleepingPos;
     protected int workTick = 0;
+    // 睡眠
+    protected int bedWakeCd = 0;
+    protected Vec3d prevPos;
+    protected int freshTick = 0;
     public static final HashSet<Item> ARROW_ITEMS = new HashSet<>();
 
     static {
@@ -155,7 +171,6 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         this.setNoGravity(false);
         this.setCanPickUpLoot(true);
         this.setTamed(false, true);
-        ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.setCanPickUpLoot(true);
 
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 16.0f);
@@ -168,101 +183,65 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
+    public void readCustomData(ReadView view) {
+        super.readCustomData(view);
         DynamicRegistryManager registryManager = this.getRegistryManager();
 
-        this.isSit = nbt.getBoolean("IsSit").orElse(false);
+        this.sit = view.getBoolean("IsSit", false);
 
 
-        int state = nbt.getInt("NPCState").orElse(0);
+        int state = view.getInt("NPCState", 0);
         this.npcState = NPCState.fromInt(state);
-        this.npcOwner = nbt.getString("NpcOwner").orElse("");
+        this.npcOwner = view.getString("NpcOwner", "");
 
+        NPCInventoryImpl inventory = new NPCInventoryImpl(NPCInventoryImpl.MAX_SIZE);
+        Inventories.readData(view, inventory.heldStacks);
+//        InventoriesImpl.readView(view, "Inventory", inventory.heldStacks);
+//        InventoriesImpl.readView(view, "HeadInventory", inventory.getHead());
+//        InventoriesImpl.readView(view, "ChestInventory", inventory.getChest());
+//        InventoriesImpl.readView(view, "LegsInventory", inventory.getLegs());
+//        InventoriesImpl.readView(view, "FeetInventory", inventory.getFeet());
 
-        NbtCompound nbtInventory;
-        nbtInventory = nbt.getCompound("Inventory").orElse(new NbtCompound());
-
-        NbtCompound headInventory;
-        headInventory = nbt.getCompound("HeadInventory").orElse(new NbtCompound());
-
-        NbtCompound chestInventory;
-        chestInventory = nbt.getCompound("ChestInventory").orElse(new NbtCompound());
-
-        NbtCompound legsInventory;
-        legsInventory = nbt.getCompound("LegsInventory").orElse(new NbtCompound());
-
-        NbtCompound feetInventory;
-        feetInventory = nbt.getCompound("FeetInventory").orElse(new NbtCompound());
-
-
-        NPCInventory inventory = new NPCInventory(NPCGui.size());
-        Inventories.readNbt(nbtInventory, inventory.heldStacks, registryManager);
-        Inventories.readNbt(headInventory, inventory.getArmorInventory().getHead().heldStacks, registryManager);
-        Inventories.readNbt(chestInventory, inventory.getArmorInventory().getChest().heldStacks, registryManager);
-        Inventories.readNbt(legsInventory, inventory.getArmorInventory().getLegs().heldStacks, registryManager);
-        Inventories.readNbt(feetInventory, inventory.getArmorInventory().getFeet().heldStacks, registryManager);
         this.inventory = inventory;
 
-        if (nbt.contains("SeatUUID")) {
-            String uuidStr = nbt.getString("SeatUUID").orElse("null");
-            nbt.putString("SeatUUID", uuidStr);
-        } else {
-            nbt.putString("SeatUUID", "");
-        }
+        this.seatUUID = view.getString("SeatUUID", "null");
 
-        if (nbt.contains("FoodNutrition")) {
-            this.nutrition = nbt.getFloat("FoodNutrition").orElse(20.0f);
-        } else {
-            nbt.putFloat("FoodNutrition", 20.0f);
-        }
+        this.nutrition = view.getFloat("FoodNutrition", 20.0f);
+        this.saturation = view.getInt("FoodSaturation", 20);
 
-        if (nbt.contains("FoodSaturation")) {
-            this.saturation = nbt.getInt("FoodSaturation").orElse(20);
-        } else {
-            nbt.putFloat("FoodSaturation", 0);
-        }
-
-        this.exhaustionLevel = nbt.getInt("FoodExhaustionLevel").orElse(0);
-
-        this.workingPos = BlockPos.fromLong(nbt.getLong("WorkingPos").orElse(new BlockPos(0, 0, 0).asLong()));
+        this.exhaustionLevel = view.getInt("FoodExhaustionLevel", 0);
+        Optional<Long> workingPosOptional = view.getOptionalLong("WorkingPos");
+        this.workingPos = workingPosOptional
+                .map(BlockPos::fromLong)
+                .orElseGet(() -> BlockPos.fromLong(new BlockPos(0, 0, 0).asLong()));
 
 
         this.updateAttackType();
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        DynamicRegistryManager registryManager = this.getRegistryManager();
-        nbt.putBoolean("IsSit", this.isSit);
-        nbt.putString("NpcOwner", this.npcOwner);
-        nbt.putInt("NPCState", this.npcState.getId());
-        nbt.putFloat("FoodNutrition", this.nutrition);
-        nbt.putFloat("FoodSaturation", this.saturation);
-        nbt.putFloat("FoodExhaustionLevel", this.exhaustionLevel);
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
+        view.putBoolean("IsSit", this.sit);
+        view.putString("NpcOwner", this.npcOwner);
+        view.putInt("NPCState", this.npcState.getId());
+        view.putFloat("FoodNutrition", this.nutrition);
+        view.putFloat("FoodSaturation", this.saturation);
+        view.putFloat("FoodExhaustionLevel", this.exhaustionLevel);
 
-        NbtCompound nbtInventory = new NbtCompound();
-        NbtCompound headInventory = new NbtCompound();
-        NbtCompound chestInventory = new NbtCompound();
-        NbtCompound legsInventory = new NbtCompound();
-        NbtCompound feetInventory = new NbtCompound();
-        Inventories.writeNbt(nbtInventory, this.inventory.heldStacks, registryManager);
-        Inventories.writeNbt(headInventory, this.inventory.getArmorInventory().getHead().heldStacks, registryManager);
-        Inventories.writeNbt(chestInventory, this.inventory.getArmorInventory().getChest().heldStacks, registryManager);
-        Inventories.writeNbt(legsInventory, this.inventory.getArmorInventory().getLegs().heldStacks, registryManager);
-        Inventories.writeNbt(feetInventory, this.inventory.getArmorInventory().getFeet().heldStacks, registryManager);
-        nbt.put("Inventory", nbtInventory);
-        nbt.put("HeadInventory", headInventory);
-        nbt.put("ChestInventory", chestInventory);
-        nbt.put("LegsInventory", legsInventory);
-        nbt.put("FeetInventory", feetInventory);
+        Inventories.writeData(view, this.inventory.heldStacks);
 
-        nbt.putLong("WorkingPos", this.workingPos.asLong());
+        view.putLong("WorkingPos", this.workingPos.asLong());
 
-        if (!this.seatUUID.isEmpty()) {
-            nbt.putString("SeatUUID", this.seatUUID);
+        if (!this.seatUUID.isEmpty() && !this.seatUUID.equals("null")) {
+            view.putString("SeatUUID", this.seatUUID);
         }
-//        System.out.println(nbt.toString());
+    }
+
+    @Override
+    public void wakeUp() {
+        super.wakeUp();
+        this.bedWakeCd = 20 * 5;
     }
 
     @Override
@@ -303,7 +282,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         KeepInventoryTypes keepInventoryType = this.getKeepInventoryType();
         if (keepInventoryType == KeepInventoryTypes.ARCHIVED) {
             ItemStack archive = this.toArchive();
@@ -350,11 +329,6 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     @Override
-    public void sleep(BlockPos pos) {
-        super.sleep(pos);
-    }
-
-    @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
         if (!getWorld().isClient() && this instanceof NPCRoleEntityImpl impl) {
@@ -368,7 +342,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                     setHealth(health + 2);
                 }
                 player.swingHand(hand);
-                getEntityWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(), SoundEventInit.UP, player.getSoundCategory(), 1.0f, 1.0f);
+                getWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(), SoundEventInit.UP, player.getSoundCategory(), 1.0f, 1.0f);
                 stack.decrementUnlessCreative(1, player);
                 return ActionResult.SUCCESS_SERVER;
             }
@@ -428,7 +402,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 if (this.npcOwner.isEmpty() && stack.getItem() == TAME_FOOD_ITEM) {
                     Random random = new Random();
                     float chance = random.nextFloat();
-                    World world = this.getEntityWorld();
+                    World world = this.getWorld();
                     if (chance <= 0.4) {
                         this.setOwner(player);
                         this.setTamed(true, true);
@@ -470,10 +444,16 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 player.swingHand(hand);
                 return ActionResult.SUCCESS_SERVER;
             }
-            if ((this.isOwner(player) || (player.isCreative() && this.isTamed())) && !this.getWorld().isClient()) {
+            if (((this.isOwner(player) || (player.isCreative()) && this.isTamed())) && !this.getWorld().isClient()) {
                 if (player instanceof ServerPlayerEntity serverPlayerEntity) {
-                    NPCGui npcGui = new NPCGui(serverPlayerEntity, this);
-                    npcGui.open();
+                    if (serverPlayerEntity.isSneaking()) {
+                        this.setTarget(null);
+                        this.setAttacker(null);
+                    } else {
+                        NPCGui npcGui = new NPCGui(serverPlayerEntity, this);
+                        npcGui.open();
+                    }
+
                 }
                 return ActionResult.SUCCESS_SERVER;
             }
@@ -492,7 +472,9 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public void setOwner(LivingEntity player) {
-        this.npcOwner = player.getUuid().toString();
+        if (player != null) {
+            this.npcOwner = player.getUuid().toString();
+        }
         this.setTamed(true, true);
         if (player instanceof ServerPlayerEntity serverPlayerEntity) {
             Criteria.TAME_ANIMAL.trigger(serverPlayerEntity, this);
@@ -512,6 +494,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public void tickMovement() {
         World world = this.getWorld();
+//        long start = System.nanoTime();
         if (world instanceof ServerWorld serverWorld) {
             if (this.isSleeping()) return;
             if (this.canPickUpLoot() && this.isAlive()) {
@@ -526,6 +509,28 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
             this.velocityModified = true;
         }
         super.tickMovement();
+        if (this.freshTick >= 1) {
+            if (this.getWorld() instanceof ServerWorld serverWorld) {
+                ServerChunkLoadingManager.EntityTracker tracker = ((ServerChunkLoadingManagerAccessor) serverWorld.getChunkManager().chunkLoadingManager).polymer$getEntityTrackers().get(this.getId());
+                if (tracker != null) {
+                    Set<PlayerAssociatedNetworkHandler> listeners = ((EntityTrackerAccessor) tracker).getListeners();
+                    for (var handler : listeners) {
+                        EntityTrackerEntry entry = ((EntityTrackerAccessor) tracker).getEntry();
+                        entry.sendPackets(handler.getPlayer(), packets -> {
+                            entry.syncEntityData();
+                            entry.sendSyncPacket(EntityPositionSyncS2CPacket.create(this));
+                        });
+                    }
+                }
+            }
+            this.freshTick = 0;
+        } else {
+            this.freshTick++;
+        }
+//
+//        long end = System.nanoTime();
+//        long duration = end - start; // 纳秒
+//        System.out.println("耗时: " + (duration / 1_000_000) + " ms");
     }
 
     @Override
@@ -622,7 +627,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     public NPCState getNextState() {
         if (this.isSleeping()) return this.npcState;
         NPCState next = NPCState.fromInt(this.npcState.getId() + 1);
-        return next != null ? next : NPCState.NORMAL;
+        return next != null ? next : NPCState.fromInt(0);
     }
 
     public void reduceHunger(float value) {
@@ -671,17 +676,27 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         this.setCustomNameVisible(this.hasCustomName());
     }
 
+    public void fixPitchYaw() {
+        float delta = Math.abs(this.bodyYaw - this.getYaw());
+        if (delta > 20.0f) {
+            this.setBodyYaw(this.getYaw());
+        }
+
+    }
+
     @Override
     public void tick() {
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         this.updateHealth();
         this.updateWorking();
         this.updateName();
+        this.fixPitchYaw();
         this.updateAttackTick++;
         if (this.updateAttackTick > this.maxUpdateAttackTick) {
             this.updateAttackType();
             this.updateAttackTick = 0;
         }
+        this.prevPos = this.getPos();
 
         this.exhaustionLevel = 0;
         if (this.consumeHunger()) {
@@ -753,14 +768,14 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     private void spawnSeatAndSit() {
-        ArmorStandEntity as = EntityType.ARMOR_STAND.create(this.getEntityWorld(), SpawnReason.TRIGGERED);
+        ArmorStandEntity as = EntityType.ARMOR_STAND.create(this.getWorld(), SpawnReason.TRIGGERED);
         if (as == null) return;
 
         as.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
         as.setInvisible(true);
         as.setNoGravity(true);
         as.setMarker(true);
-        this.getEntityWorld().spawnEntity(as);
+        this.getWorld().spawnEntity(as);
 
         this.seat = as;
         this.seatUUID = this.seat.getUuid().toString();
@@ -771,7 +786,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public float getMovementSpeed() {
         if (this.npcState == NPCState.NO_WALK || this.npcState == NPCState.SNAKING) return 0;
-        if (this.isPause) return 0;
+        if (this.paused) return 0;
         return super.getMovementSpeed();
     }
 
@@ -808,7 +823,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         if (result) {
             ItemStack mainHand = this.getMainHandStack();
             if (mainHand.isDamageable()) {
-                mainHand.damage(1, this, null);
+                mainHand.damage(1, (LivingEntity) this, (Hand) null);
             }
         }
         return result;
@@ -833,14 +848,14 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public ItemStack getMainHandStack() {
-        ItemStack stack = inventory.getStack(NPCInventory.MAIN_HAND);
+        ItemStack stack = inventory.getStack(NPCInventoryImpl.MAIN_HAND);
         if (stack.isEmpty()) return super.getMainHandStack();
         return stack;
     }
 
     @Override
     public ItemStack getOffHandStack() {
-        ItemStack stack = inventory.getStack(NPCInventory.OFF_HAND);
+        ItemStack stack = inventory.getStack(NPCInventoryImpl.OFF_HAND);
         if (stack.isEmpty()) return super.getOffHandStack();
         return stack;
     }
@@ -856,9 +871,9 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         } else if (slot == EquipmentSlot.FEET) {
             return this.inventory.getFeet();
         } else if (slot == EquipmentSlot.MAINHAND) {
-            return this.inventory.getStack(NPCInventory.MAIN_HAND);
+            return this.inventory.getStack(NPCInventoryImpl.MAIN_HAND);
         } else if (slot == EquipmentSlot.OFFHAND) {
-            return this.inventory.getStack(NPCInventory.OFF_HAND);
+            return this.inventory.getStack(NPCInventoryImpl.OFF_HAND);
         }
         return super.getEquippedStack(slot);
     }
@@ -867,8 +882,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
         super.equipStack(slot, stack);
         int idx = switch (slot) {
-            case MAINHAND -> NPCInventory.MAIN_HAND;
-            case OFFHAND -> NPCInventory.OFF_HAND;
+            case MAINHAND -> NPCInventoryImpl.MAIN_HAND;
+            case OFFHAND -> NPCInventoryImpl.OFF_HAND;
             case HEAD -> -11;
             case CHEST -> -12;
             case LEGS -> -13;
@@ -915,7 +930,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public @Nullable LivingEntity getOwner() {
         if (this.npcOwner.equalsIgnoreCase("")) return null;
-        return getWorld().getPlayerByUuid(UUID.fromString(this.npcOwner));
+        return this.getWorld().getPlayerByUuid(UUID.fromString(this.npcOwner));
     }
 
 //    @Override

@@ -37,7 +37,8 @@ public abstract class BasicPolymerFactoryBlockWithEntity extends BlockWithEntity
 
     public BasicPolymerFactoryBlockWithEntity(Identifier identifier, Settings settings) {
         super(settings.nonOpaque().registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)));
-        this.identifier = identifier;}
+        this.identifier = identifier;
+    }
 
     @Override
     public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState state) {

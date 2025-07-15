@@ -75,26 +75,25 @@ dependencies {
     modImplementation("eu.pb4:polymer-autohost:${polymer_version}")
     modImplementation("eu.pb4:polymer-networking:[${polymer_version}]")
 
-//    modImplementation include("maven.modrinth:pfu:0.2.3+1.21.4")
     modImplementation include("eu.pb4:factorytools:[${factorytools_version}]")
     modImplementation include("eu.pb4:sgui:[${sgui_version}]")
     modImplementation include("xyz.nucleoid:server-translations-api:2.5.1+1.21.5")
     modImplementation include("maven.modrinth:midnightlib:${midnightlib_version}")
 
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-block:${project.cca_version}")
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}")
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}")
-//    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-chunk:${project.cca_version}")
-
     modImplementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
     modImplementation include("eu.pb4:map-canvas-api:${project.mapcanvas_version}")
 
-    modImplementation files('libs/resourceconfigapi-fabric-1.21.5-3.7.0.jar')
-    modImplementation files('libs/eiv-fabric-2.5.3+1.21.5.jar')
+    modImplementation files('libs/resourceconfigapi-fabric-1.21.7-3.7.3.jar')
+    modImplementation files('libs/eiv-fabric-2.5.3-bpv+1.21.7.jar')
 
     modCompileOnly files('libs/polydex2eiv-1.0.4.jar')
+    modCompileOnly files('libs/PolyMc-5.7.0-rev.6a41cb5-dirty+1.21.7.jar')
+    modCompileOnly files('libs/borukva-food-0.1.14+1.21.7.jar')
+    modCompileOnly files('libs/borukva-food-exotic-3.10.0+1.21.7.jar')
+    modCompileOnly files('libs/FarmersDelight-1.21.7-3.2.4+refabricated.jar')
+    modCompileOnly files('libs/farmers-delight-polymer-patch-3.2.3.0+1.21.6.jar')
+    modCompileOnly files('libs/Fishing-101-1.7.1_experimental.jar')
+    modCompileOnly files('libs/go-fish-1.8.0+1.21.6.jar')
 
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
@@ -105,7 +104,7 @@ dependencies {
 //    compileOnly('org.geysermc.geyser:api:2.7.0-SNAPSHOT')
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
-    modCompileOnly 'maven.modrinth:polydex:1.5.0+1.21.5-rc2'
+    modCompileOnly 'maven.modrinth:polydex:1.6.0+1.21.6'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     implementation include('com.mohistmc:dynamicenum:0.3')

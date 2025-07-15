@@ -28,7 +28,7 @@ public abstract class BedBlockMixin extends HorizontalFacingBlock implements Blo
 
     @Inject(method = "onUse", at = @At("HEAD"))
     public void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        if (state.get(BedBlock.OCCUPIED).booleanValue()) {
+        if (state.get(BedBlock.OCCUPIED)) {
             this.wakeNpc(world, pos);
         }
     }

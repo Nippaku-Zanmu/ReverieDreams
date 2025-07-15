@@ -39,11 +39,9 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     private Map<Identifier, T> baseIdToEntry = new Object2ObjectLinkedOpenHashMap<>();
     private DefaultValueGetter<T> defaultEntryGetter;
     private T defaultEntry;
-    private List<BootstrapBuilder<T>> builders = new LinkedList<>();
-    private ReloadableBootstrap<T> reloadableBootstrap = (manager) -> {
-    };
+    private final List<BootstrapBuilder<T>> builders = new LinkedList<>();
+    private final List<ReloadableBootstrap<T>> reloadableBuilders = new LinkedList<>();
     private boolean isFrozen = false;
-    private boolean isFinished = false;
     private boolean reloadable = false;
     private boolean sync = false;
     private Codec<StandaloneRegistry<T>> entriesCodec;
@@ -258,7 +256,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     public void reset() {
         this.idToEntry.clear();
         this.rawToEntry.clear();
-        if (this.isFinished) {
+        if (this.isFrozen()) {
             this.idToEntry.putAll(this.baseIdToEntry);
             this.rawToEntry.putAll(this.baseRawToEntry);
         }
@@ -367,14 +365,13 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
 
     public StandaloneRegistry<T> reloadable() {
         this.reloadable = true;
-        this.reloadableBootstrap = (manager) -> {
-        };
         return this;
     }
 
-    public StandaloneRegistry<T> reloadable(ReloadableBootstrap<T> builder) {
+    @SafeVarargs
+    public final StandaloneRegistry<T> reloadable(ReloadableBootstrap<T>... builders) {
         this.reloadable = true;
-        this.reloadableBootstrap = builder;
+        this.reloadableBuilders.addAll(Arrays.asList(builders));
         return this;
     }
 
@@ -385,11 +382,11 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
     }
 
     public StandaloneRegistry<T> apply() {
-        if (!this.isFinished) {
+        if (!this.isFrozen) {
             this.builders.forEach(builder->builder.bootstrap(this));
             this.baseRawToEntry = new Object2ObjectLinkedOpenHashMap<>(this.rawToEntry);
             this.baseIdToEntry = new Object2ObjectLinkedOpenHashMap<>(this.idToEntry);
-            this.isFinished = true;
+            this.isFrozen = true;
         }
         return this;
     }

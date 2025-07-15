@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,6 +49,7 @@ public class ItemStackRecipeWrapper {
                 return stack;
             }))
     );
+    public static final Codec<List<ItemStack>> LIST_CODEC = ItemStackRecipeWrapper.FLEXIBLE_ITEMSTACK_CODEC.listOf();
 
     public static final Codec<ItemStackRecipeWrapper> CODEC =
             FLEXIBLE_ITEMSTACK_CODEC.xmap(ItemStackRecipeWrapper::new, ItemStackRecipeWrapper::getItemStack);
@@ -173,16 +175,14 @@ public class ItemStackRecipeWrapper {
         return null;
     }
 
-    public static ItemStackRecipeWrapper toWrapper(String json) {
-        ItemStackRecipeWrapper wrapper = null;
+    public static Optional<ItemStackRecipeWrapper> toWrapper(String json) {
+        if (json == null || json.isEmpty()) {
+            return Optional.empty();
+        }
         JsonElement jsonElement = JsonParser.parseString(json);
         Dynamic<JsonElement> input = new Dynamic<>(JsonOps.INSTANCE, jsonElement);
         DataResult<ItemStackRecipeWrapper> parse = ItemStackRecipeWrapper.CODEC.parse(input);
-        Optional<ItemStackRecipeWrapper> result = parse.result();
-        if (result.isPresent()) {
-            wrapper = result.get();
-        }
-        return wrapper;
+        return parse.result();
     }
 
 

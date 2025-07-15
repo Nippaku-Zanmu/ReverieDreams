@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:role_card"
+        "recipe": "reverie_dreams:role_card"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:role_card"
+      "reverie_dreams:role_card"
     ]
   }
 }

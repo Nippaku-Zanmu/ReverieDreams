@@ -25,6 +25,8 @@ import net.minecraft.particle.ParticleUtil;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
@@ -33,6 +35,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
@@ -50,6 +53,7 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
 
     public BasicFruitLeavesBlock(Settings settings) {
         super(0.01f, settings);
+        this.setDefaultState(this.getStateManager().getDefaultState().with(AGE_PROPERTY, 0));
     }
 
     public BasicFruitLeavesBlock(String name, Item output, Block emptyLeavesBlock, Settings settings) {
@@ -80,6 +84,7 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
             Integer age = state.get(AGE_PROPERTY);
             Random random = world.getRandom();
             if (age >= MAX_AGE) {
+                world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
                 ItemEntity drop = new ItemEntity(serverWorld, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this.output, random.nextBetween(1, 3)));
                 drop.setPickupDelay(10);
                 drop.setVelocity(0, 0.2, 0);
@@ -127,17 +132,61 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
     }
 
     @Override
+    protected boolean hasRandomTicks(BlockState state) {
+        return true;
+    }
+
+    @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
         return state.get(AGE_PROPERTY) < MAX_AGE;
     }
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+        float f;
         int age = state.get(AGE_PROPERTY);
 //        System.out.println(age);
-        if (age < MAX_AGE) {
-            world.setBlockState(pos, state.with(AGE_PROPERTY, age + 1),  Block.NOTIFY_ALL_AND_REDRAW);
+        if (age < MAX_AGE && random.nextInt((int) (25.0f / (f = getAvailableMoisture(this, world, pos))) + 1) == 0) {
+            world.setBlockState(pos, state.with(AGE_PROPERTY, Math.min(age + 1, MAX_AGE)),  Block.NOTIFY_ALL_AND_REDRAW);
         }
+    }
+
+    protected static float getAvailableMoisture(Block block, BlockView world, BlockPos pos) {
+        boolean bl2;
+        float f = 1.0f;
+        BlockPos blockPos = pos.down();
+        for (int i = -1; i <= 1; ++i) {
+            for (int j = -1; j <= 1; ++j) {
+                float g = 0.0f;
+                BlockState blockState = world.getBlockState(blockPos.add(i, 0, j));
+                if (blockState.isOf(Blocks.FARMLAND)) {
+                    g = 1.0f;
+                    if (blockState.get(FarmlandBlock.MOISTURE) > 0) {
+                        g = 3.0f;
+                    }
+                }
+                if (i != 0 || j != 0) {
+                    g /= 4.0f;
+                }
+                f += g;
+            }
+        }
+        BlockPos blockPos2 = pos.north();
+        BlockPos blockPos3 = pos.south();
+        BlockPos blockPos4 = pos.west();
+        BlockPos blockPos5 = pos.east();
+        boolean bl = world.getBlockState(blockPos4).isOf(block) || world.getBlockState(blockPos5).isOf(block);
+        boolean bl3 = bl2 = world.getBlockState(blockPos2).isOf(block) || world.getBlockState(blockPos3).isOf(block);
+        if (bl && bl2) {
+            f /= 2.0f;
+        } else {
+            boolean bl32;
+            boolean bl4 = bl32 = world.getBlockState(blockPos4.north()).isOf(block) || world.getBlockState(blockPos5.north()).isOf(block) || world.getBlockState(blockPos5.south()).isOf(block) || world.getBlockState(blockPos4.south()).isOf(block);
+            if (bl32) {
+                f /= 2.0f;
+            }
+        }
+        return f;
     }
 
     @Override

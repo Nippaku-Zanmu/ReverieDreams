@@ -24,6 +24,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -102,17 +104,17 @@ public class YouseiEntity extends NPCEntityImpl implements Leashable, FriendlyFa
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        String youseiVariantId = nbt.getString("YouseiVariant").orElse(YouseiVariants.DEFAULT_ID.toString());
+    public void readCustomData(ReadView view) {
+        super.readCustomData(view);
+        String youseiVariantId = view.getString("YouseiVariant", YouseiVariants.DEFAULT_ID.toString());
         Identifier variantId = Identifier.of(youseiVariantId);
         this.variant = RegistryManager.YOUSEI_VARIANT.getOrDefault(variantId);
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putString("YouseiVariant", this.variant.getId().toString());
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
+        view.putString("YouseiVariant", this.variant.getId().toString());
     }
 
     @Override
@@ -135,5 +137,10 @@ public class YouseiEntity extends NPCEntityImpl implements Leashable, FriendlyFa
     @Override
     public Identifier getVariantData() {
         return this.variant.getId();
+    }
+
+    @Override
+    public boolean cannotDespawn() {
+        return false;
     }
 }

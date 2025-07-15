@@ -6,6 +6,7 @@ import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
 import cc.thonly.reverie_dreams.entity.FriendlyFaction;
 import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import eu.pb4.polymer.virtualentity.api.tracker.DisplayTrackedData;
@@ -35,6 +36,8 @@ import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -164,34 +167,28 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
         if (!this.itemStack.isEmpty()) {
-            nbt.put("Item", this.itemStack.copy().toNbt(this.getRegistryManager()));
+            view.put("Item", ItemStackRecipeWrapper.FLEXIBLE_ITEMSTACK_CODEC, this.itemStack.copy());
         }
-        nbt.putBoolean("IsTile", this.tile);
+        view.putBoolean("IsTile", this.tile);
         Identifier danmakuDamageTypeId = RegistryManager.DANMAKU_DAMAGE_TYPE.getId(this.danmakuDamageType);
         if (danmakuDamageTypeId != null) {
-            nbt.putString("DamageType", danmakuDamageTypeId.toString());
+            view.putString("DamageType", danmakuDamageTypeId.toString());
         }
-        nbt.putInt("FlyAge", this.flyAge);
+        view.putInt("FlyAge", this.flyAge);
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("Item")) {
-            this.itemStack = ItemStack.fromNbt(this.getRegistryManager(), nbt.getCompound("Item").get()).orElse(ItemStack.EMPTY);
-        }
-        if (nbt.contains("IsTile")) {
-            this.tile = nbt.getBoolean("IsTile").orElse(true);
-        }
-        if (nbt.contains("DamageType")) {
-            this.danmakuDamageType = RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(nbt.getString("DamageType").get()));
-        }
-        if (nbt.contains("FlyAge")) {
-            this.flyAge = nbt.getInt("FlyAge").orElse(0);
-        }
+    protected void readCustomData(ReadView view) {
+        super.readCustomData(view);
+        this.itemStack = view.read("Item", ItemStackRecipeWrapper.FLEXIBLE_ITEMSTACK_CODEC).orElse(ItemStack.EMPTY);
+        this.tile = view.getBoolean("IsTile", true);
+        this.danmakuDamageType = RegistryManager.DANMAKU_DAMAGE_TYPE.get(Identifier.of(view.getString("DamageType", Touhou.id("generic").toString())));
+
+        this.flyAge = view.getInt("FlyAge",0);
+
     }
 
     @Override
@@ -323,7 +320,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     }
 
     protected void entityHitParticles(LivingEntity livingEntity, double damage) {
-        if (livingEntity.getEntityWorld() instanceof ServerWorld world) {
+        if (livingEntity.getWorld() instanceof ServerWorld world) {
             Vec3d pos = livingEntity.getPos();
             int particleCount = (int) damage * 4;
             double radius = livingEntity.getWidth() / 2 + 0.5;

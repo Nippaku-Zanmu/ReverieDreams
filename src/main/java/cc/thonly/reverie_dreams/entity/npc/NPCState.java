@@ -8,11 +8,13 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 public enum NPCState {
-    NORMAL(0),
-    NO_WALK(1),
-    SNAKING(2),
-    SEATED(3),
-    WORKING(4);
+    FOLLOW(0),
+    NORMAL(1),
+    NO_WALK(2),
+    SNAKING(3),
+    SEATED(4),
+    WORKING(5),
+    ;
     private final Integer id;
 
     public static NPCState fromInt(Integer value) {

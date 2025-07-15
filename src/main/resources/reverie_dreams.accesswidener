@@ -14,3 +14,6 @@ accessible method net/minecraft/component/ComponentChanges$Type type ()Lnet/mine
 accessible field net/minecraft/component/ComponentChanges changedComponents Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 accessible method net/minecraft/component/ComponentChanges$Type <init> (Lnet/minecraft/component/ComponentType;Z)V
 accessible class net/minecraft/screen/slot/ArmorSlot
+accessible class net/minecraft/server/world/ServerChunkLoadingManager$EntityTracker
+accessible method net/minecraft/server/network/EntityTrackerEntry syncEntityData ()V
+accessible method net/minecraft/server/network/EntityTrackerEntry sendSyncPacket (Lnet/minecraft/network/packet/Packet;)V

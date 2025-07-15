@@ -119,7 +119,7 @@ public class Knife extends BasicPolymerSwordItem implements DanmakuItemType {
         );
         list.add(danmakuEntity);
         for (int i = 0; i < 3; i++) {
-            int i1 = random.nextInt(-20, 20);
+            int i1 = random.nextInt(-5, 5);
             list.add(new DanmakuEntity(
                     (LivingEntity) user,
                     serverWorld,

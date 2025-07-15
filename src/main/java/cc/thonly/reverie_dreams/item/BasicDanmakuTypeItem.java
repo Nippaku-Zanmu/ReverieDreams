@@ -27,6 +27,8 @@ public class BasicDanmakuTypeItem extends BasicPolymerDanmakuItem {
         DanmakuTrajectory danmakuTrajectory = RegistryManager.DANMAKU_TRAJECTORY.get(Identifier.of(templateType));
         Float speed = stack.getOrDefault(ModDataComponentTypes.Danmaku.SPEED, 1.0f);
         Float acceleration = stack.getOrDefault(ModDataComponentTypes.Danmaku.ACCELERATION, 0.0f);
+
         danmakuTrajectory.run(serverWorld, user, stack, user.getX(), user.getY(), user.getZ(), user.getPitch(), user.getYaw(), speed, acceleration, 0f,1.5f, this);
+
      }
 }

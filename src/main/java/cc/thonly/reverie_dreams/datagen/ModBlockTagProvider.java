@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.datagen;
 
+import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
@@ -10,6 +11,8 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.tag.ProvidedTagBuilder;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
@@ -21,7 +24,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Getter(AccessLevel.PRIVATE)
-public class ModBlockTagProvider extends FabricTagProvider<Block> {
+public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     public static final Set<Block> FENCES = new HashSet<>();
     public static final Set<Block> FENCE_GATES = new HashSet<>();
     public static final Set<Block> LEAVES = new HashSet<>();
@@ -35,31 +38,30 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
 
 
     public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-        super(output, RegistryKeys.BLOCK, registriesFuture);
+        super(output, registriesFuture);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagProvider<Block>.FabricTagBuilder fumo = getOrCreateTagBuilder(ModTags.BlockTypeTag.FUMO);
-        FabricTagProvider<Block>.FabricTagBuilder empty = getOrCreateTagBuilder(ModTags.BlockTypeTag.EMPTY);
-        FabricTagProvider<Block>.FabricTagBuilder fences = getOrCreateTagBuilder(BlockTags.FENCES);
-        FabricTagProvider<Block>.FabricTagBuilder woodenFences = getOrCreateTagBuilder(BlockTags.WOODEN_FENCES);
-        FabricTagProvider<Block>.FabricTagBuilder fenceGates = getOrCreateTagBuilder(BlockTags.FENCE_GATES);
-        FabricTagProvider<Block>.FabricTagBuilder stairs = getOrCreateTagBuilder(BlockTags.STAIRS);
-        FabricTagProvider<Block>.FabricTagBuilder slabs = getOrCreateTagBuilder(BlockTags.SLABS);
-        FabricTagProvider<Block>.FabricTagBuilder saplings = getOrCreateTagBuilder(BlockTags.SAPLINGS);
-        FabricTagProvider<Block>.FabricTagBuilder leaves = getOrCreateTagBuilder(BlockTags.LEAVES);
-        FabricTagProvider<Block>.FabricTagBuilder buttons = getOrCreateTagBuilder(BlockTags.BUTTONS);
-        FabricTagProvider<Block>.FabricTagBuilder pressurePlates = getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES);
-        FabricTagProvider<Block>.FabricTagBuilder trapdoors = getOrCreateTagBuilder(BlockTags.TRAPDOORS);
-        FabricTagProvider<Block>.FabricTagBuilder doors = getOrCreateTagBuilder(BlockTags.DOORS);
-        FabricTagProvider<Block>.FabricTagBuilder sliver = getOrCreateTagBuilder(ModTags.BlockTypeTag.SILVER);
-        FabricTagProvider<Block>.FabricTagBuilder minTools = getOrCreateTagBuilder(ModTags.BlockTypeTag.MIN_TOOL);
-        FabricTagProvider<Block>.FabricTagBuilder axeMineable = getOrCreateTagBuilder(BlockTags.AXE_MINEABLE);
-        FabricTagProvider<Block>.FabricTagBuilder hoeMineable = getOrCreateTagBuilder(BlockTags.HOE_MINEABLE);
-        FabricTagProvider<Block>.FabricTagBuilder pickaxeMineable = getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
-        FabricTagProvider<Block>.FabricTagBuilder shovelMineable = getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE);
-
+        ProvidedTagBuilder<Block, Block> fumo = valueLookupBuilder(ModTags.BlockTypeTag.FUMO);
+        ProvidedTagBuilder<Block, Block> empty = valueLookupBuilder(ModTags.BlockTypeTag.EMPTY);
+        ProvidedTagBuilder<Block, Block> fences = valueLookupBuilder(BlockTags.FENCES);
+        ProvidedTagBuilder<Block, Block> woodenFences = valueLookupBuilder(BlockTags.WOODEN_FENCES);
+        ProvidedTagBuilder<Block, Block> fenceGates = valueLookupBuilder(BlockTags.FENCE_GATES);
+        ProvidedTagBuilder<Block, Block> stairs = valueLookupBuilder(BlockTags.STAIRS);
+        ProvidedTagBuilder<Block, Block> slabs = valueLookupBuilder(BlockTags.SLABS);
+        ProvidedTagBuilder<Block, Block> saplings = valueLookupBuilder(BlockTags.SAPLINGS);
+        ProvidedTagBuilder<Block, Block> leaves = valueLookupBuilder(BlockTags.LEAVES);
+        ProvidedTagBuilder<Block, Block> buttons = valueLookupBuilder(BlockTags.BUTTONS);
+        ProvidedTagBuilder<Block, Block> pressurePlates = valueLookupBuilder(BlockTags.PRESSURE_PLATES);
+        ProvidedTagBuilder<Block, Block> trapdoors = valueLookupBuilder(BlockTags.TRAPDOORS);
+        ProvidedTagBuilder<Block, Block> doors = valueLookupBuilder(BlockTags.DOORS);
+        ProvidedTagBuilder<Block, Block> sliver = valueLookupBuilder(ModTags.BlockTypeTag.SILVER);
+        ProvidedTagBuilder<Block, Block> minTools = valueLookupBuilder(ModTags.BlockTypeTag.MIN_TOOL);
+        ProvidedTagBuilder<Block, Block> axeMineable = valueLookupBuilder(BlockTags.AXE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> hoeMineable = valueLookupBuilder(BlockTags.HOE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> pickaxeMineable = valueLookupBuilder(BlockTags.PICKAXE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> shovelMineable = valueLookupBuilder(BlockTags.SHOVEL_MINEABLE);
         
         for (Fumo instance : Fumos.getView()) {
             fumo.add(instance.block());
@@ -79,6 +81,14 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
 
         pickaxeMineable.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
         pickaxeMineable.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
+        pickaxeMineable.add(ModBlocks.GENSOKYO_ALTAR);
+        ModBlocks.SPIRITUAL.stream().forEach(axeMineable::add);
+        MIBlocks.LEMON.stream().forEach(axeMineable::add);
+        MIBlocks.GINKGO.stream().forEach(axeMineable::add);
+        MIBlocks.PEACH.stream().forEach(axeMineable::add);
+        ModBlocks.SPIRITUAL.stream().forEach(axeMineable::add);
+        axeMineable.add(ModBlocks.DANMAKU_CRAFTING_TABLE);
+        axeMineable.add(ModBlocks.MUSIC_BLOCK);
         sliver.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
 
         minTools.add(Blocks.BEDROCK);

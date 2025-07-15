@@ -32,10 +32,10 @@
           "data": {
             "Name": "reverie_dreams:lemon_fruit_leaves",
             "Properties": {
-              "distance": "7",
+              "distance": "1",
               "fruit_age": "0",
               "persistent": "true",
-              "waterlogged": "false"
+              "waterlogged": "true"
             }
           },
           "weight": 1

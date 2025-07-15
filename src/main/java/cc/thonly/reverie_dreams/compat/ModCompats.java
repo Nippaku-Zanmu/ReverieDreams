@@ -10,6 +10,11 @@ public class ModCompats {
         load("polydex", PolydexCompatImpl::bootstrap);
         load("polydex2eiv", Polydex2EIVCompatImpl::bootstrap);
         load("minecraft", VanillaCompat::bootstrap);
+        load("borukva-food", BorukvaFoodCompatImpl::bootstrap);
+        load("borukva-food-exotic", BorukvaFoodExoticCompatImpl::bootstrap);
+        load("farmersdelight", FarmersdelightCompatImpl::bootstrap);
+        load("go-fish", GoFishingCompatImpl::bootstrap);
+        load("fishing101", Fishing101CompatImpl::bootstrap);
 //        load("eiv", EIVCompatImpl::bootstrap);
 //        EIVCompatNetworkingImpl.bootstrap();
     }

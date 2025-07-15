@@ -6,6 +6,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import nota.player.SongPlayer;
@@ -56,17 +58,16 @@ public class MusicBlockEntity extends BlockEntity {
         }
     }
 
-
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        nbt.putString("Select", this.select == null ? "" : this.select);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putString("Select", this.select == null ? "" : this.select);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        this.select = nbt.getString("Select").orElse("");
+    protected void readData(ReadView view) {
+        super.readData(view);
+        this.select = view.getString("Select","");
     }
 
     public int play() {

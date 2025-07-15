@@ -66,10 +66,11 @@ public interface PlayerPolymerEntity extends PolymerEntity {
 
     @Override
     default void onBeforeSpawnPacket(ServerPlayerEntity player, Consumer<Packet<?>> packetConsumer) {
-        var packet = PolymerEntityUtils.createMutablePlayerListPacket(EnumSet.of(PlayerListS2CPacket.Action.ADD_PLAYER));
-        var profile = new GameProfile(((Entity) this).getUuid(), "");
+        PlayerListS2CPacket packet = PolymerEntityUtils.createMutablePlayerListPacket(EnumSet.of(PlayerListS2CPacket.Action.ADD_PLAYER));
+        GameProfile profile = new GameProfile(((Entity) this).getUuid(), "");
         profile.getProperties().put("textures", this.getSkin());
-        packet.getEntries().add(new PlayerListS2CPacket.Entry(profile.getId(), profile, false, Integer.MAX_VALUE, GameMode.ADVENTURE, Text.empty(), true, 0, null));
+        List<PlayerListS2CPacket.Entry> entries = packet.getEntries();
+        entries.add(new PlayerListS2CPacket.Entry(profile.getId(), profile, false, Integer.MAX_VALUE, GameMode.ADVENTURE, Text.empty(), true, 0, null));
         packetConsumer.accept(packet);
     }
 

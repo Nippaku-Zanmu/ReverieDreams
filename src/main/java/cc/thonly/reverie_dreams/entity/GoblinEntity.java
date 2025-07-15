@@ -2,9 +2,9 @@ package cc.thonly.reverie_dreams.entity;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
-import cc.thonly.reverie_dreams.inventory.NPCInventory;
-import net.minecraft.component.DataComponentTypes;
+import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -13,8 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Unit;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -43,7 +43,7 @@ public class GoblinEntity extends NPCEntityImpl {
         super(entityType, world, MobSkins.GOBLIN.get());
         this.inventory.setMainHand(this.getRandomPickaxe());
         this.inventory.setOffHand(this.getRandomOffHand());
-        if(GOLDEN_ITEMS.isEmpty()) {
+        if (GOLDEN_ITEMS.isEmpty()) {
             this.tryGetGoldenItem();
         }
     }
@@ -86,7 +86,10 @@ public class GoblinEntity extends NPCEntityImpl {
         }
         Item item = PICKAXE_POOL.get(random.nextInt(PICKAXE_POOL.size()));
         ItemStack itemStack = new ItemStack(item);
-        itemStack.set(DataComponentTypes.UNBREAKABLE, Unit.INSTANCE);
+//        itemStack.set(DataComponentTypes.UNBREAKABLE, Unit.INSTANCE);
+        if (itemStack.isDamaged()) {
+            itemStack.damage(itemStack.getMaxDamage() - 50, (LivingEntity) this, Hand.MAIN_HAND);
+        }
         return itemStack;
     }
 
@@ -97,12 +100,23 @@ public class GoblinEntity extends NPCEntityImpl {
         }
         Item item = OFFHAND_POOL.get(random.nextInt(OFFHAND_POOL.size()));
         ItemStack itemStack = new ItemStack(item);
-        itemStack.set(DataComponentTypes.UNBREAKABLE, Unit.INSTANCE);
+        if (itemStack.isDamaged()) {
+            itemStack.damage(itemStack.getMaxDamage() - 50, (LivingEntity) this, Hand.OFF_HAND);
+        }
         return itemStack;
     }
 
     @Override
     public Set<Integer> getDonDropSlotIndex() {
-        return Set.of(NPCInventory.MAIN_HAND, NPCInventory.OFF_HAND);
+        return Set.of(NPCInventoryImpl.MAIN_HAND, NPCInventoryImpl.OFF_HAND);
+    }
+
+    public KeepInventoryTypes getKeepInventoryType() {
+        return KeepInventoryTypes.NOT_DROP_ANY;
+    }
+
+    @Override
+    public boolean cannotDespawn() {
+        return false;
     }
 }

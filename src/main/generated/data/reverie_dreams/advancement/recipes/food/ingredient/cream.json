@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ingredient/cream"
+        "recipe": "reverie_dreams:ingredient/cream"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ingredient/cream"
+      "reverie_dreams:ingredient/cream"
     ]
   }
 }

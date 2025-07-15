@@ -253,10 +253,14 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateGuiItemModels(ItemModelGenerator itemModelGenerator) {
-        Model guiSlotModel = item("custom_slot", TextureKey.LAYER0);
         for (Item item : ModGuiItems.getGuiItemView()) {
-            itemModelGenerator.register(item, guiSlotModel);
+            this.registerGuiItem(itemModelGenerator, item);
         }
+    }
+
+    private void registerGuiItem(ItemModelGenerator itemModelGenerator, Item item) {
+//        Model guiSlotModel = item("custom_slot", TextureKey.LAYER0);
+//        itemModelGenerator.register(item, guiSlotModel);
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
@@ -289,7 +293,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerTintableCross(creator.sapling(), BlockStateModelGenerator.CrossType.NOT_TINTED);
         this.registerFamily(blockStateModelGenerator, creator.getBlockFamily());
         blockStateModelGenerator.registerDoor(creator.door());
-        blockStateModelGenerator.registerTrapdoor(creator.trapdoor());
+//        blockStateModelGenerator.registerTrapdoor(creator.trapdoor());
     }
 
     private void registerFamily(BlockStateModelGenerator generator, BlockFamily family) {

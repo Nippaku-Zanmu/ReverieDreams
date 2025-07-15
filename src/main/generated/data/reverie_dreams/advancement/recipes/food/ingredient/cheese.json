@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ingredient/cheese"
+        "recipe": "reverie_dreams:ingredient/cheese"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ingredient/cheese"
+      "reverie_dreams:ingredient/cheese"
     ]
   }
 }

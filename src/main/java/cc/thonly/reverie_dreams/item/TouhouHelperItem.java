@@ -100,17 +100,17 @@ public class TouhouHelperItem extends BasicPolymerItem {
             // 3
             builder.addPage(
                     Text.literal("祭坛摆放："),
-                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
                     Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
-                    Text.empty().append("§d⏹§b⏹§b⏹§b⏹§e⏹§b⏹§b⏹§b⏹§d⏹"),
+                    Text.empty().append("§c⏹§b⏹§b⏹§b⏹§e⏹§b⏹§b⏹§b⏹§c⏹"),
                     Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹"),
-                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§d⏹§b⏹§b⏹§b⏹§b⏹"),
+                    Text.empty().append("§b⏹§b⏹§b⏹§b⏹§c⏹§b⏹§b⏹§b⏹§b⏹"),
                     Text.empty().append("§b⏹：").append(Text.translatable(Items.AIR.getTranslationKey())),
-                    Text.empty().append("§c⏹：").append(Text.translatable(ModBlocks.SPIRITUAL.log().getTranslationKey())),
+                    Text.empty().append("§c⏹：").append(Text.translatable(ModBlocks.SPIRITUAL.strippedLog().getTranslationKey())),
                     Text.empty().append("§e⏹：").append(Text.translatable(ModBlocks.GENSOKYO_ALTAR.getTranslationKey())),
                     Text.empty().append("注意：").append("§c⏹§r一共摆放三层")
             );

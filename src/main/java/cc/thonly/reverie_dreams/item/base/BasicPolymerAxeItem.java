@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class BasicPolymerAxeItem extends AxeItem implements PolymerItem, PolymerClientDecoded, PolymerKeepModel, IdentifierGetter {
     final Identifier identifier;
     final Item vanillaItem = Items.DIAMOND_AXE;
-    public static final List<AxeItem> ITEMS = new ArrayList<>();
+    public static final List<BasicPolymerAxeItem> ITEMS = new ArrayList<>();
 
     public BasicPolymerAxeItem(String path, ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         this(Touhou.id(path), material, attackDamage, attackSpeed, settings);

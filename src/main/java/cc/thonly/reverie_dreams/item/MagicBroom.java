@@ -15,10 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MagicBroom extends BasicPolymerSwordItem {
-    public static final ToolMaterial ROKANKEN = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 1250, 7.5f, 5.5f, 10, ModTags.ItemTypeTag.POWER_BLOCK);
+    public static final ToolMaterial MAGIC_BROOM = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 750, 7.5f, 4.0f, 10, ModTags.ItemTypeTag.POWER_BLOCK);
 
     public MagicBroom(String path, float attackDamage, float attackSpeed, Item.Settings settings) {
-        super(path, ROKANKEN, attackDamage + 1f, attackSpeed - 2.4f, settings);
+        super(path, MAGIC_BROOM, attackDamage + 1f, attackSpeed - 2.4f, settings);
     }
 
     @Override

@@ -24,6 +24,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -190,9 +192,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
             this.setHealth(this.getMaxHealth());
             SoundEvent hurtSound = getHurtSound(source);
             SoundEvent deathSound = getDeathSound();
-            getEntityWorld().playSound(null, this.getX(), this.getY(), this.getZ(), hurtSound, this.getSoundCategory(), 1.0f, 1.0f);
-            getEntityWorld().playSound(null, this.getX(), this.getY(), this.getZ(), deathSound, this.getSoundCategory(), 1.0f, 1.0f);
-            getEntityWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_TOTEM_USE, this.getSoundCategory(), 1.0f, 1.0f);
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), hurtSound, this.getSoundCategory(), 1.0f, 1.0f);
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), deathSound, this.getSoundCategory(), 1.0f, 1.0f);
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_TOTEM_USE, this.getSoundCategory(), 1.0f, 1.0f);
             for (var player : world.getPlayers()) {
                 world.spawnParticles(player, ParticleTypes.TOTEM_OF_UNDYING, true, false, this.getX(), this.getY(), this.getZ(), 250, 1.5, 2, 1.5, 0.5);
             }
@@ -209,20 +211,20 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
         }
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
-    public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putFloat("MaxHealthModifier", this.maxHealthModifier);
-        nbt.putInt("DeathCount", this.deathCount);
-        nbt.putInt("DeathCountResetTimer", this.deathCountResetTimer);
-        nbt.putDouble("ManpozuchiUsingState", this.manpozuchiUsingState);
+    @Inject(method = "writeCustomData", at = @At("HEAD"))
+    public void writeCustomDataToNbt(WriteView view, CallbackInfo ci) {
+        view.putFloat("MaxHealthModifier", this.maxHealthModifier);
+        view.putInt("DeathCount", this.deathCount);
+        view.putInt("DeathCountResetTimer", this.deathCountResetTimer);
+        view.putDouble("ManpozuchiUsingState", this.manpozuchiUsingState);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
-    public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-        this.maxHealthModifier = nbt.getFloat("MaxHealthModifier").orElse(0.0f);
-        this.deathCount = nbt.getInt("DeathCount").orElse(0);
-        this.deathCountResetTimer = nbt.getInt("DeathCountResetTimer").orElse(0);
-        this.manpozuchiUsingState = nbt.getDouble("ManpozuchiUsingState").orElse(0.0);
+    @Inject(method = "readCustomData", at = @At("HEAD"))
+    public void readCustomDataFromNbt(ReadView view, CallbackInfo ci) {
+        this.maxHealthModifier = view.getFloat("MaxHealthModifier",0.0f);
+        this.deathCount = view.getInt("DeathCount",0);
+        this.deathCountResetTimer = view.getInt("DeathCountResetTimer",0);
+        this.manpozuchiUsingState = view.getDouble("ManpozuchiUsingState", 0.0);
     }
 
     @Override

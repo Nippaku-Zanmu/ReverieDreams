@@ -28,9 +28,9 @@ public class BaguaFurnace extends BasicPolymerItem {
         ItemStack stack = user.getStackInHand(hand);
         if (!world.isClient() && user instanceof ServerPlayerEntity player) {
             ServerWorld serverWorld = (ServerWorld) world;
-            float pitch = user.getPitch();
-            float yaw = user.getYaw();
             DelayedTask.repeat(world.getServer(), 200, 1, () -> {
+                float pitch = user.getPitch();
+                float yaw = user.getYaw();
                 DanmakuEntity entity = DanmakuTrajectory.spawnByItemStack(
                         serverWorld, user, user.getX(), user.getY(), user.getZ(),
                         DanmakuTypes.random(DanmakuTypes.FIREBALL_GLOWY),
@@ -38,12 +38,12 @@ public class BaguaFurnace extends BasicPolymerItem {
                 );
             });
             serverWorld.playSound(null, user.getBlockPos(), SoundEventInit.BAGUA, SoundCategory.PLAYERS);
-            DelayedTask.repeat(world.getServer(), 3, 5 * 20, () -> {
+            DelayedTask.repeat(world.getServer(), 1, 5 * 20, () -> {
                 serverWorld.playSound(null, user.getBlockPos(), SoundEventInit.BAGUA, SoundCategory.PLAYERS);
             });
 
             HungerManager hungerManager = player.getHungerManager();
-            hungerManager.add(-4, -4);
+            hungerManager.add(-6, -6);
 
             ItemCooldownManager itemCooldownManager = player.getItemCooldownManager();
             itemCooldownManager.set(stack, 20 * 40);

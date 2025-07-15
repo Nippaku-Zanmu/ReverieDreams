@@ -39,7 +39,6 @@ public class DanmakuGoal extends Goal {
         this.launcher = launcher != null ? launcher : DEFAULT_MOB_DANMAKU_FIRE_LAUNCHER;
         this.minDelayTicks = minDelayTicks;
         this.maxDelayTicks = maxDelayTicks;
-//        Goal.Control.MOVE,
         this.setControls(EnumSet.of(Goal.Control.LOOK));
     }
 

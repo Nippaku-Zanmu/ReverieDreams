@@ -46,7 +46,7 @@ public class WoodCreator {
     private Block stair;
     private Block slab;
     private Block door;
-    private Block trapdoor;
+//    private Block trapdoor;
     private Block fence;
     private Block fenceGate;
     private Block button;
@@ -89,12 +89,13 @@ public class WoodCreator {
         this.stair = new BasicPolymerStairsBlock(suffix("stair"), this.planks.getDefaultState(), AbstractBlock.Settings.copy(Blocks.OAK_STAIRS));
         this.slab = new BasicPolymerSlabBlock(suffix("slab"), this.planks.getDefaultState(), AbstractBlock.Settings.copy(Blocks.OAK_SLAB));
         this.door = new BasicPolymerDoorBlock(suffix("door"), AbstractBlock.Settings.copy(Blocks.OAK_DOOR));
-        this.trapdoor = new BasicPolymerTrapdoorBlock(suffix("trapdoor"), AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR));
+//        this.trapdoor = new BasicPolymerTrapdoorBlock(suffix("trapdoor"), AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR));
         this.fence = new BasicPolymerFenceBlock(suffix("fence"), AbstractBlock.Settings.copy(Blocks.OAK_FENCE));
         this.fenceGate = new BasicPolymerFenceGateBlock(suffix("fence_gate"), WoodType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_FENCE_GATE));
         this.button = new BasicPolymerButtonBlock(suffix("button"), BlockSetType.OAK, 30, AbstractBlock.Settings.copy(Blocks.OAK_BUTTON));
         this.stream().forEach((block) -> {
             IdentifierGetter blockImpl = (IdentifierGetter) block;
+//            System.out.println(blockImpl.getIdentifier());
             this.register(blockImpl);
         });
         StrippableBlockRegistry.register(this.log, this.strippedLog);
@@ -109,7 +110,7 @@ public class WoodCreator {
         return this;
     }
 
-    public Block register(IdentifierGetter blockImpl) {
+    public void register(IdentifierGetter blockImpl) {
         Registry.register(Registries.BLOCK, blockImpl.getIdentifier(), (Block) blockImpl);
         Item blockItem = null;
         boolean isIgnored = blockImpl instanceof SignBlock || blockImpl instanceof WallSignBlock || blockImpl instanceof HangingSignBlock || blockImpl instanceof WallHangingSignBlock;
@@ -150,7 +151,6 @@ public class WoodCreator {
             ModItemTagProvider.DOORS.add(block.asItem());
         }
         BLOCK_ITEMS.add(block.asItem());
-        return block;
     }
 
     public Block log() {
@@ -193,9 +193,9 @@ public class WoodCreator {
         return this.door;
     }
 
-    public Block trapdoor() {
-        return this.trapdoor;
-    }
+//    public Block trapdoor() {
+//        return this.trapdoor;
+//    }
 
     public Block fence() {
         return this.fence;
@@ -221,7 +221,7 @@ public class WoodCreator {
                 stair,
                 slab,
                 door,
-                trapdoor,
+//                trapdoor,
                 fence,
                 fenceGate,
                 button

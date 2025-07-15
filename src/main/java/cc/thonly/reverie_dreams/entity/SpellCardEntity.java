@@ -52,7 +52,7 @@ public class SpellCardEntity extends PersistentProjectileEntity implements Polym
                 livingEntity.getX(),
                 livingEntity.getY() + livingEntity.getStandingEyeHeight() - 0.5,
                 livingEntity.getZ(),
-                livingEntity.getEntityWorld(),
+                livingEntity.getWorld(),
                 offStack.copy(),
                 livingEntity.getStackInHand(hand));
         this.maxTick = maxTick;

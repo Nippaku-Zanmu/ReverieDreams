@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:spiritual_planks_from_stripped_spiritual_log"
+        "recipe": "reverie_dreams:spiritual_planks_from_stripped_spiritual_log"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:spiritual_planks_from_stripped_spiritual_log"
+      "reverie_dreams:spiritual_planks_from_stripped_spiritual_log"
     ]
   }
 }

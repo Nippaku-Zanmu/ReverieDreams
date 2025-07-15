@@ -57,7 +57,8 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
     }
 
     public void register() {
-        this.item = new BasicDanmakuTypeItem(this.getRegistryKey(), this.createItemSettings().component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046)));
+        this.item = new BasicDanmakuTypeItem(this.getRegistryKey(), this.createItemSettings()
+                .component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046)));
         Registry.register(Registries.ITEM, Identifier.of(this.id.getNamespace(), "danmaku/" + this.id.getPath()), this.item);
     }
 

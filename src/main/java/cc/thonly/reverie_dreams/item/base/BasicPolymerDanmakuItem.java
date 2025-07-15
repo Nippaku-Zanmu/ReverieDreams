@@ -53,6 +53,9 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
             }
             if (!isInfinite) {
                 itemStack.damage(1, user);
+                if (itemStack.getDamage() <= 1) {
+                    itemStack.decrement(1);
+                }
             }
 
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEventInit.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);

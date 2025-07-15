@@ -98,7 +98,7 @@ public class IceElementalEntity extends NPCEntityImpl implements ElementalMob {
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             ItemEntity itemEntity = new ItemEntity(serverWorld, this.getX(), this.getY(), this.getZ(), new ItemStack(ModBlocks.MAGIC_ICE_BLOCK, Random.create().nextBetween(0, 4)), 0, 0.1, 0);
             world.spawnEntity(itemEntity);
