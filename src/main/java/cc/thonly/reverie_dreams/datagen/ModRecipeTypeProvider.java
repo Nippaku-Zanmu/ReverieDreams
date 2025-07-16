@@ -355,6 +355,15 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
                 ),
                 this.ofItem(ModItems.TRUMPET_GUN)
         ));
+        this.gensokyoAltarRecipe.register(ModItems.DEATH_SCYTHE, new GensokyoAltarRecipe(
+                this.ofItem(Items.NETHERITE_HOE),
+                List.of(
+                        this.ofItem(Items.SOUL_SAND, 32), this.ofItem(Items.SOUL_SAND, 16), this.ofItem(Items.SOUL_SAND, 8),
+                        this.ofItem(Items.NETHERITE_INGOT, 1), this.ofItem(Items.DIAMOND, 5),
+                        this.ofItem(Items.ROTTEN_FLESH, 8), this.ofItem(Items.BONE, 7)
+                ),
+                this.ofItem(ModItems.DEATH_SCYTHE)
+        ));
     }
 
     public void generateKitchenRecipe() {

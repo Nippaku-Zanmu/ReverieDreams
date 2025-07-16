@@ -25,6 +25,7 @@ public class RoleSkin implements RegistrableObject<RoleSkin> {
         this.id = id;
         this.value = value;
         this.signature = signature;
+        this.valid();
     }
 
     public Property get() {
@@ -32,6 +33,11 @@ public class RoleSkin implements RegistrableObject<RoleSkin> {
             this.instance = texture(this.value, this.signature);
         }
         return this.instance;
+    }
+
+    private void valid() {
+        Property property = this.get();
+
     }
 
     private static Property texture(String value, String signature) {

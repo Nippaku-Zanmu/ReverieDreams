@@ -104,7 +104,6 @@ public class KitchenwareBlockEntity extends BlockEntity {
                         CooktopBlockEntity cooktopBlockEntity = cooktop.get();
                         if (!(cooktopBlockEntity.ticks > 0)) {
                             entity.useFuel();
-                            System.out.println(1);
                         }
                     }
                     entity.setWorkingState(WorkingState.WORKING);

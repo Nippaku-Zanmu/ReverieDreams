@@ -60,7 +60,6 @@ public class CooktopBlockEntity extends BlockEntity {
         FuelRegistry fuelRegistry = server.getFuelRegistry();
         if (fuelRegistry.isFuel(itemStack)) {
             int fuelTicks = fuelRegistry.getFuelTicks(itemStack);
-            System.out.println(fuelTicks);
             this.ticks += fuelTicks;
             itemStack.decrement(1);
             return true;

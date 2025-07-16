@@ -15,8 +15,6 @@ public class ModCompats {
         load("farmersdelight", FarmersdelightCompatImpl::bootstrap);
         load("go-fish", GoFishingCompatImpl::bootstrap);
         load("fishing101", Fishing101CompatImpl::bootstrap);
-//        load("eiv", EIVCompatImpl::bootstrap);
-//        EIVCompatNetworkingImpl.bootstrap();
     }
 
     public static void load(String modId, CompatApplication application) {

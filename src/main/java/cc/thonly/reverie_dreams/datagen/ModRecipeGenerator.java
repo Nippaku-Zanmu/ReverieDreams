@@ -457,6 +457,16 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .input('Y', Items.OAK_SLAB)
                 .criterion("always", conditionsFromItem(Items.AIR))
                 .offerTo(exporter, getRecipeName(MIBlocks.STEAMER));
+
+        // 能量罩
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.COOKTOP)
+                .pattern("YYY")
+                .pattern("YXY")
+                .pattern("YYY")
+                .input('X', Items.FURNACE)
+                .input('Y', Items.BRICKS)
+                .criterion("always", conditionsFromItem(Items.AIR))
+                .offerTo(exporter, getRecipeName(MIBlocks.COOKTOP));
     }
 
     private void offerSwordRecipe(RecipeExporter exporter, Item result, Item ingot) {

@@ -20,13 +20,14 @@ public class JukeboxSongInit {
     public static final JukeBoxEntry MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS = registerJukeBoxEntry("melodic-taste-nightmare-before-crossroads", 231, 6);
     public static final JukeBoxEntry YV_FLOWER_CLOCK_AND_DREAMS = registerJukeBoxEntry("yv_flower_clock_and_dreams", 357, 6);
     public static final JukeBoxEntry GLOWING_NEEDLES_LITTLE_PEOPLE = registerJukeBoxEntry("glowing_needles_little_people", 242, 6);
+    public static final JukeBoxEntry COOKIE = registerJukeBoxEntry("cookie", 72, 6);
 
     private static JukeBoxEntry registerJukeBoxEntry(String id, int length, int output) {
         RegistryKey<JukeboxSong> jukeboxSongRegistryKey = createJukeBoxSongRegistryKey(id);
         RegistryEntry.Reference<SoundEvent> soundEventReference = registerReference(id);
         JukeBoxEntry entry = new JukeBoxEntry(id, jukeboxSongRegistryKey, soundEventReference, length, output);
         ENTRIES.add(entry);
-        return  entry;
+        return entry;
     }
 
     private static RegistryKey<JukeboxSong> createJukeBoxSongRegistryKey(String id) {

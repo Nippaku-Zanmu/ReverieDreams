@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.datagen.generator.RecipeTypeProvider;
 import cc.thonly.reverie_dreams.entity.npc.NPCRole;
+import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -71,6 +73,12 @@ public class RoleCard implements RegistrableObject<RoleCard> {
 
     public RoleCard build() {
         this.itemId = Identifier.of(this.id.getNamespace(), this.id.getPath() + "_role_card");
+        for (NPCRole entry : this.entries) {
+            Item egg = entry.getEgg();
+            if (egg instanceof BasicPolymerSpawnEggItem eggItem) {
+                eggItem.setColor(this.color);
+            }
+        }
         return this;
     }
 

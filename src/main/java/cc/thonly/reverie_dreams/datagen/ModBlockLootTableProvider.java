@@ -128,6 +128,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         woodCreatorLootFunction.apply(MIBlocks.PEACH);
         addDrop(MIBlocks.PEACH_FRUIT_LEAVES, MIBlocks.PEACH.sapling());
 
+        addDrop(MIBlocks.COOKTOP);
         addDrop(MIBlocks.BLACK_SALT_BLOCK);
         addDrop(MIBlocks.UDUMBARA_FLOWER);
         addDrop(MIBlocks.TREMELLA);

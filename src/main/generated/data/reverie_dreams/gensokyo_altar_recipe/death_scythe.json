@@ -1,0 +1,43 @@
+{
+  "core": {
+    "id": "minecraft:netherite_hoe",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:soul_sand",
+      "count": 32
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 16
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 8
+    },
+    {
+      "id": "minecraft:netherite_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:diamond",
+      "count": 5
+    },
+    {
+      "id": "minecraft:rotten_flesh",
+      "count": 8
+    },
+    {
+      "id": "minecraft:bone",
+      "count": 7
+    },
+    {
+      "id": "minecraft:air"
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:death_scythe",
+    "count": 1
+  }
+}

@@ -17,7 +17,11 @@ public class SellInfo {
     // Seed -> Item -> Amount;
     private final Map<Long ,Map<ItemStackRecipeWrapper, Integer>> data;
     public SellInfo(Map<Long ,Map<ItemStackRecipeWrapper, Integer>> data) {
-        this.data = data;
+        this.data = new Object2ObjectOpenHashMap<>();
+        data.forEach((key, value) -> {
+            Map<ItemStackRecipeWrapper, Integer> copiedInner = new Object2ObjectOpenHashMap<>(value);
+            this.data.put(key, copiedInner);
+        });
     }
 
     public void sell(long seed, ItemStackRecipeWrapper wrapper) {

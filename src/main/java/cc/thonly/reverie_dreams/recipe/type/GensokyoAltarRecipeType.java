@@ -4,6 +4,7 @@ import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.RoleFollowerArchiveItem;
+import cc.thonly.reverie_dreams.item.SpellCardTemplateItem;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
@@ -78,6 +79,16 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
                 ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
                 ItemStackRecipeWrapper.of(Items.DIAMOND, 4)
         ), ItemStackRecipeWrapper.of(ModItems.ROLE_ARCHIVE)));
+        this.add(Touhou.id("copy_spell_card_template"), new GensokyoAltarRecipe(ItemStackRecipeWrapper.of(ModItems.SPELL_CARD_TEMPLATE), List.of(
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                ItemStackRecipeWrapper.of(Items.DIAMOND, 2)
+        ), ItemStackRecipeWrapper.of(ModItems.SPELL_CARD_TEMPLATE)));
     }
 
     @Override
@@ -121,6 +132,44 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
                                         ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
                                         ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
                                         ItemStackRecipeWrapper.of(Items.DIAMOND, 4)
+                                ), ItemStackRecipeWrapper.of(itemStack))
+                        )
+                );
+            }
+        }
+        if (coreWrapper.getItem() instanceof SpellCardTemplateItem) {
+            ItemStackRecipeWrapper slot0 = wrappers.get(0);
+            ItemStackRecipeWrapper slot1 = wrappers.get(1);
+            ItemStackRecipeWrapper slot2 = wrappers.get(2);
+            ItemStackRecipeWrapper slot3 = wrappers.get(3);
+            ItemStackRecipeWrapper slot4 = wrappers.get(4);
+            ItemStackRecipeWrapper slot5 = wrappers.get(5);
+            ItemStackRecipeWrapper slot6 = wrappers.get(6);
+            ItemStackRecipeWrapper slot7 = wrappers.get(7);
+            if (
+                    slot0.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot1.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot2.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot3.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot4.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot5.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot6.test(new ItemStack(Items.DIAMOND, 2)) &&
+                            slot7.test(new ItemStack(Items.DIAMOND, 2))
+            ) {
+                ItemStackRecipeWrapper resultWrapper = coreWrapper.copy();
+                ItemStack itemStack = resultWrapper.getItemStack();
+                itemStack.setCount(2);
+                return new ArrayList<>(
+                        List.of(
+                                new GensokyoAltarRecipe(coreWrapper, List.of(
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
+                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2)
                                 ), ItemStackRecipeWrapper.of(itemStack))
                         )
                 );

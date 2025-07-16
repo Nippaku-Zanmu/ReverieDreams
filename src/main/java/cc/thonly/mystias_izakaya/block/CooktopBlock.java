@@ -70,14 +70,26 @@ public class CooktopBlock extends BlockWithEntity implements PolymerTexturedBloc
         this.setDefaultState(this.stateManager.getDefaultState().with(LIT, false));
     }
 
+    public static int getLuminance(BlockState blockState) {
+        Block block = blockState.getBlock();
+        if (block instanceof CooktopBlock) {
+            return blockState.get(LIT) ? 11 : 0;
+        }
+        return 0;
+    }
+
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient()) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof CooktopBlockEntity cooktopBlockEntity) {
-                CooktopBlockGui simple = new CooktopBlockGui(serverPlayer, cooktopBlockEntity);
-                simple.open();
+                if (serverPlayer.isSneaking()) {
+                    cooktopBlockEntity.use();
+                } else {
+                    CooktopBlockGui simple = new CooktopBlockGui(serverPlayer, cooktopBlockEntity);
+                    simple.open();
+                }
             }
             serverPlayer.swingHand(Hand.MAIN_HAND);
             return ActionResult.SUCCESS_SERVER;
@@ -156,16 +168,19 @@ public class CooktopBlock extends BlockWithEntity implements PolymerTexturedBloc
         public static final ItemStack LIT_TRUE = ItemDisplayElementUtil.getModel(Identifier.of(MystiasIzakaya.MOD_ID, "block/cooktop_on"));
 
         public ItemDisplayElement stove;
-        public Model(BlockState state){
+
+        public Model(BlockState state) {
             init(state);
         }
-        public void init(BlockState state){
+
+        public void init(BlockState state) {
             this.stove = state.get(LIT) ? ItemDisplayElementUtil.createSimple(LIT_TRUE) : ItemDisplayElementUtil.createSimple(LIT_FALSE);
             this.stove.setScale(new Vector3f(2));
             this.updateStatePos(state);
             this.addElement(stove);
         }
-        private void updateStatePos(BlockState state){
+
+        private void updateStatePos(BlockState state) {
             var direction = state.get(FACING);
             this.stove.setYaw(direction.getPositiveHorizontalDegrees());
         }
@@ -173,9 +188,10 @@ public class CooktopBlock extends BlockWithEntity implements PolymerTexturedBloc
         private void updateItem(BlockState state) {
             this.stove.setItem(state.get(LIT) ? LIT_TRUE : LIT_FALSE);
         }
+
         @Override
         public void notifyUpdate(HolderAttachment.UpdateType updateType) {
-            if (updateType == BlockBoundAttachment.BLOCK_STATE_UPDATE){
+            if (updateType == BlockBoundAttachment.BLOCK_STATE_UPDATE) {
                 updateStatePos(this.blockState());
                 updateItem(this.blockState());
                 this.tick();

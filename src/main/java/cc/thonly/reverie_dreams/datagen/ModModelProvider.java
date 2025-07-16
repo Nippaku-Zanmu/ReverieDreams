@@ -122,7 +122,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.FUMO_ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.ROLE_ICON, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SPAWN_EGG, Models.GENERATED);
+        itemModelGenerator.registerWithDyeableOverlay(ModItems.SPAWN_EGG);
         itemModelGenerator.register(ModItems.DANMAKU, Models.GENERATED);
 
         // 材料
@@ -171,6 +171,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.VIOLIN);
         itemModelGenerator.register(ModItems.KEYBOARD);
         itemModelGenerator.register(ModItems.TRUMPET);
+        itemModelGenerator.register(ModItems.DEATH_SCYTHE, Models.HANDHELD);
 
         // 工具矿物类
         itemModelGenerator.register(ModItems.RAW_SILVER, Models.GENERATED);
@@ -209,6 +210,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS, Models.GENERATED);
         itemModelGenerator.register(ModItems.YV_FLOWER_CLOCK_AND_DREAMS, Models.GENERATED);
         itemModelGenerator.register(ModItems.GLOWING_NEEDLES_LITTLE_PEOPLE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.COOKIE, Models.GENERATED);
 
         // 测试物品
 //        itemModelGenerator.registerWithDyeableOverlay(ModItems.TEST_COLOR_DANMAKU_ITEM);

@@ -83,6 +83,52 @@ public class NPCRoles extends AbstractSkinBootstrap {
     public static final NPCRole HOUJUU_NUE = registerRole(new NPCRole(Touhou.id("houjuu_nue"), RoleSkins.HOUJUU_NUE));
     public static final NPCRole HUTATSUIWA_MAMIZOU = registerRole(new NPCRole(Touhou.id("hutatsuiwa_mamizou"), RoleSkins.HUTATSUIWA_MAMIZOU));
 
+    // 辉针城
+    public static final NPCRole WAKASAGIHIME = registerRole(new NPCRole(Touhou.id("wakasagihime"), RoleSkins.WAKASAGIHIME));
+    public static final NPCRole SEKIBANKI = registerRole(new NPCRole(Touhou.id("sekibanki"), RoleSkins.SEKIBANKI));
+    public static final NPCRole IMAIZUMI_KAGEROU = registerRole(new NPCRole(Touhou.id("imaizumi_kagerou"), RoleSkins.IMAIZUMI_KAGEROU));
+    public static final NPCRole KIJIN_SEIJIA = registerRole(new NPCRole(Touhou.id("kijin_seijia"), RoleSkins.KIJIN_SEIJIA));
+    public static final NPCRole SUKUNA_SHINMYOUMARU = registerRole(new NPCRole(Touhou.id("sukuna_shinmyoumaru"), RoleSkins.SUKUNA_SHINMYOUMARU));
+    public static final NPCRole HORIKAWA_RAIKO = registerRole(new NPCRole(Touhou.id("horikawa_raiko"), RoleSkins.HORIKAWA_RAIKO));
+
+    // 绀珠传
+    public static final NPCRole SEIRAN = registerRole(new NPCRole(Touhou.id("seiran"), RoleSkins.SEIRAN));
+    public static final NPCRole RINGO = registerRole(new NPCRole(Touhou.id("ringo"), RoleSkins.RINGO));
+    public static final NPCRole DOREMY_SWEET = registerRole(new NPCRole(Touhou.id("doremy_sweet"), RoleSkins.DOREMY_SWEET));
+    public static final NPCRole KISIN_SAGUME = registerRole(new NPCRole(Touhou.id("kisin_sagume"), RoleSkins.KISIN_SAGUME));
+    public static final NPCRole CLOWNPIECE = registerRole(new NPCRole(Touhou.id("clownpiece"), RoleSkins.CLOWNPIECE));
+    public static final NPCRole JUNKO = registerRole(new NPCRole(Touhou.id("junko"), RoleSkins.JUNKO));
+    public static final NPCRole HECATIA_LAPISLAZULI = registerRole(new NPCRole(Touhou.id("hecatia_lapislazuli"), RoleSkins.HECATIA_LAPISLAZULI));
+
+    // 天空璋
+    public static final NPCRole ETERNITY_LARVA = registerRole(new NPCRole(Touhou.id("eternity_larva"), RoleSkins.ETERNITY_LARVA));
+    public static final NPCRole SAKUTA_NEMUNO = registerRole(new NPCRole(Touhou.id("sakata_nemuno"), RoleSkins.SAKUTA_NEMUNO));
+    public static final NPCRole KOMANO_AUNN = registerRole(new NPCRole(Touhou.id("komano_aunn"), RoleSkins.KOMANO_AUNN));
+    public static final NPCRole YATADERA_NARUMI = registerRole(new NPCRole(Touhou.id("yatadera_narumi"), RoleSkins.YATADERA_NARUMI));
+    public static final NPCRole NISHIDA_SATONO = registerRole(new NPCRole(Touhou.id("nishida_satono"), RoleSkins.NISHIDA_SATONO));
+    public static final NPCRole TEIREIDA_MAI = registerRole(new NPCRole(Touhou.id("teireida_mai"), RoleSkins.TEIREIDA_MAI));
+    public static final NPCRole MATARA_OKINA = registerRole(new NPCRole(Touhou.id("matara_okina"), RoleSkins.MATARA_OKINA));
+
+    // 鬼形兽
+    public static final NPCRole EBISU_EIKA = registerRole(new NPCRole(Touhou.id("ebisu_eika"), RoleSkins.EBISU_EIKA));
+    public static final NPCRole USHIZAKI_URUMI = registerRole(new NPCRole(Touhou.id("ushizaki_urumi"), RoleSkins.USHIZAKI_URUMI));
+    public static final NPCRole NIWATARI_KUTAKA = registerRole(new NPCRole(Touhou.id("niwatari_kutaka"), RoleSkins.NIWATARI_KUTAKA));
+    public static final NPCRole KITCHO_YACHIE = registerRole(new NPCRole(Touhou.id("kitcho_yachie"), RoleSkins.KITCHO_YACHIE));
+    public static final NPCRole JOUTOUGU_MAYUMI = registerRole(new NPCRole(Touhou.id("joutougu_mayumi"), RoleSkins.JOUTOUGU_MAYUMI));
+    public static final NPCRole HANIYASUSHIN_KEIKI = registerRole(new NPCRole(Touhou.id("haniyasushin_keiki"), RoleSkins.HANIYASUSHIN_KEIKI));
+    public static final NPCRole KUROKOMA_SAKI = registerRole(new NPCRole(Touhou.id("kurokoma_saki"), RoleSkins.KUROKOMA_SAKI));
+
+    // 虹龙洞
+    public static final NPCRole GOUTOKUZI_MIKE = registerRole(new NPCRole(Touhou.id("goutokuzi_mike"), RoleSkins.GOUTOKUZI_MIKE));
+    public static final NPCRole YAMASHIRO_TAKANE = registerRole(new NPCRole(Touhou.id("yamashiro_takane"), RoleSkins.YAMASHIRO_TAKANE));
+    public static final NPCRole KOMAKUSA_SANNYO = registerRole(new NPCRole(Touhou.id("komakusa_sannyo"), RoleSkins.KOMAKUSA_SANNYO));
+    public static final NPCRole TAMATSUKURI_MISUMARU = registerRole(new NPCRole(Touhou.id("tamatsukuri_misumaru"), RoleSkins.TAMATSUKURI_MISUMARU));
+    public static final NPCRole KUDAMAKI_TSUKASA = registerRole(new NPCRole(Touhou.id("kudamaki_tsukasa"), RoleSkins.KUDAMAKI_TSUKASA));
+    public static final NPCRole IIZUNAMARU_MEGUMU = registerRole(new NPCRole(Touhou.id("iizunamaru_megumu"), RoleSkins.IIZUNAMARU_MEGUMU));
+    public static final NPCRole TENKYU_CHIMATA = registerRole(new NPCRole(Touhou.id("tenkyu_chimata"), RoleSkins.TENKYU_CHIMATA));
+    public static final NPCRole HIMEMUSHI_MOMOYO = registerRole(new NPCRole(Touhou.id("himemushi_momoyo"), RoleSkins.HIMEMUSHI_MOMOYO));
+
+
     // 三月精
     public static final NPCRole STAR = registerRole(new NPCRole(Touhou.id("star"), RoleSkins.STAR));
     public static final NPCRole LUNAR = registerRole(new NPCRole(Touhou.id("lunar"), RoleSkins.LUNAR));

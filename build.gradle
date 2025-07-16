@@ -84,9 +84,9 @@ dependencies {
     modImplementation include("eu.pb4:map-canvas-api:${project.mapcanvas_version}")
 
     modImplementation files('libs/resourceconfigapi-fabric-1.21.7-3.7.3.jar')
-    modImplementation files('libs/eiv-fabric-2.5.3-bpv+1.21.7.jar')
+    modImplementation files('libs/eiv-fabric-2.5.5-bpv+1.21.7.jar')
 
-    modCompileOnly files('libs/polydex2eiv-1.0.4.jar')
+    modCompileOnly files('libs/polydex2eiv-1.0.9.jar')
     modCompileOnly files('libs/PolyMc-5.7.0-rev.6a41cb5-dirty+1.21.7.jar')
     modCompileOnly files('libs/borukva-food-0.1.14+1.21.7.jar')
     modCompileOnly files('libs/borukva-food-exotic-3.10.0+1.21.7.jar')

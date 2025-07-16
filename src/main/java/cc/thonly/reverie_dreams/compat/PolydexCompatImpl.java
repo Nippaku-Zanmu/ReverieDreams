@@ -61,8 +61,6 @@ public class PolydexCompatImpl {
 
 
     private static PolydexEntry ofEntry(Identifier id, ItemStack stack) {
-//        Item item = stack.getItem();
-//        Identifier id = Registries.ITEM.getId(item);
         return PolydexEntry.of(id, stack);
     }
 }

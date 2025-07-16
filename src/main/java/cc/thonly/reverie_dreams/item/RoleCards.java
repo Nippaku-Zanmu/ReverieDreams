@@ -95,23 +95,63 @@ public class RoleCards {
     ).build());
     public static final RoleCard KISHINJOU = register(new RoleCard(Touhou.id("kishinjou"),
             16761692L,
-            List.of()
+            List.of(
+                    NPCRoles.WAKASAGIHIME,
+                    NPCRoles.SEKIBANKI,
+                    NPCRoles.IMAIZUMI_KAGEROU,
+                    NPCRoles.KIJIN_SEIJIA,
+                    NPCRoles.SUKUNA_SHINMYOUMARU,
+                    NPCRoles.HORIKAWA_RAIKO
+            )
     ).build());
     public static final RoleCard KANJUDEN = register(new RoleCard(Touhou.id("kanjuden"),
             14024704L,
-            List.of()
+            List.of(
+                    NPCRoles.SEIRAN,
+                    NPCRoles.RINGO,
+                    NPCRoles.DOREMY_SWEET,
+                    NPCRoles.KISIN_SAGUME,
+                    NPCRoles.CLOWNPIECE,
+                    NPCRoles.JUNKO,
+                    NPCRoles.HECATIA_LAPISLAZULI
+            )
     ).build());
     public static final RoleCard TENKUUSHOU = register(new RoleCard(Touhou.id("tenkuushou"),
             6750023L,
-            List.of()
+            List.of(
+                    NPCRoles.ETERNITY_LARVA,
+                    NPCRoles.SAKUTA_NEMUNO,
+                    NPCRoles.KOMANO_AUNN,
+                    NPCRoles.YATADERA_NARUMI,
+                    NPCRoles.NISHIDA_SATONO,
+                    NPCRoles.TEIREIDA_MAI,
+                    NPCRoles.MATARA_OKINA
+            )
     ).build());
     public static final RoleCard KIKEIJUU = register(new RoleCard(Touhou.id("kikeijuu"),
             12386304L,
-            List.of()
+            List.of(
+                    NPCRoles.EBISU_EIKA,
+                    NPCRoles.USHIZAKI_URUMI,
+                    NPCRoles.NIWATARI_KUTAKA,
+                    NPCRoles.KITCHO_YACHIE,
+                    NPCRoles.JOUTOUGU_MAYUMI,
+                    NPCRoles.HANIYASUSHIN_KEIKI,
+                    NPCRoles.KUROKOMA_SAKI
+            )
     ).build());
     public static final RoleCard KOURYUUDOU = register(new RoleCard(Touhou.id("kouryuudou"),
             15853109L,
-            List.of()
+            List.of(
+                    NPCRoles.GOUTOKUZI_MIKE,
+                    NPCRoles.YAMASHIRO_TAKANE,
+                    NPCRoles.KOMAKUSA_SANNYO,
+                    NPCRoles.TAMATSUKURI_MISUMARU,
+                    NPCRoles.KUDAMAKI_TSUKASA,
+                    NPCRoles.IIZUNAMARU_MEGUMU,
+                    NPCRoles.TENKYU_CHIMATA,
+                    NPCRoles.HIMEMUSHI_MOMOYO
+            )
     ).build());
     public static final RoleCard JUUOUEN = register(new RoleCard(Touhou.id("juuouen"),
             7252587L,

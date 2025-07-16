@@ -10,6 +10,7 @@ import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDiscItem;
+import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
 import cc.thonly.reverie_dreams.item.debug.BattleStick;
 import cc.thonly.reverie_dreams.item.tool.*;
 import cc.thonly.reverie_dreams.item.weapon.*;
@@ -53,7 +54,7 @@ public class ModItems {
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
     public static final Item FUMO_ICON = registerIconItem(new BasicItem("fumo_icon", new Item.Settings()));
     public static final Item ROLE_ICON = registerIconItem(new BasicItem("role_icon", new Item.Settings()));
-    public static final Item SPAWN_EGG = registerIconItem(new BasicItem("spawn_egg", new Item.Settings()));
+    public static final Item SPAWN_EGG = registerIconItem(new BasicItem("spawn_egg", new Item.Settings().component(DataComponentTypes.DYED_COLOR, BasicPolymerSpawnEggItem.DEFAULT_COLOR)));
     public static final Item DANMAKU = registerIconItem(new BasicItem("danmaku", new Item.Settings()));
 
     // 材料
@@ -102,6 +103,7 @@ public class ModItems {
     public static final Item VIOLIN = registerItem(new MusicalInstrumentItem("violin", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.FLUTE)));
     public static final Item KEYBOARD = registerItem(new MusicalInstrumentItem("keyboard", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.PLING)));
     public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.DIDGERIDOO)));
+    public static final Item DEATH_SCYTHE = registerItem(new DeathScytheItem("death_scythe", 0,0, new Item.Settings()));
 
     // 银装备
     public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));
@@ -140,6 +142,7 @@ public class ModItems {
     public static final Item MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS = registerDiscItem(new BasicPolymerDiscItem("melodic-taste-nightmare-before-crossroads", new Item.Settings().jukeboxPlayable(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey())));
     public static final Item YV_FLOWER_CLOCK_AND_DREAMS = registerDiscItem(new BasicPolymerDiscItem("yv_flower_clock_and_dreams", new Item.Settings().jukeboxPlayable(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey())));
     public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey())));
+    public static final Item COOKIE = registerDiscItem(new BasicPolymerDiscItem("cookie", new Item.Settings().jukeboxPlayable(JukeboxSongInit.COOKIE.getJukeboxSongRegistryKey())));
 
     // 测试物品
 //    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));

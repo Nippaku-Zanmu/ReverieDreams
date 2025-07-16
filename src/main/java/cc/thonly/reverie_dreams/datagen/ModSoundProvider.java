@@ -21,6 +21,7 @@ public class ModSoundProvider extends SoundProvider {
         this.addWithRecords(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS, null);
         this.addWithRecords(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS, null);
         this.addWithRecords(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE, null);
+        this.addWithRecords(JukeboxSongInit.COOKIE, null);
         for (var soundEvent : SoundEventInit.SOUND_EVENTS) {
             this.addWithSoundEvent(soundEvent, null);
         }

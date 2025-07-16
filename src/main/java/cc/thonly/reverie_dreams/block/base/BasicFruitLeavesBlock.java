@@ -120,10 +120,19 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        int age = state.get(AGE_PROPERTY);
-        if (age < MAX_AGE && random.nextFloat() < 0.1f) {
-            this.grow(world, random, pos, state);
+        float f;
+        int i;
+        if (world.getBaseLightLevel(pos, 0) >= 9 && (i = this.getAge(state)) < MAX_AGE && random.nextInt((int) (25.0f / (f = getAvailableMoisture(this, world, pos))) + 1) == 0) {
+            world.setBlockState(pos, this.withAge(i + 1), Block.NOTIFY_LISTENERS);
         }
+    }
+
+    public BlockState withAge(int age) {
+        return (BlockState) this.getDefaultState().with(AGE_PROPERTY, age);
+    }
+
+    public int getAge(BlockState state) {
+        return state.get(AGE_PROPERTY);
     }
 
     @Override

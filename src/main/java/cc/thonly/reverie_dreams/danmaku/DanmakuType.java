@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
+import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.item.BasicDanmakuTypeItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import cc.thonly.reverie_dreams.registry.ItemColor;
@@ -89,7 +90,8 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
                 .component(ModDataComponentTypes.Danmaku.TILE, this.tile)
                 .component(ModDataComponentTypes.Danmaku.INFINITE, this.infinite)
                 .component(ModDataComponentTypes.Danmaku.DAMAGE_TYPE, Touhou.id("generic").toString())
-                .maxDamage(120);
+                .maxDamage(120)
+                .repairable(ModTags.ItemTypeTag.POWER_BLOCK);
     }
 
     @Override

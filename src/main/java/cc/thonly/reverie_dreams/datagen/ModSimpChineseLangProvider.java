@@ -525,6 +525,51 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         builder.addRoleEntity(NPCRoles.HOUJUU_NUE, "封兽鵺", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.HUTATSUIWA_MAMIZOU, "二岩猯藏", "刷怪蛋");
 
+        // 辉针城
+        builder.addRoleEntity(NPCRoles.WAKASAGIHIME, "若狭姬", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SEKIBANKI, "赤蛮奇", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.IMAIZUMI_KAGEROU, "今泉影狼", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KIJIN_SEIJIA, "鬼人正邪", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SUKUNA_SHINMYOUMARU, "少名针妙丸", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HORIKAWA_RAIKO, "堀川雷鼓", "刷怪蛋");
+
+        // 绀珠传
+        builder.addRoleEntity(NPCRoles.SEIRAN, "清兰", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.RINGO, "铃瑚", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.DOREMY_SWEET, "哆来咪·苏伊特", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KISIN_SAGUME, "稀神探女", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.CLOWNPIECE, "克劳恩皮丝", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.JUNKO, "纯狐", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HECATIA_LAPISLAZULI, "赫卡提亚·拉碧斯拉祖利", "刷怪蛋");
+
+        // 天空璋
+        builder.addRoleEntity(NPCRoles.ETERNITY_LARVA, "爱塔妮堤·拉尔瓦", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.SAKUTA_NEMUNO, "坂田合欢乃", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KOMANO_AUNN, "高丽野阿吽", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YATADERA_NARUMI, "矢田寺成美", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.NISHIDA_SATONO, "丁礼田舞", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TEIREIDA_MAI, "尔子田里乃", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.MATARA_OKINA, "摩多罗隐岐奈", "刷怪蛋");
+
+        // 鬼形兽
+        builder.addRoleEntity(NPCRoles.EBISU_EIKA, "戎璎花", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.USHIZAKI_URUMI, "牛崎润美", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.NIWATARI_KUTAKA, "庭渡久侘歌", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KITCHO_YACHIE, "吉吊八千慧", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.JOUTOUGU_MAYUMI, "杖刀偶磨弓", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HANIYASUSHIN_KEIKI, "埴安神袿姬", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KUROKOMA_SAKI, "骊驹早鬼", "刷怪蛋");
+
+        // 虹龙洞
+        builder.addRoleEntity(NPCRoles.GOUTOKUZI_MIKE, "豪德寺三花", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.YAMASHIRO_TAKANE, "山城高岭", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KOMAKUSA_SANNYO, "驹草山如", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TAMATSUKURI_MISUMARU, "玉造魅须丸", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KUDAMAKI_TSUKASA, "菅牧典", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.IIZUNAMARU_MEGUMU, "饭纲丸龙", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.TENKYU_CHIMATA, "天弓千亦", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.HIMEMUSHI_MOMOYO, "姬虫百百世", "刷怪蛋");
+
 
         // 三月精
         builder.addRoleEntity(NPCRoles.STAR, "斯塔·萨菲雅", "刷怪蛋");
@@ -607,6 +652,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.VIOLIN, "小提琴");
         translationBuilder.add(ModItems.KEYBOARD, "键盘");
         translationBuilder.add(ModItems.TRUMPET, "小号");
+        translationBuilder.add(ModItems.DEATH_SCYTHE, "死神镰刀");
 
         // 工具矿物类
         translationBuilder.add(ModItems.RAW_SILVER, "生银矿");
@@ -686,6 +732,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         builder.generateJukeBox(JukeboxSongInit.MELODIC_TASTE_NIGHTMARE_BEFORE_CROSSROADS.getJukeboxSongRegistryKey(), "Melodic-Taste-Nightmare-before-Crossroads");
         builder.generateJukeBox(JukeboxSongInit.YV_FLOWER_CLOCK_AND_DREAMS.getJukeboxSongRegistryKey(), "Yonder-Voice - 花時計と夢");
         builder.generateJukeBox(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey(), "Inchlings of the Shining Needle ~ Little Princess : 「Miracle Remix」");
+        builder.generateJukeBox(JukeboxSongInit.COOKIE.getJukeboxSongRegistryKey(), "温馨的神社（迫真）");
     }
 
     public void generateBlockTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {

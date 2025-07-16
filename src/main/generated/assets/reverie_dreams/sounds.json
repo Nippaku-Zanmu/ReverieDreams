@@ -11,6 +11,14 @@
       "reverie_dreams:biu"
     ]
   },
+  "cookie": {
+    "subtitle": "sound.reverie_dreams.cookie",
+    "sounds": [
+      {
+        "name": "reverie_dreams:records/cookie"
+      }
+    ]
+  },
   "fumo/3": {
     "subtitle": "sound.reverie_dreams.fumo/3",
     "sounds": [

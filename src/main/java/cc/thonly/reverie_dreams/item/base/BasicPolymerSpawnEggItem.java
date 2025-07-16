@@ -6,10 +6,13 @@ import eu.pb4.polymer.core.api.item.PolymerSpawnEggItem;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -23,37 +26,49 @@ import net.minecraft.world.World;
 @Getter
 @ToString
 public class BasicPolymerSpawnEggItem extends PolymerSpawnEggItem implements IdentifierGetter {
-
+    public static final DyedColorComponent DEFAULT_COLOR = new DyedColorComponent(16777215);
     private final Identifier identifier;
+    private long color = -1;
 
     public BasicPolymerSpawnEggItem(String identifier, EntityType<? extends MobEntity> type, Settings settings) {
-        super(type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))));
+        super(type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = Touhou.id(identifier);
     }
 
     public BasicPolymerSpawnEggItem(String identifier, EntityType<? extends MobEntity> type, Item polymerItem, Settings settings) {
-        super(type, polymerItem, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))));
+        super(type, polymerItem, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = Touhou.id(identifier);
     }
 
     public BasicPolymerSpawnEggItem(String identifier, EntityType<? extends MobEntity> type, Item polymerItem, boolean useModel, Settings settings) {
-        super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))));
+        super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = Touhou.id(identifier);
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Settings settings) {
-        super(type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Item polymerItem, Settings settings) {
-        super(type, polymerItem, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(type, polymerItem, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Item polymerItem, boolean useModel, Settings settings) {
-        super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
+    }
+
+    @Override
+    public ItemStack getDefaultStack() {
+        ItemStack itemStack = super.getDefaultStack();
+        if (this.color != -1) {
+            itemStack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent((int) this.color));
+        } else {
+            itemStack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(16777215));
+        }
+        return itemStack;
     }
 
     @Override

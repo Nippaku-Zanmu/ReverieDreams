@@ -99,6 +99,7 @@ public class WoodCreator {
             this.register(blockImpl);
         });
         StrippableBlockRegistry.register(this.log, this.strippedLog);
+
         this.blockFamily = BlockFamilies.register(this.planks())
                 .slab(this.slab())
                 .stairs(this.stair())

@@ -42,7 +42,7 @@ public class TouhouEndLoaderInit implements ModInitializer {
             Collection<NPCRole> roles = RegistryManager.NPC_ROLE.values();
             for (NPCRole role : roles) {
                 Item egg = role.getEgg();
-                itemGroup.add(egg);
+                itemGroup.add(egg.getDefaultStack());
             }
         });
     }
