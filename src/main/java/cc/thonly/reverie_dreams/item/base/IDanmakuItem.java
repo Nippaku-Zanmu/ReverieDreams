@@ -1,4 +1,4 @@
 package cc.thonly.reverie_dreams.item.base;
 
-public interface DanmakuItemType {
+public interface IDanmakuItem {
 }

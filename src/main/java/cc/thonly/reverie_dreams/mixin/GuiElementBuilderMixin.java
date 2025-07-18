@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.mixin;
 
-import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
+import cc.thonly.reverie_dreams.interfaces.IGuiElementBuilderAccessor;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.elements.GuiElementBuilderInterface;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Pseudo
 @Mixin(value = GuiElementBuilder.class, remap = false)
-public abstract class GuiElementBuilderMixinImpl implements GuiElementBuilderInterface<GuiElementBuilder>, GuiElementBuilderAccessorImpl {
+public abstract class GuiElementBuilderMixin implements GuiElementBuilderInterface<GuiElementBuilder>, IGuiElementBuilderAccessor {
     @Shadow protected ItemStack itemStack;
 
     @Override

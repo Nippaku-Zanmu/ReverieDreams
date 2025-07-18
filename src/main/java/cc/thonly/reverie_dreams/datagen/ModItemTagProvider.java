@@ -81,6 +81,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ModTags.ItemTypeTag.POWER_BLOCK).add(ModBlocks.POWER_BLOCK.asItem());
         valueLookupBuilder(ModTags.ItemTypeTag.POINT_BLOCK).add(ModBlocks.POINT_BLOCK.asItem());
         valueLookupBuilder(ModTags.ItemTypeTag.SILVER_BLOCK).add(ModBlocks.SILVER_BLOCK.asItem());
+        valueLookupBuilder(ModTags.ItemTypeTag.VAISRAVANAS_PAGODA).add(Items.BLAZE_POWDER);
 
         // === 兼容物品 ===
         valueLookupBuilder(ConventionalItemTags.FOODS).add(MIItems.FOOD_ITEMS);

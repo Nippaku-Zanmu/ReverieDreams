@@ -27,9 +27,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
@@ -46,15 +44,17 @@ import java.util.function.Supplier;
 @Getter
 @ToString
 public class KitchenwareBlockEntity extends BlockEntity {
-    public static final BiMap<Block, KitchenRecipeType.KitchenType> BLOCK_2_KITCHEN_TYPE =
-            HashBiMap.create(Map.of(
-                    MIBlocks.COOKING_POT, KitchenRecipeType.KitchenType.COOKING_POT,
-                    MIBlocks.CUTTING_BOARD, KitchenRecipeType.KitchenType.CUTTING_BOARD,
-                    MIBlocks.FRYING_PAN, KitchenRecipeType.KitchenType.FRYING_PAN,
-                    MIBlocks.GRILL, KitchenRecipeType.KitchenType.GRILL,
-                    MIBlocks.STEAMER, KitchenRecipeType.KitchenType.STREAMER
-            ));
-    public static final Supplier<ItemStackRecipeWrapper> DEFAULT_WRAPPER_FACTORY = () -> new ItemStackRecipeWrapper(ItemStack.EMPTY);
+    public static final BiMap<Block, KitchenRecipeType.KitchenType> BLOCK_2_KITCHEN_TYPE = HashBiMap.create();
+
+    static {
+        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.COOKING_POT, KitchenRecipeType.KitchenType.COOKING_POT);
+        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.CUTTING_BOARD, KitchenRecipeType.KitchenType.CUTTING_BOARD);
+        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.FRYING_PAN, KitchenRecipeType.KitchenType.FRYING_PAN);
+        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.GRILL, KitchenRecipeType.KitchenType.GRILL);
+        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.STEAMER, KitchenRecipeType.KitchenType.STREAMER);
+    }
+
+    public static final Supplier<ItemStackRecipeWrapper> DEFAULT_WRAPPER_FACTORY = ItemStackRecipeWrapper::empty;
     public static final Gson GSON = new Gson();
     public static final Map<UUID, Set<KitchenBlockGui<?>>> SESSIONS = new Object2ObjectOpenHashMap<>();
     private SimpleInventory inventory = new SimpleInventory(6);
@@ -75,46 +75,54 @@ public class KitchenwareBlockEntity extends BlockEntity {
         this.tickSpeedBonus = this.block.getTickBonus();
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity entity) {
-        KitchenwareBlockEntity blockEntity = entity.get();
+    public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity self) {
+        KitchenwareBlockEntity blockEntity = self.get();
         if (blockEntity.recipeType == null) {
             return;
         }
-        if (world.isClient() || entity.recipeType == null) return;
+        if (world.isClient() || self.recipeType == null) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        BlockPos pos = entity.getPos();
+        BlockPos pos = self.getPos();
 
-        switch (entity.workingState) {
+        switch (self.workingState) {
             case WorkingState.WORKING -> {
-                entity.tickLeft -= entity.tickSpeedBonus + 1.0;
+                self.tickLeft -= self.tickSpeedBonus + 1.0;
                 serverWorld.spawnParticles(ParticleTypes.SNOWFLAKE, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 1, 0, 0.5, 0, 0.1);
-                if (entity.tickLeft <= 0.0) {
-                    entity.tickLeft = 0.0;
-                    entity.workingState = WorkingState.NONE;
-                    entity.handleOutput();
+                if (self.tickLeft <= 0.0) {
+                    self.tickLeft = 0.0;
+                    self.workingState = WorkingState.NONE;
+                    self.handleOutput();
                 }
-                entity.markDirty();
+                self.markDirty();
             }
-            case NONE_FUEL, NONE -> {
-                boolean b = entity.hasFuel();
-                if (b && entity.workingState == WorkingState.NONE && !entity.preOutput.isEmpty()) {
-                    Optional<CooktopBlockEntity> cooktop = entity.getCooktop();
-                    if (cooktop.isPresent()) {
-                        CooktopBlockEntity cooktopBlockEntity = cooktop.get();
-                        if (!(cooktopBlockEntity.ticks > 0)) {
-                            entity.useFuel();
-                        }
-                    }
-                    entity.setWorkingState(WorkingState.WORKING);
+            case NONE_FUEL -> {
+                if (self.preOutput.isEmpty()) {
+                    break;
+                }
+
+                Optional<CooktopBlockEntity> cooktopBlockEntityResult = self.getCooktopBlockEntity();
+                if (cooktopBlockEntityResult.isEmpty()) {
+                    break;
+                }
+                CooktopBlockEntity cooktopBlockEntity = cooktopBlockEntityResult.get();
+
+                if (cooktopBlockEntity.ticks > 0 || cooktopBlockEntity.use()) {
+                    self.workingState = WorkingState.WORKING;
+                    self.markDirty();
                 } else {
-                    entity.setWorkingState(WorkingState.NONE);
+                    self.workingState = WorkingState.NONE_FUEL;
+                }
+            }
+            case NONE -> {
+                if (!self.preOutput.isEmpty()) {
+                    self.workingState = WorkingState.NONE_FUEL;
                 }
             }
         }
     }
 
-    public Optional<CooktopBlockEntity> getCooktop() {
+    public Optional<CooktopBlockEntity> getCooktopBlockEntity() {
         if (this.world == null) {
             return Optional.empty();
         }
@@ -139,16 +147,24 @@ public class KitchenwareBlockEntity extends BlockEntity {
     public void setOutput(ItemStackRecipeWrapper recipeWrapper, Double time) {
         this.setPreOutput(recipeWrapper);
         this.setTickLeft(time);
+        if (!this.hasFuel()) {
+            this.useFuel();
+        }
         this.markDirty();
     }
 
     public void useFuel() {
-        Optional<CooktopBlockEntity> cooktop = this.getCooktop();
-        cooktop.ifPresent(CooktopBlockEntity::use);
+        Optional<CooktopBlockEntity> cooktop = this.getCooktopBlockEntity();
+        cooktop.ifPresent((cooktopBlockEntity)-> {
+            boolean use = cooktopBlockEntity.use();
+            if (use) {
+                this.workingState = WorkingState.WORKING;
+            }
+        });
     }
 
     public boolean hasFuel() {
-        Optional<CooktopBlockEntity> cooktop = this.getCooktop();
+        Optional<CooktopBlockEntity> cooktop = this.getCooktopBlockEntity();
         return cooktop.isPresent() && cooktop.get().isWorking();
     }
 
@@ -242,9 +258,9 @@ public class KitchenwareBlockEntity extends BlockEntity {
         SimpleInventory inventory = new SimpleInventory(6);
         Inventories.readData(view, inventory.heldStacks);
         this.inventory = inventory;
-        this.tickLeft = view.getDouble("TickLeft",0.0);
-        this.tickSpeedBonus = view.getDouble("TickSpeedBonus",0.0);
-        this.workingState = WorkingState.getFromInt(view.getInt("WorkingState",0));
+        this.tickLeft = view.getDouble("TickLeft", 0.0);
+        this.tickSpeedBonus = view.getDouble("TickSpeedBonus", 0.0);
+        this.workingState = WorkingState.getFromInt(view.getInt("WorkingState", 0));
         Optional<String> pOutputOptional = view.getOptionalString("PreOutput");
         if (pOutputOptional.isPresent()) {
             String preOutputJson = pOutputOptional.get();

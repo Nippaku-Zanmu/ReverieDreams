@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "reverie_dreams:power_block",
+    "count": 10
+  },
+  "slots": [
+    {
+      "id": "minecraft:stone",
+      "count": 15
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 20
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 15
+    },
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 10
+    },
+    {
+      "id": "minecraft:blaze_powder",
+      "count": 8
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 15
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 20
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 15
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:vaisravanas_pagoda",
+    "count": 1
+  }
+}

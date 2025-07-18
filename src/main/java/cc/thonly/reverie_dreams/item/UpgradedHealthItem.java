@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.item;
 
-import cc.thonly.reverie_dreams.interfaces.LivingEntityImpl;
+import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +22,7 @@ public class UpgradedHealthItem extends BasicPolymerItem {
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             ItemStack itemStack = user.getStackInHand(hand);
             world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), SoundEventInit.UP, user.getSoundCategory(), 1.0f, 1.0f);
-            LivingEntityImpl modifier = (LivingEntityImpl) user;
+            ILivingEntity modifier = (ILivingEntity) user;
             float value = modifier.getMaxHealthModifier();
             modifier.setMaxHealthModifier(value + 2);
             user.incrementStat(Stats.USED.getOrCreateStat(this));

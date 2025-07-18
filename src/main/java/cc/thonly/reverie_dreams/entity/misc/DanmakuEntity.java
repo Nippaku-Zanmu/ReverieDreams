@@ -67,6 +67,9 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
     protected Boolean tile = false;
     protected DanmakuDamageType danmakuDamageType;
     protected Float acceleration = 0f;
+    protected OnHitFactory onHitEffect = (livingEntity, damage) -> {
+
+    };
     private final float setupPitch;
     private final float setupYaw;
     private double damage;
@@ -315,6 +318,7 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
                 livingTarget.damage(serverWorld, damageSource, damageAmount);
                 livingTarget.setInvulnerable(false);
                 livingTarget.lastDamageTaken = 0;
+                this.onHitEffect.damage(livingTarget, this.getDamage());
             }
         }
     }
@@ -406,6 +410,10 @@ public class DanmakuEntity extends PersistentProjectileEntity implements Polymer
         } else {
             return new ItemStack(ModItems.ICON);
         }
+    }
+
+    public interface OnHitFactory {
+        void damage(LivingEntity livingEntity, double damage);
     }
 
 }

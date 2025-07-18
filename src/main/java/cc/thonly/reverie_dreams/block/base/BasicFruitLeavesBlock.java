@@ -15,7 +15,10 @@ import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import lombok.Getter;
 import net.minecraft.block.*;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -25,6 +28,7 @@ import net.minecraft.particle.ParticleUtil;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -37,14 +41,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import xyz.nucleoid.packettweaker.PacketContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, PolymerTexturedBlock, FactoryBlock, Fertilizable, IdentifierGetter {
     public static final MapCodec<BasicFruitLeavesBlock> CODEC = BasicFruitLeavesBlock.createCodec(BasicFruitLeavesBlock::new);
+    public static final List<BasicFruitLeavesBlock> FRUIT_LEAVES_BLOCKS = new ArrayList<>();
     public static final int MAX_AGE = 3;
     public static final IntProperty AGE_PROPERTY = IntProperty.of("fruit_age", 0, MAX_AGE);
     private Identifier identifier;
@@ -53,7 +62,15 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
 
     public BasicFruitLeavesBlock(Settings settings) {
         super(0.01f, settings);
-        this.setDefaultState(this.getStateManager().getDefaultState().with(AGE_PROPERTY, 0));
+        this.setDefaultState(
+                this.getStateManager()
+                        .getDefaultState()
+                        .with(DISTANCE, 7)
+                        .with(AGE_PROPERTY, 0)
+                        .with(LeavesBlock.WATERLOGGED, false)
+
+        );
+        FRUIT_LEAVES_BLOCKS.add(this);
     }
 
     public BasicFruitLeavesBlock(String name, Item output, Block emptyLeavesBlock, Settings settings) {
@@ -94,6 +111,26 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
             }
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        return Blocks.OAK_LEAVES.getDefaultState();
+    }
+
+    @Override
+    protected BlockSoundGroup getSoundGroup(BlockState state) {
+        return BlockSoundGroup.GRASS;
+    }
+
+    @Override
+    public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+        return false;
+    }
+
+    @Override
+    public boolean canFillWithFluid(@Nullable LivingEntity filler, BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
+        return false;
     }
 
     @Override
@@ -155,7 +192,7 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
         float f;
         int age = state.get(AGE_PROPERTY);
 //        System.out.println(age);
-        if (age < MAX_AGE && random.nextInt((int) (25.0f / (f = getAvailableMoisture(this, world, pos))) + 1) == 0) {
+        if (age < MAX_AGE) {
             world.setBlockState(pos, state.with(AGE_PROPERTY, Math.min(age + 1, MAX_AGE)),  Block.NOTIFY_ALL_AND_REDRAW);
         }
     }

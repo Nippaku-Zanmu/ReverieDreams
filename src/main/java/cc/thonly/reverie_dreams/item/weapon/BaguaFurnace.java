@@ -33,7 +33,7 @@ public class BaguaFurnace extends BasicPolymerItem {
                 float yaw = user.getYaw();
                 DanmakuEntity entity = DanmakuTrajectory.spawnByItemStack(
                         serverWorld, user, user.getX(), user.getY(), user.getZ(),
-                        DanmakuTypes.random(DanmakuTypes.FIREBALL_GLOWY),
+                        DanmakuTypes.random(DanmakuTypes.LASER),
                         pitch, yaw, 1.6f, 0f, 0.0f, 1.5f
                 );
             });

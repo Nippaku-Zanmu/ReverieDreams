@@ -107,6 +107,11 @@ public class GoblinEntity extends NPCEntityImpl {
     }
 
     @Override
+    public boolean canPickUpLoot() {
+        return false;
+    }
+
+    @Override
     public Set<Integer> getDonDropSlotIndex() {
         return Set.of(NPCInventoryImpl.MAIN_HAND, NPCInventoryImpl.OFF_HAND);
     }

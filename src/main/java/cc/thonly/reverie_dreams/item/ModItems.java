@@ -77,9 +77,11 @@ public class ModItems {
     public static final Item CROSSING_CHISEL = registerItem(new CrossingChisel("crossing_chisel", new Item.Settings()));
     public static final Item GAP_BALL = registerItem(new GapBall("gap_ball", new Item.Settings()));
     public static final Item TIME_STOP_CLOCK = registerItem(new TimeStopClock("time_stop_clock", new Item.Settings()));
-    public static final Item EARPHONE = registerItem(new EarphoneItem("earphone", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(EarphoneArmorMaterial.BASE_DURABILITY))));
-    public static final Item KOISHI_HAT = registerItem(new KoishiHatItem("koishi_hat", new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(KoishiHatArmorMaterial.BASE_DURABILITY))));
+    public static final Item EARPHONE = registerItem(new EarphoneItem("earphone", new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(EarphoneArmorMaterial.BASE_DURABILITY))));
+    public static final Item KOISHI_HAT = registerItem(new KoishiHatItem("koishi_hat", new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(KoishiHatArmorMaterial.BASE_DURABILITY))));
     public static final Item FUMO_LICENSE = registerItem(new FumoLicenseItem("fumo_license", new Item.Settings()));
+    public static final Item CURSED_DECOY_DOLl = registerItem(new CursedDecoyDollItem("cursed_decoy_doll", new Item.Settings()));
+    public static final Item VAISRAVANAS_PAGODA = registerItem(new VaisravanasPagodaItem("vaisravanas_pagoda", new Item.Settings()));
 
     // 武器
     public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
@@ -114,10 +116,10 @@ public class ModItems {
     public static final Item SILVER_PICKAXE = registerItem(new BasicPickaxeItem("silver_pickaxe", SilverMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
     public static final Item SILVER_SHOVEL = registerItem(new BasicShovelItem("silver_shovel", SilverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
     public static final Item SILVER_HOE = registerItem(new BasicHoeItem("silver_hoe", SilverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
-    public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.CHESTPLATE.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxDamage(EquipmentType.LEGGINGS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxDamage(EquipmentType.BOOTS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
 
     // 魔法冰装备
     public static final Item MAGIC_ICE_SWORD = registerItem(new BasicSwordItem("magic_ice_sword", MagicIceMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
@@ -125,10 +127,10 @@ public class ModItems {
     public static final Item MAGIC_ICE_PICKAXE = registerItem(new BasicPickaxeItem("magic_ice_pickaxe", MagicIceMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
     public static final Item MAGIC_ICE_SHOVEL = registerItem(new BasicShovelItem("magic_ice_shovel", MagicIceMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
     public static final Item MAGIC_ICE_HOE = registerItem(new BasicHoeItem("magic_ice_hoe", MagicIceMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
-    public static final Item MAGIC_ICE_HELMET = registerItem(new BasicArmorItem("magic_ice_helmet", MagicIceArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxCount(EquipmentType.HELMET.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
-    public static final Item MAGIC_ICE_CHESTPLATE = registerItem(new BasicArmorItem("magic_ice_chestplate", MagicIceArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxCount(EquipmentType.CHESTPLATE.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
-    public static final Item MAGIC_ICE_LEGGINGS = registerItem(new BasicArmorItem("magic_ice_leggings", MagicIceArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxCount(EquipmentType.LEGGINGS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
-    public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxCount(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_HELMET = registerItem(new BasicArmorItem("magic_ice_helmet", MagicIceArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_CHESTPLATE = registerItem(new BasicArmorItem("magic_ice_chestplate", MagicIceArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_LEGGINGS = registerItem(new BasicArmorItem("magic_ice_leggings", MagicIceArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxDamage(EquipmentType.LEGGINGS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAGIC_ICE_BOOTS = registerItem(new BasicArmorItem("magic_ice_boots", MagicIceArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxDamage(EquipmentType.BOOTS.getMaxDamage(MagicIceArmorMaterial.BASE_DURABILITY))));
 
     // 模板
     public static final Item SPELL_CARD_TEMPLATE = registerItem(new SpellCardTemplateItem("spell_card_template", new Item.Settings()));
@@ -265,19 +267,19 @@ public class ModItems {
 
     // 弹幕
 
-//    public static final DanmakuItemType AMULET = DanmakuItemType.createBuilder("amulet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-//    public static final DanmakuItemType ARROWHEAD = DanmakuItemType.createBuilder("arrowhead", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-//    public static final DanmakuItemType BALL = DanmakuItemType.createBuilder("ball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
-//    public static final DanmakuItemType BUBBLE = DanmakuItemType.createBuilder("bubble", List.of(DanmakuColor.GREY, DanmakuColor.RED, DanmakuColor.PURPLE, DanmakuColor.DARK_BLUE, DanmakuColor.BLUE), 2.5f, 1f, 1.0f, true, false).build();
-//    public static final DanmakuItemType BULLET = DanmakuItemType.createBuilder("bullet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-//    public static final DanmakuItemType FIREBALL = DanmakuItemType.createBuilder("fireball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
-//    public static final DanmakuItemType FIREBALL_GLOWY = DanmakuItemType.createBuilder("fireball_glowy", DanmakuColor.ALL_COLOR, 1f, 1f, 1.0f, true, false).build();
-//    public static final DanmakuItemType KUNAI = DanmakuItemType.createBuilder("kunai", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-//    //public static final DanmakuItemType MENTOS = DanmakuItemType.createBuilder("mentos", ALL_COLOR, 2f, 1f, 1.0f, false).build(); // 暂占位
-//    public static final DanmakuItemType RICE = DanmakuItemType.createBuilder("rice", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
-//    public static final DanmakuItemType STAR = DanmakuItemType.createBuilder("star", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+//    public static final IDanmakuItem AMULET = IDanmakuItem.createBuilder("amulet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final IDanmakuItem ARROWHEAD = IDanmakuItem.createBuilder("arrowhead", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final IDanmakuItem BALL = IDanmakuItem.createBuilder("ball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+//    public static final IDanmakuItem BUBBLE = IDanmakuItem.createBuilder("bubble", List.of(DanmakuColor.GREY, DanmakuColor.RED, DanmakuColor.PURPLE, DanmakuColor.DARK_BLUE, DanmakuColor.BLUE), 2.5f, 1f, 1.0f, true, false).build();
+//    public static final IDanmakuItem BULLET = IDanmakuItem.createBuilder("bullet", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final IDanmakuItem FIREBALL = IDanmakuItem.createBuilder("fireball", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
+//    public static final IDanmakuItem FIREBALL_GLOWY = IDanmakuItem.createBuilder("fireball_glowy", DanmakuColor.ALL_COLOR, 1f, 1f, 1.0f, true, false).build();
+//    public static final IDanmakuItem KUNAI = IDanmakuItem.createBuilder("kunai", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    //public static final IDanmakuItem MENTOS = IDanmakuItem.createBuilder("mentos", ALL_COLOR, 2f, 1f, 1.0f, false).build(); // 暂占位
+//    public static final IDanmakuItem RICE = IDanmakuItem.createBuilder("rice", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, false, false).build();
+//    public static final IDanmakuItem STAR = IDanmakuItem.createBuilder("star", DanmakuColor.ALL_COLOR, 2f, 1f, 1.0f, true, false).build();
 
-//    public static final List<DanmakuItemType> DANMAKU_ITEMS = List.of(
+//    public static final List<IDanmakuItem> DANMAKU_ITEMS = List.of(
 //            AMULET,
 //            ARROWHEAD,
 //            BALL,

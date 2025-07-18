@@ -8,7 +8,7 @@ import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
-import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
+import cc.thonly.reverie_dreams.interfaces.IGuiElementBuilderAccessor;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.BaseRecipe;
 import cc.thonly.reverie_dreams.recipe.BaseRecipeType;
@@ -158,7 +158,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
         return new ItemStackRecipeWrapper(itemStack.copy());
     }
 
-    private void handleCrafting(ItemStack output, KitchenRecipe recipe) {
+    private void handleCrafting(ItemStack output, List<ItemStackRecipeWrapper> inputs, KitchenRecipe recipe) {
         this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
         SimpleInventory inventory = this.blockEntity.getInventory();
         for (int i = 0; i < 5; i++) {
@@ -172,7 +172,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
                 stack.decrement(1);
             }
         }
-        this.blockEntity.setOutput(new ItemStackRecipeWrapper(output.copy()), recipe.getCostTime() * 20.0);
+        this.blockEntity.setOutput(new ItemStackRecipeWrapper(output.copy()), recipe.getCostTime() * 20.0 + 20 * 0.25 * inputs.size());
         Set<KitchenBlockGui<?>> session = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(this.blockEntity.getUuid(), (map) -> new WeakHashSet<>());
         for (KitchenBlockGui<?> gui : session) {
             if (gui.isOpen()) {
@@ -218,7 +218,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
         // 清空旧显示
         for (GuiElementBuilder builder : this.displayed.values()) {
-            GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) builder;
+            IGuiElementBuilderAccessor accessor = (IGuiElementBuilderAccessor) builder;
             accessor.setItemStack(ModGuiItems.EMPTY_SLOT.getDefaultStack());
         }
 
@@ -230,10 +230,10 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             ItemStack output = this.buildFoodTags(recipe, new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
 
             GuiElementBuilder builder = entry.getValue();
-            GuiElementBuilderAccessorImpl accessor = (GuiElementBuilderAccessorImpl) builder;
+            IGuiElementBuilderAccessor accessor = (IGuiElementBuilderAccessor) builder;
             accessor.setItemStack(output);
             builder.setCallback((slotIndex, clickType, actionType) -> {
-                handleCrafting(output, recipe);
+                handleCrafting(output, inputs, recipe);
             });
 
             this.setSlot(entry.getKey(), builder);

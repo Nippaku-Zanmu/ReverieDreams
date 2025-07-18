@@ -1,0 +1,44 @@
+{
+  "core": {
+    "id": "minecraft:armor_stand",
+    "count": 1
+  },
+  "slots": [
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    },
+    {
+      "id": "minecraft:soul_sand",
+      "count": 6
+    }
+  ],
+  "output": {
+    "id": "reverie_dreams:cursed_decoy_doll",
+    "count": 1
+  }
+}

@@ -59,9 +59,13 @@ public class MILootModifies {
             if (source.isBuiltin() && key.equals(FISHING)) {
                 tableBuilder.modifyPools(tb -> {
                     tb.with(ItemEntry.builder(MIItems.SHRIMP).weight(10));
+                    tb.with(ItemEntry.builder(MIItems.SHRIMP).weight(10));
+                    tb.with(ItemEntry.builder(MIItems.CRAB).weight(10));
                     tb.with(ItemEntry.builder(MIItems.CRAB).weight(10));
                     tb.with(ItemEntry.builder(MIItems.SALMON).weight(10));
                     tb.with(ItemEntry.builder(MIItems.TROUT).weight(10));
+                    tb.with(ItemEntry.builder(MIItems.TROUT).weight(10));
+                    tb.with(ItemEntry.builder(MIItems.TUNA).weight(10));
                     tb.with(ItemEntry.builder(MIItems.TUNA).weight(10));
                     tb.with(ItemEntry.builder(MIItems.SUPREME_TUNA).weight(1));
                 });
@@ -83,7 +87,7 @@ public class MILootModifies {
             if (TRUFFLE_DROPS.contains(key)) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.3f));
+                        .conditionally(RandomChanceLootCondition.builder(0.1f));
 
                 poolBuilder.with(ItemEntry.builder(MIItems.TRUFFLE).weight(10));
                 tableBuilder.pool(poolBuilder);

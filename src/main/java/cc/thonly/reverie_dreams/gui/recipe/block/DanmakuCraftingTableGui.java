@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.gui.recipe.block;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.DanmakuCraftingTableBlockEntity;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
-import cc.thonly.reverie_dreams.interfaces.GuiElementBuilderAccessorImpl;
+import cc.thonly.reverie_dreams.interfaces.IGuiElementBuilderAccessor;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
@@ -113,7 +113,7 @@ public class DanmakuCraftingTableGui extends SimpleGui implements GuiCommon {
                             .setItem(resultItemStack.getItem())
                             .setCount(resultItemStack.getCount())
                             .setCallback((index, type, action) -> handleCrafting(index, recipeEntry));
-                    GuiElementBuilderAccessorImpl elementBuilderAccessor = (GuiElementBuilderAccessorImpl) elementBuilder;
+                    IGuiElementBuilderAccessor elementBuilderAccessor = (IGuiElementBuilderAccessor) elementBuilder;
                     elementBuilderAccessor.setItemStack(resultItemStack);
                     this.setSlot(slot, elementBuilder);
                 } else {

@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.interfaces;
 
 import net.minecraft.item.ItemStack;
 
-public interface GuiElementBuilderAccessorImpl {
+public interface IGuiElementBuilderAccessor {
     default ItemStack setItemStack(ItemStack stack) {
         return stack;
     }

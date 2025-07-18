@@ -14,10 +14,10 @@ import net.minecraft.util.Identifier;
 
 public class BasicDanmakuTypeItem extends BasicPolymerDanmakuItem {
     public BasicDanmakuTypeItem(String path, Settings settings) {
-        super(path, settings, Items.SNOWBALL);
+        super(path, settings, Items.TORCH);
     }
     public BasicDanmakuTypeItem(Identifier identifier, Settings settings) {
-        super(identifier, settings, Items.SNOWBALL);
+        super(identifier, settings, Items.TORCH);
     }
 
     @Override

@@ -5,6 +5,6 @@ import net.minecraft.util.Identifier;
 
 import java.util.Map;
 
-public interface ServerAdvancementLoaderAccessorImpl {
+public interface IServerAdvancementLoaderAccessor {
     Map<Identifier, AdvancementEntry> getAdvancements();
 }

@@ -5,9 +5,11 @@ import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
+import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.datagen.generator.RecipeTypeProvider;
+import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.RoleCards;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
@@ -16,11 +18,14 @@ import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
@@ -363,6 +368,35 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
                         this.ofItem(Items.ROTTEN_FLESH, 8), this.ofItem(Items.BONE, 7)
                 ),
                 this.ofItem(ModItems.DEATH_SCYTHE)
+        ));
+        ItemStack kanjuKusuri = ModPotions.createStack(ModPotions.KANJU_KUSURI_POTION);
+        this.gensokyoAltarRecipe.register(Touhou.id("kanju_kusuri"), new GensokyoAltarRecipe(
+                this.ofItem(Items.GLASS_BOTTLE),
+                List.of(
+                        this.ofItem(Items.SOUL_SAND, 20), this.ofItem(Items.SAND, 20), this.ofItem(Items.NETHER_WART, 5),
+                        this.ofItem(Items.BLAZE_POWDER, 8), this.ofItem(Items.GOLDEN_APPLE, 1),
+                        this.ofItem(Items.GOLDEN_CARROT, 2), this.ofItem(ModItems.SILVER_INGOT, 4), this.ofItem(Items.ENDER_PEARL, 1)
+                ),
+                this.ofItem(kanjuKusuri)
+        ));
+        this.gensokyoAltarRecipe.register(ModItems.CURSED_DECOY_DOLl, new GensokyoAltarRecipe(
+                this.ofItem(Items.ARMOR_STAND),
+                List.of(
+                        this.ofItem(Items.SOUL_SAND, 6), this.ofItem(Items.SOUL_SAND, 6), this.ofItem(Items.SOUL_SAND, 6),
+                        this.ofItem(Items.SOUL_SAND, 6), this.ofItem(Items.SOUL_SAND, 6),
+                        this.ofItem(Items.SOUL_SAND, 6), this.ofItem(Items.SOUL_SAND, 6), this.ofItem(Items.SOUL_SAND, 6)
+                ),
+                this.ofItem(ModItems.CURSED_DECOY_DOLl)
+                )
+        );
+        this.gensokyoAltarRecipe.register(ModItems.VAISRAVANAS_PAGODA, new GensokyoAltarRecipe(
+                this.ofItem(ModBlocks.POWER_BLOCK, 10),
+                List.of(
+                        this.ofItem(Items.STONE, 15), this.ofItem(Items.GOLD_INGOT, 20), this.ofItem(Items.STONE, 15),
+                        this.ofItem(Items.COPPER_INGOT, 10), this.ofItem(Items.BLAZE_POWDER, 8),
+                        this.ofItem(Items.STONE, 15), this.ofItem(Items.IRON_INGOT, 20), this.ofItem(Items.STONE, 15)
+                ),
+                this.ofItem(ModItems.VAISRAVANAS_PAGODA)
         ));
     }
 

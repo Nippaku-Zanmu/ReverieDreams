@@ -590,10 +590,12 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         builder.add(ModStatusEffects.ELIXIR_OF_LIFE.value(), "不死");
         builder.add(ModStatusEffects.MENTAL_DISORDER.value(), "精神错乱");
         builder.add(ModStatusEffects.BACK_OF_LIFE.value(), "返生");
+        builder.add(ModStatusEffects.KANJU_KUSURI.value(), "绀珠");
 
-        builder.generatePotion(ModPotions.ELIXIR_OF_LIFE_POTION, "蓬莱之药", "喷溅型蓬莱之药", "滞留型蓬莱之药");
-        builder.generatePotion(ModPotions.MENTAL_DISORDER_POTION, "精神错乱药水", "喷溅型精神错乱药水", "滞留型精神错乱药水");
-        builder.generatePotion(ModPotions.BACK_OF_LIFE_POTION, "还生药", "喷溅型还生药", "滞留型还生药");
+        builder.generatePotion(ModPotions.ELIXIR_OF_LIFE_POTION.value(), "蓬莱之药", "喷溅型蓬莱之药", "滞留型蓬莱之药");
+        builder.generatePotion(ModPotions.MENTAL_DISORDER_POTION.value(), "精神错乱药水", "喷溅型精神错乱药水", "滞留型精神错乱药水");
+        builder.generatePotion(ModPotions.BACK_OF_LIFE_POTION.value(), "还生药", "喷溅型还生药", "滞留型还生药");
+        builder.generatePotion(ModPotions.KANJU_KUSURI_POTION.value(), "绀珠药", "喷溅型绀珠药", "滞留型绀珠药");
 
     }
 
@@ -631,6 +633,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.EARPHONE, "神子耳机");
         translationBuilder.add(ModItems.KOISHI_HAT, "恋恋钢盔");
         translationBuilder.add(ModItems.FUMO_LICENSE, "Fumo销售许可");
+        translationBuilder.add(ModItems.CURSED_DECOY_DOLl, "被诅咒的诱饵人偶");
+        translationBuilder.add(ModItems.VAISRAVANAS_PAGODA, "毘沙门天的宝塔");
 
         // 武器
         translationBuilder.add(ModItems.HAKUREI_CANE, "博丽御币");
@@ -928,8 +932,9 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(DanmakuTypes.KUNAI.getItem(), "链弹");
         translationBuilder.add(DanmakuTypes.RICE.getItem(), "米弹");
         translationBuilder.add(DanmakuTypes.STAR.getItem(), "星弹");
+        translationBuilder.add(DanmakuTypes.LASER.getItem(), "激光");
 
-//        for (DanmakuItemType itemEntry : ModItems.DANMAKU_ITEMS) {
+//        for (IDanmakuItem itemEntry : ModItems.DANMAKU_ITEMS) {
 //            List<BasicDanmakuItemTypeItem> values = itemEntry.getValues();
 //            for (BasicDanmakuItemTypeItem item : values) {
 //                Identifier identifier = Registries.ITEM.getId(item);

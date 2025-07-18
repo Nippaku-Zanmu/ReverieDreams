@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
-import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
+import cc.thonly.reverie_dreams.item.base.IDanmakuItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;
 import eu.pb4.polymer.core.api.utils.PolymerObject;
@@ -22,7 +22,7 @@ public class DanmakuTrajectory implements PolymerObject, RegistrableObject<Danma
     public static final Codec<DanmakuTrajectory> CODEC = Codec.unit(DanmakuTrajectory::new);
     private Identifier id;
 
-    public void run(ServerWorld world, @Nullable LivingEntity livingEntity, ItemStack stack, Double x, Double y, Double z, float pitch, float yaw, float speed, float acceleration, float divergence, float offsetDist, DanmakuItemType pThis) {
+    public void run(ServerWorld world, @Nullable LivingEntity livingEntity, ItemStack stack, Double x, Double y, Double z, float pitch, float yaw, float speed, float acceleration, float divergence, float offsetDist, IDanmakuItem pThis) {
 
     }
 

@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.mixin;
 
-import cc.thonly.reverie_dreams.interfaces.ItemStackImpl;
+import cc.thonly.reverie_dreams.interfaces.IItemStack;
 import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
 import net.fabricmc.fabric.api.item.v1.FabricItemStack;
 import net.minecraft.component.ComponentHolder;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(ItemStack.class)
-public abstract class ItemStackMixin<T> implements ItemStackImpl,
+public abstract class ItemStackMixin<T> implements IItemStack,
         ComponentHolder,
         FabricItemStack {
     @Shadow public abstract Item getItem();

@@ -11,6 +11,7 @@ public class ModStatusEffects {
     public static final RegistryEntry<StatusEffect> ELIXIR_OF_LIFE = registerEffect("elixir_of_life", new ElixirOfLifeEffect());
     public static final RegistryEntry<StatusEffect> MENTAL_DISORDER = registerEffect("mental_disorder", new MentalDisorder());
     public static final RegistryEntry<StatusEffect> BACK_OF_LIFE = registerEffect("back_of_life", new BackOfLifeEffect());
+    public static final RegistryEntry<StatusEffect> KANJU_KUSURI = registerEffect("kanju_kansuri", new KanjuKusuriEffect());
 
     public static void init() {
         ModPotions.init();

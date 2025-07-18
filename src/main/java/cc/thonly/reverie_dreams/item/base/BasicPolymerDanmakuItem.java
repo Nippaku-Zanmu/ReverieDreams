@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,25 +22,26 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 @Setter
 @Getter
 @ToString
-public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implements DanmakuItemType {
+public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implements IDanmakuItem {
     public static final Integer DEFAULT_COUNT = 3;
 
     public BasicPolymerDanmakuItem(String path, Settings settings, Item item) {
-        super(path, settings.maxCount(1), item != null ? item : Items.TORCH);
+        super(path, settings.maxCount(1), item != null ? item : Items.BLAZE_POWDER);
     }
 
     public BasicPolymerDanmakuItem(Identifier identifier, Settings settings, Item item) {
-        super(identifier, settings.maxCount(1), item != null ? item : Items.TORCH);
+        super(identifier, settings.maxCount(1), item != null ? item : Items.BLAZE_POWDER);
     }
 
     public BasicPolymerDanmakuItem(String path, Settings settings) {
-        this(path, settings.maxCount(1), Items.TORCH);
+        this(path, settings.maxCount(1), Items.BLAZE_POWDER);
     }
 
     @Override
@@ -53,7 +56,7 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
             }
             if (!isInfinite) {
                 itemStack.damage(1, user);
-                if (itemStack.getDamage() <= 1) {
+                if (itemStack.isDamageable() && itemStack.getDamage() >= itemStack.getMaxDamage()) {
                     itemStack.decrement(1);
                 }
             }

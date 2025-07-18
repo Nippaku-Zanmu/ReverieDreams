@@ -12,7 +12,7 @@ import net.minecraft.sound.SoundEvents;
 import java.util.Map;
 
 public interface MagicIceArmorMaterial {
-    int BASE_DURABILITY = 250;
+    int BASE_DURABILITY = 14;
     RegistryKey<EquipmentAsset> REGISTRY_KEY = RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Touhou.id("magic_ice"));
 
     ArmorMaterial INSTANCE = new ArmorMaterial(

@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams.item.weapon;
 
-import cc.thonly.reverie_dreams.data.ModTags;
-import cc.thonly.reverie_dreams.interfaces.LivingEntityImpl;
+import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerPickaxeItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -14,7 +13,6 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MaceItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.registry.tag.BlockTags;
@@ -28,7 +26,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -57,7 +54,7 @@ public class ManpozuchiItem extends BasicPolymerPickaxeItem {
             if (attributeInstance == null) {
                 return ActionResult.PASS;
             }
-            LivingEntityImpl lePlayerImpl = (LivingEntityImpl) player;
+            ILivingEntity lePlayerImpl = (ILivingEntity) player;
             double state = lePlayerImpl.getManpozuchiUsingState();
             if (state >= 0.2) {
                 attributeInstance.setBaseValue(state);

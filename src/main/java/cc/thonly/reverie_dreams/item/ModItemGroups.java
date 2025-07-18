@@ -1,6 +1,8 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.base.BasicFruitLeavesBlock;
+import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.block.WoodCreator;
@@ -62,10 +64,12 @@ public class ModItemGroups {
             for (Item item : ModItems.getItemView()) {
                 itemGroup.add(item);
             }
+            itemGroup.add(ModItems.ROLE_CARD);
+            itemGroup.add(ModPotions.createStack(ModPotions.KANJU_KUSURI_POTION));
             for (WoodCreator instance : WoodCreator.INSTANCES) {
                 instance.stream().forEach(block -> itemGroup.add(block.asItem()));
             }
-            itemGroup.add(ModItems.ROLE_CARD);
+            BasicFruitLeavesBlock.FRUIT_LEAVES_BLOCKS.forEach(itemGroup::add);
         });
         ItemGroupEvents.modifyEntriesEvent(BULLET_ITEM_GROUP_KEY).register(itemGroup -> {
             List<ItemStack> color = DanmakuTypes.allColor();

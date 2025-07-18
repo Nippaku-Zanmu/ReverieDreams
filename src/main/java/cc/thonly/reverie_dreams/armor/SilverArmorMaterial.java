@@ -12,7 +12,7 @@ import net.minecraft.sound.SoundEvents;
 import java.util.Map;
 
 public interface SilverArmorMaterial {
-    int BASE_DURABILITY = 250;
+    int BASE_DURABILITY = 15;
     RegistryKey<EquipmentAsset> REGISTRY_KEY = RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Touhou.id("silver"));
 
     ArmorMaterial INSTANCE = new ArmorMaterial(

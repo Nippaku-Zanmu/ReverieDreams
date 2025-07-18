@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.danmaku;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.data.ModTags;
+import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.item.BasicDanmakuTypeItem;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import cc.thonly.reverie_dreams.registry.ItemColor;
@@ -46,6 +47,7 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
     private final boolean tile;
     private final boolean infinite;
     private Item item;
+    private DanmakuEntity.OnHitFactory hitFactory;
 
     public DanmakuType(Identifier id, float damage, float scale, float speed, boolean tile, boolean infinite) {
         this.id = id;
@@ -59,7 +61,9 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
 
     public void register() {
         this.item = new BasicDanmakuTypeItem(this.getRegistryKey(), this.createItemSettings()
-                .component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046)));
+                .component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046))
+                .maxDamage(120)
+        );
         Registry.register(Registries.ITEM, Identifier.of(this.id.getNamespace(), "danmaku/" + this.id.getPath()), this.item);
     }
 

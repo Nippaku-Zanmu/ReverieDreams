@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.danmaku.trajectory;
 
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import cc.thonly.reverie_dreams.danmaku.Pattern;
-import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
+import cc.thonly.reverie_dreams.item.base.IDanmakuItem;
 import lombok.AllArgsConstructor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public class PatternTrajectory extends DanmakuTrajectory {
     public void run(ServerWorld world, @Nullable LivingEntity livingEntity, ItemStack stack,
                     Double x, Double y, Double z, float pitch, float yaw,
                     float speed, float acceleration, float divergence, float offsetDist,
-                    DanmakuItemType pThis) {
+                    IDanmakuItem pThis) {
 
         double centerX = x;
         double centerY = y;

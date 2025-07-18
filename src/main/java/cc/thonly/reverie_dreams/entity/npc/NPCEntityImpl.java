@@ -9,7 +9,7 @@ import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.gui.NPCGui;
-import cc.thonly.reverie_dreams.interfaces.ItemStackImpl;
+import cc.thonly.reverie_dreams.interfaces.IItemStack;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
@@ -394,7 +394,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 player.swingHand(hand);
                 return ActionResult.SUCCESS_SERVER;
             }
-            if ((((ItemStackImpl) (Object) stack).isFood() || stack.getItem() == TAME_FOOD_ITEM) && this.canFeed()) {
+            if ((((IItemStack) (Object) stack).isFood() || stack.getItem() == TAME_FOOD_ITEM) && this.canFeed()) {
                 ComponentMap components = stack.getComponents();
                 UseRemainderComponent useRemainderComponent = stack.get(DataComponentTypes.USE_REMAINDER);
                 FoodComponent foodComponent = components.get(DataComponentTypes.FOOD);
@@ -934,10 +934,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
 //    @Override
-//    public @Nullable UUID getOwnerUuid() {
-//        if (this.npcOwner.equalsIgnoreCase("")) return null;
-//        return UUID.fromString(this.npcOwner);
-//    }
+    public @Nullable UUID getOwnerUuid() {
+        if (this.npcOwner.equalsIgnoreCase("")) return null;
+        return UUID.fromString(this.npcOwner);
+    }
 
     @Override
     public boolean isSitting() {

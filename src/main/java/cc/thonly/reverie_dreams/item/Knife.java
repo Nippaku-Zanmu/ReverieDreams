@@ -5,7 +5,7 @@ import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
-import cc.thonly.reverie_dreams.item.base.DanmakuItemType;
+import cc.thonly.reverie_dreams.item.base.IDanmakuItem;
 import cc.thonly.reverie_dreams.item.tool.SilverMaterial;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import lombok.Getter;
@@ -17,7 +17,6 @@ import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -34,7 +33,7 @@ import java.util.Random;
 @SuppressWarnings("unchecked")
 @Setter
 @Getter
-public class Knife extends BasicPolymerSwordItem implements DanmakuItemType {
+public class Knife extends BasicPolymerSwordItem implements IDanmakuItem {
 
     public Knife(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(

@@ -40,7 +40,7 @@ public abstract class BasicPolymerArmorItem extends BasicPolymerItem implements 
     }
 
     public BasicPolymerArmorItem(Identifier identifier, ArmorMaterial material, EquipmentType type, Settings settings) {
-        super(identifier, settings.armor(material, type).registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), Items.LEAD);
+        super(identifier, settings.maxCount(1).armor(material, type).registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)), Items.LEAD);
         this.identifier = identifier;
         if (type.equals(EquipmentType.HELMET)) {
             this.vanillaItem = Items.DIAMOND_HELMET;

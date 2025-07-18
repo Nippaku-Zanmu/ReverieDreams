@@ -6,6 +6,7 @@ import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.*;
 import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
@@ -148,6 +149,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.EARPHONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.KOISHI_HAT, Models.GENERATED);
         itemModelGenerator.register(ModItems.FUMO_LICENSE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CURSED_DECOY_DOLl);
+        itemModelGenerator.register(ModItems.VAISRAVANAS_PAGODA, Models.GENERATED);
 
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
@@ -266,7 +269,11 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
-        for (Item item : RegistryManager.DANMAKU_TYPE.values().stream().map(DanmakuType::getItem).toList()) {
+        for (Item item : RegistryManager.DANMAKU_TYPE.values()
+                .stream()
+                .filter(type -> !DanmakuTypes.UNLIST.contains(type))
+                .map(DanmakuType::getItem)
+                .toList()) {
             itemModelGenerator.registerWithDyeableOverlay(item);
         }
     }

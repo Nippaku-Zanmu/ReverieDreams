@@ -2,7 +2,7 @@ package cc.thonly.reverie_dreams.mixin;
 
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
-import cc.thonly.reverie_dreams.interfaces.LivingEntityImpl;
+import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.world.WorldGetter;
 import net.minecraft.entity.Entity;
@@ -15,10 +15,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
@@ -26,6 +28,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +44,7 @@ import java.util.EnumSet;
 
 @SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements LivingEntityImpl {
+public abstract class LivingEntityMixin extends Entity implements ILivingEntity {
     @Shadow
     public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
@@ -75,9 +79,20 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     public int deathCount = 0;
     @Unique
     private int deathCountResetTimer = 0;
+    @Unique
+    private ServerWorld kanjuWorld;
+    @Unique
+    private BlockPos kanjuBlockPos = new BlockPos(0, 0, 0);
+
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    @Override
+    public void setKanju(ServerWorld world, BlockPos blockPos) {
+        this.kanjuWorld = world;
+        this.kanjuBlockPos = blockPos;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
@@ -85,6 +100,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
         EntityAttributeInstance maxHealthAttributeInstance = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
         if (maxHealthAttributeInstance != null) {
             maxHealthAttributeInstance.setBaseValue(this.getMaxHealth() + this.maxHealthModifier);
+        }
+        if (world instanceof ServerWorld) {
+            this.kanjuWorld = (ServerWorld) world;
         }
     }
 
@@ -169,7 +187,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         boolean bl1 = this.deathInElixir(world, source, amount, cir);
-        if (!bl1) {
+        boolean bl2 = this.deathInKanju(world, source, amount, cir);
+        if (!bl1 && !bl2) {
             this.deathByDanmakuEntity(world, source, amount, cir);
         }
     }
@@ -179,6 +198,19 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
         if ((this.getHealth() - amount <= 0f) && source.getSource() instanceof DanmakuEntity) {
             Entity self = (Entity) this;
             self.playSound(SoundEventInit.BIU, 0.32F, 1.0F);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deathInKanju(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (this.kanjuWorld == null) {
+            return false;
+        }
+        if (this.kanjuWorld instanceof ServerWorld serverWorld && this.hasStatusEffect(ModStatusEffects.KANJU_KUSURI) && (this.getHealth() - amount <= 0f)) {
+            this.setHealth(1f);
+            this.setHealth(this.getMaxHealth());
+            this.teleport(serverWorld, this.kanjuBlockPos.getX(), this.kanjuBlockPos.getY(), this.kanjuBlockPos.getZ(), EnumSet.noneOf(PositionFlag.class), this.getYaw(), this.getPitch(), true);
             return true;
         }
         return false;
@@ -213,18 +245,30 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityIm
 
     @Inject(method = "writeCustomData", at = @At("HEAD"))
     public void writeCustomDataToNbt(WriteView view, CallbackInfo ci) {
+        DynamicRegistryManager registryManager = this.getRegistryManager();
         view.putFloat("MaxHealthModifier", this.maxHealthModifier);
         view.putInt("DeathCount", this.deathCount);
         view.putInt("DeathCountResetTimer", this.deathCountResetTimer);
         view.putDouble("ManpozuchiUsingState", this.manpozuchiUsingState);
+        view.putString("KanjuWorld", this.kanjuWorld.getRegistryKey().getValue().toString());
+        view.putLong("KanjuBlockPos", this.kanjuBlockPos.asLong());
     }
 
     @Inject(method = "readCustomData", at = @At("HEAD"))
     public void readCustomDataFromNbt(ReadView view, CallbackInfo ci) {
-        this.maxHealthModifier = view.getFloat("MaxHealthModifier",0.0f);
-        this.deathCount = view.getInt("DeathCount",0);
-        this.deathCountResetTimer = view.getInt("DeathCountResetTimer",0);
+        DynamicRegistryManager registryManager = this.getRegistryManager();
+        MinecraftServer server = this.getServer();
+        this.maxHealthModifier = view.getFloat("MaxHealthModifier", 0.0f);
+        this.deathCount = view.getInt("DeathCount", 0);
+        this.deathCountResetTimer = view.getInt("DeathCountResetTimer", 0);
         this.manpozuchiUsingState = view.getDouble("ManpozuchiUsingState", 0.0);
+        String kanjuWorldStr = view.getString("KanjuWorld", "");
+        if (kanjuWorldStr != null && !kanjuWorldStr.isEmpty()) {
+            if (server != null) {
+                this.kanjuWorld = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier.of(kanjuWorldStr)));
+            }
+        }
+        this.kanjuBlockPos = BlockPos.fromLong(view.getLong("KanjuBlockPos", new BlockPos(0,0,0).asLong()));
     }
 
     @Override

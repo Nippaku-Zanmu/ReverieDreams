@@ -35,6 +35,7 @@ public class ModTags {
         public static final TagKey<Item> POINT_BLOCK = of("point_block");
         public static final TagKey<Item> SILVER_BLOCK = of("silver_block");
         public static final TagKey<Item> PEACH = of("peach");
+        public static final TagKey<Item> VAISRAVANAS_PAGODA = of("vaisravanas_pagoda_materials");
 
         private static TagKey<Item> of(String id) {
             return TagKey.of(RegistryKeys.ITEM, Touhou.id(id));

@@ -32,7 +32,7 @@ public class BasicBlockItem extends BasicPolymerBlockItem {
     public static Item getBlockItemBase(Block block) {
         return Items.BARRIER;
 //        AbstractBlock.Settings settings = block.getSettings();
-//        AbstractBlockSettingsAccessorImpl settingsImpl = (AbstractBlockSettingsAccessorImpl) settings;
+//        IAbstractBlockSettingsAccessor settingsImpl = (IAbstractBlockSettingsAccessor) settings;
 //        BlockSoundGroup soundGroup = settingsImpl.getSoundGroup();
 //        Item blockItem = ItemTypeTag.BARRIER;
 //        if (SOUND_GROUP_CACHES.containsKey(soundGroup)) {
@@ -42,7 +42,7 @@ public class BasicBlockItem extends BasicPolymerBlockItem {
 //        for (Block registryBlock : blocks) {
 //            if (registryBlock.asItem() == ItemTypeTag.AIR) continue;
 //            AbstractBlock.Settings settings1 = registryBlock.getSettings();
-//            AbstractBlockSettingsAccessorImpl settingsImpl1 = (AbstractBlockSettingsAccessorImpl) settings1;
+//            IAbstractBlockSettingsAccessor settingsImpl1 = (IAbstractBlockSettingsAccessor) settings1;
 //            BlockSoundGroup soundGroup1 = settingsImpl1.getSoundGroup();
 //
 //            if (soundGroup.equals(soundGroup1)) {

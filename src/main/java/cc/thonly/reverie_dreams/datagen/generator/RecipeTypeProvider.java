@@ -25,7 +25,6 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -35,6 +34,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
+@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class RecipeTypeProvider implements DataProvider {
     public final FabricDataOutput output;
     public final CompletableFuture<RegistryWrapper.WrapperLookup> future;
@@ -94,7 +94,6 @@ public abstract class RecipeTypeProvider implements DataProvider {
         return new LinkedList<>(Arrays.asList(stackRecipeWrappers));
     }
 
-    @SuppressWarnings("unchecked")
     public synchronized <R extends BaseRecipe> Factory<R> getOrCreateFactory(BaseRecipeType<R> recipeType, Class<R> rClass) {
         Identifier id = recipeType.getId();
         if (this.identifierFactoryMap.containsKey(id)) {
@@ -115,7 +114,6 @@ public abstract class RecipeTypeProvider implements DataProvider {
 
     public abstract void configured();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public void export(DataWriter writer) {
         try {
             Path path = Paths.get(DataGeneratorUtil.OUTPUT_DIR);
@@ -184,12 +182,12 @@ public abstract class RecipeTypeProvider implements DataProvider {
             return this;
         }
 
-        public void export(Exporter<R> exporter) {
-            exporter.apply(this.registries);
+        public void export(RegistryEntriesFactory<R> factory) {
+            factory.apply(this.registries);
         }
 
         @FunctionalInterface
-        public interface Exporter<R> {
+        public interface RegistryEntriesFactory<R> {
             void apply(Map<Identifier, R> registries);
         }
     }
