@@ -3,5 +3,6 @@
     "type": "minecraft:model",
     "model": "reverie_dreams:item/sgui/elements/prev",
     "oversized_in_gui": true
-  }
+  },
+  "oversized_in_gui": true
 }

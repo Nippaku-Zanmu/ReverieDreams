@@ -22,7 +22,7 @@
             "Name": "reverie_dreams:peach_leaves",
             "Properties": {
               "distance": "7",
-              "persistent": "false",
+              "persistent": "true",
               "waterlogged": "false"
             }
           },

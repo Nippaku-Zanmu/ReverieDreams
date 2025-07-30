@@ -8,6 +8,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.WindChargeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class MapleLeafFan extends BasicPolymerSwordItem {
-    public static final ToolMaterial MAPLE_LEAF_FAN = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 250, 4.0f, 2.5f, 5, ModTags.ItemTypeTag.EMPTY);
+    public static final ToolMaterial MAPLE_LEAF_FAN = new ToolMaterial(ModTags.BlockTypeTag.EMPTY, 250, 4.0f, 2.5f, 5, ItemTags.GOLD_TOOL_MATERIALS);
     public static float POWER = 1.5f;
 
     public MapleLeafFan(String path, float attackDamage, float attackSpeed, Settings settings) {

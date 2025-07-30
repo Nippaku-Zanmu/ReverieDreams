@@ -32,6 +32,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -105,7 +106,8 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof KitchenwareBlockEntity kitchenwareBlockEntity) {
                 if (kitchenwareBlockEntity.isWorking()) {
-                    return ActionResult.FAIL;
+                    serverPlayer.sendMessage(Text.literal("§cIt's in working"), false);
+                    return ActionResult.SUCCESS_SERVER;
                 }
                 UUID uuid = kitchenwareBlockEntity.getUuid();
                 Set<KitchenBlockGui<?>> kitchenBlockGuis = KitchenwareBlockEntity.SESSIONS.computeIfAbsent(uuid, (map) -> new HashSet<>());
@@ -115,7 +117,7 @@ public class AbstractKitchenwareBlock extends BlockWithEntity implements Factory
 
                 return ActionResult.SUCCESS_SERVER;
             }
-            return ActionResult.FAIL;
+            return ActionResult.SUCCESS_SERVER;
         }
         return ActionResult.SUCCESS;
     }

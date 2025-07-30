@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RoleCard implements RegistrableObject<RoleCard> {
     public static final Codec<RoleCard> CODEC = Codec.unit(RoleCard::new);
@@ -68,7 +69,8 @@ public class RoleCard implements RegistrableObject<RoleCard> {
 
     public Optional<NPCRole> random() {
         if (this.entries.isEmpty()) return Optional.empty();
-        return Optional.ofNullable(this.entries.get(Random.create().nextInt(this.entries.size())));
+        int index = ThreadLocalRandom.current().nextInt(this.entries.size());
+        return Optional.ofNullable(this.entries.get(index));
     }
 
     public RoleCard build() {

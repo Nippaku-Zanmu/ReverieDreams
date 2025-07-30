@@ -246,8 +246,15 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
     @Override
     protected void writeCustomData(WriteView view) {
         super.writeCustomData(view);
-        if (!this.summonItem.isEmpty()) {;
-            view.putString("SummonedItem", ItemStackRecipeWrapper.toJson(ItemStackRecipeWrapper.of(this.summonItem)));
+        if (this.summonItem != null && !this.summonItem.isEmpty()) {
+            String json = ItemStackRecipeWrapper.toJson(ItemStackRecipeWrapper.of(this.summonItem));
+            boolean isNull = json == null;
+            if (!isNull) {
+                boolean isEmpty = json.isEmpty();
+                if(!isEmpty) {
+                    view.putString("SummonedItem", json);
+                }
+            }
         }
         view.putString("OwnerUUID", this.ownerUUID);
     }
@@ -260,7 +267,7 @@ public class MagicBroomEntity extends PathAwareEntity implements PolymerEntity, 
         summonedItemOptional.ifPresent(itemStack -> this.summonItem = itemStack.getItemStack());
 
 
-            this.ownerUUID = view.getString("OwnerUUID","null");
+        this.ownerUUID = view.getString("OwnerUUID", "null");
 
     }
 

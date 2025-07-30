@@ -4,10 +4,17 @@ import cc.thonly.reverie_dreams.entity.ModEntities;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.*;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
+
+import java.util.Random;
 
 public class BiomeModificationInit {
     public static final int BASE_WEIGHT = 80;
@@ -65,19 +72,37 @@ public class BiomeModificationInit {
         BiomeModifications.addSpawn(
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),
                 SpawnGroup.MONSTER,
-                ModEntities.YOUSEI_ENTITY_TYPE, 20, 1, 2
+                ModEntities.YOUSEI_ENTITY_TYPE, 10, 1, 2
+        );
+        SpawnRestriction.register(
+                ModEntities.YOUSEI_ENTITY_TYPE,
+                SpawnLocationTypes.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                (entity, world, reason, pos, random) ->
+                        world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) &&
+                                world.getBaseLightLevel(pos, 0) > 8 &&
+                                world.getBlockState(pos).isAir()
         );
         // 向日葵妖精
         BiomeModifications.addSpawn(
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),
                 SpawnGroup.MONSTER,
-                ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE, 6, 1, 3
+                ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE, 3, 1, 3
+        );
+        SpawnRestriction.register(
+                ModEntities.SUNFLOWER_YOUSEI_ENTITY_TYPE,
+                SpawnLocationTypes.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                (entity, world, reason, pos, random) ->
+                        world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) &&
+                                world.getBaseLightLevel(pos, 0) > 8 &&
+                                world.getBlockState(pos).isAir()
         );
         // 杀人蜂
         BiomeModifications.addSpawn(
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_BIRCH_FOREST),
                 SpawnGroup.MONSTER,
-                ModEntities.KILLER_BEE_ENTITY_TYPE, 6, 2, 3
+                ModEntities.KILLER_BEE_ENTITY_TYPE, 7, 2, 3
         );
         // 毛玉
         BiomeModifications.addSpawn(
@@ -91,6 +116,15 @@ public class BiomeModificationInit {
                 SpawnGroup.MONSTER,
                 ModEntities.GOBLIN_ENTITY_TYPE, 50 / 5, 1, 1
         );
+        SpawnRestriction.register(
+                ModEntities.GOBLIN_ENTITY_TYPE,
+                SpawnLocationTypes.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                (entity, world, reason, pos, random) ->
+                        world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) &&
+                                world.getBaseLightLevel(pos, 0) > 8 &&
+                                world.getBlockState(pos).isAir()
+        );
         // 蘑菇怪
         BiomeModifications.addSpawn(
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_MUSHROOM),
@@ -103,4 +137,9 @@ public class BiomeModificationInit {
                 ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE, 8, 1, 2
         );
     }
+
+    public static boolean canSpawn(EntityType<?> type, ServerWorld world, SpawnReason reason, BlockPos pos, Random random) {
+        return world.getLightLevel(pos) <= 7 && world.getBlockState(pos.down()).isSolidBlock(world, pos.down());
+    }
+
 }

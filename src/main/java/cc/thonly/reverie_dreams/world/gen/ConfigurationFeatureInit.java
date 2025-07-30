@@ -75,8 +75,8 @@ public class ConfigurationFeatureInit {
                 BlockStateProvider.of(MIBlocks.LEMON.log()),
                 new BendingTrunkPlacer(2, 1, 2, 2, UniformIntProvider.create(1, 1)),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
-                        .add(MIBlocks.LEMON.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true), 3)
-                        .add(MIBlocks.LEMON_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 1)),
+                        .add(MIBlocks.LEMON.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
+                        .add(MIBlocks.LEMON_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());
@@ -84,8 +84,8 @@ public class ConfigurationFeatureInit {
                 BlockStateProvider.of(MIBlocks.LEMON.log()),
                 new StraightTrunkPlacer(3, 1, 0),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
-                        .add(MIBlocks.GINKGO.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true), 3)
-                        .add(MIBlocks.GINKGO_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 1)),
+                        .add(MIBlocks.GINKGO.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
+                        .add(MIBlocks.GINKGO_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());
@@ -93,8 +93,8 @@ public class ConfigurationFeatureInit {
                 BlockStateProvider.of(MIBlocks.PEACH.log()),
                 new StraightTrunkPlacer(2, 1, 1),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
-                        .add(MIBlocks.PEACH.leaves().getDefaultState(), 3)
-                        .add(MIBlocks.PEACH_FRUIT_LEAVES.getDefaultState(), 1)),
+                        .add(MIBlocks.PEACH.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
+                        .add(MIBlocks.PEACH_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());

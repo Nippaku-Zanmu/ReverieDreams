@@ -165,6 +165,10 @@ public class ItemStackRecipeWrapper {
         return this.itemStack.isEmpty() ? Optional.empty() : Optional.of(this.itemStack);
     }
 
+    public static Optional<String> toJson(ItemStackRecipeWrapper wrapper, Class<?> empty) {
+        return Optional.ofNullable(toJson(wrapper));
+    }
+
     public static String toJson(ItemStackRecipeWrapper wrapper) {
         DataResult<JsonElement> dataResult = ItemStackRecipeWrapper.CODEC.encodeStart(JsonOps.INSTANCE, wrapper);
         Optional<JsonElement> result = dataResult.result();

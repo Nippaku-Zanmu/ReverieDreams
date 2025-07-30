@@ -47,11 +47,11 @@ public class KitchenwareBlockEntity extends BlockEntity {
     public static final BiMap<Block, KitchenRecipeType.KitchenType> BLOCK_2_KITCHEN_TYPE = HashBiMap.create();
 
     static {
-        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.COOKING_POT, KitchenRecipeType.KitchenType.COOKING_POT);
-        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.CUTTING_BOARD, KitchenRecipeType.KitchenType.CUTTING_BOARD);
-        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.FRYING_PAN, KitchenRecipeType.KitchenType.FRYING_PAN);
-        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.GRILL, KitchenRecipeType.KitchenType.GRILL);
-        BLOCK_2_KITCHEN_TYPE.put(MIBlocks.STEAMER, KitchenRecipeType.KitchenType.STREAMER);
+        registerRecipeType(MIBlocks.COOKING_POT, KitchenRecipeType.KitchenType.COOKING_POT);
+        registerRecipeType(MIBlocks.CUTTING_BOARD, KitchenRecipeType.KitchenType.CUTTING_BOARD);
+        registerRecipeType(MIBlocks.FRYING_PAN, KitchenRecipeType.KitchenType.FRYING_PAN);
+        registerRecipeType(MIBlocks.GRILL, KitchenRecipeType.KitchenType.GRILL);
+        registerRecipeType(MIBlocks.STEAMER, KitchenRecipeType.KitchenType.STREAMER);
     }
 
     public static final Supplier<ItemStackRecipeWrapper> DEFAULT_WRAPPER_FACTORY = ItemStackRecipeWrapper::empty;
@@ -73,6 +73,11 @@ public class KitchenwareBlockEntity extends BlockEntity {
         this.block = (AbstractKitchenwareBlock) block;
         this.recipeType = BLOCK_2_KITCHEN_TYPE.get(block);
         this.tickSpeedBonus = this.block.getTickBonus();
+    }
+
+
+    public static void registerRecipeType(Block block,KitchenRecipeType.KitchenType recipeType) {
+        BLOCK_2_KITCHEN_TYPE.put(block, recipeType);
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState state, KitchenwareBlockEntity self) {
@@ -119,6 +124,9 @@ public class KitchenwareBlockEntity extends BlockEntity {
                     self.workingState = WorkingState.NONE_FUEL;
                 }
             }
+        }
+        if ((!self.block.getRequiredEnergy()) && !self.preOutput.isEmpty()) {
+            self.workingState = WorkingState.WORKING;
         }
     }
 

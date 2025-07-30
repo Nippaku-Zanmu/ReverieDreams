@@ -126,12 +126,20 @@ public abstract class BasicCropBlock extends PlantBlock implements Fertilizable,
 
     @Override
     protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        float f;
-        int i;
-        if (world.getBaseLightLevel(pos, 0) >= 9 && (i = this.getAge(state)) < this.getMaxAge() && random.nextInt((int) (25.0f / (f = getAvailableMoisture(this, world, pos))) + 1) == 0) {
-            world.setBlockState(pos, this.withAge(i + 1), Block.NOTIFY_LISTENERS);
+        int age = this.getAge(state);
+        if (age >= this.getMaxAge()) return;
+
+        if (world.getBaseLightLevel(pos, 0) >= 9) {
+            float moisture = getAvailableMoisture(this, world, pos);
+
+            int chance = (int)(10.0f / moisture) + 1;
+
+            if (random.nextInt(chance) == 0) {
+                world.setBlockState(pos, this.withAge(age + 1), Block.NOTIFY_LISTENERS);
+            }
         }
     }
+
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {

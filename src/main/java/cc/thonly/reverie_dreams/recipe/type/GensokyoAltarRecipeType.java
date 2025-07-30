@@ -27,8 +27,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe> {
@@ -88,7 +91,7 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
                 ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
                 ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
                 ItemStackRecipeWrapper.of(Items.DIAMOND, 2)
-        ), ItemStackRecipeWrapper.of(ModItems.SPELL_CARD_TEMPLATE)));
+        ), ItemStackRecipeWrapper.of(ModItems.SPELL_CARD_TEMPLATE, 2)));
     }
 
     @Override
@@ -99,84 +102,38 @@ public class GensokyoAltarRecipeType extends BaseRecipeType<GensokyoAltarRecipe>
     public List<GensokyoAltarRecipe> getModifierRecipe(List<ItemStackRecipeWrapper> wrappers) {
         List<GensokyoAltarRecipe> matches = new ArrayList<>();
         ItemStackRecipeWrapper coreWrapper = wrappers.get(8);
-        if (coreWrapper.getItem() instanceof RoleFollowerArchiveItem) {
-            ItemStackRecipeWrapper slot0 = wrappers.get(0);
-            ItemStackRecipeWrapper slot1 = wrappers.get(1);
-            ItemStackRecipeWrapper slot2 = wrappers.get(2);
-            ItemStackRecipeWrapper slot3 = wrappers.get(3);
-            ItemStackRecipeWrapper slot4 = wrappers.get(4);
-            ItemStackRecipeWrapper slot5 = wrappers.get(5);
-            ItemStackRecipeWrapper slot6 = wrappers.get(6);
-            ItemStackRecipeWrapper slot7 = wrappers.get(7);
-            if (
-                    slot0.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot1.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot2.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot3.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot4.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot5.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot6.test(new ItemStack(Items.DIAMOND, 4)) &&
-                            slot7.test(new ItemStack(Items.DIAMOND, 4))
-            ) {
-                ItemStackRecipeWrapper resultWrapper = coreWrapper.copy();
-                ItemStack itemStack = resultWrapper.getItemStack();
-                itemStack.set(ModDataComponentTypes.ROLE_CAN_RESPAWN, true);
-                return new ArrayList<>(
-                        List.of(
-                                new GensokyoAltarRecipe(coreWrapper, List.of(
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 4)
-                                ), ItemStackRecipeWrapper.of(itemStack))
-                        )
-                );
-            }
+
+        Predicate<Integer> isAllMatch = (amount) -> {
+            return IntStream.range(0, 8).allMatch(i ->
+                    wrappers.get(i).test(new ItemStack(Items.DIAMOND, amount))
+            );
+        };
+
+        if (coreWrapper.getItem() instanceof RoleFollowerArchiveItem && isAllMatch.test(4)) {
+            ItemStack itemStack = coreWrapper.copy().getItemStack();
+            itemStack.set(ModDataComponentTypes.ROLE_CAN_RESPAWN, true);
+
+            matches.add(new GensokyoAltarRecipe(
+                    coreWrapper,
+                    Collections.nCopies(8, ItemStackRecipeWrapper.of(Items.DIAMOND, 4)),
+                    ItemStackRecipeWrapper.of(itemStack)
+            ));
         }
-        if (coreWrapper.getItem() instanceof SpellCardTemplateItem) {
-            ItemStackRecipeWrapper slot0 = wrappers.get(0);
-            ItemStackRecipeWrapper slot1 = wrappers.get(1);
-            ItemStackRecipeWrapper slot2 = wrappers.get(2);
-            ItemStackRecipeWrapper slot3 = wrappers.get(3);
-            ItemStackRecipeWrapper slot4 = wrappers.get(4);
-            ItemStackRecipeWrapper slot5 = wrappers.get(5);
-            ItemStackRecipeWrapper slot6 = wrappers.get(6);
-            ItemStackRecipeWrapper slot7 = wrappers.get(7);
-            if (
-                    slot0.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot1.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot2.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot3.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot4.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot5.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot6.test(new ItemStack(Items.DIAMOND, 2)) &&
-                            slot7.test(new ItemStack(Items.DIAMOND, 2))
-            ) {
-                ItemStackRecipeWrapper resultWrapper = coreWrapper.copy();
-                ItemStack itemStack = resultWrapper.getItemStack();
-                itemStack.setCount(2);
-                return new ArrayList<>(
-                        List.of(
-                                new GensokyoAltarRecipe(coreWrapper, List.of(
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2),
-                                        ItemStackRecipeWrapper.of(Items.DIAMOND, 2)
-                                ), ItemStackRecipeWrapper.of(itemStack))
-                        )
-                );
-            }
+
+        if (coreWrapper.getItem() instanceof SpellCardTemplateItem && isAllMatch.test(2)) {
+            ItemStack itemStack = coreWrapper.copy().getItemStack();
+            itemStack.setCount(2);
+
+            matches.add(new GensokyoAltarRecipe(
+                    coreWrapper,
+                    Collections.nCopies(8, ItemStackRecipeWrapper.of(Items.DIAMOND, 2)),
+                    ItemStackRecipeWrapper.of(itemStack)
+            ));
         }
+
         return matches;
     }
+
 
     @Override
     public List<GensokyoAltarRecipe> getMatches(List<ItemStackRecipeWrapper> wrappers) {

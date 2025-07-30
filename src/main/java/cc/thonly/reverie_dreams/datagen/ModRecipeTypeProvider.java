@@ -1196,7 +1196,7 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
         ));
         this.kitchenRecipeFactory.register(MystiasIzakaya.id("deep_fried_cicada_shells"), new KitchenRecipe(
                 fryingPan,
-                this.ofList(MIItems.TOFU),
+                this.ofList(MIItems.TOFU, MIItems.CICADA_SHELL),
                 this.ofItem(MIItems.DEEP_FRIED_CICADA_SHELLS),
                 7.0
         ));

@@ -82,6 +82,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         pickaxeMineable.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
         pickaxeMineable.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
         pickaxeMineable.add(ModBlocks.GENSOKYO_ALTAR);
+        pickaxeMineable.add(MIBlocks.COOKTOP);
         ModBlocks.SPIRITUAL.stream().forEach(axeMineable::add);
         MIBlocks.LEMON.stream().forEach(axeMineable::add);
         MIBlocks.GINKGO.stream().forEach(axeMineable::add);
