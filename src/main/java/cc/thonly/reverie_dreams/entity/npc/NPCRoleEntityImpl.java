@@ -1,12 +1,12 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.reverie_dreams.entity.ai.goal.*;
+import cc.thonly.reverie_dreams.entity.ai.goal.work.NPCCleanMonsterGoal;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Leashable;
-import net.minecraft.entity.ai.brain.task.OpenDoorsTask;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;

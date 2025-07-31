@@ -80,6 +80,14 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("gui.npc.mode.3", "§b当前模式为: §a潜行");
         translationBuilder.add("gui.npc.mode.4", "§b当前模式为: §a坐下");
         translationBuilder.add("gui.npc.mode.5", "§b当前模式为: §a工作中");
+        translationBuilder.add("gui.npc.mode.work.originpos", "工作原点位置");
+
+        translationBuilder.add("gui.npc.work.mode", "工作模式切换");
+        translationBuilder.add("gui.npc.work.mode.0", "清理怪物");
+        translationBuilder.add("gui.npc.work.mode.1", "种植作物");
+        translationBuilder.add("gui.npc.work.mode.2", "繁殖动物");
+        translationBuilder.add("gui.npc.work.mode.3", "烧炼矿物");
+//        translationBuilder.add("gui.npc.woke.mode.disable", "工作原点位置");
 
         translationBuilder.add("item.reverie_dreams.music.no_files", "§c未找到任何可用的音乐文件！");
         translationBuilder.add("item.reverie_dreams.music.switch_music", "§a切换音乐为：§f%s");
