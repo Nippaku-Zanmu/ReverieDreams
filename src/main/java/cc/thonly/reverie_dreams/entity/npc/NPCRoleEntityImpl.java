@@ -1,12 +1,12 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.reverie_dreams.entity.ai.goal.*;
+import cc.thonly.reverie_dreams.entity.ai.goal.work.NPCCleanMonsterGoal;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Leashable;
-import net.minecraft.entity.ai.brain.task.OpenDoorsTask;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -48,6 +48,7 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
         this.targetSelector.add(1, new NPCTrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new NPCAttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
+        this.targetSelector.add(1, new NPCCleanMonsterGoal(this));
 
         this.getNavigation().setCanOpenDoors(true);
     }

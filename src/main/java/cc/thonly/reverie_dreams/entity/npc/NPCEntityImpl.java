@@ -88,6 +88,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     protected Property skin;
     // 实体信息
     protected NPCState npcState = NPCState.NORMAL;
+    protected NPCState lastNpcState = NPCState.NORMAL;
+    protected NPCWorkMode workMode = NPCWorkMode.COMBAT;
     protected boolean sit = false;
     protected String npcOwner = "";
     protected String seatUUID = "";
@@ -170,7 +172,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         }
         this.setNoGravity(false);
         this.setCanPickUpLoot(true);
-        this.setTamed(false, true);
+        this.setTamed(false, false);
         this.setCanPickUpLoot(true);
 
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 16.0f);
@@ -629,6 +631,11 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         NPCState next = NPCState.fromInt(this.npcState.getId() + 1);
         return next != null ? next : NPCState.fromInt(0);
     }
+    public NPCState getPrevioustState(){
+        if (this.isSleeping()) return this.npcState;
+        NPCState next = NPCState.fromInt(this.npcState.getId() - 1);
+        return next != null ? next : NPCState.fromInt(NPCState.values().length-1);
+    }
 
     public void reduceHunger(float value) {
         float remaining = value;
@@ -649,6 +656,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     public void updateWorking() {
+        if (this.npcState!=this.lastNpcState&&this.npcState == NPCState.WORKING){
+            this.workingPos = this.getBlockPos();
+        }
+
         if (this.npcState == NPCState.WORKING && this.workTick < 20) {
             this.workTick++;
         } else {
@@ -764,6 +775,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         if (this.getPose() == EntityPose.CROUCHING) {
             this.setPose(EntityPose.STANDING);
         }
+        this.lastNpcState = this.npcState;
         super.tick();
     }
 
@@ -926,11 +938,18 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 .add(EntityAttributes.ENTITY_INTERACTION_RANGE, 3)
                 .build();
     }
+    //return entity.getUuid().toString().equalsIgnoreCase(this.npcOwner);
 
     @Override
     public @Nullable LivingEntity getOwner() {
         if (this.npcOwner.equalsIgnoreCase("")) return null;
+//        for (int i = 0; i < this.getWorld().getPlayers().size(); i++) {
+//            PlayerEntity playerEntity = (PlayerEntity)this.getWorld().getPlayers().get(i);
+//            if (playerEntity.getUuid().toString().equalsIgnoreCase(this.npcOwner))
+//                return playerEntity;
+//        }
         return this.getWorld().getPlayerByUuid(UUID.fromString(this.npcOwner));
+//        return null;
     }
 
 //    @Override
@@ -942,6 +961,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public boolean isSitting() {
         return this.isSit();
+    }
+    @Override
+    public boolean isTamed(){
+        return this.getOwnerUuid()!=null;
     }
 
     @Override

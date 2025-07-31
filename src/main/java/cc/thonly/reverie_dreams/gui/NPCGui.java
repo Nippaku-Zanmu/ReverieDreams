@@ -1,8 +1,11 @@
 package cc.thonly.reverie_dreams.gui;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
+import cc.thonly.reverie_dreams.entity.npc.NPCState;
+import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
+import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.entity.EquipmentSlot;
@@ -15,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +39,7 @@ public class NPCGui extends SimpleGui implements GuiCommon {
 
     private GuiElementBuilder npcName;
     private GuiElementBuilder npcMode;
+    private GuiElementBuilder npcWorkMode;
     private GuiElementBuilder npcFood;
     private GuiElementBuilder npcHealth;
     private GuiElementBuilder npcArmor;
@@ -98,23 +103,48 @@ public class NPCGui extends SimpleGui implements GuiCommon {
                     this.builder2index.put(this.npcArmor, slotIndex);
                     this.setSlot(slotIndex, this.npcArmor);
                 }
+
                 if (posChar.equalsIgnoreCase("T")) {
+                    BlockPos workingPos = this.npcEntity.getWorkingPos();
                     this.npcMode = new GuiElementBuilder()
                             .setItem(Items.DIAMOND)
                             .setItemName(Text.of("模式开关"))
                             .setLore(List.of
                                     (
-                                            Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId())
+                                            Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
+                                            this.npcEntity.getNpcState() == NPCState.WORKING ? Text.translatable("gui.npc.mode.work.originpos")
+                                                    .append(" : (" + workingPos.getX() + " " + workingPos.getY() + " " + workingPos.getZ() + ")") : Text.of("")
+
                                     )
                             )
                             .setCallback((index, type, action) -> {
-                                this.npcEntity.setNpcState(this.npcEntity.getNextState());
+                                this.npcEntity.setNpcState(type.isRight?this.npcEntity.getPrevioustState():this.npcEntity.getNextState());
                                 this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
                             })
                     ;
                     this.builder2index.put(this.npcMode, slotIndex);
                     this.setSlot(slotIndex, this.npcMode);
                 }
+                //工作模式
+                if (posChar.equalsIgnoreCase("Y")) {
+                    NPCWorkMode currentWorkMode = this.npcEntity.getWorkMode();
+                    this.npcWorkMode = new GuiElementBuilder()
+                            .setItem(currentWorkMode.getItemDisplay())
+                            .setItemName(Text.translatable("gui.npc.work.mode"))
+                            .setLore(List.of
+                                    (
+                                            Text.translatable("gui.npc.work.mode." + currentWorkMode.getIndex())
+                                    )
+                            ).setCallback((index, type, action) -> {
+
+                                this.npcEntity.setWorkMode(type.isRight ? this.npcEntity.getWorkMode().getPrevious() : this.npcEntity.getWorkMode().getNext());
+                                this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
+                            });
+                    this.builder2index.put(this.npcWorkMode, slotIndex);
+                    this.setSlot(slotIndex, this.npcWorkMode);
+                }
+
+
                 if (posChar.equalsIgnoreCase("I")) {
                     this.setSlotRedirect(
                             slotIndex,
@@ -175,13 +205,23 @@ public class NPCGui extends SimpleGui implements GuiCommon {
         );
         this.npcHealth.setItemName(Text.translatable("gui.npc.info.health", this.npcEntity.getHealth(), this.npcEntity.getMaxHealth()));
         this.npcArmor.setItemName(Text.translatable("gui.npc.info.armor", this.npcEntity.getArmor()));
+        BlockPos workingPos = this.npcEntity.getWorkingPos();
         this.npcMode.setLore(List.of
                 (
-                        Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId())
+                        Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
+                        this.npcEntity.getNpcState() == NPCState.WORKING ? Text.translatable("gui.npc.mode.work.originpos").append(" : (" + workingPos.getX() + " " + workingPos.getY() + " " + workingPos.getZ() + ")") : Text.of("")
                 )
         );
+        NPCWorkMode currentWorkMode = this.npcEntity.getWorkMode();
+        this.npcWorkMode.setItem(currentWorkMode.getItemDisplay());
+        this.npcWorkMode.setLore(List.of
+                (
+                        Text.translatable("gui.npc.work.mode." + currentWorkMode.getIndex())
+                )
+        );
+
 //        System.out.println( this.npcEntity.getNpcState().getId());
-        this.builder2index.forEach((builder,index)-> {
+        this.builder2index.forEach((builder, index) -> {
             this.setSlot(index, builder);
         });
 

@@ -355,6 +355,7 @@
   "gui.npc.mode.3": "§bCurrent Mode: §aSneaking",
   "gui.npc.mode.4": "§bCurrent Mode: §aSitting",
   "gui.npc.mode.5": "§bCurrent Mode: §aWorking",
+  "gui.npc.mode.work.originpos": "Work origin pos",
   "item.minecraft.lingering_potion.effect.back_of_life": "Lingering Revival Potion",
   "item.minecraft.lingering_potion.effect.elixir_of_life": "Lingering Elixir of Life",
   "item.minecraft.lingering_potion.effect.kanju_kusuri": "Imperative Ganju Kusuri",
