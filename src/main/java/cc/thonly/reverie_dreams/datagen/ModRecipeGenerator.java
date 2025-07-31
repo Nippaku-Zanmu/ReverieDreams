@@ -18,11 +18,12 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 
+import java.util.List;
+
 public class ModRecipeGenerator extends RecipeGenerator {
-    public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModItems.RAW_SILVER);
+    public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModBlocks.DEEPSLATE_SILVER_ORE.asItem(), ModItems.RAW_SILVER);
 
     protected ModRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
         super(registries, exporter);
@@ -242,6 +243,8 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .input('X', Items.GLASS_BOTTLE)
                 .criterion("has_chili", conditionsFromItem(MIItems.CHILI))
                 .offerTo(exporter, getRecipeName(MIItems.CREAM));
+
+        offerSmelting(List.of(MIItems.BLACK_PORK, MIItems.WILD_BOAR_MEAT), RecipeCategory.MISC, Items.COOKED_PORKCHOP, 0.7F, 250, "food");
 
 //        createShaped(RecipeCategory.FOOD, MIItems.FLOWERS)
 //                .pattern("##")
