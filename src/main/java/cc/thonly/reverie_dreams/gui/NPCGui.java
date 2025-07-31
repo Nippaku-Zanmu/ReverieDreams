@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.gui;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
+import cc.thonly.reverie_dreams.entity.npc.NPCState;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
@@ -15,6 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.List;
@@ -99,12 +101,15 @@ public class NPCGui extends SimpleGui implements GuiCommon {
                     this.setSlot(slotIndex, this.npcArmor);
                 }
                 if (posChar.equalsIgnoreCase("T")) {
+                    BlockPos workingPos = this.npcEntity.getWorkingPos();
                     this.npcMode = new GuiElementBuilder()
                             .setItem(Items.DIAMOND)
                             .setItemName(Text.of("模式开关"))
                             .setLore(List.of
                                     (
-                                            Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId())
+                                            Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
+                                            this.npcEntity.getNpcState()== NPCState.WORKING? Text.translatable("gui.npc.mode.work.originpos" ).append(" : ("+workingPos.getX()+" "+workingPos.getY()+" "+workingPos.getZ()+")") :Text.of("")
+
                                     )
                             )
                             .setCallback((index, type, action) -> {
@@ -175,9 +180,11 @@ public class NPCGui extends SimpleGui implements GuiCommon {
         );
         this.npcHealth.setItemName(Text.translatable("gui.npc.info.health", this.npcEntity.getHealth(), this.npcEntity.getMaxHealth()));
         this.npcArmor.setItemName(Text.translatable("gui.npc.info.armor", this.npcEntity.getArmor()));
+        BlockPos workingPos = this.npcEntity.getWorkingPos();
         this.npcMode.setLore(List.of
                 (
-                        Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId())
+                        Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
+                        this.npcEntity.getNpcState()== NPCState.WORKING? Text.translatable("gui.npc.mode.work.originpos" ).append(" : ("+workingPos.getX()+" "+workingPos.getY()+" "+workingPos.getZ()+")") :Text.of("")
                 )
         );
 //        System.out.println( this.npcEntity.getNpcState().getId());

@@ -48,6 +48,7 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
         this.targetSelector.add(1, new NPCTrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new NPCAttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
+        this.targetSelector.add(1, new NPCCleanMonsterGoal(this));
 
         this.getNavigation().setCanOpenDoors(true);
     }

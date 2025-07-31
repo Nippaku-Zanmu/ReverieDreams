@@ -355,6 +355,7 @@
   "gui.npc.mode.3": "§b当前模式为: §a潜行",
   "gui.npc.mode.4": "§b当前模式为: §a坐下",
   "gui.npc.mode.5": "§b当前模式为: §a工作中",
+  "gui.npc.mode.work.originpos": "工作原点位置",
   "item.minecraft.lingering_potion.effect.back_of_life": "滞留型还生药",
   "item.minecraft.lingering_potion.effect.elixir_of_life": "滞留型蓬莱之药",
   "item.minecraft.lingering_potion.effect.kanju_kusuri": "滞留型绀珠药",

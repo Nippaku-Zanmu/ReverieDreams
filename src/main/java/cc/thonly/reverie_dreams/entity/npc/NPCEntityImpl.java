@@ -88,6 +88,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     protected Property skin;
     // 实体信息
     protected NPCState npcState = NPCState.NORMAL;
+    protected NPCState lastNpcState = NPCState.NORMAL;
     protected boolean sit = false;
     protected String npcOwner = "";
     protected String seatUUID = "";
@@ -649,6 +650,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     public void updateWorking() {
+        if (this.npcState!=this.lastNpcState&&this.npcState == NPCState.WORKING){
+            this.workingPos = this.getBlockPos();
+        }
+
         if (this.npcState == NPCState.WORKING && this.workTick < 20) {
             this.workTick++;
         } else {
@@ -764,6 +769,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         if (this.getPose() == EntityPose.CROUCHING) {
             this.setPose(EntityPose.STANDING);
         }
+        this.lastNpcState = this.npcState;
         super.tick();
     }
 
