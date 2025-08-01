@@ -1,11 +1,10 @@
 package cc.thonly.reverie_dreams.gui;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCState;
+import cc.thonly.reverie_dreams.entity.npc.NPCStates;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
-import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.entity.EquipmentSlot;
@@ -111,14 +110,14 @@ public class NPCGui extends SimpleGui implements GuiCommon {
                             .setItemName(Text.of("模式开关"))
                             .setLore(List.of
                                     (
-                                            Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
-                                            this.npcEntity.getNpcState() == NPCState.WORKING ? Text.translatable("gui.npc.mode.work.originpos")
+                                            this.npcEntity.getNpcState().translationKey(),
+                                            this.npcEntity.getNpcState() == NPCStates.WORKING ? Text.translatable("gui.npc.mode.work.originpos")
                                                     .append(" : (" + workingPos.getX() + " " + workingPos.getY() + " " + workingPos.getZ() + ")") : Text.of("")
 
                                     )
                             )
                             .setCallback((index, type, action) -> {
-                                this.npcEntity.setNpcState(type.isRight?this.npcEntity.getPrevioustState():this.npcEntity.getNextState());
+                                this.npcEntity.setNpcState(type.isRight?this.npcEntity.getPreviousState():this.npcEntity.getNextState());
                                 this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
                             })
                     ;
@@ -133,10 +132,9 @@ public class NPCGui extends SimpleGui implements GuiCommon {
                             .setItemName(Text.translatable("gui.npc.work.mode"))
                             .setLore(List.of
                                     (
-                                            Text.translatable("gui.npc.work.mode." + currentWorkMode.getIndex())
+                                            this.npcEntity.getNpcState().translationKey()
                                     )
                             ).setCallback((index, type, action) -> {
-
                                 this.npcEntity.setWorkMode(type.isRight ? this.npcEntity.getWorkMode().getPrevious() : this.npcEntity.getWorkMode().getNext());
                                 this.player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.PLAYERS, 1.0f, 1.0f);
                             });
@@ -208,15 +206,15 @@ public class NPCGui extends SimpleGui implements GuiCommon {
         BlockPos workingPos = this.npcEntity.getWorkingPos();
         this.npcMode.setLore(List.of
                 (
-                        Text.translatable("gui.npc.mode." + this.npcEntity.getNpcState().getId()),
-                        this.npcEntity.getNpcState() == NPCState.WORKING ? Text.translatable("gui.npc.mode.work.originpos").append(" : (" + workingPos.getX() + " " + workingPos.getY() + " " + workingPos.getZ() + ")") : Text.of("")
+                        this.npcEntity.getNpcState().translationKey(),
+                        this.npcEntity.getNpcState() == NPCStates.WORKING ? Text.translatable("gui.npc.mode.work.originpos").append(" : (" + workingPos.getX() + " " + workingPos.getY() + " " + workingPos.getZ() + ")") : Text.of("")
                 )
         );
         NPCWorkMode currentWorkMode = this.npcEntity.getWorkMode();
         this.npcWorkMode.setItem(currentWorkMode.getItemDisplay());
         this.npcWorkMode.setLore(List.of
                 (
-                        Text.translatable("gui.npc.work.mode." + currentWorkMode.getIndex())
+                        this.npcEntity.getWorkMode().translationKey()
                 )
         );
 

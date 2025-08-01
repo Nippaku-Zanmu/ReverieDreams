@@ -3,7 +3,8 @@
   "package": "cc.thonly.minecraft.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ItemStackNbtMixin"
+    "ItemStackNbtMixin",
+    "NamedAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

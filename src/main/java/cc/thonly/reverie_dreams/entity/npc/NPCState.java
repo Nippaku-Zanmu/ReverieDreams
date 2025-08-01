@@ -1,26 +1,42 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
-import lombok.AllArgsConstructor;
+import cc.thonly.reverie_dreams.registry.RegistrableObject;
+import com.mojang.serialization.Codec;
 import lombok.Getter;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
-import java.util.Arrays;
-
-@AllArgsConstructor
 @Getter
-public enum NPCState {
-    FOLLOW(0),
-    NORMAL(1),
-    NO_WALK(2),
-    SNAKING(3),
-    SEATED(4),
-    WORKING(5),
-    ;
-    private final Integer id;
+public class NPCState implements RegistrableObject<NPCState> {
+    public static final Codec<NPCState> CODEC = Codec.unit(NPCState::new);
 
-    public static NPCState fromInt(Integer value) {
-        return Arrays.stream(values())
-                .filter(state -> state.id.equals(value))
-                .findFirst()
-                .orElse(null);
+    private Identifier id;
+    private final String type;
+
+    private NPCState() {
+        this.type = null;
+    }
+
+    public NPCState(String type) {
+        this.type = type;
+    }
+
+    public String translationId() {
+        return "gui.npc.mode." + this.type;
+    }
+
+    public MutableText translationKey() {
+        return Text.translatable(translationId());
+    }
+
+    @Override
+    public void setId(Identifier id) {
+        this.id = id;
+    }
+
+    @Override
+    public Codec<NPCState> getCodec() {
+        return CODEC;
     }
 }

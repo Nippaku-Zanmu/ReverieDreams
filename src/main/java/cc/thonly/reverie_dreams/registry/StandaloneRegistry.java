@@ -175,7 +175,7 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
                 return entry.getKey();
             }
         }
-        return null;
+        return 0;
     }
 
     public Identifier getId(T value) {
@@ -193,6 +193,10 @@ public final class StandaloneRegistry<T extends RegistrableObject<T>> implements
 
     public T getOrDefault(Identifier key) {
         return this.idToEntry.getOrDefault(key, this.defaultEntry != null ? this.defaultEntry : this.defaultEntryGetter.get());
+    }
+
+    public T getOrDefault(Identifier key, T defaultEntry) {
+        return this.idToEntry.getOrDefault(key, defaultEntry);
     }
 
     public Optional<T> getOptional(Integer rawId) {

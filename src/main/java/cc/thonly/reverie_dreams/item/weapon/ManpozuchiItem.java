@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.item.weapon;
 
 import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerPickaxeItem;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,6 +24,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -42,6 +44,15 @@ public class ManpozuchiItem extends BasicPolymerPickaxeItem {
 
     public ManpozuchiItem(String path, float attackDamage, float attackSpeed, Settings settings) {
         super(path, MATERIAL, attackDamage + 2.0f, attackSpeed - 2.8f, settings);
+    }
+
+    @Override
+    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+        if (!world.isClient && user instanceof ServerPlayerEntity player) {
+            boolean b = super.canMine(stack, state, world, pos, user);
+            return b && !player.isInCreativeMode();
+        }
+        return super.canMine(stack, state, world, pos, user);
     }
 
     @Override

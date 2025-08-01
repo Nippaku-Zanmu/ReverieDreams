@@ -4,6 +4,8 @@ import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.entity.MIEntities;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
+import cc.thonly.reverie_dreams.entity.npc.NPCStates;
+import cc.thonly.reverie_dreams.entity.npc.NPCWorkModes;
 import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
@@ -74,19 +76,20 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("gui.npc.info.health", "§d生命值: %s/%s");
         translationBuilder.add("gui.npc.info.armor", "§d护甲值: %s");
 
-        translationBuilder.add("gui.npc.mode.0", "§b当前模式为: §a跟随");
-        translationBuilder.add("gui.npc.mode.1", "§b当前模式为: §a正常");
-        translationBuilder.add("gui.npc.mode.2", "§b当前模式为: §a禁止移动");
-        translationBuilder.add("gui.npc.mode.3", "§b当前模式为: §a潜行");
-        translationBuilder.add("gui.npc.mode.4", "§b当前模式为: §a坐下");
-        translationBuilder.add("gui.npc.mode.5", "§b当前模式为: §a工作中");
+        translationBuilder.add("gui.npc.mode.null", "§b当前模式为: §c序列化错误");
+        translationBuilder.add(NPCStates.FOLLOW.translationId(), "§b当前模式为: §a跟随");
+        translationBuilder.add(NPCStates.NORMAL.translationId(), "§b当前模式为: §a正常");
+        translationBuilder.add(NPCStates.NO_WALK.translationId(), "§b当前模式为: §a禁止移动");
+        translationBuilder.add(NPCStates.SNAKING.translationId(), "§b当前模式为: §a潜行");
+        translationBuilder.add(NPCStates.SEATED.translationId(), "§b当前模式为: §a坐下");
+        translationBuilder.add(NPCStates.WORKING.translationId(), "§b当前模式为: §a工作中");
         translationBuilder.add("gui.npc.mode.work.originpos", "工作原点位置");
 
         translationBuilder.add("gui.npc.work.mode", "工作模式切换");
-        translationBuilder.add("gui.npc.work.mode.0", "清理怪物");
-        translationBuilder.add("gui.npc.work.mode.1", "种植作物");
-        translationBuilder.add("gui.npc.work.mode.2", "繁殖动物");
-        translationBuilder.add("gui.npc.work.mode.3", "烧炼矿物");
+        translationBuilder.add(NPCWorkModes.COMBAT.translationId(), "§b当前模式为: §a清理怪物");
+        translationBuilder.add(NPCWorkModes.FARM.translationId(), "§b当前模式为: §b种植作物");
+        translationBuilder.add(NPCWorkModes.BREED.translationId(), "§b当前模式为: §c繁殖动物");
+        translationBuilder.add(NPCWorkModes.SMELT.translationId(), "§b当前模式为: §d烧炼矿物");
 //        translationBuilder.add("gui.npc.woke.mode.disable", "工作原点位置");
 
         translationBuilder.add("item.reverie_dreams.music.no_files", "§c未找到任何可用的音乐文件！");

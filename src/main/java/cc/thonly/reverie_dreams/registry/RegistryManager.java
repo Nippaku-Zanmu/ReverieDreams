@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.registry;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.entity.npc.*;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.damage.DanmakuDamageType;
@@ -9,8 +10,6 @@ import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectories;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
-import cc.thonly.reverie_dreams.entity.npc.NPCRole;
-import cc.thonly.reverie_dreams.entity.npc.NPCRoles;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkins;
@@ -46,6 +45,12 @@ public class RegistryManager {
     public static final StandaloneRegistry<RoleCard> ROLE_CARD = ofEntry(RoleCard.class, Touhou.id("role_card"))
             .codec(RoleCard.CODEC)
             .build(RoleCards::bootstrap);
+    public static final StandaloneRegistry<NPCState> NPC_STATE = ofEntry(NPCState.class, Touhou.id("npc_state"))
+            .codec(NPCState.CODEC)
+            .build(NPCStates::bootstrap);
+    public static final StandaloneRegistry<NPCWorkMode> NPC_WORK_MODE = ofEntry(NPCWorkMode.class, Touhou.id("npc_work_mode"))
+            .codec(NPCWorkMode.CODEC)
+            .build(NPCWorkModes::bootstrap);
     public static final StandaloneRegistry<Fumo> FUMO = ofEntry(Fumo.class, Touhou.id("fumo"))
             .codec(Fumo.CODEC)
             .build(Fumos::bootstrap);

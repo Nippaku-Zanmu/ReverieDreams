@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.entity.ai.goal;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCState;
+import cc.thonly.reverie_dreams.entity.npc.NPCStates;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
@@ -65,10 +66,10 @@ public class NPCFollowOwnerGoal extends Goal {
         }
         if (this.tameable instanceof NPCEntityImpl impl) {
             NPCState state = impl.getNpcState();
-            if (state == NPCState.NO_WALK || state == NPCState.SEATED || state == NPCState.WORKING) {
+            if (state == NPCStates.NO_WALK || state == NPCStates.SEATED || state == NPCStates.WORKING) {
                 return false;
             }
-            if (state == NPCState.FOLLOW) {
+            if (state == NPCStates.FOLLOW) {
                 return true;
             }
         }

@@ -1,16 +1,12 @@
 package cc.thonly.reverie_dreams.entity.ai.goal.work;
 
 import cc.thonly.reverie_dreams.entity.ai.goal.util.EntityTargetUtil;
-import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
-import cc.thonly.reverie_dreams.entity.npc.NPCState;
-import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
+import cc.thonly.reverie_dreams.entity.npc.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -42,7 +38,7 @@ public class NPCCleanMonsterGoal extends TrackTargetGoal {
         NPCState state = maid.getNpcState();
         LivingEntity owner = this.maid.getOwner();
 //        boolean isMaidHasWeapon = this.maid.getMainHandStack().isIn(ItemTags.SWORDS);
-        if (owner == null||state!=NPCState.WORKING|| maid.getWorkMode()!= NPCWorkMode.COMBAT) {
+        if (owner == null||state!= NPCStates.WORKING|| maid.getWorkMode()!= NPCWorkModes.COMBAT) {
 //            System.out.println("ret2"+" own"+owner);
             return false;
         }

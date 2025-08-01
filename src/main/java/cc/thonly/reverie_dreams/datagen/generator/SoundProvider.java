@@ -82,7 +82,7 @@ public abstract class SoundProvider implements DataProvider {
 
     public abstract void configured();
 
-    @SuppressWarnings("deprecation")
+//    @SuppressWarnings("deprecation")
     public void export(DataWriter writer) {
         try {
             Path path = Paths.get(DataGeneratorUtil.OUTPUT_DIR);

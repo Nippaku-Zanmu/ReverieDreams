@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.item.base.FoodItem;
+import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.component.RoleFollowerArchive;
 import cc.thonly.reverie_dreams.entity.ai.goal.NPCBowAttackGoal;
@@ -12,6 +13,7 @@ import cc.thonly.reverie_dreams.gui.NPCGui;
 import cc.thonly.reverie_dreams.interfaces.IItemStack;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
 import cc.thonly.reverie_dreams.item.ModItems;
+import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.util.ItemUtils;
 import com.google.common.collect.ImmutableList;
@@ -68,6 +70,7 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -87,9 +90,9 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     // 皮肤
     protected Property skin;
     // 实体信息
-    protected NPCState npcState = NPCState.NORMAL;
-    protected NPCState lastNpcState = NPCState.NORMAL;
-    protected NPCWorkMode workMode = NPCWorkMode.COMBAT;
+    protected NPCState npcState = NPCStates.NORMAL;
+    protected NPCState lastNpcState = NPCStates.NORMAL;
+    protected NPCWorkMode workMode = NPCWorkModes.COMBAT;
     protected boolean sit = false;
     protected String npcOwner = "";
     protected String seatUUID = "";
@@ -191,18 +194,12 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
         this.sit = view.getBoolean("IsSit", false);
 
-
-        int state = view.getInt("NPCState", 0);
-        this.npcState = NPCState.fromInt(state);
+        this.npcState = NPCStates.get(Identifier.of(view.getString("NPCStateId", Touhou.id("normal").toString())));
+        this.workMode = NPCWorkModes.get(Identifier.of(view.getString("NPCWorkStateId", Touhou.id("combat").toString())));
         this.npcOwner = view.getString("NpcOwner", "");
 
         NPCInventoryImpl inventory = new NPCInventoryImpl(NPCInventoryImpl.MAX_SIZE);
         Inventories.readData(view, inventory.heldStacks);
-//        InventoriesImpl.readView(view, "Inventory", inventory.heldStacks);
-//        InventoriesImpl.readView(view, "HeadInventory", inventory.getHead());
-//        InventoriesImpl.readView(view, "ChestInventory", inventory.getChest());
-//        InventoriesImpl.readView(view, "LegsInventory", inventory.getLegs());
-//        InventoriesImpl.readView(view, "FeetInventory", inventory.getFeet());
 
         this.inventory = inventory;
 
@@ -226,7 +223,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         super.writeCustomData(view);
         view.putBoolean("IsSit", this.sit);
         view.putString("NpcOwner", this.npcOwner);
-        view.putInt("NPCState", this.npcState.getId());
+        view.putString("NPCStateId", this.npcState.getId().toString());
+        view.putString("NPCWorkStateId", this.workMode.getId().toString());
         view.putFloat("FoodNutrition", this.nutrition);
         view.putFloat("FoodSaturation", this.saturation);
         view.putFloat("FoodExhaustionLevel", this.exhaustionLevel);
@@ -415,14 +413,14 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                     this.setHealth(this.getHealth() + 5);
                     stack.decrementUnlessCreative(1, player);
                 }
-                boolean use = false;
+                boolean isEmitedEat = false;
                 if (foodComponent != null) {
                     int nutritionValue = foodComponent.nutrition();
                     float saturationValue = foodComponent.saturation();
                     if ((this.nutrition < 20 || this.saturation < 20) || foodComponent.canAlwaysEat()) {
                         this.nutrition += nutritionValue;
                         this.saturation += saturationValue;
-                        use = true;
+                        isEmitedEat = true;
                     }
                 }
                 if (consumableComponent != null) {
@@ -435,7 +433,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                         }
                     }
                 }
-                if (use) {
+                if (isEmitedEat) {
                     this.playSound(SoundEvents.ENTITY_GENERIC_EAT.value(), 1.0f, 1.0f);
                     stack.decrementUnlessCreative(1, player);
                     if (useRemainderComponent != null && !player.isInCreativeMode()) {
@@ -628,13 +626,18 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     public NPCState getNextState() {
         if (this.isSleeping()) return this.npcState;
-        NPCState next = NPCState.fromInt(this.npcState.getId() + 1);
-        return next != null ? next : NPCState.fromInt(0);
+        Integer rawId = RegistryManager.NPC_STATE.getRawId(this.npcState);
+        NPCState next = NPCStates.fromInt(rawId + 1);
+        return next != null ? next : NPCStates.fromInt(0);
     }
-    public NPCState getPrevioustState(){
+
+    public NPCState getPreviousState(){
         if (this.isSleeping()) return this.npcState;
-        NPCState next = NPCState.fromInt(this.npcState.getId() - 1);
-        return next != null ? next : NPCState.fromInt(NPCState.values().length-1);
+        Integer rawId = RegistryManager.NPC_STATE.getRawId(this.npcState);
+        NPCState next = NPCStates.fromInt(rawId - 1);
+        Map<Integer, NPCState> baseRawToEntry = RegistryManager.NPC_STATE.getBaseRawToEntry();
+        int maxKey = Collections.max(baseRawToEntry.keySet());
+        return next != null ? next : NPCStates.fromInt(maxKey);
     }
 
     public void reduceHunger(float value) {
@@ -656,16 +659,16 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     public void updateWorking() {
-        if (this.npcState!=this.lastNpcState&&this.npcState == NPCState.WORKING){
+        if (this.npcState!=this.lastNpcState&&this.npcState == NPCStates.WORKING){
             this.workingPos = this.getBlockPos();
         }
 
-        if (this.npcState == NPCState.WORKING && this.workTick < 20) {
+        if (this.npcState == NPCStates.WORKING && this.workTick < 20) {
             this.workTick++;
         } else {
             this.workTick = 0;
         }
-        if (this.npcState == NPCState.WORKING && this.workTick >= 20) {
+        if (this.npcState == NPCStates.WORKING && this.workTick >= 20) {
             this.workTick = 0;
             BlockPos blockPos = this.getBlockPos();
             if (this.workingPos != null) {
@@ -738,7 +741,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 //            }
 //        }
 
-        if (this.npcState == NPCState.SNAKING) {
+        if (this.npcState == NPCStates.SNAKING) {
             this.getNavigation().stop();
             if (this.getPose() != EntityPose.CROUCHING) {
                 this.setPose(EntityPose.CROUCHING);
@@ -747,7 +750,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
             return;
         }
 
-        if (this.npcState == NPCState.SEATED) {
+        if (this.npcState == NPCStates.SEATED) {
             if (this.seat == null) {
                 List<ArmorStandEntity> list = world.getEntitiesByClass(
                                 ArmorStandEntity.class,
@@ -797,7 +800,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public float getMovementSpeed() {
-        if (this.npcState == NPCState.NO_WALK || this.npcState == NPCState.SNAKING) return 0;
+        if (this.npcState == NPCStates.NO_WALK || this.npcState == NPCStates.SNAKING) return 0;
         if (this.paused) return 0;
         return super.getMovementSpeed();
     }

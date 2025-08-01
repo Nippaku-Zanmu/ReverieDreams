@@ -17,3 +17,12 @@ accessible class net/minecraft/screen/slot/ArmorSlot
 accessible class net/minecraft/server/world/ServerChunkLoadingManager$EntityTracker
 accessible method net/minecraft/server/network/EntityTrackerEntry syncEntityData ()V
 accessible method net/minecraft/server/network/EntityTrackerEntry sendSyncPacket (Lnet/minecraft/network/packet/Packet;)V
+accessible method net/minecraft/registry/entry/RegistryEntry$Reference setRegistryKey (Lnet/minecraft/registry/RegistryKey;)V
+accessible field net/minecraft/registry/SimpleRegistry keyToEntry Ljava/util/Map;
+accessible field net/minecraft/registry/SimpleRegistry idToEntry Ljava/util/Map;
+accessible field net/minecraft/registry/SimpleRegistry valueToEntry Ljava/util/Map;
+accessible field net/minecraft/registry/SimpleRegistry rawIdToEntry Lit/unimi/dsi/fastutil/objects/ObjectList;
+accessible field net/minecraft/registry/SimpleRegistry entryToRawId Lit/unimi/dsi/fastutil/objects/Reference2IntMap;
+accessible field net/minecraft/registry/SimpleRegistry keyToEntryInfo Ljava/util/Map;
+accessible field net/minecraft/registry/SimpleRegistry tags Ljava/util/Map;
+accessible field net/minecraft/registry/entry/RegistryEntryList$Named entries Ljava/util/List;
