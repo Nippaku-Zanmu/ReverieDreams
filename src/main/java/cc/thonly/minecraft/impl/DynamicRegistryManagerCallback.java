@@ -20,11 +20,11 @@ import java.util.stream.Stream;
 public interface DynamicRegistryManagerCallback {
     List<DynamicRegistryFactory<?>> CALLBACKS = new ArrayList<>();
 
-    default <T> void add(DynamicRegistryFactory<T> factory) {
+    static <T> void add(DynamicRegistryFactory<T> factory) {
         CALLBACKS.add(factory);
     }
 
-    default void start(MinecraftServer server) {
+    static void start(MinecraftServer server) {
         DynamicRegistryManager.Immutable registryManager = server.getRegistryManager();
         Stream<RegistryKey<? extends Registry<?>>> stream = registryManager.streamAllRegistryKeys();
         stream.forEach((registryKey -> {
@@ -39,6 +39,10 @@ public interface DynamicRegistryManagerCallback {
                 }
             }
         }));
+    }
+
+    static <T> DynamicRegistryFactory<T> createFactory(RegistryKey<? extends Registry<T>> registryKey) {
+        return new DynamicRegistryFactory<>(registryKey);
     }
 
     @Getter

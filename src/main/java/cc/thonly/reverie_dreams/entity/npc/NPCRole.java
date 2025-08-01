@@ -40,6 +40,7 @@ public class NPCRole implements RegistrableObject<NPCRole> {
     private EntityType<NPCEntity> entityType;
     private Item spawnEgg;
     private Class<? extends NPCEntityImpl> clazz;
+    private boolean hasBuilt = false;
 
     private NPCRole() {
     }
@@ -75,25 +76,32 @@ public class NPCRole implements RegistrableObject<NPCRole> {
     }
 
     public NPCRole build() {
-        EntityType<NPCEntity> entityType = registerEntity(this.id,
-                EntityType.Builder.<NPCEntity>create(
-                                (type, world) -> {
-                                    try {
-                                        return this.clazz.getConstructor(EntityType.class, World.class, Property.class)
-                                                .newInstance(type, world, property);
-                                    } catch (Exception e) {
-                                        log.error("Failed to instantiate NPCEntityImpl for type {}, {}", id, e);
-                                        return null;
-                                    }
-                                },
-                                SpawnGroup.MISC)
-                        .build(of(this.id)));
-        assert entityType != null;
-        FabricDefaultAttributeRegistry.register(entityType, NPCEntityImpl.createAttributes());
-        Identifier spawnEggId = Identifier.of(this.id.getNamespace(), this.id.getPath() + "_spawn_egg");
-        Item spawnEgg = registerNPCSpawnEggItem(new BasicPolymerSpawnEggItem(spawnEggId, entityType, new Item.Settings().modelId(Touhou.id("spawn_egg"))));
-        this.entityType = entityType;
-        this.spawnEgg = spawnEgg;
+        if (hasBuilt) {
+            return this;
+        }
+        try {
+            EntityType<NPCEntity> entityType = registerEntity(this.id,
+                    EntityType.Builder.<NPCEntity>create(
+                                    (type, world) -> {
+                                        try {
+                                            return this.clazz.getConstructor(EntityType.class, World.class, Property.class)
+                                                    .newInstance(type, world, property);
+                                        } catch (Exception e) {
+                                            log.error("Failed to instantiate NPCEntityImpl for type {}, {}", id, e);
+                                            return null;
+                                        }
+                                    },
+                                    SpawnGroup.MISC)
+                            .build(of(this.id)));
+            FabricDefaultAttributeRegistry.register(entityType, NPCEntityImpl.createAttributes());
+            Identifier spawnEggId = Identifier.of(this.id.getNamespace(), this.id.getPath() + "_spawn_egg");
+            Item spawnEgg = registerNPCSpawnEggItem(new BasicPolymerSpawnEggItem(spawnEggId, entityType, new Item.Settings().modelId(Touhou.id("spawn_egg"))));
+            this.entityType = entityType;
+            this.spawnEgg = spawnEgg;
+            this.hasBuilt = true;
+        } catch (Exception e) {
+            log.error("Can't register role entity type {}", this.id.toString());
+        }
         return this;
     }
 

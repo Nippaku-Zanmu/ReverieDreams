@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams;
 
+import cc.thonly.minecraft.impl.DynamicRegistryManagerCallback;
 import cc.thonly.reverie_dreams.armor.ModArmorMaterials;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
@@ -48,7 +49,6 @@ import lombok.Setter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;

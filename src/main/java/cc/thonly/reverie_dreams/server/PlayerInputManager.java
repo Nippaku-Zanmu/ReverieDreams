@@ -21,7 +21,7 @@ public class PlayerInputManager {
     private final List<ServerPlayerEntity> LEFTS = new ArrayList<>();
     private final List<ServerPlayerEntity> RIGHTS = new ArrayList<>();
     private final List<ServerPlayerEntity> JUMPS = new ArrayList<>();
-//    private final List<ServerPlayerEntity> SNEAKS = new ArrayList<>();
+    private final List<ServerPlayerEntity> SNEAKS = new ArrayList<>();
     private final List<ServerPlayerEntity> SPRINTS = new ArrayList<>();
     private final List<List<ServerPlayerEntity>> LIST = List.of(
             FORWARDS,
@@ -29,7 +29,7 @@ public class PlayerInputManager {
             LEFTS,
             RIGHTS,
             JUMPS,
-//            SNEAKS,
+            SNEAKS,
             SPRINTS
     );
     private final Map<ServerPlayerEntity, PlayerInput> currentInputs = new HashMap<>();
@@ -68,9 +68,9 @@ public class PlayerInputManager {
                 if (input.jump()) {
                     JUMPS.add(player);
                 }
-//                if (input.sneak()) {
-//                    SNEAKS.add(player);
-//                }
+                if (input.sneak()) {
+                    SNEAKS.add(player);
+                }
                 if (input.sprint()) {
                     SPRINTS.add(player);
                 }
@@ -83,6 +83,11 @@ public class PlayerInputManager {
 //                if (mode.equals(ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY)) {
 //                    SNEAKS.remove(player);
 //                }
+                if (player.isSneaking()) {
+                    SNEAKS.add(player);
+                } else {
+                    SNEAKS.remove(player);
+                }
                 if (mode.equals(ClientCommandC2SPacket.Mode.START_SPRINTING)) {
                     SPRINTS.add(player);
                 }
