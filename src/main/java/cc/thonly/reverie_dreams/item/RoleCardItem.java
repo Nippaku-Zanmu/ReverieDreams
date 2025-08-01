@@ -9,8 +9,6 @@ import lombok.Getter;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
@@ -30,6 +28,7 @@ import java.util.function.Consumer;
 
 @Getter
 public class RoleCardItem extends BasicPolymerItem {
+    public static final SoundEvent SOUND = SoundEvents.ITEM_BUCKET_FILL;
 
     public RoleCardItem(Identifier id, Settings settings) {
         super(id, settings, Items.TRIAL_KEY);
@@ -66,8 +65,8 @@ public class RoleCardItem extends BasicPolymerItem {
                     itemStack.decrementUnlessCreative(1, player);
                     EntityType<NPCEntity> entityType = role.get();
                     entityType.spawn(serverWorld, context.getBlockPos().up(), SpawnReason.SPAWN_ITEM_USE);
-                    SoundEvent sound = SoundEvents.ITEM_BUCKET_FILL;
-                    world.playSound(null, player.getX(), player.getY(), player.getZ(), sound, player.getSoundCategory(), 2.0f, 1.0f);
+
+                    world.playSound(null, player.getX(), player.getY(), player.getZ(), SOUND, player.getSoundCategory(), 2.0f, 1.0f);
                     player.swingHand(hand);
                     return ActionResult.SUCCESS_SERVER;
                 }

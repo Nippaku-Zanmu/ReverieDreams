@@ -12,6 +12,8 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -20,6 +22,7 @@ import net.minecraft.world.World;
 import java.util.function.Consumer;
 
 public class RoleFollowerArchiveItem extends BasicPolymerItem {
+    public static final SoundEvent SOUND = SoundEvents.ITEM_BUCKET_FILL;
 
     public RoleFollowerArchiveItem(String path, Settings settings) {
         super(path, settings, Items.TRIAL_KEY);
@@ -40,6 +43,7 @@ public class RoleFollowerArchiveItem extends BasicPolymerItem {
                 return ActionResult.PASS;
             }
             followerArchive.respawn(world, context.getBlockPos().up(), world.getRegistryManager());
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SOUND, player.getSoundCategory(), 2.0f, 1.0f);
             stack.decrementUnlessCreative(1, player);
             player.swingHand(context.getHand());
             return ActionResult.SUCCESS_SERVER;

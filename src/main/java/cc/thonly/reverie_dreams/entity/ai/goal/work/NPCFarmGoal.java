@@ -52,7 +52,7 @@ public class NPCFarmGoal extends Goal {
         }
 //        System.out.println("tryStartNPCFarmGoal");
         targetPos = getNearTargetBlock(maid, new BlockPos(maid.getBlockX(), (int) Math.floor(maid.getY()), maid.getBlockZ())
-                , true,maid.getInventory().findHand(IS_SEED)==null);
+                , true, maid.getInventory().findHand(IS_SEED) == null);
 //        System.out.println("Target: "+targetPos);
         if (targetPos != null) {
 //            System.out.println("ret True");
@@ -77,7 +77,7 @@ public class NPCFarmGoal extends Goal {
             maid.getNavigation().stop();
             workTimer = 0;
         }
-        if (isCrop(targetPos, getServerWorld(maid))||isFarmLandTop(targetPos,getServerWorld(maid))) {
+        if (isCrop(targetPos, getServerWorld(maid)) || isFarmLandTop(targetPos, getServerWorld(maid))) {
             this.maid.getLookControl().lookAt(targetPos.toCenterPos().offset(Direction.DOWN, 0.5));
             if (workTimer % 8 == 0) {
 //            System.out.println("tryStartWork "+targetPos);
@@ -103,6 +103,7 @@ public class NPCFarmGoal extends Goal {
             dropItem(targetFarmLandTop);
             //调用breakBlock无法吃到时运 自定义掉落并关闭break的掉落
             serverWorld.breakBlock(targetFarmLandTop, false, maid);
+            maid.getNavigation().findPathTo(targetFarmLandTop, 10);
             return true;
         }
         return false;
@@ -137,14 +138,14 @@ public class NPCFarmGoal extends Goal {
     }
 
 
-    public static BlockPos getNearTargetBlock(NPCEntityImpl maid, BlockPos origen, boolean random,boolean onlyBreak) {
+    public static BlockPos getNearTargetBlock(NPCEntityImpl maid, BlockPos origen, boolean random, boolean onlyBreak) {
         List<BlockPos> targetFarmlands = new LinkedList<>();
         BlockPos.Mutable mutable = maid.getBlockPos().mutableCopy();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 for (int k = -1; k <= 1; k++) {
                     mutable.set(origen.getX() + i, Math.round(origen.getY()) + j, origen.getZ() + k);
-                    if (NPCFarmGoal.isCrop(mutable, getServerWorld(maid))||(!onlyBreak&&isFarmLandTop(mutable,getServerWorld(maid)))) {
+                    if (NPCFarmGoal.isCrop(mutable, getServerWorld(maid)) || (!onlyBreak && isFarmLandTop(mutable, getServerWorld(maid)))) {
                         if (!random) return new BlockPos(mutable);
 //                        this.targetPositions.add(new BlockPos(mutable));
                         targetFarmlands.add(new BlockPos(mutable));
@@ -162,7 +163,7 @@ public class NPCFarmGoal extends Goal {
         BlockState blockState = world.getBlockState(pos);
         Block crop = blockState.getBlock();
         boolean is = (crop instanceof IMatureBlock);
-        return is && ((IMatureBlock) crop).isMature(blockState) ;
+        return is && ((IMatureBlock) crop).isMature(blockState);
     }
 
     //这个方块下面是不是耕地
