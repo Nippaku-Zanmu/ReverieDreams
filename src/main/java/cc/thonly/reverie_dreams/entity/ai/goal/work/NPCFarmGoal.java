@@ -36,7 +36,7 @@ public class NPCFarmGoal extends Goal {
 
     private final NPCEntityImpl maid;
     private BlockPos targetPos;
-    public static final Predicate<ItemStack> IS_SEED = stack -> !stack.isEmpty() && stack.isIn(ItemTags.VILLAGER_PLANTABLE_SEEDS) && stack.getItem() instanceof BlockItem;
+    private static final Predicate<ItemStack> IS_SEED = stack -> !stack.isEmpty() && stack.isIn(ItemTags.VILLAGER_PLANTABLE_SEEDS) && stack.getItem() instanceof BlockItem;
 
 
     public NPCFarmGoal(NPCEntityImpl maid) {
@@ -52,7 +52,7 @@ public class NPCFarmGoal extends Goal {
         }
 //        System.out.println("tryStartNPCFarmGoal");
         targetPos = getNearTargetBlock(maid, new BlockPos(maid.getBlockX(), (int) Math.floor(maid.getY()), maid.getBlockZ())
-                , true, maid.getInventory().findHand(IS_SEED) == null);
+                , true);
 //        System.out.println("Target: "+targetPos);
         if (targetPos != null) {
 //            System.out.println("ret True");
@@ -138,14 +138,14 @@ public class NPCFarmGoal extends Goal {
     }
 
 
-    public static BlockPos getNearTargetBlock(NPCEntityImpl maid, BlockPos origen, boolean random, boolean onlyBreak) {
+    public static BlockPos getNearTargetBlock(NPCEntityImpl maid, BlockPos origen, boolean random) {
         List<BlockPos> targetFarmlands = new LinkedList<>();
         BlockPos.Mutable mutable = maid.getBlockPos().mutableCopy();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 for (int k = -1; k <= 1; k++) {
                     mutable.set(origen.getX() + i, Math.round(origen.getY()) + j, origen.getZ() + k);
-                    if (NPCFarmGoal.isCrop(mutable, getServerWorld(maid)) || (!onlyBreak && isFarmLandTop(mutable, getServerWorld(maid)))) {
+                    if (NPCFarmGoal.isCrop(mutable, getServerWorld(maid)) || (isMaidHasSeeds(maid) && isFarmLandTop(mutable, getServerWorld(maid)))) {
                         if (!random) return new BlockPos(mutable);
 //                        this.targetPositions.add(new BlockPos(mutable));
                         targetFarmlands.add(new BlockPos(mutable));
@@ -157,9 +157,12 @@ public class NPCFarmGoal extends Goal {
 
 
     }
+    public static boolean isMaidHasSeeds(NPCEntityImpl maid){
+        return maid.getInventory().findHand(IS_SEED) != null;
+    }
 
     //这个位置是否可以收割/种植
-    private static boolean isCrop(BlockPos pos, ServerWorld world) {
+    public static boolean isCrop(BlockPos pos, ServerWorld world) {
         BlockState blockState = world.getBlockState(pos);
         Block crop = blockState.getBlock();
         boolean is = (crop instanceof IMatureBlock);

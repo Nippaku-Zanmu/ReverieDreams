@@ -660,7 +660,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     public void updateWorking() {
         if (this.npcState!=this.lastNpcState&&this.npcState == NPCStates.WORKING){
-            this.workingPos = this.getBlockPos();
+            this.workingPos = new BlockPos(this.getBlockX(), (int) Math.round(this.getY()),this.getBlockZ());
         }
 
         if (this.npcState == NPCStates.WORKING && this.workTick < 20) {
