@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.entity.ai.goal.work;
 import cc.thonly.reverie_dreams.entity.ai.goal.util.EntityTargetUtil;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
+import cc.thonly.reverie_dreams.entity.npc.NPCWorkModes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
@@ -45,7 +46,7 @@ public class NPCFarmGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if (!EntityTargetUtil.isThisWorkMode(maid, NPCWorkMode.FARM)) {
+        if (!EntityTargetUtil.isThisWorkMode(maid, NPCWorkModes.FARM)) {
             return false;
         }
 //        System.out.println("tryStartNPCFarmGoal");

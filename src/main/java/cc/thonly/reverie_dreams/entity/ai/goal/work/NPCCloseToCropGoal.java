@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.entity.ai.goal.work;
 import cc.thonly.reverie_dreams.entity.ai.goal.util.EntityTargetUtil;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
+import cc.thonly.reverie_dreams.entity.npc.NPCWorkModes;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -42,7 +43,7 @@ public class NPCCloseToCropGoal extends Goal {
             --this.cooldown;
             return false;
         }
-        if (searchPos == null||!EntityTargetUtil.isThisWorkMode(maid, NPCWorkMode.FARM)) {
+        if (searchPos == null||!EntityTargetUtil.isThisWorkMode(maid, NPCWorkModes.FARM)) {
             resetPos();
             return false;
         }
