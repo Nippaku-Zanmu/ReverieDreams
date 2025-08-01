@@ -106,12 +106,12 @@ public class NPCCloseToCropGoal extends Goal {
         BlockPos nearTargetBlock = NPCFarmGoal.getNearTargetBlock(maid,searchPos, false,maid.getInventory().findHand(NPCFarmGoal.IS_SEED)==null);
         for (int searchCount = 0;searchCount<MAX_SEARCH_COUNT;searchCount++){
             if (nearTargetBlock != null) {
-                System.out.println("goto "+nearTargetBlock);
+//                System.out.println("goto "+nearTargetBlock);
                 return searchPos;
             }
             nextPos();
         }
-        System.out.println("err Pos "+ searchPos);
+//        System.out.println("err Pos "+ searchPos);
         return null;
     }
 

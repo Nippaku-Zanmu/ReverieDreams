@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.block.base;
 
 import cc.thonly.reverie_dreams.block.crop.TransparentPlant;
 import cc.thonly.reverie_dreams.compat.BorukvaFoodCompatImpl;
+import cc.thonly.reverie_dreams.interfaces.IMatureBlock;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
@@ -47,7 +48,7 @@ import java.util.Optional;
 @Setter
 @Getter
 @ToString
-public abstract class BasicCropBlock extends PlantBlock implements Fertilizable, IdentifierGetter, PolymerBlock, PolymerTexturedBlock, FactoryBlock {
+public abstract class BasicCropBlock extends PlantBlock implements Fertilizable, IMatureBlock, IdentifierGetter, PolymerBlock, PolymerTexturedBlock, FactoryBlock {
     protected final Identifier identifier;
     protected Item seed;
     protected BlockState polymerBlockState;

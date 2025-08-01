@@ -1,12 +1,13 @@
 package cc.thonly.reverie_dreams.entity.ai.goal.work;
 
+import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
 import cc.thonly.reverie_dreams.entity.ai.goal.util.EntityTargetUtil;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkModes;
+import cc.thonly.reverie_dreams.interfaces.IMatureBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.CropBlock;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -98,7 +99,7 @@ public class NPCFarmGoal extends Goal {
     public boolean harvest(BlockPos targetFarmLandTop) {
         ServerWorld serverWorld = getServerWorld(maid);
         BlockState cropsState = serverWorld.getBlockState(targetFarmLandTop);
-        if (cropsState.getBlock() instanceof CropBlock crop && crop.isMature(cropsState)) {
+        if (cropsState.getBlock() instanceof IMatureBlock crop && crop.isMature(cropsState)) {
             dropItem(targetFarmLandTop);
             //调用breakBlock无法吃到时运 自定义掉落并关闭break的掉落
             serverWorld.breakBlock(targetFarmLandTop, false, maid);
@@ -160,7 +161,8 @@ public class NPCFarmGoal extends Goal {
     private static boolean isCrop(BlockPos pos, ServerWorld world) {
         BlockState blockState = world.getBlockState(pos);
         Block crop = blockState.getBlock();
-        return crop instanceof CropBlock && ((CropBlock) crop).isMature(blockState) ;
+        boolean is = (crop instanceof IMatureBlock);
+        return is && ((IMatureBlock) crop).isMature(blockState) ;
     }
 
     //这个方块下面是不是耕地
