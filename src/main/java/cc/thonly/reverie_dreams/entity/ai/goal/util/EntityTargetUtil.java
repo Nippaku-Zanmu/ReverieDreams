@@ -1,6 +1,8 @@
 package cc.thonly.reverie_dreams.entity.ai.goal.util;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
+import cc.thonly.reverie_dreams.entity.npc.NPCState;
+import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 
@@ -13,5 +15,8 @@ public class EntityTargetUtil {
         if (target instanceof EnderDragonEntity)
             return false;
         return true;
+    }
+    public static boolean isThisWorkMode(NPCEntityImpl maid, NPCWorkMode mode){
+        return maid.isTamed()&&maid.getNpcState()== NPCState.WORKING&&maid.getWorkMode()==mode;
     }
 }

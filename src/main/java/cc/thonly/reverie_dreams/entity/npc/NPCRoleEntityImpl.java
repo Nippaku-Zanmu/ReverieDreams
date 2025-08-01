@@ -2,6 +2,8 @@ package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.reverie_dreams.entity.ai.goal.*;
 import cc.thonly.reverie_dreams.entity.ai.goal.work.NPCCleanMonsterGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.work.NPCCloseToCropGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.work.NPCFarmGoal;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +52,8 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
         this.targetSelector.add(1, new NPCCleanMonsterGoal(this));
 
+        this.goalSelector.add(1, new NPCFarmGoal(this));
+        this.goalSelector.add(2, new NPCCloseToCropGoal(this,1));
         this.getNavigation().setCanOpenDoors(true);
     }
 

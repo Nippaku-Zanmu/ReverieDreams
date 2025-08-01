@@ -1,10 +1,14 @@
 package cc.thonly.reverie_dreams.inventory;
 
-import cc.thonly.reverie_dreams.gui.NPCGui;
 import lombok.Getter;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+
+import javax.annotation.Nonnull;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Predicate;
 
 @Getter
 public class NPCInventoryImpl extends SimpleInventory {
@@ -98,5 +102,26 @@ public class NPCInventoryImpl extends SimpleInventory {
     @Override
     public boolean canInsert(ItemStack stack) {
         return super.canInsert(stack);
+    }
+
+    @Nonnull
+    public List<Integer> findItemSlots(int maxLength, Predicate<ItemStack> isGood, Predicate<Integer> isExcludeIndex) {
+        List<Integer> itemSlots = new LinkedList<>();
+        for (int i = MAX_SIZE - 1; i >= 0; i--) {
+            if (itemSlots.size() >= maxLength) break;
+            ItemStack stack = this.getStack(i);
+            if ((!isExcludeIndex.test(i)) && isGood.test(stack))
+                itemSlots.add(i);
+        }
+        return itemSlots;
+    }
+
+    public Integer findSlot(Predicate<ItemStack> isGood) {
+        List<Integer> slots = findItemSlots(1, isGood, (i) -> i >= 18 && i <= 21);
+        return slots.isEmpty()?null:slots.getFirst();
+    }
+    public Integer findHand(Predicate<ItemStack> isGood) {
+        return isGood.test(getStack(23))
+                ? Integer.valueOf(23) :isGood.test(getStack(22))?22:null;
     }
 }
