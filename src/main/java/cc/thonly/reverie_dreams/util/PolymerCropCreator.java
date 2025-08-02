@@ -34,6 +34,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Accessors(chain = true)
 @Setter

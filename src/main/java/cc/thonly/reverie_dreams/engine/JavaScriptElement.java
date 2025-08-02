@@ -23,14 +23,6 @@ public class JavaScriptElement implements RegistrableObject<JavaScriptElement> {
         this.src = src;
     }
 
-    public boolean shell() {
-        try {
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     @Override
     public Codec<JavaScriptElement> getCodec() {
         return CODEC;
