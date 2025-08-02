@@ -1,4 +1,4 @@
-package cc.thonly.reverie_dreams.entity.ai.goal;
+package cc.thonly.reverie_dreams.entity.ai.goal.attack;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.inventory.NPCInventoryImpl;
@@ -126,18 +126,23 @@ public class NPCBowAttackGoal<T extends TameableEntity> extends Goal {
                 (this.actor).clearActiveItem();
             } else if (bl && (i = (this.actor).getItemUseTime()) >= 20) {
                 NPCInventoryImpl inventory = ((NPCEntityImpl) this.actor).getInventory();
-                boolean canNext = false;
-                if(inventory.containsAny(NPCEntityImpl.ARROW_ITEMS)) {
-                    for (int j = 0; j < inventory.size(); j++) {
-                        ItemStack stack = inventory.getStack(j);
-                        if(NPCEntityImpl.ARROW_ITEMS.contains(stack.getItem())) {
-                            stack.decrement(1);
-                            canNext = true;
-                            break;
-                        }
-                    }
+                ItemStack arrowStack = RangedAttackUtil.getArrowStack(((NPCEntityImpl) this.actor));
+                if (arrowStack==null){
+                    return;
                 }
-                if(!canNext) return;
+
+//                if(inventory.containsAny(NPCEntityImpl.ARROW_ITEMS)) {
+//
+//                    for (int j = 0; j < inventory.size(); j++) {
+//                        ItemStack stack = inventory.getStack(j);
+//                        if(NPCEntityImpl.ARROW_ITEMS.contains(stack.getItem())) {
+//                            stack.decrement(1);
+//                            canNext = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//                if(!canNext) return;
                 (this.actor).clearActiveItem();
                 ((RangedAttackMob)this.actor).shootAt(livingEntity, BowItem.getPullProgress(i));
                 this.cooldown = this.attackInterval;

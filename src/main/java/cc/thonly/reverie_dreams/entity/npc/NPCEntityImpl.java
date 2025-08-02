@@ -5,7 +5,9 @@ import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.component.RoleFollowerArchive;
-import cc.thonly.reverie_dreams.entity.ai.goal.NPCBowAttackGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.attack.NPCBowAttackGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.attack.NPCCrossbowAttackGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.attack.RangedAttackUtil;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
@@ -47,6 +49,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -127,6 +130,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     private final NPCBowAttackGoal<NPCEntityImpl> bowAttackGoal = new NPCBowAttackGoal<>(this, 1.0, 20, 15.0f);
+    private final NPCCrossbowAttackGoal crossBowAttackGoal = new NPCCrossbowAttackGoal(this, 1.0, 20);
+
     private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.5, false) {
         @Override
         public void stop() {
@@ -261,21 +266,48 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public void shootAt(LivingEntity target, float pullProgress) {
-        ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, Items.BOW));
-        ItemStack itemStack2 = this.getProjectileType(itemStack);
-        PersistentProjectileEntity persistentProjectileEntity = this.createArrowProjectile(itemStack2, pullProgress, itemStack);
+        ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this,
+                this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null? Items.BOW:Items.CROSSBOW));
+//        ItemStack itemStack2 = this.getProjectileType(itemStack);
+
+        if (itemStack.getItem() instanceof CrossbowItem){
+            ChargedProjectilesComponent chargedProjectilesComponent = itemStack.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT);
+            for (ItemStack projStack : chargedProjectilesComponent.getProjectiles()) {
+                ProjectileEntity projectile = this.createArrowProjectile(projStack, 3.15f, itemStack);
+                shoot(target,projStack,projectile);
+            }
+//            shoot(this,3.15f);
+            //CrossBowItem L86 玩家射箭的箭矢速度
+            return;
+        }else {
+            ItemStack arrow = RangedAttackUtil.getArrowStack(this);
+            ProjectileEntity projectile = this.createArrowProjectile(arrow, pullProgress, itemStack);
+            arrow.decrement(1);
+            shoot(target,arrow,projectile);
+        }
+
+
+    }
+    private void shoot(Entity target,ItemStack arrow,ProjectileEntity arrowEntity){
+//        ItemStack arrow = RangedAttackUtil.getArrowStack(this);
+//        if (arrow==null)return;
+
+        //PersistentProjectileEntity persistentProjectileEntity = this.createArrowProjectile(arrow, pullProgress, itemStack);
         double d = target.getX() - this.getX();
-        double e = target.getBodyY(0.3333333333333333) - persistentProjectileEntity.getY();
+        double e = target.getBodyY(0.3333333333333333) - arrowEntity.getY();
         double f = target.getZ() - this.getZ();
         double g = Math.sqrt(d * d + f * f);
         World world = this.getWorld();
         if (world instanceof ServerWorld serverWorld) {
-            ProjectileEntity.spawnWithVelocity(persistentProjectileEntity, serverWorld, itemStack2, d, e + g * (double) 0.2f, f, 1.6f, 14 - serverWorld.getDifficulty().getId() * 4);
+            ProjectileEntity.spawnWithVelocity(arrowEntity, serverWorld, arrow, d, e + g * (double) 0.2f, f, 1.6f, 14 - serverWorld.getDifficulty().getId() * 4);
         }
         this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0f, 1.0f / (this.getRandom().nextFloat() * 0.4f + 0.8f));
     }
 
-    protected PersistentProjectileEntity createArrowProjectile(ItemStack arrow, float damageModifier, @Nullable ItemStack shotFrom) {
+
+    protected ProjectileEntity createArrowProjectile(ItemStack arrow, float damageModifier, @Nullable ItemStack shotFrom) {
+        if (arrow.getItem() instanceof FireworkRocketItem)
+            return new FireworkRocketEntity(this.getWorld(), arrow, this, this.getX(), this.getEyeY() - 0.15F, this.getZ(), true);
         return ProjectileUtil.createArrowProjectile(this, arrow, damageModifier, shotFrom);
     }
 
@@ -599,11 +631,15 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         }
         this.goalSelector.remove(this.meleeAttackGoal);
         this.goalSelector.remove(this.bowAttackGoal);
-        ItemStack itemStack = this.getMainHandStack();
-        if (this.inventory.containsAny(ARROW_ITEMS) && (itemStack.isOf(Items.BOW) || itemStack.getItem() instanceof BowItem)) {
+        this.goalSelector.remove(this.crossBowAttackGoal);
+//        ItemStack itemStack = this.getMainHandStack();
+
+        if (RangedAttackUtil.getArrowStack(this)!=null&&(this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null)) {
             int i = this.getRegularAttackInterval();
             this.bowAttackGoal.setAttackInterval(i);
             this.goalSelector.add(4, this.bowAttackGoal);
+        } else if (RangedAttackUtil.getCrossBowAmmoStack(this)!=null&&(this.inventory.findHand((stack -> stack.isOf(Items.CROSSBOW) || stack.getItem() instanceof CrossbowItem)) != null)) {
+            this.goalSelector.add(4, this.crossBowAttackGoal);
         } else {
             this.goalSelector.add(4, this.meleeAttackGoal);
         }
@@ -631,7 +667,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         return next != null ? next : NPCStates.fromInt(0);
     }
 
-    public NPCState getPreviousState(){
+    public NPCState getPreviousState() {
         if (this.isSleeping()) return this.npcState;
         Integer rawId = RegistryManager.NPC_STATE.getRawId(this.npcState);
         NPCState next = NPCStates.fromInt(rawId - 1);
@@ -659,8 +695,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     }
 
     public void updateWorking() {
-        if (this.npcState!=this.lastNpcState&&this.npcState == NPCStates.WORKING){
-            this.workingPos = new BlockPos(this.getBlockX(), (int) Math.round(this.getY()),this.getBlockZ());
+        if (this.npcState != this.lastNpcState && this.npcState == NPCStates.WORKING) {
+            this.workingPos = new BlockPos(this.getBlockX(), (int) Math.round(this.getY()), this.getBlockZ());
         }
 
         if (this.npcState == NPCStates.WORKING && this.workTick < 20) {
@@ -955,7 +991,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 //        return null;
     }
 
-//    @Override
+    //    @Override
     public @Nullable UUID getOwnerUuid() {
         if (this.npcOwner.equalsIgnoreCase("")) return null;
         return UUID.fromString(this.npcOwner);
@@ -965,9 +1001,10 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     public boolean isSitting() {
         return this.isSit();
     }
+
     @Override
-    public boolean isTamed(){
-        return this.getOwnerUuid()!=null;
+    public boolean isTamed() {
+        return this.getOwnerUuid() != null;
     }
 
     @Override

@@ -110,7 +110,7 @@ public class NPCInventoryImpl extends SimpleInventory {
         for (int i = MAX_SIZE - 1; i >= 0; i--) {
             if (itemSlots.size() >= maxLength) break;
             ItemStack stack = this.getStack(i);
-            if ((!isExcludeIndex.test(i)) && isGood.test(stack))
+            if ((!stack.isEmpty()) && (!isExcludeIndex.test(i)) && isGood.test(stack))
                 itemSlots.add(i);
         }
         return itemSlots;
@@ -118,10 +118,11 @@ public class NPCInventoryImpl extends SimpleInventory {
 
     public Integer findSlot(Predicate<ItemStack> isGood) {
         List<Integer> slots = findItemSlots(1, isGood, (i) -> i >= 18 && i <= 21);
-        return slots.isEmpty()?null:slots.getFirst();
+        return slots.isEmpty() ? null : slots.getFirst();
     }
+
     public Integer findHand(Predicate<ItemStack> isGood) {
         return isGood.test(getStack(23))
-                ? Integer.valueOf(23) :isGood.test(getStack(22))?22:null;
+                ? Integer.valueOf(23) : isGood.test(getStack(22)) ? 22 : null;
     }
 }
