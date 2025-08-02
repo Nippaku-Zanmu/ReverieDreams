@@ -26,3 +26,4 @@ accessible field net/minecraft/registry/SimpleRegistry entryToRawId Lit/unimi/ds
 accessible field net/minecraft/registry/SimpleRegistry keyToEntryInfo Ljava/util/Map;
 accessible field net/minecraft/registry/SimpleRegistry tags Ljava/util/Map;
 accessible field net/minecraft/registry/entry/RegistryEntryList$Named entries Ljava/util/List;
+accessible method net/minecraft/item/RangedWeaponItem load (Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;)Ljava/util/List;

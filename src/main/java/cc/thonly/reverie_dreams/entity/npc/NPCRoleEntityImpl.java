@@ -55,6 +55,7 @@ public class NPCRoleEntityImpl extends NPCEntityImpl implements Leashable {
         this.goalSelector.add(1, new NPCFarmGoal(this));
         this.goalSelector.add(2, new NPCCloseToCropGoal(this,1));
         this.getNavigation().setCanOpenDoors(true);
+        this.getNavigation().setCanSwim(true);
     }
 
     @Override
