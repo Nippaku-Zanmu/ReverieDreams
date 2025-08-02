@@ -12,6 +12,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
@@ -41,6 +42,8 @@ public final class PolymerCropCreator {
     private static final Map<Identifier, PolymerCropCreator.Instance> INSTANCES = new Object2ObjectOpenHashMap<>();
     private final Identifier identifier;
     private Integer maxAge;
+    private float seedCompostingLevel = 0.3f;
+    private float cropCompostingLevel = 0.6f;
     private Item gain;
     private CropAgeModelProvider provider;
     private BasicBlockFactory factory;
@@ -89,8 +92,13 @@ public final class PolymerCropCreator {
                         Items.WHEAT_SEEDS
                 )
         );
+
+        CompostingChanceRegistry.INSTANCE.add(seedItem, getSeedCompostingLevel());
+
         if (this.selfSeed) {
             this.gain = seedItem;
+        } else {
+            CompostingChanceRegistry.INSTANCE.add(gain, getCropCompostingLevel());
         }
 
         cropBlock.setSeed(seedItem);

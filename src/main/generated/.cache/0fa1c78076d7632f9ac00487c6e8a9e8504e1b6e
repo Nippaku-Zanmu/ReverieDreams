@@ -1,17 +1,17 @@
 // 1.21.7	-999999999-01-01T00:00:00	Gensokyo: Reverie of Lost Dreams/Tags for minecraft:block
-22959334d0bd98fd2aa617ed27a26a8bb3bf5ace data/minecraft/tags/block/buttons.json
-55c53ad46357acdfdb5ee41c7c3dbe85151e4976 data/minecraft/tags/block/doors.json
-969cb0ac1fb82a8c5fb292cd9a989724c92ff7cb data/minecraft/tags/block/fence_gates.json
+b14b7e058c531faf2c9c622a2b12b0591094c32f data/minecraft/tags/block/buttons.json
+cfb9c1d8932a5811d3b26d665bc0865b92bd91dd data/minecraft/tags/block/doors.json
+de24250e10e620774a08f77ba99d167eeb511d08 data/minecraft/tags/block/fence_gates.json
 17d752dfbea499265cca1646e9d4db4cef7cf478 data/minecraft/tags/block/fences.json
-ad49dee4351e72a54316c366b230078644f829fc data/minecraft/tags/block/leaves.json
+7a4ea1857a6d792c964d94d8a876c82a407ad615 data/minecraft/tags/block/leaves.json
 38ef2b19c3c88495d9fd22fd3b6baffe226b5263 data/minecraft/tags/block/mineable/axe.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/mineable/hoe.json
 070b788ceb2ae43012bd79ba4191c408b6b3d6a7 data/minecraft/tags/block/mineable/pickaxe.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/mineable/shovel.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/pressure_plates.json
-0fe827e046038242ae61f3c36d82416436eeee07 data/minecraft/tags/block/saplings.json
-e2cb182e5ac163acd39f6e8e15df4aa0e2f499d9 data/minecraft/tags/block/slabs.json
-eba31a67f70607178cf007534d0c9fe2a7ed4330 data/minecraft/tags/block/stairs.json
+c5c37644ea6b76b0aeb434a7fc261e4d231cd5e5 data/minecraft/tags/block/saplings.json
+8f8d8f344e812e653b0a7b82a42d5f895d887c3a data/minecraft/tags/block/slabs.json
+5e4a5c232cdc467d7338031944e8171ac170e2b4 data/minecraft/tags/block/stairs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/trapdoors.json
 17d752dfbea499265cca1646e9d4db4cef7cf478 data/minecraft/tags/block/wooden_fences.json
 cfab2ab481bf476a645d326b87627918009b9e50 data/reverie_dreams/tags/block/empty.json
