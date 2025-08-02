@@ -118,6 +118,7 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         // 调试
         itemModelGenerator.register(ModItems.BATTLE_STICK, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.OWNER_STICK, Models.HANDHELD);
 
         // 图标
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);

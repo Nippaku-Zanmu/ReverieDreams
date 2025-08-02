@@ -1,6 +1,8 @@
 package cc.thonly.reverie_dreams.registry;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.engine.JavaScriptElement;
+import cc.thonly.reverie_dreams.engine.JavaScriptManager;
 import cc.thonly.reverie_dreams.entity.npc.*;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
@@ -36,6 +38,11 @@ public class RegistryManager {
     public static final StandaloneRegistry<DanmakuDamageType> DANMAKU_DAMAGE_TYPE = ofEntry(DanmakuDamageType.class, Touhou.id("danmaku_damage_type"))
             .codec(DanmakuDamageType.CODEC)
             .build(DanmakuDamageTypes::bootstrap);
+    public static final StandaloneRegistry<JavaScriptElement> JAVASCRIPT_ELEMENT = ofEntry(JavaScriptElement.class, Touhou.id("javascript_element"))
+            .codec(JavaScriptElement.CODEC)
+            .reloadable(JavaScriptManager::reload)
+            .build(JavaScriptManager::bootstrap)
+            ;
     public static final StandaloneRegistry<RoleSkin> ROLE_SKIN = ofEntry(RoleSkin.class, Touhou.id("role_skin"))
             .codec(RoleSkin.CODEC)
             .build(RoleSkins::bootstrap, MobSkins::bootstrap);

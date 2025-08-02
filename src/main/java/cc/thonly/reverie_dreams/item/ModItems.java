@@ -11,7 +11,8 @@ import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDiscItem;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
-import cc.thonly.reverie_dreams.item.debug.BattleStick;
+import cc.thonly.reverie_dreams.item.debug.BattleStickItem;
+import cc.thonly.reverie_dreams.item.debug.OwnerStickItem;
 import cc.thonly.reverie_dreams.item.tool.*;
 import cc.thonly.reverie_dreams.item.weapon.*;
 import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
@@ -48,7 +49,8 @@ public class ModItems {
     private static final List<Item> DISC_LIST = new ArrayList<>();
 
     // 调试
-    public static final Item BATTLE_STICK = registerSimpleItem(new BattleStick("battle_stick", new Item.Settings()));
+    public static final Item BATTLE_STICK = registerSimpleItem(new BattleStickItem("battle_stick", new Item.Settings()));
+    public static final Item OWNER_STICK = registerSimpleItem(new OwnerStickItem("owner_stick", new Item.Settings()));
 
     // 图标
     public static final Item ICON = registerIconItem(new BasicItem("icon", new Item.Settings()));
@@ -152,6 +154,7 @@ public class ModItems {
     static {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(itemGroup -> {
             itemGroup.add(BATTLE_STICK);
+            itemGroup.add(OWNER_STICK);
         });
     }
 

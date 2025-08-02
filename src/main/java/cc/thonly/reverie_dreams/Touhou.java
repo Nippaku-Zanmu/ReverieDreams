@@ -55,6 +55,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -72,7 +73,9 @@ public class Touhou implements ModInitializer {
     public static final String MOD_NAME = "Gensokyo: Reverie of Lost Dreams";
     public static final String MOD_ID = "reverie_dreams";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final String VERSION = FabricLoader.getInstance()
+    public static final FabricLoader FABRIC = FabricLoader.getInstance();
+    public static final MappingResolver MAPPING_RESOLVER = FABRIC.getMappingResolver();
+    public static final String VERSION = FABRIC
             .getModContainer(MOD_ID)
             .map(container -> container.getMetadata().getVersion().getFriendlyString())
             .orElse("unknown");

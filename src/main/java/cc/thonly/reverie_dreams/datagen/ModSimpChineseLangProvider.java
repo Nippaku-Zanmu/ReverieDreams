@@ -613,6 +613,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     public void generateItemTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         // 调试
         translationBuilder.add(ModItems.BATTLE_STICK, "战斗调试棒");
+        translationBuilder.add(ModItems.OWNER_STICK, "主权调试棒");
 
         // 图标
         translationBuilder.add(ModItems.ICON, "Gensokyo: Reverie of Lost Dreams");

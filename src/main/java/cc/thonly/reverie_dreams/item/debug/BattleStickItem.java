@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class BattleStick extends BasicPolymerItem {
-    public BattleStick(String path, Settings settings) {
+public class BattleStickItem extends BasicPolymerItem {
+    public BattleStickItem(String path, Settings settings) {
         super(path, settings.maxCount(1).component(ModDataComponentTypes.BATTLE_STICK_RECORDER, new BattleStickRecorder("", "")), Items.STICK);
     }
 
