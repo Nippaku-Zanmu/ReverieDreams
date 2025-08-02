@@ -104,8 +104,11 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         // === 种子 ===
         ProvidedTagBuilder<Item, Item> seeds = valueLookupBuilder(ConventionalItemTags.SEEDS);
+        ProvidedTagBuilder<Item, Item> villagerPlantableSeeds = valueLookupBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS);
         for (var entry : PolymerCropCreator.getViews()) {
-            seeds.add(entry.getValue().getSeed());
+            Item seed = entry.getValue().getSeed();
+            villagerPlantableSeeds.add(seed);
+            seeds.add(seed);
         }
 
         // === 模组兼容扩展 ===
