@@ -36,10 +36,22 @@ public class ModLootModifies {
     public static final RegistryKey<LootTable> VILLAGE_WEAPONSMITH_CHEST = LootTables.VILLAGE_WEAPONSMITH_CHEST;
     public static final RegistryKey<LootTable> END_CITY_TREASURE_CHEST = LootTables.END_CITY_TREASURE_CHEST;
     public static final RegistryKey<LootTable> OPEN_MINESHAFT_CHEST = LootTables.ABANDONED_MINESHAFT_CHEST;
+    public static final RegistryKey<LootTable> NETHER_BRIDGE_CHEST = LootTables.NETHER_BRIDGE_CHEST;
+    public static final RegistryKey<LootTable> VILLAGE_PLAINS_CHEST = LootTables.VILLAGE_PLAINS_CHEST;
+    public static final RegistryKey<LootTable> VILLAGE_SAVANNA_HOUSE_CHEST = LootTables.VILLAGE_SAVANNA_HOUSE_CHEST;
+    public static final RegistryKey<LootTable> PILLAGER_OUTPOST_CHEST = LootTables.PILLAGER_OUTPOST_CHEST;
+    public static final RegistryKey<LootTable> SIMPLE_DUNGEON_CHEST = LootTables.PILLAGER_OUTPOST_CHEST;
 
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            if (source.isBuiltin() && key.equals(OPEN_MINESHAFT_CHEST)) {
+            if (
+                            key.equals(OPEN_MINESHAFT_CHEST)
+                         || key.equals(NETHER_BRIDGE_CHEST)
+                         || key.equals(VILLAGE_PLAINS_CHEST)
+                         || key.equals(VILLAGE_SAVANNA_HOUSE_CHEST)
+                         || key.equals(PILLAGER_OUTPOST_CHEST)
+                         || key.equals(SIMPLE_DUNGEON_CHEST)
+            ) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
                         .conditionally(RandomChanceLootCondition.builder(0.2f));

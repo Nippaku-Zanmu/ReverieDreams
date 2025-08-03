@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.entity.ai.goal.work;
 
 import cc.thonly.reverie_dreams.block.base.BasicCropBlock;
+import cc.thonly.reverie_dreams.compat.BorukvaFoodCompatImpl;
 import cc.thonly.reverie_dreams.entity.ai.goal.util.EntityTargetUtil;
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
 import cc.thonly.reverie_dreams.entity.npc.NPCWorkMode;
@@ -8,6 +9,7 @@ import cc.thonly.reverie_dreams.entity.npc.NPCWorkModes;
 import cc.thonly.reverie_dreams.interfaces.IMatureBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CropBlock;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -96,10 +98,19 @@ public class NPCFarmGoal extends Goal {
         super.stop();
     }
 
+    public static boolean isMature(IMatureBlock crop, BlockState cropsState) {
+        if (crop instanceof CropBlock cropBlock) {
+            return cropBlock.isMature(cropsState);
+        } else if (crop instanceof BasicCropBlock basicCropBlock) {
+            return basicCropBlock.isMature(cropsState);
+        }
+        return false;
+    }
+
     public boolean harvest(BlockPos targetFarmLandTop) {
         ServerWorld serverWorld = getServerWorld(maid);
         BlockState cropsState = serverWorld.getBlockState(targetFarmLandTop);
-        if (cropsState.getBlock() instanceof IMatureBlock crop && crop.isMature(cropsState)) {
+        if (cropsState.getBlock() instanceof IMatureBlock crop && this.isMature(crop, cropsState)) {
             dropItem(targetFarmLandTop);
             //调用breakBlock无法吃到时运 自定义掉落并关闭break的掉落
             serverWorld.breakBlock(targetFarmLandTop, false, maid);
@@ -157,7 +168,8 @@ public class NPCFarmGoal extends Goal {
 
 
     }
-    public static boolean isMaidHasSeeds(NPCEntityImpl maid){
+
+    public static boolean isMaidHasSeeds(NPCEntityImpl maid) {
         return maid.getInventory().findHand(IS_SEED) != null;
     }
 
@@ -165,14 +177,17 @@ public class NPCFarmGoal extends Goal {
     public static boolean isCrop(BlockPos pos, ServerWorld world) {
         BlockState blockState = world.getBlockState(pos);
         Block crop = blockState.getBlock();
-        boolean is = (crop instanceof IMatureBlock);
-        return is && ((IMatureBlock) crop).isMature(blockState);
+        if (!(crop instanceof IMatureBlock iMatureBlock)) {
+            return false;
+        }
+        return isMature(iMatureBlock, blockState);
+//        return is && ((IMatureBlock) crop).isMature(blockState);
     }
 
     //这个方块下面是不是耕地
     public static boolean isFarmLandTop(BlockPos b, ServerWorld world) {
-
-        return world.getBlockState(b).isAir() && world.getBlockState(b.down()).getBlock() instanceof FarmlandBlock;
+        Block block = world.getBlockState(b.down()).getBlock();
+        return world.getBlockState(b).isAir() && (block instanceof FarmlandBlock || (BorukvaFoodCompatImpl.hasBorukvaFood() && block == BorukvaFoodCompatImpl.BETTER_FARMLAND));
     }
 
 

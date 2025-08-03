@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import java.util.Optional;
 
 public interface IMatureBlock {
-    boolean isMature(BlockState state);
+//    boolean isMature(BlockState state);
 
     static Optional<IMatureBlock> tryCastIMatureBlock(Object object) {
         if (object instanceof IMatureBlock) {
