@@ -29,6 +29,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -148,6 +150,7 @@ public class ModItems {
     public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey())));
     public static final Item COOKIE = registerDiscItem(new BasicPolymerDiscItem("cookie", new Item.Settings().jukeboxPlayable(JukeboxSongInit.COOKIE.getJukeboxSongRegistryKey())));
 
+    public static final RegistryKey<EquipmentAsset> BROOM = registerModel("magic_broom");
     // 测试物品
 //    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));
 
@@ -304,6 +307,7 @@ public class ModItems {
 //                    .component(ModDataComponentTypes.Danmaku.INFINITE, true)
 //    ));
 
+
     public static void registerItems() {
         ArrayList<ItemStack> discStack = new ArrayList<>();
         for (var disc : DISC_LIST) {
@@ -361,6 +365,10 @@ public class ModItems {
         Registry.register(Registries.ITEM, itemKey, item);
         ITEM_LIST.add(item);
         return item;
+    }
+
+    public static RegistryKey<EquipmentAsset> registerModel(String name) {
+        return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.of("reverie_dreams",name));
     }
 
     public static List<Item> getItemView() {

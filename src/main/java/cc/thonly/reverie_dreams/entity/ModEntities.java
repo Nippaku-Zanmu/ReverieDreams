@@ -7,6 +7,7 @@ import cc.thonly.reverie_dreams.entity.elemental.WaterElementalEntity;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.misc.KnifeEntity;
 import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntity;
+import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntityTest;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.villager.FumoSellerVillager;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
@@ -155,6 +156,10 @@ public class ModEntities {
             EntityType.Builder.<MagicBroomEntity>create(MagicBroomEntity::new, SpawnGroup.MISC)
                     .build(of("broom")),
             MagicBroomEntity::createAttributes);
+    public static final EntityType<MagicBroomEntityTest> BROOM_ENTITY_TYPE_TEST = registerEntityWithSpawnEgg("broom_test",
+            EntityType.Builder.<MagicBroomEntityTest>create(MagicBroomEntityTest::new, SpawnGroup.MISC)
+                    .build(of("broom")),
+            MagicBroomEntityTest::createAttributes);
     public static final EntityType<HairballEntity> HAIRBALL_ENTITY_TYPE = registerEntityWithSpawnEgg("hairball",
             EntityType.Builder.<HairballEntity>create(HairballEntity::new, SpawnGroup.MONSTER)
                     .build(of("hairball")),
