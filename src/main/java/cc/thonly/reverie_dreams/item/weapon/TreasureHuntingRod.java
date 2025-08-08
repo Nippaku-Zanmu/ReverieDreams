@@ -1,10 +1,16 @@
 package cc.thonly.reverie_dreams.item.weapon;
 
 import cc.thonly.reverie_dreams.data.ModTags;
+import cc.thonly.reverie_dreams.entity.ModEntities;
+import cc.thonly.reverie_dreams.entity.misc.OreEspEntity;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
+import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,7 +26,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +103,14 @@ public class TreasureHuntingRod extends BasicPolymerSwordItem {
                             "message.treasure_hunting_rod.find", roundedDistance, dx, dy, dz
                     ).append(" ").append(Text.translatable(closestOreBlock.getTranslationKey()));
 
-                    player.sendMessage(message, false);
+//                    player.sendMessage(message, false);
+                    OreEspEntity oreEspEntity = ModEntities.ORE_ESP_ENTITY_TYPE.create(world, SpawnReason.EVENT);
+                    if (oreEspEntity != null) {
+                        oreEspEntity.setBlockState(world.getBlockState(closestOrePos));
+                        oreEspEntity.setPosition(new Vec3d(closestOrePos));
+                        oreEspEntity.setGlowing(true);
+                        world.spawnEntity(oreEspEntity);
+                    }
 
                     world.playSound(null, player.getX(), player.getEyeY(), player.getZ(),
                             SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(),

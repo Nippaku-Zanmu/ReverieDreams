@@ -7,9 +7,11 @@ import cc.thonly.reverie_dreams.entity.elemental.WaterElementalEntity;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.entity.misc.KnifeEntity;
 import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntity;
+import cc.thonly.reverie_dreams.entity.misc.OreEspEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import cc.thonly.reverie_dreams.entity.villager.FumoSellerVillager;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSpawnEggItem;
+import cc.thonly.reverie_dreams.item.weapon.TreasureHuntingRod;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -62,6 +64,10 @@ public class ModEntities {
             registerEntity("spell_card",
                     EntityType.Builder.<SpellCardEntity>create(SpellCardEntity::new, SpawnGroup.MISC)
                             .build(of("danmaku_bullet")));
+    public static final EntityType<OreEspEntity> ORE_ESP_ENTITY_TYPE =
+            registerEntity("ore_esp_entity",
+                    EntityType.Builder.<OreEspEntity>create(OreEspEntity::new, SpawnGroup.MISC)
+                            .build(of("ore_esp_entity")));
     public static final EntityType<FumoSellerVillager> FUMO_SELLER_VILLAGER =
             registerEntityWithSpawnEgg("fumo_seller_villager",
                     EntityType.Builder.<FumoSellerVillager>create(FumoSellerVillager::new, SpawnGroup.MISC)
