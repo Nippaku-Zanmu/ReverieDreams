@@ -27,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     public static final Set<Block> FENCES = new HashSet<>();
     public static final Set<Block> FENCE_GATES = new HashSet<>();
+    public static final Set<Block> WALLS = new HashSet<>();
     public static final Set<Block> LEAVES = new HashSet<>();
     public static final Set<Block> SAPLINGS = new HashSet<>();
     public static final Set<Block> STAIRS = new HashSet<>();
@@ -46,6 +47,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         ProvidedTagBuilder<Block, Block> fumo = valueLookupBuilder(ModTags.BlockTypeTag.FUMO);
         ProvidedTagBuilder<Block, Block> empty = valueLookupBuilder(ModTags.BlockTypeTag.EMPTY);
         ProvidedTagBuilder<Block, Block> fences = valueLookupBuilder(BlockTags.FENCES);
+        ProvidedTagBuilder<Block, Block> walls = valueLookupBuilder(BlockTags.WALLS);
         ProvidedTagBuilder<Block, Block> woodenFences = valueLookupBuilder(BlockTags.WOODEN_FENCES);
         ProvidedTagBuilder<Block, Block> fenceGates = valueLookupBuilder(BlockTags.FENCE_GATES);
         ProvidedTagBuilder<Block, Block> stairs = valueLookupBuilder(BlockTags.STAIRS);
@@ -58,11 +60,11 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         ProvidedTagBuilder<Block, Block> doors = valueLookupBuilder(BlockTags.DOORS);
         ProvidedTagBuilder<Block, Block> sliver = valueLookupBuilder(ModTags.BlockTypeTag.SILVER);
         ProvidedTagBuilder<Block, Block> minTools = valueLookupBuilder(ModTags.BlockTypeTag.MIN_TOOL);
-        ProvidedTagBuilder<Block, Block> axeMineable = valueLookupBuilder(BlockTags.AXE_MINEABLE);
-        ProvidedTagBuilder<Block, Block> hoeMineable = valueLookupBuilder(BlockTags.HOE_MINEABLE);
-        ProvidedTagBuilder<Block, Block> pickaxeMineable = valueLookupBuilder(BlockTags.PICKAXE_MINEABLE);
-        ProvidedTagBuilder<Block, Block> shovelMineable = valueLookupBuilder(BlockTags.SHOVEL_MINEABLE);
-        
+        ProvidedTagBuilder<Block, Block> axeMineables = valueLookupBuilder(BlockTags.AXE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> hoeMineables = valueLookupBuilder(BlockTags.HOE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> pickaxeMineables = valueLookupBuilder(BlockTags.PICKAXE_MINEABLE);
+        ProvidedTagBuilder<Block, Block> shovelMineables = valueLookupBuilder(BlockTags.SHOVEL_MINEABLE);
+
         for (Fumo instance : Fumos.getView()) {
             fumo.add(instance.block());
         }
@@ -71,6 +73,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         SAPLINGS.forEach(saplings::add);
         FENCES.forEach(woodenFences::add);
         FENCES.forEach(fences::add);
+        WALLS.forEach(walls::add);
         FENCE_GATES.forEach(fenceGates::add);
         STAIRS.forEach(stairs::add);
         SLABS.forEach(slabs::add);
@@ -79,17 +82,19 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         TRAPDOORS.forEach(trapdoors::add);
         DOORS.forEach(doors::add);
 
-        pickaxeMineable.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
-        pickaxeMineable.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
-        pickaxeMineable.add(ModBlocks.GENSOKYO_ALTAR);
-        pickaxeMineable.add(MIBlocks.COOKTOP);
-        ModBlocks.SPIRITUAL.stream().forEach(axeMineable::add);
-        MIBlocks.LEMON.stream().forEach(axeMineable::add);
-        MIBlocks.GINKGO.stream().forEach(axeMineable::add);
-        MIBlocks.PEACH.stream().forEach(axeMineable::add);
-        ModBlocks.SPIRITUAL.stream().forEach(axeMineable::add);
-        axeMineable.add(ModBlocks.DANMAKU_CRAFTING_TABLE);
-        axeMineable.add(ModBlocks.MUSIC_BLOCK);
+        pickaxeMineables.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
+        pickaxeMineables.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
+        pickaxeMineables.add(ModBlocks.GENSOKYO_ALTAR);
+        pickaxeMineables.add(MIBlocks.COOKTOP);
+        ModBlocks.SPIRITUAL.stream().forEach(axeMineables::add);
+        MIBlocks.LEMON.stream().forEach(axeMineables::add);
+        MIBlocks.GINKGO.stream().forEach(axeMineables::add);
+        MIBlocks.PEACH.stream().forEach(axeMineables::add);
+        ModBlocks.SPIRITUAL.stream().forEach(axeMineables::add);
+        axeMineables.add(ModBlocks.DANMAKU_CRAFTING_TABLE);
+        axeMineables.add(ModBlocks.MUSIC_BLOCK);
+        hoeMineables.add(ModBlocks.POWER_BLOCK);
+        hoeMineables.add(ModBlocks.POINT_BLOCK);
         sliver.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
 
         minTools.add(Blocks.BEDROCK);

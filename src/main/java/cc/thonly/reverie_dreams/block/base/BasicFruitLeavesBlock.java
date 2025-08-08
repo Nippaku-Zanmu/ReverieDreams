@@ -68,7 +68,6 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
                         .with(DISTANCE, 7)
                         .with(AGE_PROPERTY, 0)
                         .with(LeavesBlock.WATERLOGGED, false)
-
         );
         FRUIT_LEAVES_BLOCKS.add(this);
     }
@@ -108,6 +107,8 @@ public class BasicFruitLeavesBlock extends LeavesBlock implements PolymerBlock, 
                 world.spawnEntity(drop);
                 world.setBlockState(pos, state.with(AGE_PROPERTY, 1));
                 return ActionResult.SUCCESS_SERVER;
+            } else {
+                return ActionResult.PASS;
             }
         }
         return ActionResult.SUCCESS;

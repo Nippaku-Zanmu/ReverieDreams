@@ -1,10 +1,7 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.armor.EarphoneArmorMaterial;
-import cc.thonly.reverie_dreams.armor.KoishiHatArmorMaterial;
-import cc.thonly.reverie_dreams.armor.MagicIceArmorMaterial;
-import cc.thonly.reverie_dreams.armor.SilverArmorMaterial;
+import cc.thonly.reverie_dreams.armor.*;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.item.armor.BasicArmorItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
@@ -29,8 +26,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -39,6 +34,7 @@ import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +88,6 @@ public class ModItems {
     public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
     public static final Item WIND_BLESSING_CANE = registerItem(new WindBlessingCane("wind_blessing_cane", 0, 0, new Item.Settings()));
     public static final Item MAGIC_BROOM = registerItem(new MagicBroom("magic_broom", 0, 0, new Item.Settings()));
-    public static final Item KNIFE = registerItem(new Knife("knife", 0f, 0f, new Item.Settings()));
     public static final Item GUNGNIR = registerItem(new Gungnir("gungnir", 0, 0, new Item.Settings()));
     public static final Item LEVATIN = registerItem(new Levatin("levatin", 0, 0, new Item.Settings()));
     public static final Item ROKANKEN = registerItem(new Rokanken("rokanken", 1f, 0.5f, new Item.Settings()));
@@ -115,17 +110,25 @@ public class ModItems {
     public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));
     public static final Item SILVER_INGOT = registerItem(new BasicItem("silver_ingot", new Item.Settings()));
     public static final Item SILVER_NUGGET = registerItem(new BasicItem("silver_nugget", new Item.Settings()));
-    public static final Item SILVER_SWORD = registerItem(new BasicSwordItem("silver_sword", SilverMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
-    public static final Item SILVER_AXE = registerItem(new BasicAxeItem("silver_axe", SilverMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings()));
-    public static final Item SILVER_PICKAXE = registerItem(new BasicPickaxeItem("silver_pickaxe", SilverMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
-    public static final Item SILVER_SHOVEL = registerItem(new BasicShovelItem("silver_shovel", SilverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
-    public static final Item SILVER_HOE = registerItem(new BasicHoeItem("silver_hoe", SilverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings()));
-    public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxDamage(EquipmentType.LEGGINGS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
-    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxDamage(EquipmentType.BOOTS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_SWORD = registerItem(new BasicSwordItem("silver_sword", SilverMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE)));
+    public static final Item SILVER_AXE = registerItem(new BasicAxeItem("silver_axe", SilverMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE)));
+    public static final Item SILVER_PICKAXE = registerItem(new BasicPickaxeItem("silver_pickaxe", SilverMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE)));
+    public static final Item SILVER_SHOVEL = registerItem(new BasicShovelItem("silver_shovel", SilverMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE)));
+    public static final Item SILVER_HOE = registerItem(new BasicHoeItem("silver_hoe", SilverMaterial.INSTANCE, -2.0f, -1.0f, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE)));
+    public static final Item SILVER_HELMET = registerItem(new BasicArmorItem("silver_helmet", SilverArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE).maxDamage(EquipmentType.HELMET.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_CHESTPLATE = registerItem(new BasicArmorItem("silver_chestplate", SilverArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE).maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_LEGGINGS = registerItem(new BasicArmorItem("silver_leggings", SilverArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE).maxDamage(EquipmentType.LEGGINGS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+    public static final Item SILVER_BOOTS = registerItem(new BasicArmorItem("silver_boots", SilverArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().component(ModDataComponentTypes.SILVER_ITEM, Unit.INSTANCE).maxDamage(EquipmentType.BOOTS.getMaxDamage(SilverArmorMaterial.BASE_DURABILITY))));
+
+    // 女仆装备
+    public static final Item KNIFE = registerItem(new Knife("knife", 0f, 0f, new Item.Settings()));
+    public static final Item MAID_HAIRBAND = registerItem(new BasicArmorItem("maid_hairband", MaidArmorMaterial.INSTANCE, EquipmentType.HELMET, new Item.Settings().maxDamage(EquipmentType.HELMET.getMaxDamage(MaidArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAID_UPPER_SKIRT = registerItem(new BasicArmorItem("maid_upper_skirt", MaidArmorMaterial.INSTANCE, EquipmentType.CHESTPLATE, new Item.Settings().maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(MaidArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAID_LOWER_SKIRT = registerItem(new BasicArmorItem("maid_lowerband", MaidArmorMaterial.INSTANCE, EquipmentType.LEGGINGS, new Item.Settings().maxDamage(EquipmentType.LEGGINGS.getMaxDamage(MaidArmorMaterial.BASE_DURABILITY))));
+    public static final Item MAID_SHOE = registerItem(new BasicArmorItem("maid_shoe", MaidArmorMaterial.INSTANCE, EquipmentType.BOOTS, new Item.Settings().maxDamage(EquipmentType.BOOTS.getMaxDamage(MaidArmorMaterial.BASE_DURABILITY))));
 
     // 魔法冰装备
+    public static final Item ICE_SCALES = registerItem(new BasicItem("ice_scales", new Item.Settings()));
     public static final Item MAGIC_ICE_SWORD = registerItem(new BasicSwordItem("magic_ice_sword", MagicIceMaterial.INSTANCE, 3.0f, -2.4f, new Item.Settings()));
     public static final Item MAGIC_ICE_AXE = registerItem(new BasicAxeItem("magic_ice_axe", MagicIceMaterial.INSTANCE, 6.0f, -2.8f, new Item.Settings()));
     public static final Item MAGIC_ICE_PICKAXE = registerItem(new BasicPickaxeItem("magic_ice_pickaxe", MagicIceMaterial.INSTANCE, 1.0f, -2.8f, new Item.Settings()));
@@ -150,7 +153,6 @@ public class ModItems {
     public static final Item GLOWING_NEEDLES_LITTLE_PEOPLE = registerDiscItem(new BasicPolymerDiscItem("glowing_needles_little_people", new Item.Settings().jukeboxPlayable(JukeboxSongInit.GLOWING_NEEDLES_LITTLE_PEOPLE.getJukeboxSongRegistryKey())));
     public static final Item COOKIE = registerDiscItem(new BasicPolymerDiscItem("cookie", new Item.Settings().jukeboxPlayable(JukeboxSongInit.COOKIE.getJukeboxSongRegistryKey())));
 
-    public static final RegistryKey<EquipmentAsset> BROOM = registerModel("magic_broom");
     // 测试物品
 //    public static final Item TEST_COLOR_DANMAKU_ITEM = registerItem(new BasicItem("test_color_danmaku", new Item.Settings()));
 
@@ -307,7 +309,6 @@ public class ModItems {
 //                    .component(ModDataComponentTypes.Danmaku.INFINITE, true)
 //    ));
 
-
     public static void registerItems() {
         ArrayList<ItemStack> discStack = new ArrayList<>();
         for (var disc : DISC_LIST) {
@@ -365,10 +366,6 @@ public class ModItems {
         Registry.register(Registries.ITEM, itemKey, item);
         ITEM_LIST.add(item);
         return item;
-    }
-
-    public static RegistryKey<EquipmentAsset> registerModel(String name) {
-        return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.of("reverie_dreams",name));
     }
 
     public static List<Item> getItemView() {

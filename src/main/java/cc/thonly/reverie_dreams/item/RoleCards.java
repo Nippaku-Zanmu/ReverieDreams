@@ -74,7 +74,8 @@ public class RoleCards {
                     NPCRoles.KAENBYOU_RIN,
                     NPCRoles.KOMEIJI_SATORI,
                     NPCRoles.REIUJI_UTSUH,
-                    NPCRoles.KOMEIJI_KOISHI)
+                    NPCRoles.KOMEIJI_KOISHI,
+                    NPCRoles.WHITE_KOMEIJI_KOISHI)
     ).build());
     public static final RoleCard SEIRENSEN = register(new RoleCard(Touhou.id("seirensen"),
             1506915L,

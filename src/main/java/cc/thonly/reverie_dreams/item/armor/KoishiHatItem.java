@@ -14,15 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KoishiHatItem extends BasicPolymerArmorItem {
-    public static final List<Vec3d2Player> VEC_3_DS = new ArrayList<>();
 
     public KoishiHatItem(String path, Settings settings) {
         super(path, KoishiHatArmorMaterial.INSTANCE, EquipmentType.HELMET, settings);
     }
-    public static synchronized void onUseTick(World world, LivingEntity user, ItemStack stack){
-        if (user.getVelocity().lengthSquared()<=1 &&user.isSneaking()){
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY,10,0,false,false,false));
+
+    public static synchronized void onUseTick(World world, LivingEntity user, ItemStack stack) {
+        if (user.getVelocity().lengthSquared() <= 1 && user.isSneaking()) {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 10, 0, false, false, false));
         }
     }
-
 }

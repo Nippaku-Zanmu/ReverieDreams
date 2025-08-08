@@ -26,8 +26,10 @@ public class DanmakuTypes {
     public static final DanmakuType RICE = register(Touhou.id("rice"), 2f, 1f, 1.0f, false, false);
     public static final DanmakuType STAR = register(Touhou.id("star"), 2f, 1f, 1.0f, true, false);
     public static final DanmakuType LASER = register(Touhou.id("laser"), 3f, 1.5f, 1.0f, false, false);
+    public static final DanmakuType BIG_LASER = register(Touhou.id("big_laser"), 3f, 1.5f, 1.0f, false, false);
     static {
         UNLIST.add(LASER);
+        UNLIST.add(BIG_LASER);
     }
 
     public static DanmakuType register(Identifier key, float damage, float scale, float speed, boolean tile, boolean infinite) {

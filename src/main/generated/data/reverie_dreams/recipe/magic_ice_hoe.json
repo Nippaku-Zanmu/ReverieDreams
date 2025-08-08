@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "#": "minecraft:stick",
-    "X": "reverie_dreams:magic_ice"
+    "X": "reverie_dreams:ice_scales"
   },
   "pattern": [
     "XX",

@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.entity;
 
+import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.entity.ai.goal.DanmakuGoal;
@@ -17,8 +18,10 @@ import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.Leashable;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -83,6 +86,18 @@ public class SunflowerYouseiEntity extends NPCEntityImpl implements Leashable, F
         this.targetSelector.add(1, new DifferentRevengeGoal(this).setGroupRevenge());
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
+    }
+
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
+        int i = this.random.nextBetween(1, 9);
+        if (i<=3) {
+            World world = this.getWorld();
+            ItemStack itemStack = new ItemStack(MIItems.MOONFLOWER, this.random.nextBetween(1,2));
+            ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), itemStack);
+            world.spawnEntity(itemEntity);
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams;
 
 import cc.thonly.minecraft.impl.DynamicRegistryManagerCallback;
+import cc.thonly.minecraft.impl.ItemPostHitCallback;
 import cc.thonly.reverie_dreams.armor.ModArmorMaterials;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
@@ -56,10 +57,28 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
+import net.minecraft.data.tag.vanilla.VanillaEntityTypeTagProvider;
+import net.minecraft.dialog.*;
+import net.minecraft.dialog.type.Dialog;
+import net.minecraft.dialog.type.NoticeDialog;
+import net.minecraft.dialog.type.ServerLinksDialog;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSources;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,6 +225,26 @@ public class Touhou implements ModInitializer {
             }
         });
 
+        ItemPostHitCallback.EVENT.register((stack, target, attacker) -> {
+            MinecraftServer server = target.getServer();
+            if (server != null  && target.getWorld() instanceof ServerWorld serverWorld && Unit.INSTANCE.equals(stack.getOrDefault(ModDataComponentTypes.SILVER_ITEM, null))) {
+                DynamicRegistryManager.Immutable registryManager = server.getRegistryManager();
+                Registry<EntityType<?>> entityTypes = registryManager.getOrThrow(RegistryKeys.ENTITY_TYPE);
+                DamageSources damageSources = attacker.getDamageSources();
+                for (RegistryEntry<EntityType<?>> iterateEntry : entityTypes.iterateEntries(EntityTypeTags.UNDEAD)) {
+                    EntityType<?> value = iterateEntry.value();
+                    if (target.getType() == value) {
+                        target.lastDamageTaken = 0;
+                        target.damage(serverWorld, damageSources.magic(), 2);
+                        target.lastDamageTaken = 0;
+                        break;
+                    }
+                }
+
+            }
+            return true;
+        });
+
         PayloadTypeRegistry.playC2S().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(CustomBytePayload.PACKET_ID, CustomBytePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(CustomBytePayload.PACKET_ID, CustomBytePayload.Receiver::receiveServer);
@@ -229,7 +268,6 @@ public class Touhou implements ModInitializer {
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         PolymerResourcePackUtils.markAsRequired();
         ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"), id("entity"));
-
     }
 
     public static String getSystemLanguage() {

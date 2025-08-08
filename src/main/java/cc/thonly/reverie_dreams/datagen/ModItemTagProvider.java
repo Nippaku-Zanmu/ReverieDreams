@@ -31,6 +31,7 @@ import java.util.function.BiConsumer;
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final Set<Item> FENCES = new HashSet<>();
     public static final Set<Item> FENCE_GATES = new HashSet<>();
+    public static final Set<Item> WALLS = new HashSet<>();
     public static final Set<Item> STAIRS = new HashSet<>();
     public static final Set<Item> SLABS = new HashSet<>();
     public static final Set<Item> BUTTONS = new HashSet<>();
@@ -68,7 +69,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         // === 工具材料 ===
         valueLookupBuilder(ModTags.ItemTypeTag.SILVER_TOOL_MATERIALS).add(ModItems.SILVER_INGOT);
-        valueLookupBuilder(ModTags.ItemTypeTag.MAGIC_ICE_TOOL_MATERIALS).add(ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        valueLookupBuilder(ModTags.ItemTypeTag.MAGIC_ICE_TOOL_MATERIALS).add(ModItems.ICE_SCALES);
 
         // === 自定义方块 ===
         valueLookupBuilder(ModTags.ItemTypeTag.ORB_BLOCK).add(
@@ -91,6 +92,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         Map<TagKey<Item>, Collection<? extends ItemConvertible>> blockItemGroups = Map.of(
                 ItemTags.FENCES, FENCES,
                 ItemTags.FENCE_GATES, FENCE_GATES,
+                ItemTags.WALLS, WALLS,
                 ItemTags.STAIRS, STAIRS,
                 ItemTags.SLABS, SLABS,
                 ItemTags.BUTTONS, BUTTONS,
@@ -110,6 +112,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
             villagerPlantableSeeds.add(seed);
             seeds.add(seed);
         }
+
+        ProvidedTagBuilder<Item, Item> pigFoods = valueLookupBuilder(ItemTags.PIG_FOOD);
+        pigFoods.add(MIItems.WHITE_RADISH);
 
         // === 模组兼容扩展 ===
         this.configureCompat(wrapperLookup);

@@ -29,16 +29,22 @@ public class BaguaFurnace extends BasicPolymerItem {
         if (!world.isClient() && user instanceof ServerPlayerEntity player) {
             ServerWorld serverWorld = (ServerWorld) world;
             DelayedTask.repeat(world.getServer(), 200, 1, () -> {
+                if (user.getStackInHand(hand).getItem() != this) {
+                    return;
+                }
                 float pitch = user.getPitch();
                 float yaw = user.getYaw();
                 DanmakuEntity entity = DanmakuTrajectory.spawnByItemStack(
                         serverWorld, user, user.getX(), user.getY(), user.getZ(),
-                        DanmakuTypes.random(DanmakuTypes.LASER),
+                        DanmakuTypes.random(DanmakuTypes.BIG_LASER),
                         pitch, yaw, 1.6f, 0f, 0.0f, 1.5f
                 );
             });
             serverWorld.playSound(null, user.getBlockPos(), SoundEventInit.BAGUA, SoundCategory.PLAYERS);
             DelayedTask.repeat(world.getServer(), 1, 5 * 20, () -> {
+                if (user.getStackInHand(hand).getItem() != this) {
+                    return;
+                }
                 serverWorld.playSound(null, user.getBlockPos(), SoundEventInit.BAGUA, SoundCategory.PLAYERS);
             });
 

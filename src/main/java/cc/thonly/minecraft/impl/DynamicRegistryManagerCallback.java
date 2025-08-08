@@ -31,7 +31,7 @@ public interface DynamicRegistryManagerCallback {
             for (DynamicRegistryFactory<?> factory : CALLBACKS) {
                 if (factory.registryKey == registryKey) {
                     Optional<? extends Registry<?>> optional = registryManager.getOptional(factory.registryKey);
-                    optional.ifPresent(registry->{
+                    optional.ifPresent(registry -> {
                         if (registry instanceof SimpleRegistry<?> simpleRegistry) {
                             factory.start(simpleRegistry);
                         }
@@ -39,6 +39,31 @@ public interface DynamicRegistryManagerCallback {
                 }
             }
         }));
+    }
+
+    static void start(DynamicRegistryManager.Immutable registryManager) {
+        Stream<RegistryKey<? extends Registry<?>>> stream = registryManager.streamAllRegistryKeys();
+        stream.forEach((registryKey -> {
+            for (DynamicRegistryFactory<?> factory : CALLBACKS) {
+                if (factory.registryKey == registryKey) {
+                    Optional<? extends Registry<?>> optional = registryManager.getOptional(factory.registryKey);
+                    optional.ifPresent(registry -> {
+                        if (registry instanceof SimpleRegistry<?> simpleRegistry) {
+                            factory.start(simpleRegistry);
+                        }
+                    });
+                }
+            }
+        }));
+    }
+
+    static void start(SimpleRegistry<?> registry) {
+        for (DynamicRegistryFactory<?> factory : CALLBACKS) {
+            if (factory.registryKey == registry.getKey()) {
+                factory.start(registry);
+            }
+        }
+
     }
 
     static <T> DynamicRegistryFactory<T> createFactory(RegistryKey<? extends Registry<T>> registryKey) {
@@ -97,7 +122,8 @@ public interface DynamicRegistryManagerCallback {
         protected void build(SimpleRegistry<T> registry) {
             for (Info<T> registryInfo : this.registryInfos) {
                 if (!(registryInfo.registryEntry instanceof RegistryEntry.Reference<?>)) {
-                    var reference= RegistryEntry.Reference.intrusive(registry, registryInfo.value);;
+                    var reference = RegistryEntry.Reference.intrusive(registry, registryInfo.value);
+                    ;
                     registryInfo.registryEntry = reference;
                     reference.setRegistryKey(registryInfo.key);
                 }
@@ -122,7 +148,7 @@ public interface DynamicRegistryManagerCallback {
 
         protected void buildTags(SimpleRegistry<T> registry) {
             for (TagKeyBuilder<T> tagKeyBuilder : this.tagKeyBuilders) {
-                RegistryEntryList.Named<T> named = registry.tags.computeIfAbsent(tagKeyBuilder.tagKey, x-> NamedAccessor.callNew(registry, tagKeyBuilder.tagKey));
+                RegistryEntryList.Named<T> named = registry.tags.computeIfAbsent(tagKeyBuilder.tagKey, x -> NamedAccessor.callNew(registry, tagKeyBuilder.tagKey));
 
                 for (T value : tagKeyBuilder.values) {
                     RegistryEntry<T> entry = registry.getEntry(value);

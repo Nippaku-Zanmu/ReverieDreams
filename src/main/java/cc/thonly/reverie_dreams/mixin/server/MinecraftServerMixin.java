@@ -36,18 +36,18 @@ public class MinecraftServerMixin {
         Nota.getAPI().server = minecraftServer;
     }
 
-    @Inject(method = "reloadResources", at = @At("TAIL"))
-    public void reload(Collection<String> dataPacks, CallbackInfoReturnable<CompletableFuture<Void>> cir) {
-        MinecraftServer minecraftServer = (MinecraftServer) (Object) this;
-        cir.getReturnValue().handle((value, throwable) -> {
-            try {
-                DynamicRegistryManagerCallback.start(minecraftServer);
-            } catch (Exception err) {
-                log.error("Can't modify dynamic registry manager");
-            }
-            return value;
-        });
-    }
+//    @Inject(method = "reloadResources", at = @At("TAIL"))
+//    public void reload(Collection<String> dataPacks, CallbackInfoReturnable<CompletableFuture<Void>> cir) {
+//        MinecraftServer minecraftServer = (MinecraftServer) (Object) this;
+//        cir.getReturnValue().handle((value, throwable) -> {
+//            try {
+//                DynamicRegistryManagerCallback.start(minecraftServer);
+//            } catch (Exception err) {
+//                log.error("Can't modify dynamic registry manager");
+//            }
+//            return value;
+//        });
+//    }
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void onTickEnd(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {

@@ -9,6 +9,7 @@ import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 
 import java.util.List;
 
@@ -37,6 +38,12 @@ public class ModDataComponentTypes {
 
         }
     }
+
+    public static final ComponentType<Unit> SILVER_ITEM = registerComponent("silver_item",
+            ComponentType.<Unit>builder()
+                    .codec(Unit.CODEC)
+                    .build()
+    );
     public static final ComponentType<Identifier> ROLE_CARD_ID = registerComponent("role_card_id",
             ComponentType.<Identifier>builder()
                     .codec(Identifier.CODEC)
@@ -65,12 +72,12 @@ public class ModDataComponentTypes {
             ComponentType.<RoleFollowerArchive>builder()
                     .codec(RoleFollowerArchive.CODEC)
                     .build()
-            );
+    );
     public static final ComponentType<Boolean> ROLE_CAN_RESPAWN = registerComponent("role_can_respawn",
             ComponentType.<Boolean>builder()
                     .codec(Codec.BOOL)
                     .build()
-            );
+    );
 
     static {
         Danmaku.init();

@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
+import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,11 +14,22 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
 public class BasicDanmakuTypeItem extends BasicPolymerDanmakuItem {
+    protected DanmakuType type;
     public BasicDanmakuTypeItem(String path, Settings settings) {
         super(path, settings, Items.TORCH);
     }
     public BasicDanmakuTypeItem(Identifier identifier, Settings settings) {
         super(identifier, settings, Items.TORCH);
+    }
+
+    public void type(DanmakuType type) {
+        if (this.type == null) {
+            this.type = type;
+        }
+    }
+
+    public DanmakuType type() {
+        return this.type;
     }
 
     @Override

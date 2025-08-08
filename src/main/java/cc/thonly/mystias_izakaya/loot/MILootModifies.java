@@ -3,6 +3,7 @@ package cc.thonly.mystias_izakaya.loot;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.data.ModLootModifies;
 import cc.thonly.reverie_dreams.util.PolymerCropCreator;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.block.Block;
@@ -94,7 +95,7 @@ public class MILootModifies {
             }
         });
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            if (key.equals(OPEN_MINESHAFT_CHEST)) {
+            if (ModLootModifies.COMMON_CHESTS.contains(key)) {
                 List<PolymerCropCreator.Instance> chestDrops = MIBlocks.CHEST_DROPS;
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(UniformLootNumberProvider.create(1, 2))

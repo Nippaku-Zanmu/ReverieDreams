@@ -36,13 +36,6 @@ public class ModBlocks {
     public static final Block MUSIC_BLOCK = registerBlock(new MusicBlock("music_block", AbstractBlock.Settings.copy(Blocks.NOTE_BLOCK)));
 
     public static final WoodCreator SPIRITUAL = WoodCreator.create("spiritual", ModSaplingGenerator.SPIRITUAL_TREE).build();
-
-    //    public static final Block SPIRITUAL_SIGN = registerBlock(new BasicPolymerSignBlock("spiritual_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-//    public static final Block SPIRITUAL_WALL_SIGN = registerBlock(new BasicPolymerWallSignBlock("spiritual_wall_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-//    public static final SignBlockGroup SPIRITUAL_SIGN_GROUP = registerSignBlock(SPIRITUAL_SIGN, SPIRITUAL_WALL_SIGN);
-//    public static final Block SPIRITUAL_HANGING_SIGN = registerBlock(new BasicPolymerHangingSignBlock("spiritual_hanging_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-//    public static final Block WALL_SPIRITUAL_HANGING_SIGN = registerBlock(new BasicPolymerWallHangingSignBlock("spiritual_wall_hanging_sign", ModWoodTypes.SPIRITUAL_WOOD_TYPE, AbstractBlock.Settings.copy(SPIRITUAL_PLANKS)));
-//    public static final HangingSignBlockGroup SPIRITUAL_HANGING_SIGN_GROUP = registerHangSignBlock(SPIRITUAL_HANGING_SIGN, WALL_SPIRITUAL_HANGING_SIGN);
     public static final Block MAGIC_ICE_BLOCK = registerCopyBlock(new MagicIceBlock("magic_ice", Blocks.ICE, AbstractBlock.Settings.copy(Blocks.BLUE_ICE)));
     public static final Block POINT_BLOCK = registerBlock(new BasicPolymerBlock("point_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));
     public static final Block POWER_BLOCK = registerBlock(new BasicPolymerBlock("power_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));

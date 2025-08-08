@@ -168,14 +168,18 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.IBUKIHO, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SWORD_OF_HISOU, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAPLE_LEAF_FAN, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.MANPOZUCHI, Models.HANDHELD);
-        itemModelGenerator.register(ModItems.NUE_TRIDENT);
+        itemModelGenerator.register(ModItems.MANPOZUCHI);
+//        itemModelGenerator.register(ModItems.NUE_TRIDENT);
         itemModelGenerator.register(ModItems.TRUMPET_GUN);
         itemModelGenerator.register(ModItems.TREASURE_HUNTING_ROD, Models.HANDHELD);
         itemModelGenerator.register(ModItems.VIOLIN);
         itemModelGenerator.register(ModItems.KEYBOARD);
         itemModelGenerator.register(ModItems.TRUMPET);
         itemModelGenerator.register(ModItems.DEATH_SCYTHE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MAID_HAIRBAND, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAID_UPPER_SKIRT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAID_LOWER_SKIRT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAID_SHOE, Models.GENERATED);
 
         // 工具矿物类
         itemModelGenerator.register(ModItems.RAW_SILVER, Models.GENERATED);
@@ -190,6 +194,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SILVER_CHESTPLATE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SILVER_LEGGINGS, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SILVER_BOOTS, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.ICE_SCALES, Models.GENERATED);
         itemModelGenerator.register(ModItems.MAGIC_ICE_SWORD, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAGIC_ICE_AXE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.MAGIC_ICE_PICKAXE, Models.HANDHELD);
@@ -227,7 +232,7 @@ public class ModModelProvider extends FabricModelProvider {
 //        itemModelGenerator.register(ModItems.DEBUG_SPELL_CARD_ITEM2, Models.GENERATED);
 
         this.generateGuiItemModels(itemModelGenerator);
-        this.generateBulletItemModels(itemModelGenerator);
+        this.generateDanmakuItemModels(itemModelGenerator);
         this.generateHolder(itemModelGenerator);
         this.generateMIItem(itemModelGenerator);
     }
@@ -269,7 +274,7 @@ public class ModModelProvider extends FabricModelProvider {
 //        itemModelGenerator.register(item, guiSlotModel);
     }
 
-    public void generateBulletItemModels(ItemModelGenerator itemModelGenerator) {
+    public void generateDanmakuItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : RegistryManager.DANMAKU_TYPE.values()
                 .stream()
                 .filter(type -> !DanmakuTypes.UNLIST.contains(type))

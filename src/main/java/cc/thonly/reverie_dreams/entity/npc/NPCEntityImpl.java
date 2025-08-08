@@ -476,7 +476,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
                 player.swingHand(hand);
                 return ActionResult.SUCCESS_SERVER;
             }
-            if (stack.getItem() != ModItems.OWNER_STICK && ((this.isOwner(player) || (player.isCreative()) && this.isTamed())) && !this.getWorld().isClient()) {
+            if (stack.getItem() != ModItems.OWNER_STICK && (((this.isOwner(player) || (player.isCreative())) && this.isTamed())) && !this.getWorld().isClient()) {
                 if (player instanceof ServerPlayerEntity serverPlayerEntity) {
                     if (serverPlayerEntity.isSneaking()) {
                         this.setTarget(null);

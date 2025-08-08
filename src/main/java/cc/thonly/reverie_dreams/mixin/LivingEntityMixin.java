@@ -3,10 +3,13 @@ package cc.thonly.reverie_dreams.mixin;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
 import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
+import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
+import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.world.WorldGetter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -15,6 +18,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -71,6 +75,9 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     @Nullable
     public abstract EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
 
+    @Shadow
+    public abstract ItemStack getEquippedStack(EquipmentSlot slot);
+
     @Unique
     public double manpozuchiUsingState = 1;
     @Unique
@@ -117,6 +124,29 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 //
 //        ci.setReturnValue(modifiedMaxHealth);
 //    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tickBefore(CallbackInfo ci) {
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
+        this.onEarphoneTick(livingEntity, ci);
+        this.onKoishiHeadTick(livingEntity, ci);
+    }
+
+    @Unique
+    public void onEarphoneTick(LivingEntity livingEntity, CallbackInfo ci) {
+        ItemStack stack = this.getEquippedStack(EquipmentSlot.HEAD);
+        if (!stack.isEmpty() && stack.getItem() instanceof EarphoneItem) {
+            EarphoneItem.onUseTick(this.getWorld(), livingEntity, stack);
+        }
+    }
+
+    @Unique
+    public void onKoishiHeadTick(LivingEntity livingEntity, CallbackInfo ci) {
+        ItemStack stack = this.getEquippedStack(EquipmentSlot.HEAD);
+        if (!stack.isEmpty() && stack.getItem() instanceof KoishiHatItem) {
+            KoishiHatItem.onUseTick(this.getWorld(), livingEntity, stack);
+        }
+    }
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
@@ -190,6 +220,14 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
         boolean bl2 = this.deathInKanju(world, source, amount, cir);
         if (!bl1 && !bl2) {
             this.deathByDanmakuEntity(world, source, amount, cir);
+            if ((this.getHealth() - amount <= 0f)) {
+                EntityAttributeInstance maxHealthAttributeInstance = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
+                if (maxHealthAttributeInstance != null) {
+                    if (this.getMaxHealth() > 20) {
+                        maxHealthAttributeInstance.setBaseValue(this.getMaxHealth() - 2);
+                    }
+                }
+            }
         }
     }
 
@@ -268,7 +306,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
                 this.kanjuWorld = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier.of(kanjuWorldStr)));
             }
         }
-        this.kanjuBlockPos = BlockPos.fromLong(view.getLong("KanjuBlockPos", new BlockPos(0,0,0).asLong()));
+        this.kanjuBlockPos = BlockPos.fromLong(view.getLong("KanjuBlockPos", new BlockPos(0, 0, 0).asLong()));
     }
 
     @Override

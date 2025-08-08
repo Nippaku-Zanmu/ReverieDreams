@@ -24,7 +24,6 @@ public class VaisravanasPagodaItem extends BasicItem {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             ItemStack itemStack = user.getStackInHand(hand);
-            itemStack.decrementUnlessCreative(1, user);
             float pitch = user.getPitch();
             float yaw = user.getYaw();
             for (int i = 0; i < 3; i++) {
@@ -39,6 +38,7 @@ public class VaisravanasPagodaItem extends BasicItem {
             }
             ItemCooldownManager itemCooldownManager = user.getItemCooldownManager();
             itemCooldownManager.set(itemStack, 20 * 10);
+            itemStack.damage(1, user);
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEventInit.FIRE, SoundCategory.NEUTRAL, 1f, 1.0f);
 
             return ActionResult.SUCCESS_SERVER;

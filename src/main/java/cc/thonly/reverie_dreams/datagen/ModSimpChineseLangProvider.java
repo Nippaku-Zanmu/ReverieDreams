@@ -513,13 +513,14 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
 
         // 地灵殿
         builder.addRoleEntity(NPCRoles.KISUME, "琪斯美", "刷怪蛋");
-        builder.addRoleEntity(NPCRoles.KURODANI_YAMAME, "黑山谷女", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.KURODANI_YAMAME, "黑谷山女", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.MIZUHASHI_PARSEE, "水桥帕露西", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.HOSHIGUMA_YUGI, "星熊勇仪", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.KAENBYOU_RIN, "火焰猫燐", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.KOMEIJI_SATORI, "古明地觉", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.REIUJI_UTSUH, "灵乌路空", "刷怪蛋");
         builder.addRoleEntity(NPCRoles.KOMEIJI_KOISHI, "古明地恋", "刷怪蛋");
+        builder.addRoleEntity(NPCRoles.WHITE_KOMEIJI_KOISHI, "白色古明地恋", "刷怪蛋");
 
         // 星莲船
         builder.addRoleEntity(NPCRoles.NAZRIN, "纳兹琳", "刷怪蛋");
@@ -619,6 +620,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.ICON, "Gensokyo: Reverie of Lost Dreams");
         translationBuilder.add(ModItems.FUMO_ICON, "毛绒玩偶图标");
         translationBuilder.add(ModItems.SPAWN_EGG, "刷怪蛋");
+        translationBuilder.add(ModItems.DANMAKU, "弹幕");
 
         // 材料
         translationBuilder.add(ModItems.POINT, "Point");
@@ -683,6 +685,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.SILVER_CHESTPLATE, "银胸甲");
         translationBuilder.add(ModItems.SILVER_LEGGINGS, "银护腿");
         translationBuilder.add(ModItems.SILVER_BOOTS, "银靴子");
+        translationBuilder.add(ModItems.ICE_SCALES, "冰之鳞");
         translationBuilder.add(ModItems.MAGIC_ICE_SWORD, "冰剑");
         translationBuilder.add(ModItems.MAGIC_ICE_AXE, "冰斧");
         translationBuilder.add(ModItems.MAGIC_ICE_PICKAXE, "冰稿");
@@ -692,6 +695,10 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.MAGIC_ICE_CHESTPLATE, "冰胸甲");
         translationBuilder.add(ModItems.MAGIC_ICE_LEGGINGS, "冰护腿");
         translationBuilder.add(ModItems.MAGIC_ICE_BOOTS, "冰靴子");
+        translationBuilder.add(ModItems.MAID_HAIRBAND, "女仆发卡");
+        translationBuilder.add(ModItems.MAID_UPPER_SKIRT, "女仆上衣");
+        translationBuilder.add(ModItems.MAID_LOWER_SKIRT, "女仆裙");
+        translationBuilder.add(ModItems.MAID_SHOE, "女仆鞋子");
         translationBuilder.add(ModItems.SPELL_CARD_TEMPLATE, "符卡模板");
 
 
@@ -781,7 +788,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.SPIRITUAL.stair(), "绳文杉楼梯");
         translationBuilder.add(ModBlocks.SPIRITUAL.slab(), "绳文杉台阶");
         translationBuilder.add(ModBlocks.SPIRITUAL.door(), "绳文杉门");
-//        translationBuilder.add(ModBlocks.SPIRITUAL.trapdoor(), "绳文杉活版门");
+        translationBuilder.add(ModBlocks.SPIRITUAL.trapdoor(), "绳文杉活版门");
         translationBuilder.add(ModBlocks.SPIRITUAL.fence(), "绳文杉栅栏");
         translationBuilder.add(ModBlocks.SPIRITUAL.fenceGate(), "绳文杉栅栏门");
         translationBuilder.add(ModBlocks.SPIRITUAL.button(), "绳文杉按钮");
@@ -796,7 +803,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.LEMON.stair(), "柠檬楼梯");
         translationBuilder.add(MIBlocks.LEMON.slab(), "柠檬台阶");
         translationBuilder.add(MIBlocks.LEMON.door(), "柠檬门");
-//        translationBuilder.add(MIBlocks.LEMON.trapdoor(), "柠檬活版门");
+        translationBuilder.add(MIBlocks.LEMON.trapdoor(), "柠檬活版门");
         translationBuilder.add(MIBlocks.LEMON.fence(), "柠檬栅栏");
         translationBuilder.add(MIBlocks.LEMON.fenceGate(), "柠檬栅栏门");
         translationBuilder.add(MIBlocks.LEMON.button(), "柠檬按钮");
@@ -812,7 +819,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.GINKGO.stair(), "白果楼梯");
         translationBuilder.add(MIBlocks.GINKGO.slab(), "白果台阶");
         translationBuilder.add(MIBlocks.GINKGO.door(), "白果门");
-//        translationBuilder.add(MIBlocks.GINKGO.trapdoor(), "白果活版门");
+        translationBuilder.add(MIBlocks.GINKGO.trapdoor(), "白果活版门");
         translationBuilder.add(MIBlocks.GINKGO.fence(), "白果栅栏");
         translationBuilder.add(MIBlocks.GINKGO.fenceGate(), "白果栅栏门");
         translationBuilder.add(MIBlocks.GINKGO.button(), "白果按钮");
@@ -828,7 +835,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.PEACH.stair(), "桃木楼梯");
         translationBuilder.add(MIBlocks.PEACH.slab(), "桃木台阶");
         translationBuilder.add(MIBlocks.PEACH.door(), "桃木门");
-//        translationBuilder.add(MIBlocks.PEACH.trapdoor(), "桃木活版门");
+        translationBuilder.add(MIBlocks.PEACH.trapdoor(), "桃木活版门");
         translationBuilder.add(MIBlocks.PEACH.fence(), "桃木栅栏");
         translationBuilder.add(MIBlocks.PEACH.fenceGate(), "桃木栅栏门");
         translationBuilder.add(MIBlocks.PEACH.button(), "桃木按钮");
@@ -945,6 +952,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(DanmakuTypes.RICE.getItem(), "米弹");
         translationBuilder.add(DanmakuTypes.STAR.getItem(), "星弹");
         translationBuilder.add(DanmakuTypes.LASER.getItem(), "激光");
+        translationBuilder.add(DanmakuTypes.BIG_LASER.getItem(), "大激光");
 
 //        for (IDanmakuItem itemEntry : ModItems.DANMAKU_ITEMS) {
 //            List<BasicDanmakuItemTypeItem> values = itemEntry.getValues();

@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.gui.recipe.RecipeTypeCategoryGui;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
 import cc.thonly.reverie_dreams.server.DelayedTask;
@@ -9,6 +10,7 @@ import eu.pb4.sgui.api.gui.BookGui;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.component.type.WrittenBookContentComponent;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -91,7 +93,8 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("导航目录："),
                     Text.empty().append("> [祭坛摆放]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(3))),
                     Text.empty().append("> [弹幕合成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(4))),
-                    Text.empty().append("> [Fumo制作]"),
+                    Text.empty().append("> [Fumo制作]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(6))),
+                    Text.empty().append("> [角色养成]").setStyle(Style.EMPTY.withClickEvent(new ClickEvent.ChangePage(7))),
                     Text.empty().append("").setStyle(Style.EMPTY),
                     Text.empty().append("配方管理器：/touhou recipe").setStyle(Style.EMPTY)
             );
@@ -135,6 +138,18 @@ public class TouhouHelperItem extends BasicPolymerItem {
                     Text.empty().append("§c⏹ -> ").append(Text.translatable(ModItems.POWER.getTranslationKey())),
                     Text.empty().append("§d⏹ -> ").append(Text.translatable(ModItems.POINT.getTranslationKey())),
                     Text.empty().append("§e⏹ -> ")
+            );
+            // 6
+            builder.addPage(
+                    Text.empty().append("Fumo是指由日本株式会社Gift出品的一系列东方Project角色的布制玩偶，因其商品名带有“ふもふも（fumofumo）”字样而得名。"),
+                    Text.empty().append(Text.translatable(ModItems.FUMO_LICENSE.getTranslationKey())).append("+").append(EntityType.VILLAGER.getTranslationKey()).append("=>").append(ModEntities.FUMO_SELLER_VILLAGER.getTranslationKey()),
+                    Text.empty().append("提示：每一天Fumo商人都会刷新新的Fumo，不要拖太久买哦!")
+            );
+            // 7
+            builder.addPage(
+                    Text.empty().append("角色是指本Mod中的随从角色，可以使用蛋糕驯服，拥有背包，功能类似女仆"),
+                    Text.empty().append("角色可通过合成角色卡概率随机获取一种东方Project角色"),
+                    Text.empty().append("角色死亡后会变成").append(Text.translatable(ModItems.ROLE_ARCHIVE.getTranslationKey())).append("，需要在祭坛摆放一圈").append(Items.DIAMOND.getTranslationKey()).append("x4才能复活你的角色")
             );
 
             builder.signed();

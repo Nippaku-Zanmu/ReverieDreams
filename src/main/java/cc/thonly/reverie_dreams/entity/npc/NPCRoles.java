@@ -67,6 +67,7 @@ public class NPCRoles extends AbstractSkinBootstrap {
     public static final NPCRole KOMEIJI_SATORI = registerRole(new NPCRole(Touhou.id("komeiji_satori"), RoleSkins.KOMEIJI_SATORI));
     public static final NPCRole REIUJI_UTSUH = registerRole(new NPCRole(Touhou.id("reiuji_utsuh"), RoleSkins.REIUJI_UTSUH));
     public static final NPCRole KOMEIJI_KOISHI = registerRole(new NPCRole(Touhou.id("komeiji_koishi"), RoleSkins.KOMEIJI_KOISHI));
+    public static final NPCRole WHITE_KOMEIJI_KOISHI = registerRole(new NPCRole(Touhou.id("white_komeiji_koishi"), RoleSkins.WHITE_KOMEIJI_KOISHI));
 
     // 星莲船
     public static final NPCRole NAZRIN = registerRole(new NPCRole(Touhou.id("nazrin"), RoleSkins.NAZRIN));

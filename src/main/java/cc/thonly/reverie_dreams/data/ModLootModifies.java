@@ -2,6 +2,7 @@ package cc.thonly.reverie_dreams.data;
 
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.entity.HairballEntity;
@@ -20,7 +21,9 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetComponentsLootFunction;
+import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -29,6 +32,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,35 +45,72 @@ public class ModLootModifies {
     public static final RegistryKey<LootTable> VILLAGE_SAVANNA_HOUSE_CHEST = LootTables.VILLAGE_SAVANNA_HOUSE_CHEST;
     public static final RegistryKey<LootTable> PILLAGER_OUTPOST_CHEST = LootTables.PILLAGER_OUTPOST_CHEST;
     public static final RegistryKey<LootTable> SIMPLE_DUNGEON_CHEST = LootTables.PILLAGER_OUTPOST_CHEST;
+    public static final List<RegistryKey<LootTable>> COMMON_CHESTS = new ArrayList<>(
+            List.of(
+                    VILLAGE_WEAPONSMITH_CHEST,
+                    END_CITY_TREASURE_CHEST,
+                    OPEN_MINESHAFT_CHEST,
+                    NETHER_BRIDGE_CHEST,
+                    VILLAGE_PLAINS_CHEST,
+                    VILLAGE_SAVANNA_HOUSE_CHEST,
+                    PILLAGER_OUTPOST_CHEST,
+                    SIMPLE_DUNGEON_CHEST
+            )
+    );
 
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            if (
-                            key.equals(OPEN_MINESHAFT_CHEST)
-                         || key.equals(NETHER_BRIDGE_CHEST)
-                         || key.equals(VILLAGE_PLAINS_CHEST)
-                         || key.equals(VILLAGE_SAVANNA_HOUSE_CHEST)
-                         || key.equals(PILLAGER_OUTPOST_CHEST)
-                         || key.equals(SIMPLE_DUNGEON_CHEST)
-            ) {
+            Optional<RegistryKey<LootTable>> lootTableKey = Blocks.ICE.getLootTableKey();
+            if (lootTableKey.isPresent() && lootTableKey.get().equals(key)) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.2f));
-                for (var item : ModItems.getDiscItemView()) {
-                    poolBuilder.with(ItemEntry.builder(item).weight(8));
-                }
-                poolBuilder.with(ItemEntry.builder(ModItems.UPGRADED_HEALTH_FRAGMENT).weight(10));
-                poolBuilder.with(ItemEntry.builder(ModItems.BOMB_FRAGMENT).weight(10));
-                poolBuilder.with(ItemEntry.builder(ModItems.UPGRADED_HEALTH).weight(10));
-                poolBuilder.with(ItemEntry.builder(ModItems.BOMB).weight(10));
+                        .conditionally(RandomChanceLootCondition.builder(0.1f));
+
+                poolBuilder.with(ItemEntry.builder(ModBlocks.MAGIC_ICE_BLOCK).weight(10));
                 tableBuilder.pool(poolBuilder);
+            }
+        });
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (
+                    COMMON_CHESTS.contains(key)
+            ) {
+                // disc pool
+                LootPool.Builder discPool = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.4f));
+                for (var item : ModItems.getDiscItemView()) {
+                    discPool.with(ItemEntry.builder(item).weight(8));
+                }
+                tableBuilder.pool(discPool);
+
+                LootPool.Builder fragmentPool = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.3f));
+                fragmentPool.with(
+                        ItemEntry.builder(ModItems.UPGRADED_HEALTH_FRAGMENT)
+                                .weight(10)
+                                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
+                );
+                fragmentPool.with(
+                        ItemEntry.builder(ModItems.BOMB_FRAGMENT)
+                                .weight(10)
+                                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
+                );
+                tableBuilder.pool(fragmentPool);
+
+                LootPool.Builder rarePool = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.2f));
+                rarePool.with(ItemEntry.builder(ModItems.UPGRADED_HEALTH).weight(10));
+                rarePool.with(ItemEntry.builder(ModItems.BOMB).weight(10));
+                tableBuilder.pool(rarePool);
             }
         });
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (key.equals(OPEN_MINESHAFT_CHEST) || key.equals(VILLAGE_WEAPONSMITH_CHEST) || key.equals(END_CITY_TREASURE_CHEST)) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.2f));
+                        .conditionally(RandomChanceLootCondition.builder(0.4f));
                 for (var entry : SpellCardTemplates.getRegistryItemStackView().entrySet()) {
                     ItemStack itemStack = entry.getValue();
                     String templateId = itemStack.get(ModDataComponentTypes.Danmaku.TEMPLATE);

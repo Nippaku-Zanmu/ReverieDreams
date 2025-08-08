@@ -1,7 +1,6 @@
 package cc.thonly.reverie_dreams.mixin;
 
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
-import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -18,19 +17,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
-    }
-
-    @Inject(method = "tick", at = @At("HEAD"))
-    public void onEarphoneTick(CallbackInfo ci) {
-        ItemStack stack = this.getEquippedStack(EquipmentSlot.HEAD);
-        if (!stack.isEmpty()) {
-            if (stack.getItem() instanceof EarphoneItem) {
-                EarphoneItem.onUseTick(this.getWorld(), this, stack);
-            }
-            if (stack.getItem() instanceof KoishiHatItem) {
-                KoishiHatItem.onUseTick(this.getWorld(), this, stack);
-            }
-        }
     }
 
 //    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)

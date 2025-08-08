@@ -31,7 +31,7 @@ public class ModItemGroups {
     public static final RegistryKey<ItemGroup> ROLE_CARD_ITEM_GROUP_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Touhou.id("item_group_role_card"));
 
     public static final ItemGroup ITEM_GROUP = PolymerItemGroupUtils.builder()
-            .icon(() -> new ItemStack(ModItems.ICON))
+            .icon(() -> new ItemStack(ModItems.POWER))
             .displayName(Text.translatable("item_group.touhou_block_and_item"))
             .build();
     public static final ItemGroup ITEM_GROUP_BULLET = PolymerItemGroupUtils.builder()

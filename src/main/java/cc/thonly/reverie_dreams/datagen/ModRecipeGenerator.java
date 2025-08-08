@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.datagen;
 
+import autovalue.shaded.kotlin.collections.builders.MapBuilder;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.block.ModBlocks;
@@ -18,9 +19,12 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModRecipeGenerator extends RecipeGenerator {
     public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModBlocks.DEEPSLATE_SILVER_ORE.asItem(), ModItems.RAW_SILVER);
@@ -115,6 +119,7 @@ public class ModRecipeGenerator extends RecipeGenerator {
         this.generateWorkBlock();
         this.generateOrb();
         this.generateSilver();
+        this.generateMaid();
         this.generateMagicIce();
         this.generateMusicBlock();
         this.generateIngredient();
@@ -375,9 +380,34 @@ public class ModRecipeGenerator extends RecipeGenerator {
         offerSmelting(SILVER, RecipeCategory.MISC, ModBlocks.SILVER_ORE, 0.7F, 250, "silver_ingot");
         offerBlasting(SILVER, RecipeCategory.MISC, ModBlocks.SILVER_ORE, 0.7F, 250, "silver_ingot");
 
+
+    }
+
+    private void generateMaid() {
+        Map<Item, Item> itemItemMap = new HashMap<>(
+                Map.of(
+                        ModItems.SILVER_HELMET, ModItems.MAID_HAIRBAND,
+                        ModItems.SILVER_CHESTPLATE, ModItems.MAID_UPPER_SKIRT,
+                        ModItems.SILVER_LEGGINGS, ModItems.MAID_LOWER_SKIRT,
+                        ModItems.SILVER_BOOTS, ModItems.MAID_SHOE
+                )
+        );
+        for (Map.Entry<Item, Item> itemItemEntry : itemItemMap.entrySet()) {
+            Item left = itemItemEntry.getKey();
+            Item right = itemItemEntry.getValue();
+            createShaped(RecipeCategory.REDSTONE, right)
+                    .pattern("XXX")
+                    .pattern("X#X")
+                    .pattern("XXX")
+                    .input('X', ItemTags.WOOL)
+                    .input('#', left)
+                    .criterion("has_wool", conditionsFromTag(ItemTags.WOOL))
+                    .offerTo(exporter, getRecipeName(right));
+        }
     }
 
     private void generateMagicIce() {
+
         // 魔法冰
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.MAGIC_ICE_BLOCK)
                 .pattern("XXX")
@@ -388,11 +418,11 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .offerTo(exporter, getRecipeName(ModBlocks.MAGIC_ICE_BLOCK));
 
         // 冰武器/工具
-        offerSwordRecipe(exporter, ModItems.MAGIC_ICE_SWORD, ModBlocks.MAGIC_ICE_BLOCK.asItem());
-        offerPickaxeRecipe(exporter, ModItems.MAGIC_ICE_PICKAXE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
-        offerAxeRecipe(exporter, ModItems.MAGIC_ICE_AXE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
-        offerShovelRecipe(exporter, ModItems.MAGIC_ICE_SHOVEL, ModBlocks.MAGIC_ICE_BLOCK.asItem());
-        offerHoeRecipe(exporter, ModItems.MAGIC_ICE_HOE, ModBlocks.MAGIC_ICE_BLOCK.asItem());
+        offerSwordRecipe(exporter, ModItems.MAGIC_ICE_SWORD, ModItems.ICE_SCALES);
+        offerPickaxeRecipe(exporter, ModItems.MAGIC_ICE_PICKAXE, ModItems.ICE_SCALES);
+        offerAxeRecipe(exporter, ModItems.MAGIC_ICE_AXE, ModItems.ICE_SCALES);
+        offerShovelRecipe(exporter, ModItems.MAGIC_ICE_SHOVEL, ModItems.ICE_SCALES);
+        offerHoeRecipe(exporter, ModItems.MAGIC_ICE_HOE, ModItems.ICE_SCALES);
 
         // 冰盔甲
         offerHelmetRecipe(exporter, ModItems.MAGIC_ICE_HELMET, ModBlocks.MAGIC_ICE_BLOCK.asItem());
