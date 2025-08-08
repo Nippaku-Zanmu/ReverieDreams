@@ -1,10 +1,15 @@
 package cc.thonly.reverie_dreams.item.weapon;
 
 import cc.thonly.reverie_dreams.data.ModTags;
+import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
+import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -13,6 +18,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
@@ -20,7 +26,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +105,14 @@ public class TreasureHuntingRod extends BasicPolymerSwordItem {
                             "message.treasure_hunting_rod.find", roundedDistance, dx, dy, dz
                     ).append(" ").append(Text.translatable(closestOreBlock.getTranslationKey()));
 
-                    player.sendMessage(message, false);
+//                    player.sendMessage(message, false);
+
+                    OreEspEntity oreEspEntity = ModEntities.ORE_ESP_ENTITY_TYPE.create(world, SpawnReason.EVENT);
+                    oreEspEntity.setBlockState(world.getBlockState(closestOrePos));
+                    oreEspEntity.setPosition(new Vec3d(closestOrePos));
+
+                    oreEspEntity.setGlowing(true);
+                    world.spawnEntity(oreEspEntity);
 
                     world.playSound(null, player.getX(), player.getEyeY(), player.getZ(),
                             SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(),
@@ -127,6 +142,29 @@ public class TreasureHuntingRod extends BasicPolymerSwordItem {
             }
         }
         return false;
+    }
+
+    public static class OreEspEntity extends DisplayEntity.BlockDisplayEntity implements PolymerEntity {
+        public int lifetime = 100;
+
+        public OreEspEntity(EntityType<?> entityType, World world ) {
+            super(entityType, world);
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (this.getWorld().isClient) return;
+            this.lifetime--;
+            if (lifetime <= 0||this.getWorld().getBlockState(this.getBlockPos()).getBlock()!=this.getBlockState().getBlock()) {
+                this.remove(RemovalReason.DISCARDED);
+            }
+        }
+
+        @Override
+        public EntityType<?> getPolymerEntityType(PacketContext packetContext) {
+            return EntityType.BLOCK_DISPLAY;
+        }
     }
 
 }
