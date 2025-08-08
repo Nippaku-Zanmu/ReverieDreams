@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.item;
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntity;
 import cc.thonly.reverie_dreams.entity.ModEntities;
+import cc.thonly.reverie_dreams.entity.misc.MagicBroomEntityTest;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerSwordItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -29,7 +30,7 @@ public class MagicBroom extends BasicPolymerSwordItem {
         BlockPos blockPos = context.getBlockPos();
         Hand hand = context.getHand();
         if (!world.isClient() && player != null) {
-            MagicBroomEntity entity = new MagicBroomEntity(ModEntities.BROOM_ENTITY_TYPE, world, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), itemStack.copy(), player.getUuid().toString().intern());
+            MagicBroomEntityTest entity = new MagicBroomEntityTest(ModEntities.BROOM_ENTITY_TYPE_TEST, world, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), itemStack.copy(), player.getUuid().toString().intern());
             world.spawnEntity(entity);
             itemStack.decrementUnlessCreative(1, player);
             player.swingHand(hand);
