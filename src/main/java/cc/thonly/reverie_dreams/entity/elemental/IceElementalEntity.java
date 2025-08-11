@@ -6,22 +6,23 @@ import cc.thonly.reverie_dreams.entity.skin.MobSkins;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 public class IceElementalEntity extends NPCEntityImpl implements ElementalMob {
@@ -100,7 +101,7 @@ public class IceElementalEntity extends NPCEntityImpl implements ElementalMob {
         super.onDeath(damageSource);
         World world = this.getWorld();
         if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-            ItemEntity itemEntity = new ItemEntity(serverWorld, this.getX(), this.getY(), this.getZ(), new ItemStack(ModBlocks.MAGIC_ICE_BLOCK, Random.create().nextBetween(0, 4)), 0, 0.1, 0);
+            ItemEntity itemEntity = new ItemEntity(serverWorld, this.getX(), this.getY(), this.getZ(), new ItemStack(ModBlocks.MAGIC_ICE_BLOCK, Random.create().nextBetween(0, 5)), 0, 0.1, 0);
             world.spawnEntity(itemEntity);
         }
     }
@@ -109,4 +110,34 @@ public class IceElementalEntity extends NPCEntityImpl implements ElementalMob {
     public Boolean canPickItem() {
         return false;
     }
+
+    public static boolean canSpawn(
+            EntityType<? extends MobEntity> type,
+            ServerWorldAccess world,
+            SpawnReason spawnReason,
+            BlockPos pos,
+            Random random
+    ) {
+        ServerWorld serverWorld = world.toServerWorld();
+        // 脚下方块
+        BlockState ground = world.getBlockState(pos.down());
+        boolean isSnowBlock = ground.isOf(Blocks.SNOW_BLOCK)
+                || ground.isOf(Blocks.SNOW)
+                || ground.isOf(Blocks.POWDER_SNOW)
+                || (ground.isOf(Blocks.GRASS_BLOCK) && ground.get(Properties.SNOWY)); // 有雪覆盖的草方块
+
+        if (!isSnowBlock) {
+            return false;
+        }
+
+        // 光照条件（火把等会提高亮度）
+        int light = world.getBaseLightLevel(pos, 0);
+
+        // 世界时间（0~23999，0~12000 白天，12000~23999 夜晚）
+        long timeOfDay = serverWorld.getTimeOfDay() % 24000L;
+        boolean isNight = timeOfDay >= 13000 && timeOfDay <= 23000; // 晚上时间段
+
+        return isNight && light <= 7;
+    }
+
 }

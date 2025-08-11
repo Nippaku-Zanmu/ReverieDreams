@@ -1,11 +1,10 @@
 package cc.thonly.reverie_dreams.block.base;
 
-import cc.thonly.reverie_dreams.block.crop.TransparentPlant;
 import cc.thonly.reverie_dreams.compat.BorukvaFoodCompatImpl;
 import cc.thonly.reverie_dreams.interfaces.IMatureBlock;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import com.mojang.serialization.MapCodec;
 import eu.pb4.factorytools.api.block.FactoryBlock;
 import eu.pb4.factorytools.api.virtualentity.BlockModel;
@@ -24,7 +23,6 @@ import net.minecraft.block.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;

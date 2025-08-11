@@ -26,19 +26,7 @@ public interface DynamicRegistryManagerCallback {
 
     static void start(MinecraftServer server) {
         DynamicRegistryManager.Immutable registryManager = server.getRegistryManager();
-        Stream<RegistryKey<? extends Registry<?>>> stream = registryManager.streamAllRegistryKeys();
-        stream.forEach((registryKey -> {
-            for (DynamicRegistryFactory<?> factory : CALLBACKS) {
-                if (factory.registryKey == registryKey) {
-                    Optional<? extends Registry<?>> optional = registryManager.getOptional(factory.registryKey);
-                    optional.ifPresent(registry -> {
-                        if (registry instanceof SimpleRegistry<?> simpleRegistry) {
-                            factory.start(simpleRegistry);
-                        }
-                    });
-                }
-            }
-        }));
+        start(registryManager);
     }
 
     static void start(DynamicRegistryManager.Immutable registryManager) {
@@ -59,7 +47,7 @@ public interface DynamicRegistryManagerCallback {
 
     static void start(SimpleRegistry<?> registry) {
         for (DynamicRegistryFactory<?> factory : CALLBACKS) {
-            if (factory.registryKey == registry.getKey()) {
+            if (factory.registryKey.equals(registry.getKey())) {
                 factory.start(registry);
             }
         }

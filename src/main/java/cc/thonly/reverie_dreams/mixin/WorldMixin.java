@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.mixin;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.world.WorldGetter;
+import cc.thonly.reverie_dreams.interfaces.IWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(World.class)
 public abstract class WorldMixin implements WorldAccess,
-        AutoCloseable, WorldGetter {
+        AutoCloseable, IWorld {
     @Unique
     private static final RegistryKey<World> DREAM_WORLD = RegistryKey.of(RegistryKeys.WORLD, Touhou.id("dream_world"));
     @Unique

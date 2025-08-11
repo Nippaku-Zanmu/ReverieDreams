@@ -56,10 +56,10 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
         this.speed = speed;
         this.tile = tile;
         this.infinite = infinite;
-        this.register();
+        this.buildItem();
     }
 
-    public void register() {
+    public void buildItem() {
         var item = new BasicDanmakuTypeItem(this.getRegistryKey(), this.createItemSettings()
                 .component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(14606046))
                 .maxDamage(120)
@@ -69,7 +69,7 @@ public class DanmakuType implements RegistrableObject<DanmakuType> {
         Registry.register(Registries.ITEM, Identifier.of(this.id.getNamespace(), "danmaku/" + this.id.getPath()), this.item);
     }
 
-    public List<Pair<Item, ItemStack>> getColorPair() {
+    public List<Pair<Item, ItemStack>> getColorPairs() {
         List<Pair<Item, ItemStack>> pairList = new LinkedList<>();
         ItemStack defaultStack = this.item.getDefaultStack();
         for (Map.Entry<Item, Long> itemLongEntry : ItemColor.getView().entrySet()) {

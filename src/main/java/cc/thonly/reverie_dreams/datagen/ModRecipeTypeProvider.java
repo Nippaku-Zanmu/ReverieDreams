@@ -8,6 +8,7 @@ import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
+import cc.thonly.reverie_dreams.danmaku.DanmakuTypes;
 import cc.thonly.reverie_dreams.datagen.generator.RecipeTypeProvider;
 import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.item.ModItems;
@@ -18,14 +19,11 @@ import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.ItemStackRecipeWrapper;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
@@ -184,7 +182,7 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
                 this.ofItem(Items.COMPASS),
                 List.of(
                         this.ofItem(Items.REDSTONE_BLOCK, 8), this.ofItem(Items.IRON_INGOT, 12), this.ofItem(Items.COAL_BLOCK),
-                        this.ofItem(Items.COPPER_INGOT, 16), this.ofItem(Items.COPPER_INGOT, 16),
+                        this.ofItem(Items.NETHERITE_INGOT, 4), this.ofItem(Items.COPPER_INGOT, 16),
                         this.ofItem(Items.COAL_BLOCK), this.ofItem(Items.IRON_INGOT, 12), this.ofItem(Items.REDSTONE_BLOCK, 8)
                 ),
                 this.ofItem(ModItems.BAGUA_FURNACE)
@@ -1387,22 +1385,24 @@ public class ModRecipeTypeProvider extends RecipeTypeProvider {
         stream.forEach(entry -> {
             Identifier key = entry.getKey();
             DanmakuType type = entry.getValue();
-            for (Pair<Item, ItemStack> pair : type.getColorPair()) {
-                Item dye = pair.getLeft();
-                ItemStack stack = pair.getRight();
-                Item item = stack.getItem();
-                Identifier itemId = Registries.ITEM.getId(item);
-                Identifier dyeId = Registries.ITEM.getId(dye);
-                Identifier registryKey = Identifier.of(itemId.getNamespace(), itemId.getPath() + "_dye_" + dyeId.getPath());
-                DanmakuRecipe recipe = new DanmakuRecipe(
-                        new ItemStackRecipeWrapper(new ItemStack(dye, 1)),
-                        new ItemStackRecipeWrapper(new ItemStack(Items.FIREWORK_STAR, 1)),
-                        new ItemStackRecipeWrapper(new ItemStack(ModItems.POWER, 35)),
-                        new ItemStackRecipeWrapper(new ItemStack(ModItems.POINT, 35)),
-                        new ItemStackRecipeWrapper(ItemStack.EMPTY),
-                        new ItemStackRecipeWrapper(stack)
-                );
-                this.danmakuRegistry.register(registryKey, recipe);
+            if (!DanmakuTypes.UNLIST.contains(type)) {
+                for (Pair<Item, ItemStack> pair : type.getColorPairs()) {
+                    Item dye = pair.getLeft();
+                    ItemStack stack = pair.getRight();
+                    Item item = stack.getItem();
+                    Identifier itemId = Registries.ITEM.getId(item);
+                    Identifier dyeId = Registries.ITEM.getId(dye);
+                    Identifier registryKey = Identifier.of(itemId.getNamespace(), itemId.getPath() + "_dye_" + dyeId.getPath());
+                    DanmakuRecipe recipe = new DanmakuRecipe(
+                            new ItemStackRecipeWrapper(new ItemStack(dye, 1)),
+                            new ItemStackRecipeWrapper(new ItemStack(Items.FIREWORK_STAR, 1)),
+                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POWER, 35)),
+                            new ItemStackRecipeWrapper(new ItemStack(ModItems.POINT, 35)),
+                            new ItemStackRecipeWrapper(ItemStack.EMPTY),
+                            new ItemStackRecipeWrapper(stack)
+                    );
+                    this.danmakuRegistry.register(registryKey, recipe);
+                }
             }
         });
     }

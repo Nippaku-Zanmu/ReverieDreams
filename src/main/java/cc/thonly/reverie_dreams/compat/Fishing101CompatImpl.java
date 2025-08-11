@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.compat;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
-import cc.thonly.reverie_dreams.impl.RegistryManagerReloadCallback;
+import cc.thonly.reverie_dreams.api.RegistryManagerReloadCallback;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import net.macck209.fishing101.registries.ItemRegistry;
 import net.minecraft.item.Item;
@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")

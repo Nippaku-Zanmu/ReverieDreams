@@ -93,7 +93,7 @@ public class ModEntities {
                     () -> LivingEntity.createLivingAttributes()
                             .add(EntityAttributes.MAX_HEALTH, 20.0)
                             .add(EntityAttributes.MOVEMENT_SPEED, 0.1)
-                            .add(EntityAttributes.ATTACK_DAMAGE, 0.5)
+                            .add(EntityAttributes.ATTACK_DAMAGE, 3)
                             .add(EntityAttributes.SCALE, 0.8f)
                             .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.1)
                             .add(EntityAttributes.FOLLOW_RANGE, 8.0)

@@ -27,6 +27,10 @@ public class GhostEntity extends NPCEntityImpl {
         super(entityType, world, MobSkins.GHOST.get());
     }
 
+    public GhostEntity(World world) {
+        super(ModEntities.GHOST_ENTITY_TYPE, world, MobSkins.GHOST.get());
+    }
+
     @Override
     public void tick() {
         super.tick();

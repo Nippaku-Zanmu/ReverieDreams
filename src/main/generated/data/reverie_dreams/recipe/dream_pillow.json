@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:emerald",
+    "X": "minecraft:pink_wool",
+    "Y": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "XXX",
+    "Y#Y"
+  ],
+  "result": {
+    "count": 1,
+    "id": "reverie_dreams:dream_pillow"
+  }
+}

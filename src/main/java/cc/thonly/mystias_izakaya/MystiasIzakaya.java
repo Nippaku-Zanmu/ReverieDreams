@@ -1,7 +1,7 @@
 package cc.thonly.mystias_izakaya;
 
 import cc.thonly.mystias_izakaya.block.MIBlocks;
-import cc.thonly.mystias_izakaya.block.MiBlockEntities;
+import cc.thonly.mystias_izakaya.block.MIBlockEntities;
 import cc.thonly.mystias_izakaya.component.MIDataComponentTypes;
 import cc.thonly.mystias_izakaya.datafixer.MIDataFixer;
 import cc.thonly.mystias_izakaya.entity.MIEntities;
@@ -39,7 +39,7 @@ public class MystiasIzakaya implements ModInitializer {
         LOGGER.info("Loaded " + MOD_NAME);
         MIDataComponentTypes.init();
         MIBlocks.registerBlocks();
-        MiBlockEntities.registerBlockEntities();
+        MIBlockEntities.registerBlockEntities();
         MIItems.registerItems();
         MIEntities.init();
         MIItemGroups.registerItemGroups();

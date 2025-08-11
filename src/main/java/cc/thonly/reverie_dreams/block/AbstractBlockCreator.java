@@ -4,6 +4,7 @@ import cc.thonly.reverie_dreams.datagen.ModBlockTagProvider;
 import cc.thonly.reverie_dreams.datagen.ModItemTagProvider;
 import cc.thonly.reverie_dreams.item.BasicBlockItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
+import eu.pb4.factorytools.api.block.model.generic.BlockStateModelManager;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Getter
 public abstract class AbstractBlockCreator {
@@ -92,6 +94,8 @@ public abstract class AbstractBlockCreator {
     protected Identifier suffix(Identifier id, String name) {
         return Identifier.of(id.getNamespace(), id.getPath() + "_" + name);
     }
+
+    protected abstract Stream<Block> stream();
 
     protected abstract AbstractBlockCreator build();
 }

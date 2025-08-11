@@ -2,11 +2,14 @@ package cc.thonly.mystias_izakaya.gui.recipe.block;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
 import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
+import cc.thonly.mystias_izakaya.component.CraftingConflict;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.component.MIDataComponentTypes;
+import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
+import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
 import cc.thonly.reverie_dreams.gui.GuiCommon;
 import cc.thonly.reverie_dreams.interfaces.IGuiElementBuilderAccessor;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
@@ -32,6 +35,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements GuiCommon {
     public static final String[][] GRID = new String[][]{
@@ -112,10 +116,8 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
 
     private ItemStackRecipeWrapper buildFoodTags(KitchenRecipe recipe, ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
         ItemStack base = output.getItemStack().copy();
-        List<String> baseTags = base.get(MIDataComponentTypes.MI_FOOD_PROPERTIES);
-        if (baseTags == null) {
-            baseTags = new ArrayList<>();
-        }
+        List<String> baseTags = base.getOrDefault(MIDataComponentTypes.FOOD_PROPERTIES, new ArrayList<>());
+
         HashSet<String> propertyIds = new HashSet<>(baseTags);
         List<ItemStackRecipeWrapper> ingredients = recipe.getIngredients();
         List<Item> ingredientItems = ingredients
@@ -131,16 +133,15 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             }
             List<FoodProperty> ingredientProperties = FoodProperty.getIngredientProperties(item);
             ingredientProperties.forEach(property -> propertyIds.add(property.getId().toString()));
-
         }
         List<String> tagList = new ArrayList<>(propertyIds);
-        base.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, tagList);
+        base.set(MIDataComponentTypes.FOOD_PROPERTIES, tagList);
         return new ItemStackRecipeWrapper(base.copy());
     }
 
     private ItemStackRecipeWrapper buildAllFoodTags(ItemStackRecipeWrapper output, List<ItemStackRecipeWrapper> inputs) {
         ItemStack itemStack = output.getItemStack().copy();
-        List<String> outputTags = itemStack.get(MIDataComponentTypes.MI_FOOD_PROPERTIES);
+        List<String> outputTags = itemStack.get(MIDataComponentTypes.FOOD_PROPERTIES);
         if (outputTags == null) {
             outputTags = new ArrayList<>();
         }
@@ -154,7 +155,7 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             ingredientProperties.forEach(property -> propertyIds.add(property.getId().toString()));
         }
         List<String> tagList = new ArrayList<>(propertyIds);
-        itemStack.set(MIDataComponentTypes.MI_FOOD_PROPERTIES, tagList);
+        itemStack.set(MIDataComponentTypes.FOOD_PROPERTIES, tagList);
         return new ItemStackRecipeWrapper(itemStack.copy());
     }
 
@@ -227,13 +228,21 @@ public class KitchenBlockGui<R extends BaseRecipe> extends SimpleGui implements 
             if (i >= pageRecipes.size()) break;
 
             KitchenRecipe recipe = pageRecipes.get(i);
-            ItemStack output = this.buildFoodTags(recipe, new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
+            ItemStack outputShow = this.buildFoodTags(recipe, new ItemStackRecipeWrapper(recipe.getOutput().getItemStack().copy()), inputs).getItemStack();
+            AtomicReference<ItemStack> output = new AtomicReference<>(outputShow);
 
             GuiElementBuilder builder = entry.getValue();
             IGuiElementBuilderAccessor accessor = (IGuiElementBuilderAccessor) builder;
-            accessor.setItemStack(output);
+            accessor.setItemStack(outputShow);
+
             builder.setCallback((slotIndex, clickType, actionType) -> {
-                handleCrafting(output, inputs, recipe);
+                ItemStack itemStack = output.get();
+                for (CraftingConflict conflict : MIRegistryManager.CRAFTING_CONFLICT.values()) {
+                    if (conflict.test(itemStack)) {
+                        output.set(MIItems.DARK_CUISINE.getDefaultStack());
+                    }
+                }
+                handleCrafting(output.get(), inputs, recipe);
             });
 
             this.setSlot(entry.getKey(), builder);

@@ -76,9 +76,9 @@ public class FoodProperties {
     public static final FoodProperty CURSE = register("curse", () -> new FoodProperty());
 
     @SuppressWarnings("unchecked")
-    private static <T extends FoodProperty> T register(String id, Supplier<T> factory) {
+    private static <T extends FoodProperty> T register(String name, Supplier<T> factory) {
         T t = factory.get();
-        FoodProperty entry = RegistryManager.register(MIRegistryManager.FOOD_PROPERTY, MystiasIzakaya.id(id), t);
+        FoodProperty entry = RegistryManager.register(MIRegistryManager.FOOD_PROPERTY, MystiasIzakaya.id(name), t);
         return (T) entry;
     }
 

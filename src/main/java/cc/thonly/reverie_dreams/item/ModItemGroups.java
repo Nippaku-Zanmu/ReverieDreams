@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.block.DecorativeBlockCreator;
 import cc.thonly.reverie_dreams.block.base.BasicFruitLeavesBlock;
 import cc.thonly.reverie_dreams.effect.ModPotions;
 import cc.thonly.reverie_dreams.fumo.Fumo;
@@ -65,8 +66,15 @@ public class ModItemGroups {
                 itemGroup.add(item);
             }
             itemGroup.add(ModItems.ROLE_CARD);
+            itemGroup.add(ModPotions.createStack(ModPotions.ELIXIR_OF_LIFE_POTION));
+            itemGroup.add(ModPotions.createStack(ModPotions.ELIXIR_OF_LIFE_POTION_INF));
+            itemGroup.add(ModPotions.createStack(ModPotions.MENTAL_DISORDER_POTION));
+            itemGroup.add(ModPotions.createStack(ModPotions.BACK_OF_LIFE_POTION));
             itemGroup.add(ModPotions.createStack(ModPotions.KANJU_KUSURI_POTION));
             for (WoodCreator instance : WoodCreator.INSTANCES) {
+                instance.stream().forEach(block -> itemGroup.add(block.asItem()));
+            }
+            for (DecorativeBlockCreator instance : DecorativeBlockCreator.INSTANCES) {
                 instance.stream().forEach(block -> itemGroup.add(block.asItem()));
             }
             BasicFruitLeavesBlock.FRUIT_LEAVES_BLOCKS.forEach(itemGroup::add);

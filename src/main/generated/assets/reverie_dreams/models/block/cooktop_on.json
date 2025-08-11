@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "reverie_dreams:block/cooktop_front_on",
-    "side": "reverie_dreams:block/cooktop_side",
-    "top": "reverie_dreams:block/cooktop_top"
-  }
-}

@@ -2,6 +2,7 @@ package cc.thonly.mystias_izakaya.item;
 
 import cc.thonly.mystias_izakaya.item.base.FoodItem;
 import cc.thonly.mystias_izakaya.item.base.IngredientItem;
+import cc.thonly.reverie_dreams.item.BasicItem;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -13,6 +14,7 @@ import java.util.List;
 public class MIItems {
     public static final List<Item> INGREDIENTS = new LinkedList<>();
     public static final List<Item> FOOD_ITEMS = new LinkedList<>();
+    public static final Item MYSTIA_ICON = registerItem(new BasicItem("mystia_icon", new Item.Settings()));
 
     // 食材
     public static final Item BAMBOO_SHOOTS = registerIngredient(new IngredientItem("ingredient/bamboo_shoots", 0, 0f, new Item.Settings()));

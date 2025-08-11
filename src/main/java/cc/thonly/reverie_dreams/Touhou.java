@@ -1,8 +1,8 @@
 package cc.thonly.reverie_dreams;
 
-import cc.thonly.minecraft.impl.DynamicRegistryManagerCallback;
 import cc.thonly.minecraft.impl.ItemPostHitCallback;
 import cc.thonly.reverie_dreams.armor.ModArmorMaterials;
+import cc.thonly.reverie_dreams.block.BlockModels;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.entity.ModBlockEntities;
 import cc.thonly.reverie_dreams.command.CommandInit;
@@ -13,11 +13,12 @@ import cc.thonly.reverie_dreams.danmaku.SpellCardTemplates;
 import cc.thonly.reverie_dreams.data.ModLootModifies;
 import cc.thonly.reverie_dreams.data.ModServerResourceManager;
 import cc.thonly.reverie_dreams.data.ModTags;
-import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
+import cc.thonly.reverie_dreams.datafixer.DataFixerContentManager;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.ModEntities;
 import cc.thonly.reverie_dreams.entity.ModEntityHolders;
 import cc.thonly.reverie_dreams.gui.RecipeTypeCategoryManager;
+import cc.thonly.reverie_dreams.interfaces.IDreamPillowManager;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
 import cc.thonly.reverie_dreams.item.ModItemGroups;
 import cc.thonly.reverie_dreams.item.ModItems;
@@ -28,10 +29,7 @@ import cc.thonly.reverie_dreams.networking.RegistrySyncPayload;
 import cc.thonly.reverie_dreams.recipe.RecipeManager;
 import cc.thonly.reverie_dreams.registry.Key2ValueRegistryManager;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
-import cc.thonly.reverie_dreams.server.DelayedTask;
-import cc.thonly.reverie_dreams.server.ItemDescriptionManager;
-import cc.thonly.reverie_dreams.server.ParticleTickerManager;
-import cc.thonly.reverie_dreams.server.PlayerInputManager;
+import cc.thonly.reverie_dreams.server.*;
 import cc.thonly.reverie_dreams.sound.JukeboxSongInit;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
 import cc.thonly.reverie_dreams.state.ModBlockStateTemplates;
@@ -40,7 +38,7 @@ import cc.thonly.reverie_dreams.util.ItemStackCheckUtils;
 import cc.thonly.reverie_dreams.util.ModrinthAPI;
 import cc.thonly.reverie_dreams.util.NetworkingUtils;
 import cc.thonly.reverie_dreams.world.BiomeModificationInit;
-import cc.thonly.reverie_dreams.world.data.BlockPosStorage;
+import cc.thonly.reverie_dreams.world.GameRulesInit;
 import cc.thonly.reverie_dreams.world.gen.WorldGenerationInit;
 import eu.midnightdust.lib.config.MidnightConfig;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
@@ -57,26 +55,16 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
-import net.minecraft.data.tag.vanilla.VanillaEntityTypeTagProvider;
-import net.minecraft.dialog.*;
-import net.minecraft.dialog.type.Dialog;
-import net.minecraft.dialog.type.NoticeDialog;
-import net.minecraft.dialog.type.ServerLinksDialog;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.EntityTypeTags;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
@@ -148,15 +136,17 @@ public class Touhou implements ModInitializer {
         ModBlockStateTemplates.bootstrap();
         ModBlockEntities.registerBlockEntities();
         ModBlocks.registerBlocks();
+        BlockModels.registerModels();
         ModItems.registerItems();
         ModItemGroups.registerItemGroups();
         ModEntityHolders.registerHolders();
         ModEntities.registerEntities();
         ModStatusEffects.init();
-        ModTags.registerTags();
+        ModTags.loadTags();
         WorldGenerationInit.registerWorldGeneration();
         BiomeModificationInit.init();
-        ModDataFixer.bootstrap();
+        GameRulesInit.init();
+        DataFixerContentManager.bootstrap();
 
         // 初始化其他注册内容
         CommandInit.init();
@@ -227,7 +217,7 @@ public class Touhou implements ModInitializer {
 
         ItemPostHitCallback.EVENT.register((stack, target, attacker) -> {
             MinecraftServer server = target.getServer();
-            if (server != null  && target.getWorld() instanceof ServerWorld serverWorld && Unit.INSTANCE.equals(stack.getOrDefault(ModDataComponentTypes.SILVER_ITEM, null))) {
+            if (server != null && target.getWorld() instanceof ServerWorld serverWorld && Unit.INSTANCE.equals(stack.getOrDefault(ModDataComponentTypes.SILVER_ITEM, null))) {
                 DynamicRegistryManager.Immutable registryManager = server.getRegistryManager();
                 Registry<EntityType<?>> entityTypes = registryManager.getOrThrow(RegistryKeys.ENTITY_TYPE);
                 DamageSources damageSources = attacker.getDamageSources();
@@ -256,9 +246,30 @@ public class Touhou implements ModInitializer {
             PlayerInputManager inputManager = PlayerInputManager.getInstance();
             inputManager.reload();
         });
-        ServerLifecycleEvents.SERVER_STARTED.register(BlockPosStorage::loadToFile);
-        ServerLifecycleEvents.SERVER_STOPPED.register(BlockPosStorage::saveToFile);
-        ServerLifecycleEvents.AFTER_SAVE.register((server, flush, force) -> BlockPosStorage.saveToFile(server));
+        ServerLifecycleEvents.SERVER_STARTED.register(new ServerLifecycleEvents.ServerStarted() {
+            @Override
+            public void onServerStarted(MinecraftServer server) {
+                IDreamPillowManager iDreamPillowManager = (IDreamPillowManager) server;
+                DreamPillowManager dreamPillowManager = iDreamPillowManager.getDreamPillowManager();
+                dreamPillowManager.init();
+            }
+        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(new ServerLifecycleEvents.ServerStopped() {
+            @Override
+            public void onServerStopped(MinecraftServer server) {
+                IDreamPillowManager iDreamPillowManager = (IDreamPillowManager) server;
+                DreamPillowManager dreamPillowManager = iDreamPillowManager.getDreamPillowManager();
+                dreamPillowManager.save();
+            }
+        });
+        ServerLifecycleEvents.AFTER_SAVE.register(new ServerLifecycleEvents.AfterSave() {
+            @Override
+            public void onAfterSave(MinecraftServer server, boolean flush, boolean force) {
+                IDreamPillowManager iDreamPillowManager = (IDreamPillowManager) server;
+                DreamPillowManager dreamPillowManager = iDreamPillowManager.getDreamPillowManager();
+                dreamPillowManager.save();
+            }
+        });
         ServerTickEvents.END_SERVER_TICK.register(DelayedTask::tick);
         ServerTickEvents.END_SERVER_TICK.register(ParticleTickerManager::tick);
         ServerTickEvents.END_SERVER_TICK.register(PlayerInputManager::tick);

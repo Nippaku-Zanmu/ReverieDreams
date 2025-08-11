@@ -52,7 +52,7 @@ public final class TouhouNotaUtils {
 
     public static void playAt(World world, BlockPos pos, String select) {
         if (select == null) {
-            System.out.println("null");
+//            System.out.println("null");
             return;
         }
 
@@ -65,7 +65,7 @@ public final class TouhouNotaUtils {
         try {
             song = NBSDecoderPlus.parse(getFilePath(filename).toFile());
         } catch (Exception e) {
-            log.error("读取音乐失败: " + filename, e);
+            log.error("读取音乐失败: {}", filename, e);
             return;
         }
 

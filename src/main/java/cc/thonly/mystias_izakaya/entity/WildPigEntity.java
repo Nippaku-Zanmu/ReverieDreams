@@ -1,21 +1,36 @@
 package cc.thonly.mystias_izakaya.entity;
 
+import cc.thonly.mystias_izakaya.MystiasIzakaya;
+import cc.thonly.reverie_dreams.mixin.accessor.PigEntityAccessor;
+import cc.thonly.reverie_dreams.mixin.accessor.VillagerEntityAccessor;
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.PigVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.village.VillagerData;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-public class WildPigEntity extends PigEntity implements PolymerEntity {
+import java.util.List;
 
+public class WildPigEntity extends PigEntity implements PolymerEntity {
+    public static final RegistryKey<PigVariant> VARIANT = RegistryKey.of(RegistryKeys.PIG_VARIANT, MystiasIzakaya.id("wild_pig"));
     public WildPigEntity(EntityType<? extends PigEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -47,5 +62,24 @@ public class WildPigEntity extends PigEntity implements PolymerEntity {
     @Nullable
     public WildPigEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
         return (WildPigEntity) MIEntities.WILD_PIG_ENTITY_TYPE.create(serverWorld, SpawnReason.BREEDING);
+    }
+
+    @Override
+    public void modifyRawTrackedData(List<DataTracker.SerializedEntry<?>> data, ServerPlayerEntity player, boolean initial) {
+        PolymerEntity.super.modifyRawTrackedData(data, player, initial);
+        if (initial && !this.getWorld().isClient) {
+            MinecraftServer server = this.getServer();
+            assert server != null;
+            DynamicRegistryManager.Immutable registryManager = server.getRegistryManager();
+            Registry<PigVariant> registry = registryManager.getOrThrow(RegistryKeys.PIG_VARIANT);
+            RegistryEntry<PigVariant> pigVariant = registry.getEntry(registry.get(VARIANT));
+
+            DataTracker.SerializedEntry<RegistryEntry<PigVariant>> entry = DataTracker.SerializedEntry.of(
+                    PigEntityAccessor.VARIANT(),
+                    pigVariant);
+
+            data.add(entry);
+
+        }
     }
 }

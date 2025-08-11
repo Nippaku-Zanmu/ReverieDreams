@@ -19,10 +19,8 @@ It is currently under active development and aims to deliver a rich danmaku-styl
 
 ---
 
-## 🌏 Translation
-We use [Crowdin](https://crowdin.reverie-dreams.thonly.cc) to collaboratively translate the mod into multiple languages.  
-Visit: [crowdin.reverie-dreams.thonly.cc](https://crowdin.reverie-dreams.thonly.cc)
-
+## 🌏 Translation issues
+Simplified Chinese will be updated first, followed by Traditional Chinese, and finally English
 ---
 
 ## ✨ Features

@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.sound;
 
 import cc.thonly.reverie_dreams.Touhou;
+import eu.pb4.polymer.core.api.other.PolymerSoundEvent;
 import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registries;
@@ -39,8 +40,9 @@ public class SoundEventInit {
 
     public static SoundEvent registerSound(String id) {
         Identifier identifier = Touhou.id(id);
-//        SoundEvent soundEvent = Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));
-        SoundEvent soundEvent = SoundEvent.of(identifier);
+        SoundEvent soundEvent = Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));
+//        SoundEvent soundEvent = SoundEvent.of(identifier);
+        PolymerSoundEvent.registerOverlay(soundEvent);
         SOUND_EVENTS.add(soundEvent);
         return soundEvent;
     }

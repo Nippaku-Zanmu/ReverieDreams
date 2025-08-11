@@ -1,6 +1,7 @@
 package cc.thonly.reverie_dreams.danmaku;
 
 import cc.thonly.reverie_dreams.Touhou;
+import cc.thonly.reverie_dreams.registry.ItemColor;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import com.google.common.collect.ImmutableList;
@@ -27,6 +28,7 @@ public class DanmakuTypes {
     public static final DanmakuType STAR = register(Touhou.id("star"), 2f, 1f, 1.0f, true, false);
     public static final DanmakuType LASER = register(Touhou.id("laser"), 3f, 1.5f, 1.0f, false, false);
     public static final DanmakuType BIG_LASER = register(Touhou.id("big_laser"), 3f, 1.5f, 1.0f, false, false);
+
     static {
         UNLIST.add(LASER);
         UNLIST.add(BIG_LASER);
@@ -36,6 +38,18 @@ public class DanmakuTypes {
         return RegistryManager.register(RegistryManager.DANMAKU_TYPE, key, new DanmakuType(key, damage, scale, speed, tile, infinite), true);
     }
 
+    public static ItemStack withColor(DanmakuType type, ItemColor color) {
+        List<Pair<Item, ItemStack>> colorPair = type.getColorPairs();
+        Pair<Item, ItemStack> result = new Pair<>(null, null);
+        for (Pair<Item, ItemStack> pair : colorPair) {
+            if (pair.getLeft() == color.item()) {
+                result = pair;
+                break;
+            }
+        }
+        return result.getRight();
+    }
+
     public static ItemStack random() {
         List<DanmakuType> values = RegistryManager.DANMAKU_TYPE.values().stream().toList();
         DanmakuType type = values.get(new Random().nextInt(values.size()));
@@ -43,7 +57,7 @@ public class DanmakuTypes {
     }
 
     public static ItemStack random(DanmakuType type) {
-        List<Pair<Item, ItemStack>> colorPair = type.getColorPair();
+        List<Pair<Item, ItemStack>> colorPair = type.getColorPairs();
         Pair<Item, ItemStack> pair = colorPair.get(new Random().nextInt(colorPair.size()));
         return pair.getRight().copy();
     }
@@ -52,7 +66,7 @@ public class DanmakuTypes {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
         List<DanmakuType> typeList = RegistryManager.DANMAKU_TYPE.values().stream().filter(type -> !UNLIST.contains(type)).toList();
         for (DanmakuType danmakuType : typeList) {
-            List<Pair<Item, ItemStack>> colorPair = danmakuType.getColorPair();
+            List<Pair<Item, ItemStack>> colorPair = danmakuType.getColorPairs();
             for (Pair<Item, ItemStack> pair : colorPair) {
                 builder.add(pair.getRight());
             }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "food",
-  "cookingtime": 250,
+  "cookingtime": 160,
   "experience": 0.7,
   "group": "food",
   "ingredient": "reverie_dreams:ingredient/black_pork",

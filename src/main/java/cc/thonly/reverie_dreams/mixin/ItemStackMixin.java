@@ -26,9 +26,11 @@ import java.util.List;
 public abstract class ItemStackMixin<T> implements IItemStack,
         ComponentHolder,
         FabricItemStack {
-    @Shadow public abstract Item getItem();
+    @Shadow
+    public abstract Item getItem();
 
-    @Shadow public abstract boolean isEmpty();
+    @Shadow
+    public abstract boolean isEmpty();
 
     @Inject(method = "getTooltip", at = @At("RETURN"), cancellable = true)
     public void appendTooltip(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {

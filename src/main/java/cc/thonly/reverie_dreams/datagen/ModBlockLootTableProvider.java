@@ -2,12 +2,13 @@ package cc.thonly.reverie_dreams.datagen;
 
 import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
+import cc.thonly.reverie_dreams.block.DecorativeBlockCreator;
 import cc.thonly.reverie_dreams.block.WoodCreator;
 import cc.thonly.reverie_dreams.fumo.Fumo;
 import cc.thonly.reverie_dreams.fumo.Fumos;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.item.ModItems;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
@@ -47,6 +48,16 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         }));
         return null;
     };
+    private final Function<DecorativeBlockCreator, Void> decorativeBlockCreatorLootFunction = (creator) -> {
+        creator.stream().forEach((block -> {
+            if (block instanceof SlabBlock) {
+                this.slabDrops(block);
+                return;
+            }
+            this.addDrop(block);
+        }));
+        return null;
+    };
 
     public ModBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
@@ -59,7 +70,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.GENSOKYO_ALTAR);
         addDrop(ModBlocks.MUSIC_BLOCK);
 
-        woodCreatorLootFunction.apply(ModBlocks.SPIRITUAL);
+        this.woodCreatorLootFunction.apply(ModBlocks.SPIRITUAL);
 
         addDrop(ModBlocks.MAGIC_ICE_BLOCK);
         addDrop(ModBlocks.MARISA_HAT_BLOCK);
@@ -102,6 +113,8 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.DEEPSLATE_ORB_ORE, orbDropFunction);
         addDrop(ModBlocks.SILVER_BLOCK);
 
+        this.decorativeBlockCreatorLootFunction.apply(ModBlocks.ICE_SCALES);
+
         for (Fumo fumo : Fumos.getView()) {
             addDrop(fumo.block());
         }
@@ -113,22 +126,23 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
         for (Block block : AbstractKitchenwareBlock.KITCHENWARE_BLOCKS) {
             addDrop(block);
         }
+        addDrop(MIBlocks.ITEM_DISPLAY);
 
         for (Map.Entry<Identifier, PolymerCropCreator.Instance> view : PolymerCropCreator.getViews()) {
             PolymerCropCreator.Instance instance = view.getValue();
             instance.generateLoot(this);
         }
 
-        woodCreatorLootFunction.apply(MIBlocks.LEMON);
+        this.woodCreatorLootFunction.apply(MIBlocks.LEMON);
         addDrop(MIBlocks.LEMON_FRUIT_LEAVES, MIBlocks.LEMON.sapling());
 
-        woodCreatorLootFunction.apply(MIBlocks.GINKGO);
+        this.woodCreatorLootFunction.apply(MIBlocks.GINKGO);
         addDrop(MIBlocks.GINKGO_FRUIT_LEAVES, MIBlocks.GINKGO.sapling());
 
-        woodCreatorLootFunction.apply(MIBlocks.PEACH);
+        this.woodCreatorLootFunction.apply(MIBlocks.PEACH);
         addDrop(MIBlocks.PEACH_FRUIT_LEAVES, MIBlocks.PEACH.sapling());
 
-        addDrop(MIBlocks.COOKTOP);
+//        addDrop(MIBlocks.COOKTOP);
         addDrop(MIBlocks.BLACK_SALT_BLOCK);
         addDrop(MIBlocks.UDUMBARA_FLOWER);
         addDrop(MIBlocks.TREMELLA);

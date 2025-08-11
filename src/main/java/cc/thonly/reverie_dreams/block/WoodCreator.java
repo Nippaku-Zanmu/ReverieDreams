@@ -66,7 +66,6 @@ public class WoodCreator extends AbstractBlockCreator {
         this.button = new BasicPolymerButtonBlock(suffix("button"), BlockSetType.OAK, 30, AbstractBlock.Settings.copy(Blocks.OAK_BUTTON));
         this.stream().forEach((block) -> {
             IdentifierGetter blockImpl = (IdentifierGetter) block;
-//            System.out.println(blockImpl.getIdentifier());
             Block rb = this.register(blockImpl);
             BLOCK_ITEMS.add(rb.asItem());
         });
@@ -78,6 +77,7 @@ public class WoodCreator extends AbstractBlockCreator {
                 .fence(this.fence())
                 .fenceGate(this.fenceGate())
                 .button(this.button())
+                .door(this.door())
                 .trapdoor(this.trapdoor())
                 .group("wooden").unlockCriterionName("has_planks")
                 .build();

@@ -25,11 +25,11 @@ public class DataGeneratorUtil {
         } catch (Exception err) {
             String fadod = System.getProperty("fabric-api.datagen.output-dir");
             if (fadod == null) {
+                log.error("Can't get output dir: ", err);
                 OUTPUT_DIR = null;
             } else {
                 OUTPUT_DIR = fadod;
             }
-            log.error("Can't get output dir: ", err);
         }
     }
 

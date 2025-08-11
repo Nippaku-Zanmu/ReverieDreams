@@ -13,12 +13,11 @@ import cc.thonly.reverie_dreams.debug.DebugExportWriter;
 import cc.thonly.reverie_dreams.item.BasicBlockItem;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.IdentifierGetter;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import cc.thonly.reverie_dreams.world.ModSaplingGenerator;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -30,15 +29,41 @@ import cc.thonly.mystias_izakaya.block.kitchenware.*;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
+import java.util.function.DoubleUnaryOperator;
 
 @Slf4j
 public class MIBlocks {
-    public static final Block COOKING_POT = registerBlock(new CookingPot("cooking_pot", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
-    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board", 0.0, false, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
-    public static final Block FRYING_PAN = registerBlock(new FryingPan("frying_pan", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
-    public static final Block GRILL = registerBlock(new Grill("grill", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
-    public static final Block STEAMER = registerBlock(new Steamer("steamer", 0.0, true, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
-    public static final Block COOKTOP = registerBlock(new CooktopBlock("cooktop", AbstractBlock.Settings.create().nonOpaque().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.5f).luminance(CooktopBlock::getLuminance)));
+    public static final DoubleUnaryOperator MYSTIA = original -> original - original * 0.25;
+    public static final DoubleUnaryOperator SUPER = original -> original + original * 0.05;
+    public static final DoubleUnaryOperator EXTREME = original -> original + original * 0.1;
+    // 普通
+    public static final Block COOKING_POT = registerBlock(new CookingPot("cooking_pot", (original) -> original, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block CUTTING_BOARD = registerBlock(new CuttingBoard("cutting_board", (original) -> original, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block FRYING_PAN = registerBlock(new FryingPan("frying_pan", (original) -> original, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block GRILL = registerBlock(new Grill("grill", (original) -> original, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block STEAMER = registerBlock(new Steamer("steamer", (original) -> original, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    // 夜雀
+    public static final Block MYSTIA_COOKING_POT = registerBlock(new CookingPot("mystia_cooking_pot", MYSTIA, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block MYSTIA_CUTTING_BOARD = registerBlock(new CuttingBoard("mystia_cutting_board", MYSTIA, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block MYSTIA_FRYING_PAN = registerBlock(new FryingPan("mystia_frying_pan", MYSTIA, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block MYSTIA_GRILL = registerBlock(new Grill("mystia_grill", MYSTIA, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block MYSTIA_STEAMER = registerBlock(new Steamer("mystia_steamer", MYSTIA, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    // 超
+    public static final Block SUPER_COOKING_POT = registerBlock(new CookingPot("super_cooking_pot", SUPER, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block SUPER_CUTTING_BOARD = registerBlock(new CuttingBoard("super_cutting_board", SUPER, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block SUPER_FRYING_PAN = registerBlock(new FryingPan("super_frying_pan", SUPER, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block SUPER_GRILL = registerBlock(new Grill("super_grill", SUPER, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block SUPER_STEAMER = registerBlock(new Steamer("super_steamer", SUPER, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    // 极
+    public static final Block EXTREME_COOKING_POT = registerBlock(new CookingPot("extreme_cooking_pot", EXTREME, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+    public static final Block EXTREME_CUTTING_BOARD = registerBlock(new CuttingBoard("extreme_cutting_board", EXTREME, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block EXTREME_FRYING_PAN = registerBlock(new FryingPan("extreme_frying_pan", EXTREME, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block EXTREME_GRILL = registerBlock(new Grill("extreme_grill", EXTREME, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.METAL)));
+    public static final Block EXTREME_STEAMER = registerBlock(new Steamer("extreme_steamer", EXTREME, 0.0, AbstractBlock.Settings.create().strength(2.0f, 3.0f).sounds(BlockSoundGroup.STONE)));
+
+    public static final Block ITEM_DISPLAY = registerBlock(new ItemStackDisplay("display", AbstractBlock.Settings.copy(Blocks.WHITE_WOOL).nonOpaque().sounds(BlockSoundGroup.GLASS)));
+
+    //    public static final Block COOKTOP = registerBlock(new CooktopBlock("cooktop", AbstractBlock.Settings.create().nonOpaque().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.5f).luminance(CooktopBlock::getLuminance)));
     public static final Block BLACK_SALT_BLOCK = registerBlock(new BasicPolymerBlock("black_salt_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.SAND)));
 
     public static final WoodCreator LEMON = WoodCreator.create("lemon", ModSaplingGenerator.LEMON_TREE).build();
@@ -270,6 +295,7 @@ public class MIBlocks {
             output.write("=========================");
             output.write("");
         }
+        KitchenBlockType.init();
     }
 
     public static Block registerBlock(IdentifierGetter block) {

@@ -3,6 +3,7 @@ package cc.thonly.reverie_dreams.world.gen;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
+import cc.thonly.reverie_dreams.block.base.BasicFruitLeavesBlock;
 import cc.thonly.reverie_dreams.world.gen.feature.CraterFeature;
 import cc.thonly.reverie_dreams.world.gen.feature.CraterFeatureConfig;
 import cc.thonly.reverie_dreams.world.gen.feature.DreamGridFeature;
@@ -76,7 +77,7 @@ public class ConfigurationFeatureInit {
                 new BendingTrunkPlacer(2, 1, 2, 2, UniformIntProvider.create(1, 1)),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
                         .add(MIBlocks.LEMON.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
-                        .add(MIBlocks.LEMON_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
+                        .add(MIBlocks.LEMON_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(BasicFruitLeavesBlock.AGE_PROPERTY, BasicFruitLeavesBlock.MAX_AGE).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());
@@ -85,7 +86,7 @@ public class ConfigurationFeatureInit {
                 new StraightTrunkPlacer(3, 1, 0),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
                         .add(MIBlocks.GINKGO.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
-                        .add(MIBlocks.GINKGO_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
+                        .add(MIBlocks.GINKGO_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(BasicFruitLeavesBlock.AGE_PROPERTY, BasicFruitLeavesBlock.MAX_AGE).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());
@@ -94,7 +95,7 @@ public class ConfigurationFeatureInit {
                 new StraightTrunkPlacer(2, 1, 1),
                 new WeightedBlockStateProvider(Pool.<BlockState>builder()
                         .add(MIBlocks.PEACH.leaves().getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 3)
-                        .add(MIBlocks.PEACH_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(LeavesBlock.WATERLOGGED, false), 1)),
+                        .add(MIBlocks.PEACH_FRUIT_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true).with(BasicFruitLeavesBlock.AGE_PROPERTY, BasicFruitLeavesBlock.MAX_AGE).with(LeavesBlock.WATERLOGGED, false), 1)),
                 new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), 2),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).build());

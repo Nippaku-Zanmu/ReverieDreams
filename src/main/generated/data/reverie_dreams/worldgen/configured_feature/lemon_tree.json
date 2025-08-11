@@ -33,7 +33,7 @@
             "Name": "reverie_dreams:lemon_fruit_leaves",
             "Properties": {
               "distance": "7",
-              "fruit_age": "0",
+              "fruit_age": "3",
               "persistent": "true",
               "waterlogged": "false"
             }

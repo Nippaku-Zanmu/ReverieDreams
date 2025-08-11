@@ -43,6 +43,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add("item_group.touhou.role_card", "Gensokyo: Reverie of Lost Dreams - 角色卡");
         translationBuilder.add("item_group.touhou.role.spawn_egg", "Gensokyo: Reverie of Lost Dreams - 角色刷怪蛋");
         translationBuilder.add("item.tooltip.use", "§b[右键使用]");
+        translationBuilder.add("item.tooltip.use.villager", "§b[右键村民使用]");
         translationBuilder.add("item.tooltip.color", "颜色：");
         translationBuilder.add("item.tooltip.damage", "伤害：");
         translationBuilder.add("item.tooltip.speed", "速度：");
@@ -127,6 +128,8 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
     }
 
     public void generateMITranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        translationBuilder.add("block.feedback.working", "§c该厨具正在工作中...");
+
         translationBuilder.add("item.tooltip.food_properties", "属性：");
         translationBuilder.add("item_group.kitchenware_item_group", "Gensokyo: Reverie of Lost Dreams - 厨具");
         translationBuilder.add("item_group.ingredients_item_group", "Gensokyo: Reverie of Lost Dreams - 食材");
@@ -137,9 +140,27 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIBlocks.CUTTING_BOARD, "料理台");
         translationBuilder.add(MIBlocks.FRYING_PAN, "油锅");
         translationBuilder.add(MIBlocks.GRILL, "烧烤架");
-        translationBuilder.add(MIBlocks.STEAMER, "蒸锅");
-        translationBuilder.add(MIBlocks.COOKTOP, "能量灶");
+        translationBuilder.add(MIBlocks.STEAMER, "夜雀⦁蒸锅");
+        translationBuilder.add(MIBlocks.MYSTIA_COOKING_POT, "夜雀⦁煮锅");
+        translationBuilder.add(MIBlocks.MYSTIA_CUTTING_BOARD, "夜雀⦁料理台");
+        translationBuilder.add(MIBlocks.MYSTIA_FRYING_PAN, "夜雀⦁油锅");
+        translationBuilder.add(MIBlocks.MYSTIA_GRILL, "夜雀⦁烧烤架");
+        translationBuilder.add(MIBlocks.MYSTIA_STEAMER, "夜雀⦁蒸锅");
+        translationBuilder.add(MIBlocks.SUPER_COOKING_POT, "超⦁煮锅");
+        translationBuilder.add(MIBlocks.SUPER_CUTTING_BOARD, "超⦁料理台");
+        translationBuilder.add(MIBlocks.SUPER_FRYING_PAN, "超⦁油锅");
+        translationBuilder.add(MIBlocks.SUPER_GRILL, "超⦁烧烤架");
+        translationBuilder.add(MIBlocks.SUPER_STEAMER, "超⦁蒸锅");
+        translationBuilder.add(MIBlocks.EXTREME_COOKING_POT, "极⦁煮锅");
+        translationBuilder.add(MIBlocks.EXTREME_CUTTING_BOARD, "极⦁料理台");
+        translationBuilder.add(MIBlocks.EXTREME_FRYING_PAN, "极⦁油锅");
+        translationBuilder.add(MIBlocks.EXTREME_GRILL, "极⦁烧烤架");
+        translationBuilder.add(MIBlocks.EXTREME_STEAMER, "极⦁蒸锅");
+        translationBuilder.add(MIBlocks.ITEM_DISPLAY, "展示盘");
+//        translationBuilder.add(MIBlocks.COOKTOP, "能量灶");
         translationBuilder.add(MIBlocks.BLACK_SALT_BLOCK, "黑盐块");
+
+        translationBuilder.add(MIItems.MYSTIA_ICON, "东方夜雀食堂图标");
 
         translationBuilder.add(MIItems.BAMBOO_SHOOTS, "竹笋");
         translationBuilder.add(MIItems.BLACK_SALT, "黑盐");
@@ -200,43 +221,43 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.BAMBOO_SHOOTS_FRIED_MEAT, "竹笋炒肉");
         translationBuilder.add(MIItems.BAMBOO_SHOOTS_STEWED_IN_STONE_POT, "石锅竹笋炖肉");
         translationBuilder.add(MIItems.BAMBOO_STEAMED_EGG, "竹筒蒸蛋");
-        translationBuilder.add(MIItems.BAMBOO_TUBE_ROASTED_DRUNKEN_SHRIMP, "竹筒烤醉虾");
-        translationBuilder.add(MIItems.BAMBOO_TUBE_STEAMED_PORK, "竹筒蒸猪肉");
+        translationBuilder.add(MIItems.BAMBOO_TUBE_ROASTED_DRUNKEN_SHRIMP, "竹筒烧醉虾");
+        translationBuilder.add(MIItems.BAMBOO_TUBE_STEAMED_PORK, "竹筒粉蒸肉");
         translationBuilder.add(MIItems.BEAR_PAW, "熊掌");
-        translationBuilder.add(MIItems.BEEF_HOT_POT, "牛肉火锅");
+        translationBuilder.add(MIItems.BEEF_HOT_POT, "牛肉鸳鸯火锅");
         translationBuilder.add(MIItems.BEEF_RICE, "牛肉盖浇饭");
-        translationBuilder.add(MIItems.BEEF_WELLINGTON, "威灵顿牛排");
+        translationBuilder.add(MIItems.BEEF_WELLINGTON, "惠灵顿牛排");
         translationBuilder.add(MIItems.BEETLE_STEAMED_CAKE, "兜甲蒸糕");
-        translationBuilder.add(MIItems.BURNT_PUDDING, "燃烧布丁");
-        translationBuilder.add(MIItems.BISCAY_BISCUITS, "比斯开饼干");
-        translationBuilder.add(MIItems.BOILED_FISH, "白煮鱼");
+        translationBuilder.add(MIItems.BURNT_PUDDING, "燃尽布丁");
+        translationBuilder.add(MIItems.BISCAY_BISCUITS, "比斯开湾饼干");
+        translationBuilder.add(MIItems.BOILED_FISH, "水煮鱼");
         translationBuilder.add(MIItems.BRAISED_EEL, "红烧鳗鱼");
         translationBuilder.add(MIItems.BRAISED_PORK_WITH_PEACH, "桃子红烧肉");
         translationBuilder.add(MIItems.BUTTER_STEAK, "黄油牛排");
         translationBuilder.add(MIItems.CANDIED_CHESTNUTS, "糖栗子");
-        translationBuilder.add(MIItems.CANDIED_SWEET_POTATO, "糖渍红薯");
-        translationBuilder.add(MIItems.CATS_PLAYING_IN_WATER, "猫戏水");
+        translationBuilder.add(MIItems.CANDIED_SWEET_POTATO, "拔丝地瓜");
+        translationBuilder.add(MIItems.CATS_PLAYING_IN_WATER, "猫咪戏水");
         translationBuilder.add(MIItems.CAT_FOOD, "猫饭");
         translationBuilder.add(MIItems.CAT_KULULI, "猫咕噜哩");
         translationBuilder.add(MIItems.CAT_PIZZA, "猫咪披萨");
         translationBuilder.add(MIItems.CHEESE_EGG, "芝士蛋");
         translationBuilder.add(MIItems.COLD_DISH_CARVING, "凉菜雕花");
         translationBuilder.add(MIItems.COLD_TOFU, "冷豆腐");
-        translationBuilder.add(MIItems.COLORFUL_JADE_FRIED_BUNS, "彩玉煎包");
+        translationBuilder.add(MIItems.COLORFUL_JADE_FRIED_BUNS, "华光玉煎包");
         translationBuilder.add(MIItems.COOKING_TOFU, "煮豆腐");
         translationBuilder.add(MIItems.CREAM_STEW, "奶油炖菜");
         translationBuilder.add(MIItems.CRISP_CYCLONE, "脆旋风");
         translationBuilder.add(MIItems.DARK_CUISINE, "黑暗物质");
         translationBuilder.add(MIItems.DEEP_FRIED_CICADA_SHELLS, "炸蝉蜕");
         translationBuilder.add(MIItems.DEPRESSED_CHEESE_STICKS, "忧郁芝士条");
-        translationBuilder.add(MIItems.DEW_BOILED_EGGS, "晨露煮蛋");
+        translationBuilder.add(MIItems.DEW_BOILED_EGGS, "露水煮蛋");
         translationBuilder.add(MIItems.DORAYAKI, "铜锣烧");
         translationBuilder.add(MIItems.DUMPLING, "饺子");
         translationBuilder.add(MIItems.EEL_EGG_DONBURI, "鳗鱼蛋盖饭");
         translationBuilder.add(MIItems.EGGS_BENEDICT, "班尼迪克蛋");
         translationBuilder.add(MIItems.ENERGY_STRING, "能量串");
-        translationBuilder.add(MIItems.FAILING_SAKURA_SNOW, "坠樱雪");
-        translationBuilder.add(MIItems.FANTASY_IS_ALL_THE_RAGE, "幻想大流行");
+        translationBuilder.add(MIItems.FAILING_SAKURA_SNOW, "樱落雪");
+        translationBuilder.add(MIItems.FANTASY_IS_ALL_THE_RAGE, "幻想风靡");
         translationBuilder.add(MIItems.FISH_LEAPS_OVER_DRAGON_GATE, "鱼跃龙门");
         translationBuilder.add(MIItems.FLOWERS_BIRDS_WIND_AND_MOON, "花鸟风月");
         translationBuilder.add(MIItems.FLOWING_WATER_NOODLES, "流水素面");
@@ -245,18 +266,18 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.FRIED_PORK_SHREDS, "炒肉丝");
         translationBuilder.add(MIItems.FRIED_SHRIMP_TEMPURA, "炸虾天妇罗");
         translationBuilder.add(MIItems.FRIED_TOFU, "炸豆腐");
-        translationBuilder.add(MIItems.FRIED_TOMATO_STRIPS, "炒番茄条");
+        translationBuilder.add(MIItems.FRIED_TOMATO_STRIPS, "炸番茄条");
         translationBuilder.add(MIItems.FRIGHT_ADVENTURE, "惊吓！大冒险");
         translationBuilder.add(MIItems.GAME_SOUP, "野味杂烩汤");
         translationBuilder.add(MIItems.GENSOKYO_BUDDHA_JUMPS_OVER_THE_WALL, "幻想佛跳墙");
-        translationBuilder.add(MIItems.GENSOKYO_STAR_LOTUS_SHIP, "幻想乡星莲船");
-        translationBuilder.add(MIItems.GIANT_TAMAGOYAKI, "巨型玉子烧");
+        translationBuilder.add(MIItems.GENSOKYO_STAR_LOTUS_SHIP, "幻想星莲船");
+        translationBuilder.add(MIItems.GIANT_TAMAGOYAKI, "巨人玉子烧");
         translationBuilder.add(MIItems.GINKGO_AND_RADISH_PORK_RIB_SOUP, "银杏萝卜排骨汤");
         translationBuilder.add(MIItems.GLOOMY_FRUIT_PIE, "忧郁水果派");
         translationBuilder.add(MIItems.GLUTINOUS_RICE_BALLS, "汤圆");
         translationBuilder.add(MIItems.GOLDEN_CRISPY_FISH_CAKE, "金黄酥鱼饼");
         translationBuilder.add(MIItems.GRAND_BANQUET, "大奢宴");
-        translationBuilder.add(MIItems.GREEN_BAMBOO_WELCOMES_SPRING, "青竹迎春");
+        translationBuilder.add(MIItems.GREEN_BAMBOO_WELCOMES_SPRING, "翠竹迎春");
         translationBuilder.add(MIItems.GREEN_FAIRY_MUSHROOM, "绿野仙菇");
         translationBuilder.add(MIItems.GRILLED_HAGFISH, "烤八目鳗");
         translationBuilder.add(MIItems.GRILLED_PORK_RICE_BALLS, "炙猪肉饭团");
@@ -278,7 +299,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.MAOYU_TRICOLOR_ICE_CREAM, "茂羽三色冰淇淋");
         translationBuilder.add(MIItems.MAPO_TOFU, "麻婆豆腐");
         translationBuilder.add(MIItems.MILKY_MUSHROOM_SOUP, "奶香蘑菇汤");
-        translationBuilder.add(MIItems.MOCHI, "年糕团子");
+        translationBuilder.add(MIItems.MOCHI, "麻薯");
         translationBuilder.add(MIItems.MOLECULAR_EGG, "分子蛋");
         translationBuilder.add(MIItems.MOONLIGHT_DUMPLINGS, "月光团子");
         translationBuilder.add(MIItems.MOONLIGHT_OVER_LOTUS_POND, "荷塘月色");
@@ -291,7 +312,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.OKONOMIYAKI, "御好烧");
         translationBuilder.add(MIItems.ONE_HIT_KILL, "一击必杀");
         translationBuilder.add(MIItems.ORDINARY_SMALL_CAKE, "普通小蛋糕");
-        translationBuilder.add(MIItems.PAN_FRIED_MUSHROOM_MEAT_ROLL, "煎香菇肉卷");
+        translationBuilder.add(MIItems.PAN_FRIED_MUSHROOM_MEAT_ROLL, "香煎双菇肉卷");
         translationBuilder.add(MIItems.PAN_FRIED_SALMON, "煎三文鱼");
         translationBuilder.add(MIItems.PEACH_BLOSSOM_GLAZE_ROLL, "桃花琉璃卷");
         translationBuilder.add(MIItems.PEACH_BLOSSOM_SOUP, "桃花羹");
@@ -299,11 +320,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.PICKLED_CUCUMBERS, "腌黄瓜");
         translationBuilder.add(MIItems.PIG_DEER_BUTTERFLY, "猪鹿蝶");
         translationBuilder.add(MIItems.PINE_NUT_CAKE, "松子糕");
-        translationBuilder.add(MIItems.PIRATE_BACON, "海盗培根");
+        translationBuilder.add(MIItems.PIRATE_BACON, "海盗熏肉");
         translationBuilder.add(MIItems.PLUM_TEA_RICE, "梅子茶泡饭");
-        translationBuilder.add(MIItems.POETRY_AND_GINKGO, "诗与银杏");
+        translationBuilder.add(MIItems.POETRY_AND_GINKGO, "诗礼银杏");
         translationBuilder.add(MIItems.POISONOUS_GARDEN, "毒瘴花园");
-        translationBuilder.add(MIItems.PORK_AND_TROUT_SMOKED, "熏猪鳟双拼");
+        translationBuilder.add(MIItems.PORK_AND_TROUT_SMOKED, "猪肉鳟鱼熏");
         translationBuilder.add(MIItems.PORK_RICE, "猪肉盖浇饭");
         translationBuilder.add(MIItems.POTATO_CROQUETTES, "土豆可乐饼");
         translationBuilder.add(MIItems.PSEUDO_JIRITAMA, "拟尻子玉");
@@ -311,10 +332,10 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.RAPUNZEL, "长发公主");
         translationBuilder.add(MIItems.REAL_SEAFOOD_MISO_SOUP, "真·海鲜味噌汤");
         translationBuilder.add(MIItems.RED_BEAN_DAIFUKU, "红豆大福");
-        translationBuilder.add(MIItems.REFRESHING_PUDDING, "凉爽布丁");
+        translationBuilder.add(MIItems.REFRESHING_PUDDING, "提神布丁");
         translationBuilder.add(MIItems.REVERSING_THE_WORLD, "逆转天地！");
         translationBuilder.add(MIItems.RICE_BALL, "饭团");
-        translationBuilder.add(MIItems.RISOTTO, "烩饭");
+        translationBuilder.add(MIItems.RISOTTO, "意式烩饭");
         translationBuilder.add(MIItems.ROASTED_MUSHROOMS, "烤蘑菇");
         translationBuilder.add(MIItems.SAKURA_PUDDING, "樱花布丁");
         translationBuilder.add(MIItems.SALMON_TEMPURA, "三文鱼天妇罗");
@@ -328,7 +349,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.SECRET_DRIED_FISH, "秘制小鱼干");
         translationBuilder.add(MIItems.SECRET_MUSHROOM_CASSEROLE, "秘制蘑菇煲");
         translationBuilder.add(MIItems.SEVEN_COLORED_YOKAN, "七彩羊羹");
-        translationBuilder.add(MIItems.SHIRAGA_SADAMATSU, "白发定松");
+        translationBuilder.add(MIItems.SHIRAGA_SADAMATSU, "白鹿贞松");
         translationBuilder.add(MIItems.SKINNY_HORSE_DUMPLING, "瘦马团子");
         translationBuilder.add(MIItems.SNOW_WHITE, "白雪公主");
         translationBuilder.add(MIItems.STEAMED_EGG_WITH_SEA_URCHIN, "海胆蒸蛋");
@@ -338,16 +359,16 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(MIItems.TAICHI_BAGUA_FISH_MAW, "太极八卦鱼肚");
         translationBuilder.add(MIItems.TAKETORIHIME, "辉夜姬");
         translationBuilder.add(MIItems.TAKOYAKI, "章鱼烧");
-        translationBuilder.add(MIItems.THE_BEAUTY_OF_HAN_PALACE, "汉宫佳人");
-        translationBuilder.add(MIItems.THE_DREAM, "梦想之宴");
+        translationBuilder.add(MIItems.THE_BEAUTY_OF_HAN_PALACE, "汉宫藏娇");
+        translationBuilder.add(MIItems.THE_DREAM, "幽梦");
         translationBuilder.add(MIItems.THE_MARS, "火星料理");
         translationBuilder.add(MIItems.THE_SOURCE_OF_LIFE, "生命之源");
         translationBuilder.add(MIItems.TIANSHI_BRAISED_CHESTNUT_MUSHROOMS, "天师板栗焖菇");
-        translationBuilder.add(MIItems.TOFU_MISO, "味噌豆腐");
+        translationBuilder.add(MIItems.TOFU_MISO, "豆腐味噌");
         translationBuilder.add(MIItems.TOFU_POT, "豆腐锅");
         translationBuilder.add(MIItems.TONKOTSU_RAMEN, "豚骨拉面");
         translationBuilder.add(MIItems.TOON_PANCAKES, "香椿煎饼");
-        translationBuilder.add(MIItems.TWO_HEAVENS_ONE_STYLE, "双天一式");
+        translationBuilder.add(MIItems.TWO_HEAVENS_ONE_STYLE, "二天一流");
         translationBuilder.add(MIItems.UDUMBARA_CAKE, "幻昙花糕");
         translationBuilder.add(MIItems.UNCONSCIOUS_MONSTER_MOUSSE, "无意识怪物慕斯");
         translationBuilder.add(MIItems.VEGETABLE_SPECIAL, "蔬菜特餐");
@@ -649,6 +670,7 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModItems.FUMO_LICENSE, "Fumo销售许可");
         translationBuilder.add(ModItems.CURSED_DECOY_DOLl, "被诅咒的诱饵人偶");
         translationBuilder.add(ModItems.VAISRAVANAS_PAGODA, "毘沙门天的宝塔");
+        translationBuilder.add(ModItems.DREAM_PILLOW, "梦境枕头");
 
         // 武器
         translationBuilder.add(ModItems.HAKUREI_CANE, "博丽御币");
@@ -797,6 +819,11 @@ public class ModSimpChineseLangProvider extends FabricLanguageProvider implement
         translationBuilder.add(ModBlocks.SPIRITUAL.leaves(), "绳文杉树叶");
         translationBuilder.add(ModBlocks.SPIRITUAL.sapling(), "绳文杉树苗");
         translationBuilder.add(ModBlocks.SPIRITUAL.planks(), "绳文杉木板");
+
+        translationBuilder.add(ModBlocks.ICE_SCALES.block(), "冰鳞砖块");
+        translationBuilder.add(ModBlocks.ICE_SCALES.stair(), "冰鳞砖楼梯");
+        translationBuilder.add(ModBlocks.ICE_SCALES.slab(), "冰鳞砖台阶");
+        translationBuilder.add(ModBlocks.ICE_SCALES.wall(), "冰鳞砖墙");
 
         translationBuilder.add(MIBlocks.LEMON.log(), "柠檬原木");
         translationBuilder.add(MIBlocks.LEMON.wood(), "柠檬树皮");

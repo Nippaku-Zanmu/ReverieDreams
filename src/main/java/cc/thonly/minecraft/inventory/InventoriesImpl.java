@@ -69,8 +69,8 @@ public class InventoriesImpl {
         try {
             result.get();
         } catch (Exception e) {
-            System.out.println(stacks);
-            e.printStackTrace();
+            log.error("Error", e);
+//            System.out.println(stacks);
         }
         return "[]";
     }

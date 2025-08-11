@@ -16,7 +16,7 @@ import cc.thonly.reverie_dreams.item.RoleCard;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.util.CropAgeModelProvider;
 import cc.thonly.reverie_dreams.util.CropAgeUtil;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
@@ -52,6 +52,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MUSIC_BLOCK);
 
         this.registerWoodCreator(blockStateModelGenerator, ModBlocks.SPIRITUAL);
+        this.registerDecorativeBlockCreator(blockStateModelGenerator, ModBlocks.ICE_SCALES);
         this.registerWoodCreator(blockStateModelGenerator, MIBlocks.LEMON);
         blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.LEMON_FRUIT_LEAVES);
         this.registerWoodCreator(blockStateModelGenerator, MIBlocks.GINKGO);
@@ -152,6 +153,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.FUMO_LICENSE, Models.GENERATED);
         itemModelGenerator.register(ModItems.CURSED_DECOY_DOLl);
         itemModelGenerator.register(ModItems.VAISRAVANAS_PAGODA, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DREAM_PILLOW);
 
         // 武器
         itemModelGenerator.register(ModItems.HAKUREI_CANE, Models.HANDHELD);
@@ -243,7 +245,25 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleState(MIBlocks.FRYING_PAN);
         blockStateModelGenerator.registerSimpleState(MIBlocks.GRILL);
         blockStateModelGenerator.registerSimpleState(MIBlocks.STEAMER);
-        blockStateModelGenerator.registerCooker(MIBlocks.COOKTOP, TexturedModel.ORIENTABLE);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.MYSTIA_COOKING_POT);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.MYSTIA_CUTTING_BOARD);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.MYSTIA_FRYING_PAN);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.MYSTIA_GRILL);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.MYSTIA_STEAMER);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.SUPER_COOKING_POT);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.SUPER_CUTTING_BOARD);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.SUPER_FRYING_PAN);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.SUPER_GRILL);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.SUPER_STEAMER);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.EXTREME_COOKING_POT);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.EXTREME_CUTTING_BOARD);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.EXTREME_FRYING_PAN);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.EXTREME_GRILL);
+        blockStateModelGenerator.registerSimpleState(MIBlocks.EXTREME_STEAMER);
+
+        blockStateModelGenerator.registerSimpleState(MIBlocks.ITEM_DISPLAY);
+
+//        blockStateModelGenerator.registerCooker(MIBlocks.COOKTOP, TexturedModel.ORIENTABLE);
         blockStateModelGenerator.registerCubeAllModelTexturePool(MIBlocks.BLACK_SALT_BLOCK);
 
         blockStateModelGenerator.registerTintableCross(MIBlocks.UDUMBARA_FLOWER, BlockStateModelGenerator.CrossType.NOT_TINTED);
@@ -251,6 +271,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     public void generateMIItem(ItemModelGenerator itemModelGenerator) {
+        itemModelGenerator.register(MIItems.MYSTIA_ICON, Models.GENERATED);
         for (Item item : MIItems.INGREDIENTS) {
             itemModelGenerator.register(item, Models.GENERATED);
         }
@@ -307,8 +328,10 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerCubeAllModelTexturePool(creator.leaves());
         blockStateModelGenerator.registerTintableCross(creator.sapling(), BlockStateModelGenerator.CrossType.NOT_TINTED);
         this.registerFamily(blockStateModelGenerator, creator.getBlockFamily());
-        blockStateModelGenerator.registerDoor(creator.door());
-//        blockStateModelGenerator.registerTrapdoor(creator.trapdoor());
+    }
+
+    private void registerDecorativeBlockCreator(BlockStateModelGenerator blockStateModelGenerator, DecorativeBlockCreator creator) {
+        blockStateModelGenerator.registerCubeAllModelTexturePool(creator.block()).stairs(creator.stair()).slab(creator.slab()).wall(creator.wall());
     }
 
     private void registerFamily(BlockStateModelGenerator generator, BlockFamily family) {

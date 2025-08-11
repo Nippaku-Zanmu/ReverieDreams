@@ -1,6 +1,6 @@
 package cc.thonly.mystias_izakaya.component;
 
-import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
+import cc.thonly.mystias_izakaya.api.FoodPropertyCallback;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
@@ -19,16 +19,14 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Setter
 @Getter
 @ToString
-public class FoodProperty implements RegistrableObject<FoodProperty> {
+public class
+FoodProperty implements RegistrableObject<FoodProperty> {
     public static final Codec<FoodProperty> CODEC = Codec.unit(new FoodProperty());
     public static final Codec<List<Item>> TAG_CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
@@ -47,7 +45,6 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
     private Identifier id;
     private final StatusEffectInstance effectInstance;
     private Set<Item> tags = new ObjectOpenHashSet<>();
-    private Set<FoodProperty> conflicts = new ObjectOpenHashSet<>();
 
     public FoodProperty() {
         this.effectInstance = new StatusEffectInstance(new StatusEffectInstance(ModStatusEffects.EMPTY, 1));
@@ -68,67 +65,35 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
 
     }
 
-    @SuppressWarnings("JavaExistingMethodCanBeUsed")
-    public static List<FoodProperty> getConflictingProperties(Item item) {
-        List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);
-        List<FoodProperty> conflicts = new ArrayList<>();
-        for (int i = 0; i < properties.size(); i++) {
-            FoodProperty a = properties.get(i);
-            for (int j = i + 1; j < properties.size(); j++) {
-                FoodProperty b = properties.get(j);
-                if (a.isConflict(b)) {
-                    conflicts.add(a);
-                    conflicts.add(b);
-                }
-            }
-        }
-        return conflicts;
-    }
+//    public static List<FoodProperty> getConflictingProperties(Item item) {
+//        List<FoodProperty> properties = FoodProperty.getIngredientProperties(item);
+//        List<FoodProperty> conflicts = new ArrayList<>();
+//        for (int i = 0; i < properties.size(); i++) {
+//            FoodProperty a = properties.get(i);
+//            for (int j = i + 1; j < properties.size(); j++) {
+//                FoodProperty b = properties.get(j);
+//                if (a.isConflict(b)) {
+//                    conflicts.add(a);
+//                    conflicts.add(b);
+//                }
+//            }
+//        }
+//        return conflicts;
+//    }
 
 
     public static String getDisplayPrefix(Item item, FoodProperty foodProperty) {
         List<FoodProperty> all = FoodProperty.getIngredientProperties(item);
         for (FoodProperty other : all) {
-            if (other != foodProperty && other.isConflict(foodProperty)) {
-                return "§c-";
-            }
+//            if (other != foodProperty && other.isConflict(foodProperty)) {
+//                return "§c-";
+//            }
         }
         return "§b+";
-    }
-
-    public static List<FoodProperty> getConflictingProperties(List<FoodProperty> properties) {
-        List<FoodProperty> conflicts = new ArrayList<>();
-        for (int i = 0; i < properties.size(); i++) {
-            FoodProperty a = properties.get(i);
-            for (int j = i + 1; j < properties.size(); j++) {
-                FoodProperty b = properties.get(j);
-                if (a.isConflict(b)) {
-                    conflicts.add(a);
-                    conflicts.add(b);
-                }
-            }
-        }
-        return conflicts;
-    }
-
-    public static Boolean isConflict(FoodProperty a, FoodProperty b) {
-        Set<FoodProperty> conflicts1 = a.getConflicts();
-        Set<FoodProperty> conflicts2 = b.getConflicts();
-        return conflicts1.contains(b) || conflicts2.contains(a);
     }
     
     public Boolean is(FoodProperty property) {
         return this == property || this.getId().equals(property.getId()) || this.hashCode() == property.hashCode();
-    }
-
-    public Boolean isConflict(FoodProperty property) {
-        return this.conflicts.contains(property);
-    }
-
-    public FoodProperty setConflict(FoodProperty property) {
-        this.conflicts.add(property);
-        property.getConflicts().add(this);
-        return this;
     }
 
     public Text getTooltip() {
@@ -139,6 +104,20 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
         return this.id.toTranslationKey("food_property");
     }
 
+    public static List<FoodProperty> getAllProperties(ItemStack itemStack) {
+        Set<FoodProperty> set = new HashSet<>();
+        set.addAll(getIngredientProperties(itemStack.getItem()));
+        set.addAll(getFromItemStackComponent(itemStack));
+        set.addAll(getFromItemStack(itemStack));
+        return new ArrayList<>(set);
+    }
+
+    /**
+     * 根据给定的 Item 查找所有包含该 Item 的 FoodProperty。
+     * 遍历整个 FOOD_PROPERTY 注册表，检查每个 FoodProperty 是否包含该 Item。
+     * @param item 目标物品
+     * @return 包含该 Item 的所有 FoodProperty 列表
+     */
     public static List<FoodProperty> getIngredientProperties(Item item) {
         List<FoodProperty> list = new ArrayList<>();
         Set<Map.Entry<Identifier, FoodProperty>> entries = MIRegistryManager.FOOD_PROPERTY.entrySet();
@@ -152,11 +131,23 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
         return list;
     }
 
+    /**
+     * 从 ItemStack 的自定义组件（MIDataComponentTypes.FOOD_PROPERTIES）中获取 FoodProperty 列表。
+     * 该组件存储的是 FoodProperty 的 id 字符串列表，通过这些字符串再查询对应的 FoodProperty 对象。
+     * @param itemStack 目标物品栈
+     * @return 对应的 FoodProperty 列表
+     */
     public static List<FoodProperty> getFromItemStackComponent(ItemStack itemStack) {
-        List<String> ids = itemStack.getOrDefault(MIDataComponentTypes.MI_FOOD_PROPERTIES, new ArrayList<>());
+        List<String> ids = itemStack.getOrDefault(MIDataComponentTypes.FOOD_PROPERTIES, new ArrayList<>());
         return getFromStrings(ids);
     }
 
+    /**
+     * 直接从 ItemStack 的物品（Item）获取其所有对应的 FoodProperty。
+     * 实质上是调用 getIngredientProperties 来获取所有包含该物品的 FoodProperty。
+     * @param itemStack 目标物品栈
+     * @return 包含该物品的所有 FoodProperty 列表
+     */
     public static List<FoodProperty> getFromItemStack(ItemStack itemStack) {
         List<FoodProperty> list = new ArrayList<>();
         Item item = itemStack.getItem();
@@ -171,12 +162,19 @@ public class FoodProperty implements RegistrableObject<FoodProperty> {
         return list;
     }
 
+    /**
+     * 根据一组 FoodProperty 的 id 字符串列表，查询对应的 FoodProperty 对象列表。
+     * @param ids FoodProperty 的 id 字符串列表
+     * @return 对应的 FoodProperty 对象列表，若 id 无对应 FoodProperty 则忽略
+     */
     public static List<FoodProperty> getFromStrings(List<String> ids) {
         List<FoodProperty> list = new ArrayList<>();
         for (String id : ids) {
             Identifier identifier = Identifier.of(id);
             FoodProperty foodProperty = MIRegistryManager.FOOD_PROPERTY.get(identifier);
-            list.add(foodProperty);
+            if (foodProperty != null) {
+                list.add(foodProperty);
+            }
         }
         return list;
     }

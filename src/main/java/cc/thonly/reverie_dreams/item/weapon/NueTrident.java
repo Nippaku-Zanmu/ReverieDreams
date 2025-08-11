@@ -39,7 +39,7 @@ public class NueTrident extends BasicPolymerMiningToolItem implements Projectile
     public static final ToolMaterial NUE_TRIDENT = new ToolMaterial(ModTags.BlockTypeTag.MIN_TOOL, 450, 4.5f, 5.5f, 1, ItemTags.NETHERITE_TOOL_MATERIALS);
 
     public NueTrident(String path, float attackDamage, float attackSpeed, Item.Settings settings) {
-        super(path, NUE_TRIDENT, attackDamage + 3.5f, attackSpeed - 2.8f, settings.attributeModifiers(createAttributeModifiers()).component(DataComponentTypes.TOOL, createToolComponent()).enchantable(1).component(DataComponentTypes.WEAPON, new WeaponComponent(1)));
+        super(path, NUE_TRIDENT, attackDamage + 3.5f, attackSpeed - 2.8f, settings.attributeModifiers(createAttributeModifiers()).component(DataComponentTypes.TOOL, createToolComponent()).enchantable(1).component(DataComponentTypes.WEAPON, new WeaponComponent(1)).enchantable(1));
     }
 
     @Override

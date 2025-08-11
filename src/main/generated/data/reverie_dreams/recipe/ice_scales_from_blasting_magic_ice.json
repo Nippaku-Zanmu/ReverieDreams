@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 70,
+  "experience": 0.7,
+  "group": "silver_ingot",
+  "ingredient": "reverie_dreams:magic_ice",
+  "result": {
+    "id": "reverie_dreams:ice_scales"
+  }
+}

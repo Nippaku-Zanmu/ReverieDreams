@@ -2,8 +2,8 @@ package cc.thonly.reverie_dreams.compat;
 
 import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesCallback;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesImpl;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesCallback;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesImpl;
 import net.minecraft.item.Items;
 
 public class VanillaCompat {

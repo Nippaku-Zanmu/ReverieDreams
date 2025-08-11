@@ -1,9 +1,9 @@
 package cc.thonly.reverie_dreams.recipe;
 
 import cc.thonly.reverie_dreams.Touhou;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesCallback;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesImpl;
-import cc.thonly.reverie_dreams.impl.RecipeInjectCallback;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesCallback;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesImpl;
+import cc.thonly.reverie_dreams.api.RecipeInjectCallback;
 import cc.thonly.reverie_dreams.recipe.entry.DanmakuRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.GensokyoAltarRecipe;
 import cc.thonly.reverie_dreams.recipe.entry.StrengthTableRecipe;

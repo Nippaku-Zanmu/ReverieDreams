@@ -1230,6 +1230,6 @@ public class MIIngredientProvider extends IngredientProvider {
 
     @Override
     public String getName() {
-        return "Mystia's Izakaya MIIngredient Generator";
+        return "Ingredient";
     }
 }
