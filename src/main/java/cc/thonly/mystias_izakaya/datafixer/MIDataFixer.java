@@ -1,8 +1,8 @@
 package cc.thonly.mystias_izakaya.datafixer;
 
-import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
+import cc.thonly.reverie_dreams.datafixer.DataFixerContentManager;
 
-public class MIDataFixer extends ModDataFixer {
+public class MIDataFixer extends DataFixerContentManager {
 
     public static void bootstrap() {
 

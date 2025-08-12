@@ -1,6 +1,5 @@
 package cc.thonly.reverie_dreams.data;
 
-import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
@@ -14,6 +13,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.StrayEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -129,6 +129,7 @@ public class ModLootModifies {
 
     private static void modifyDrops(LivingEntity entity, DamageSource damageSource) {
         dropPointPower(entity, damageSource);
+        dropIceScales(entity, damageSource);
     }
 
     private static void dropPointPower(LivingEntity entity, DamageSource damageSource) {
@@ -136,13 +137,26 @@ public class ModLootModifies {
         World world = entity.getWorld();
         if ((entity instanceof HairballEntity || entity instanceof HostileEntity || entity instanceof Yousei) && world instanceof ServerWorld serverWorld) {
             Random random = Random.create();
-            int dropChance = 55;
-            int maxDropCount = 4;
+            int dropChance = 45;
+            int maxDropCount = 3;
 
             if (random.nextInt(100) < dropChance) {
                 entity.dropStack(serverWorld, new ItemStack(ModItems.POWER, random.nextInt(maxDropCount + 1) + 1));
                 entity.dropStack(serverWorld, new ItemStack(ModItems.POINT, random.nextInt(maxDropCount + 1) + 1));
             }
+        }
+
+    }
+
+    private static void dropIceScales(LivingEntity entity, DamageSource damageSource) {
+        World world = entity.getWorld();
+        if (world instanceof ServerWorld serverWorld && entity instanceof StrayEntity) {
+            Random random = Random.create();
+            int dropChance = 45;
+            int maxDropCount = 3;
+            if (random.nextInt(100) < dropChance) {
+                entity.dropStack(serverWorld, new ItemStack(ModItems.ICE_SCALES, random.nextInt(maxDropCount + 1) + 1));
+           }
         }
     }
 

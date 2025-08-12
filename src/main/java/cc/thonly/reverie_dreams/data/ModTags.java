@@ -2,7 +2,6 @@ package cc.thonly.reverie_dreams.data;
 
 import cc.thonly.reverie_dreams.Touhou;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
@@ -57,7 +56,7 @@ public class ModTags {
         }
     }
 
-    public static void registerTags() {
+    public static void loadTags() {
         BlockTypeTag.register();
         ItemTypeTag.register();
     }

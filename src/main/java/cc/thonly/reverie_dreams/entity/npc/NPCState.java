@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
+import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import com.mojang.serialization.Codec;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import net.minecraft.util.Identifier;
 @Getter
 public class NPCState implements RegistrableObject<NPCState> {
     public static final Codec<NPCState> CODEC = Codec.unit(NPCState::new);
+    public static final String DEFAULT_ID = Touhou.id("normal").toString();
 
     private Identifier id;
     private final String type;

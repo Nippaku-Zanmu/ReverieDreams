@@ -3,7 +3,7 @@ package cc.thonly.reverie_dreams.compat;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
-import cc.thonly.reverie_dreams.impl.RegistryManagerReloadCallback;
+import cc.thonly.reverie_dreams.api.RegistryManagerReloadCallback;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import draylar.gofish.registry.GoFishItems;
 import net.minecraft.item.Item;

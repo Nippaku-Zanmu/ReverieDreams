@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.compat.page;
 
+import cc.thonly.mystias_izakaya.block.KitchenBlockType;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
-import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.item.ModGuiItems;
@@ -92,7 +92,7 @@ public class KitchenPage implements PolydexPage {
         } else if (s.equals("T")) {
             return ModGuiItems.PROGRESS_TO_RESULT.getDefaultStack();
         } else if (s.equals("P")) {
-            Block block = KitchenwareBlockEntity.BLOCK_2_KITCHEN_TYPE.inverse().get(this.value.getType());
+            Block block = KitchenBlockType.KITCHEN_TYPE_2_BLOCK.get(this.value.getType());
             if (block != null) {
                 return block.asItem().getDefaultStack();
             }

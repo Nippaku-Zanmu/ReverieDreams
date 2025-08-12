@@ -43,21 +43,31 @@ public class BasicPolymerSpawnEggItem extends PolymerSpawnEggItem implements Ide
     public BasicPolymerSpawnEggItem(String identifier, EntityType<? extends MobEntity> type, Item polymerItem, boolean useModel, Settings settings) {
         super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, Touhou.id(identifier))).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = Touhou.id(identifier);
+
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Settings settings) {
         super(type, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
+
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Item polymerItem, Settings settings) {
         super(type, polymerItem, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
+
     }
 
     public BasicPolymerSpawnEggItem(Identifier identifier, EntityType<? extends MobEntity> type, Item polymerItem, boolean useModel, Settings settings) {
         super(type, polymerItem, useModel, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)).component(DataComponentTypes.DYED_COLOR, DEFAULT_COLOR));
         this.identifier = identifier;
+
+    }
+
+    public void setColor(long color) {
+        this.color = color;
+        DyedColorComponent dyedColorComponent = this.components.getOrDefault(DataComponentTypes.DYED_COLOR, new DyedColorComponent(16777215));
+        dyedColorComponent.rgb = (int) this.color;
     }
 
     @Override

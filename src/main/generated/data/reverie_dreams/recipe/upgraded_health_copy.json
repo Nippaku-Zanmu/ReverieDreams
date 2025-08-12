@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "reverie_dreams:upgraded_health_fragment",
+    "X": "reverie_dreams:power_block"
+  },
+  "pattern": [
+    "XXX",
+    "X#X",
+    "XXX"
+  ],
+  "result": {
+    "count": 2,
+    "id": "reverie_dreams:upgraded_health"
+  }
+}

@@ -2,11 +2,15 @@ package cc.thonly.reverie_dreams.mixin;
 
 import cc.thonly.reverie_dreams.effect.ModStatusEffects;
 import cc.thonly.reverie_dreams.entity.misc.DanmakuEntity;
+import cc.thonly.reverie_dreams.interfaces.IDreamPillowManager;
 import cc.thonly.reverie_dreams.interfaces.ILivingEntity;
+import cc.thonly.reverie_dreams.item.DreamPillowItem;
 import cc.thonly.reverie_dreams.item.armor.EarphoneItem;
 import cc.thonly.reverie_dreams.item.armor.KoishiHatItem;
+import cc.thonly.reverie_dreams.server.DreamPillowManager;
 import cc.thonly.reverie_dreams.sound.SoundEventInit;
-import cc.thonly.reverie_dreams.world.WorldGetter;
+import cc.thonly.reverie_dreams.interfaces.IWorld;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,7 +26,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -33,7 +36,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,6 +51,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 @SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(LivingEntity.class)
@@ -78,6 +85,11 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     @Shadow
     public abstract ItemStack getEquippedStack(EquipmentSlot slot);
 
+    @Shadow
+    public abstract Optional<BlockPos> getSleepingPosition();
+
+    @Shadow
+    public float headYaw;
     @Unique
     public double manpozuchiUsingState = 1;
     @Unique
@@ -90,6 +102,8 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     private ServerWorld kanjuWorld;
     @Unique
     private BlockPos kanjuBlockPos = new BlockPos(0, 0, 0);
+    @Unique
+    private BlockPos tempSleepPosition;
 
 
     public LivingEntityMixin(EntityType<?> type, World world) {
@@ -112,6 +126,54 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
             this.kanjuWorld = (ServerWorld) world;
         }
     }
+
+    @Inject(method = "wakeUp", at = @At(value = "HEAD"))
+    public void wakeUpHead(CallbackInfo ci) {
+        Optional<BlockPos> blockPos = this.dataTracker.get(LivingEntity.SLEEPING_POSITION);
+        blockPos.ifPresent(pos -> this.tempSleepPosition = pos);
+    }
+
+    @Inject(method = "wakeUp", at = @At(value = "TAIL"))
+    public void wakeUp(CallbackInfo ci) {
+        MinecraftServer server = this.getServer();
+        if (server == null) return;
+        World world = this.getWorld();
+        if (!(world instanceof ServerWorld serverWorld)) return;
+        IWorld iWorld = (IWorld) world;
+        RegistryKey<World> dreamWorldKey = iWorld.getDreamWorld();
+        ServerWorld dreamWorld = server.getWorld(dreamWorldKey);
+        if (dreamWorld == null) return;
+        ServerWorld overworld = server.getOverworld();
+        if (serverWorld.equals(dreamWorld)) {
+            BlockPos spawnPos = overworld.getSpawnPos();
+            this.teleport(server.getOverworld(), spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5,
+                    EnumSet.noneOf(PositionFlag.class), this.getYaw(), this.getPitch(), true);
+            serverWorld.spawnParticles(ParticleTypes.HEART, this.getX(), this.getY() + 1.0, this.getZ(), 5, 0.5, 0.5, 0.5, 0.1);
+            return;
+        }
+        Optional<BlockPos> sleepingPosition = Optional.ofNullable(this.tempSleepPosition);
+        sleepingPosition.ifPresent(pos -> {
+            IDreamPillowManager iDreamPillowManager = (IDreamPillowManager) server;
+            DreamPillowManager dreamPillowManager = iDreamPillowManager.getDreamPillowManager();
+            Pair<Boolean, BlockPos> bedHead = DreamPillowItem.getBedHead(serverWorld, pos);
+            if (bedHead.getLeft() && dreamPillowManager.get(serverWorld).contains(bedHead.getRight()) && this.getWorld() == server.getOverworld()) {
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5));
+                this.teleport(dreamWorld, this.getX() + 0.5, this.getY(), this.getZ() + 0.5,
+                        EnumSet.noneOf(PositionFlag.class), this.getYaw(), this.getPitch(), true);
+
+                BlockPos targetPos = findSafeTeleportPos(dreamWorld, new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ()));
+                this.teleport(dreamWorld, targetPos.getX() + 0.5, targetPos.getY() + 5, targetPos.getZ() + 0.5,
+                        EnumSet.noneOf(PositionFlag.class), this.getYaw(), this.getPitch(), true);
+                serverWorld.spawnParticles(ParticleTypes.HEART, this.getX(), this.getY() + 1.0, this.getZ(), 5, 0.5, 0.5, 0.5, 0.1);
+            }
+        });
+    }
+
+    @Unique
+    private BlockPos findSafeTeleportPos(ServerWorld world, BlockPos pos) {
+        return world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, pos);
+    }
+
 
 //    @Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
 //    public void getMaxHealth(CallbackInfoReturnable<Float> ci) {
@@ -184,7 +246,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
             MinecraftServer server = this.getWorld().getServer();
             World world = this.getWorld();
             double mobY = this.getY();
-            RegistryKey<World> moonKey = ((WorldGetter) world).getMoon();
+            RegistryKey<World> moonKey = ((IWorld) world).getMoon();
             RegistryKey<World> registryKey = world.getRegistryKey();
             if (server != null) {
                 ServerWorld moonWorld = server.getWorld(moonKey);

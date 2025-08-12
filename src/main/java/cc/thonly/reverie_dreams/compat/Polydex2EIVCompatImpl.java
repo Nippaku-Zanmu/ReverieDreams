@@ -20,7 +20,7 @@ public class Polydex2EIVCompatImpl {
             List<ItemStack> stacks = new ArrayList<>();
             Collection<DanmakuType> danmakuTypes = RegistryManager.DANMAKU_TYPE.values();
             for (DanmakuType danmakuType : danmakuTypes) {
-                List<Pair<Item, ItemStack>> pairs = danmakuType.getColorPair();
+                List<Pair<Item, ItemStack>> pairs = danmakuType.getColorPairs();
                 for (Pair<Item, ItemStack> pair : pairs) {
                     stacks.add(pair.getRight());
                 }

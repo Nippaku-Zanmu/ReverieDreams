@@ -1,13 +1,12 @@
 package cc.thonly.reverie_dreams.world;
 
 import cc.thonly.reverie_dreams.entity.ModEntities;
+import cc.thonly.reverie_dreams.entity.elemental.IceElementalEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.mob.Monster;
-import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
@@ -135,6 +134,28 @@ public class BiomeModificationInit {
                 BiomeSelectors.tag(ConventionalBiomeTags.IS_DARK_FOREST),
                 SpawnGroup.MONSTER,
                 ModEntities.MUSHROOM_MONSTER_ENTITY_TYPE, 8, 1, 2
+        );
+        // 冰元素
+        BiomeModifications.addSpawn(
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_SNOWY),
+                SpawnGroup.MONSTER,
+                ModEntities.ICE_ELEMENTAL_ENTITY_TYPE, 10, 1, 2
+        );
+        BiomeModifications.addSpawn(
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_SNOWY_PLAINS),
+                SpawnGroup.MONSTER,
+                ModEntities.ICE_ELEMENTAL_ENTITY_TYPE, 10, 1, 2
+        );
+        BiomeModifications.addSpawn(
+                BiomeSelectors.tag(ConventionalBiomeTags.IS_COLD_END),
+                SpawnGroup.MONSTER,
+                ModEntities.ICE_ELEMENTAL_ENTITY_TYPE, 10, 1, 2
+        );
+        SpawnRestriction.register(
+                ModEntities.ICE_ELEMENTAL_ENTITY_TYPE,
+                SpawnLocationTypes.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                IceElementalEntity::canSpawn
         );
     }
 

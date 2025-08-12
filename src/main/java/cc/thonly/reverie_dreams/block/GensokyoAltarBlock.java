@@ -180,7 +180,6 @@ public class GensokyoAltarBlock extends BasicPolymerFactoryBlockWithEntity {
             return (GensokyoAltarBlockEntity) this.world.getBlockEntity(this.pos);
         }
 
-
         public float angle = 0;
 
         public void update() {

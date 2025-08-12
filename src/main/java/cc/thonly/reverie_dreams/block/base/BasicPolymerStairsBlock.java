@@ -104,11 +104,10 @@ public class BasicPolymerStairsBlock extends StairsBlock implements FactoryBlock
 
         @Override
         public void notifyUpdate(HolderAttachment.UpdateType updateType) {
-            if (updateType == BlockBoundAttachment.BLOCK_STATE_UPDATE) {
-                updateItem(this.blockState());
-                updateStatePos(this.blockState());
-                this.tick();
-            }
+            updateItem(this.blockState());
+            updateStatePos(this.blockState());
+            this.tick();
+
             super.notifyUpdate(updateType);
         }
     }

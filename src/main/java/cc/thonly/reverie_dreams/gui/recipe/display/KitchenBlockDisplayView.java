@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.gui.recipe.display;
 
-import cc.thonly.mystias_izakaya.block.entity.KitchenwareBlockEntity;
+import cc.thonly.mystias_izakaya.block.KitchenBlockType;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.recipe.type.KitchenRecipeType;
 import cc.thonly.reverie_dreams.gui.PlayerHeadInfo;
@@ -69,8 +69,7 @@ public class KitchenBlockDisplayView extends SimpleGui implements DisplayView {
                     this.setSlot(slot, builder);
                 }
                 if (c.equalsIgnoreCase("P")) {
-                    BiMap<KitchenRecipeType.KitchenType, Block> inverse = KitchenwareBlockEntity.BLOCK_2_KITCHEN_TYPE.inverse();
-                    Block block = inverse.get(this.value.getType());
+                    Block block = KitchenBlockType.KITCHEN_TYPE_2_BLOCK.get(this.value.getType());
                     this.setSlot(slot, new GuiElementBuilder(block.asItem()));
                 }
                 if (c.equalsIgnoreCase("B")) {

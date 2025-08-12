@@ -2,11 +2,11 @@ package cc.thonly.reverie_dreams.entity.npc;
 
 import cc.thonly.mystias_izakaya.component.FoodProperty;
 import cc.thonly.mystias_izakaya.item.base.FoodItem;
-import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.component.ModDataComponentTypes;
 import cc.thonly.reverie_dreams.component.RoleFollowerArchive;
 import cc.thonly.reverie_dreams.entity.ai.goal.attack.NPCBowAttackGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.attack.NPCCrossbowAttackGoal;
+import cc.thonly.reverie_dreams.entity.ai.goal.attack.NPCDanmakuItemGoal;
 import cc.thonly.reverie_dreams.entity.ai.goal.attack.RangedAttackUtil;
 import cc.thonly.reverie_dreams.entity.base.NPCEntity;
 import cc.thonly.reverie_dreams.entity.skin.MobSkins;
@@ -131,6 +131,7 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     private final NPCBowAttackGoal<NPCEntityImpl> bowAttackGoal = new NPCBowAttackGoal<>(this, 1.0, 20, 15.0f);
     private final NPCCrossbowAttackGoal crossBowAttackGoal = new NPCCrossbowAttackGoal(this, 1.0, 20);
+    private final NPCDanmakuItemGoal<NPCEntityImpl> danmakuItemGoal = new NPCDanmakuItemGoal<>(this, 1.0, 20, 15.0f);
 
     private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.5, false) {
         @Override
@@ -199,8 +200,8 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
         this.sit = view.getBoolean("IsSit", false);
 
-        this.npcState = NPCStates.get(Identifier.of(view.getString("NPCStateId", Touhou.id("normal").toString())));
-        this.workMode = NPCWorkModes.get(Identifier.of(view.getString("NPCWorkStateId", Touhou.id("combat").toString())));
+        this.npcState = NPCStates.get(Identifier.of(view.getString("NPCStateId", NPCState.DEFAULT_ID)));
+        this.workMode = NPCWorkModes.get(Identifier.of(view.getString("NPCWorkStateId", NPCWorkMode.DEFAULT_ID)));
         this.npcOwner = view.getString("NpcOwner", "");
 
         NPCInventoryImpl inventory = new NPCInventoryImpl(NPCInventoryImpl.MAX_SIZE);
@@ -267,28 +268,29 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
     @Override
     public void shootAt(LivingEntity target, float pullProgress) {
         ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this,
-                this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null? Items.BOW:Items.CROSSBOW));
+                this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null ? Items.BOW : Items.CROSSBOW));
 //        ItemStack itemStack2 = this.getProjectileType(itemStack);
 
-        if (itemStack.getItem() instanceof CrossbowItem){
+        if (itemStack.getItem() instanceof CrossbowItem) {
             ChargedProjectilesComponent chargedProjectilesComponent = itemStack.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT);
             for (ItemStack projStack : chargedProjectilesComponent.getProjectiles()) {
                 ProjectileEntity projectile = this.createArrowProjectile(projStack, 3.15f, itemStack);
-                shoot(target,projStack,projectile);
+                shoot(target, projStack, projectile);
             }
 //            shoot(this,3.15f);
             //CrossBowItem L86 玩家射箭的箭矢速度
             return;
-        }else {
+        } else {
             ItemStack arrow = RangedAttackUtil.getArrowStack(this);
             ProjectileEntity projectile = this.createArrowProjectile(arrow, pullProgress, itemStack);
             arrow.decrement(1);
-            shoot(target,arrow,projectile);
+            shoot(target, arrow, projectile);
         }
 
 
     }
-    private void shoot(Entity target,ItemStack arrow,ProjectileEntity arrowEntity){
+
+    private void shoot(Entity target, ItemStack arrow, ProjectileEntity arrowEntity) {
 //        ItemStack arrow = RangedAttackUtil.getArrowStack(this);
 //        if (arrow==null)return;
 
@@ -632,14 +634,17 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
         this.goalSelector.remove(this.meleeAttackGoal);
         this.goalSelector.remove(this.bowAttackGoal);
         this.goalSelector.remove(this.crossBowAttackGoal);
+        this.goalSelector.remove(this.danmakuItemGoal);
 //        ItemStack itemStack = this.getMainHandStack();
 
-        if (RangedAttackUtil.getArrowStack(this)!=null&&(this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null)) {
+        if (RangedAttackUtil.getArrowStack(this) != null && (this.inventory.findHand((stack -> stack.isOf(Items.BOW) || stack.getItem() instanceof BowItem)) != null)) {
             int i = this.getRegularAttackInterval();
             this.bowAttackGoal.setAttackInterval(i);
             this.goalSelector.add(4, this.bowAttackGoal);
-        } else if (RangedAttackUtil.getCrossBowAmmoStack(this)!=null&&(this.inventory.findHand((stack -> stack.isOf(Items.CROSSBOW) || stack.getItem() instanceof CrossbowItem)) != null)) {
+        } else if (RangedAttackUtil.getCrossBowAmmoStack(this) != null && (this.inventory.findHand((stack -> stack.isOf(Items.CROSSBOW) || stack.getItem() instanceof CrossbowItem)) != null)) {
             this.goalSelector.add(4, this.crossBowAttackGoal);
+        } else if (RangedAttackUtil.isDanmakuInHand(this)) {
+            this.goalSelector.add(4, this.danmakuItemGoal);
         } else {
             this.goalSelector.add(4, this.meleeAttackGoal);
         }
@@ -898,14 +903,14 @@ public abstract class NPCEntityImpl extends NPCEntity implements RangedAttackMob
 
     @Override
     public ItemStack getMainHandStack() {
-        ItemStack stack = inventory.getStack(NPCInventoryImpl.MAIN_HAND);
+        ItemStack stack = this.inventory.getStack(NPCInventoryImpl.MAIN_HAND);
         if (stack.isEmpty()) return super.getMainHandStack();
         return stack;
     }
 
     @Override
     public ItemStack getOffHandStack() {
-        ItemStack stack = inventory.getStack(NPCInventoryImpl.OFF_HAND);
+        ItemStack stack = this.inventory.getStack(NPCInventoryImpl.OFF_HAND);
         if (stack.isEmpty()) return super.getOffHandStack();
         return stack;
     }

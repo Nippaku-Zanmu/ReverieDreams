@@ -28,3 +28,7 @@ accessible field net/minecraft/registry/SimpleRegistry tags Ljava/util/Map;
 accessible field net/minecraft/registry/entry/RegistryEntryList$Named entries Ljava/util/List;
 accessible method net/minecraft/item/RangedWeaponItem load (Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;)Ljava/util/List;
 accessible class net/minecraft/registry/RegistryLoader$RegistryLoadable
+accessible field net/minecraft/item/Item components Lnet/minecraft/component/ComponentMap;
+accessible field net/minecraft/component/type/DyedColorComponent rgb I
+mutable field net/minecraft/component/type/DyedColorComponent rgb I
+accessible field net/minecraft/data/recipe/RecipeGenerator exporter Lnet/minecraft/data/recipe/RecipeExporter;

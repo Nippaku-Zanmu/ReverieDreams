@@ -6,6 +6,7 @@ import cc.thonly.reverie_dreams.danmaku.DanmakuTrajectory;
 import cc.thonly.reverie_dreams.danmaku.DanmakuType;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerDanmakuItem;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,9 +16,11 @@ import net.minecraft.util.Identifier;
 
 public class BasicDanmakuTypeItem extends BasicPolymerDanmakuItem {
     protected DanmakuType type;
+
     public BasicDanmakuTypeItem(String path, Settings settings) {
         super(path, settings, Items.TORCH);
     }
+
     public BasicDanmakuTypeItem(Identifier identifier, Settings settings) {
         super(identifier, settings, Items.TORCH);
     }
@@ -33,14 +36,14 @@ public class BasicDanmakuTypeItem extends BasicPolymerDanmakuItem {
     }
 
     @Override
-    public void shoot(ServerWorld serverWorld, PlayerEntity user, Hand hand) {
+    public void shoot(ServerWorld serverWorld, LivingEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand).copy();
         String templateType = stack.getOrDefault(ModDataComponentTypes.Danmaku.TEMPLATE, Touhou.id("single").toString());
         DanmakuTrajectory danmakuTrajectory = RegistryManager.DANMAKU_TRAJECTORY.get(Identifier.of(templateType));
         Float speed = stack.getOrDefault(ModDataComponentTypes.Danmaku.SPEED, 1.0f);
         Float acceleration = stack.getOrDefault(ModDataComponentTypes.Danmaku.ACCELERATION, 0.0f);
 
-        danmakuTrajectory.run(serverWorld, user, stack, user.getX(), user.getY(), user.getZ(), user.getPitch(), user.getYaw(), speed, acceleration, 0f,1.5f, this);
+        danmakuTrajectory.run(serverWorld, user, stack, user.getX(), user.getY(), user.getZ(), user.getPitch(), user.getYaw(), speed, acceleration, 0f, 1.5f, this);
 
-     }
+    }
 }

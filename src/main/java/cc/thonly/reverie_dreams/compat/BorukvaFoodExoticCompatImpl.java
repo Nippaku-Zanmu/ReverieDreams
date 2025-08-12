@@ -6,9 +6,9 @@ import cc.thonly.mystias_izakaya.recipe.MiRecipeManager;
 import cc.thonly.mystias_izakaya.recipe.entry.KitchenRecipe;
 import cc.thonly.mystias_izakaya.registry.FoodProperties;
 import cc.thonly.mystias_izakaya.registry.MIRegistryManager;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesCallback;
-import cc.thonly.reverie_dreams.impl.RecipeCompatPatchesImpl;
-import cc.thonly.reverie_dreams.impl.RegistryManagerReloadCallback;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesCallback;
+import cc.thonly.reverie_dreams.api.RecipeCompatPatchesImpl;
+import cc.thonly.reverie_dreams.api.RegistryManagerReloadCallback;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import com.phoen1x.borukvafoodexotic.item.ModItems;
 import net.minecraft.item.Item;
@@ -16,7 +16,6 @@ import net.minecraft.util.Identifier;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")

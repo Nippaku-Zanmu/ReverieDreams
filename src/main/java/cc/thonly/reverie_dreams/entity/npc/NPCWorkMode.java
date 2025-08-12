@@ -1,5 +1,6 @@
 package cc.thonly.reverie_dreams.entity.npc;
 
+import cc.thonly.reverie_dreams.Touhou;
 import cc.thonly.reverie_dreams.registry.RegistrableObject;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import com.mojang.serialization.Codec;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Setter
 public class NPCWorkMode implements RegistrableObject<NPCWorkMode> {
     public static final Codec<NPCWorkMode> CODEC = Codec.unit(NPCWorkMode::new);
+    public static final String DEFAULT_ID = Touhou.id("combat").toString();
     private final String type;
     private final Item itemDisplay;
     private Identifier id;

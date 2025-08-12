@@ -1,12 +1,14 @@
 package cc.thonly.reverie_dreams.datagen;
 
 import autovalue.shaded.kotlin.collections.builders.MapBuilder;
+import cc.thonly.mystias_izakaya.block.AbstractKitchenwareBlock;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.mystias_izakaya.item.MIItems;
 import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.block.WoodCreator;
 import cc.thonly.reverie_dreams.item.ModItems;
 import com.google.common.collect.ImmutableList;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
@@ -22,9 +24,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ModRecipeGenerator extends RecipeGenerator {
     public static ImmutableList<ItemConvertible> SILVER = ImmutableList.of(ModBlocks.SILVER_ORE.asItem(), ModBlocks.DEEPSLATE_SILVER_ORE.asItem(), ModItems.RAW_SILVER);
@@ -64,11 +64,37 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_diamond", conditionsFromItem(Items.DIAMOND))
                 .offerTo(exporter, getRecipeName(ModItems.SPEED_FEATHER));
 
+        // 梦境枕头
+        createShaped(RecipeCategory.DECORATIONS, ModItems.DREAM_PILLOW)
+                .pattern("XXX")
+                .pattern("Y#Y")
+                .input('X', Items.PINK_WOOL)
+                .input('Y', Items.GOLD_INGOT)
+                .input('#', Items.EMERALD)
+                .criterion("has_emerald", conditionsFromItem(Items.EMERALD))
+                .offerTo(exporter, getRecipeName(ModItems.DREAM_PILLOW));
+
         // Bomb
         offerIngotToBlockRecipe(exporter, ModItems.UPGRADED_HEALTH_FRAGMENT, ModItems.UPGRADED_HEALTH);
+        createShaped(RecipeCategory.MISC, ModItems.UPGRADED_HEALTH, 2)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', ModBlocks.POWER_BLOCK)
+                .input('#', ModItems.UPGRADED_HEALTH_FRAGMENT)
+                .criterion("has_health_fragment", conditionsFromItem(ModItems.UPGRADED_HEALTH_FRAGMENT))
+                .offerTo(exporter, getRecipeName(ModItems.UPGRADED_HEALTH) + "_copy");
 
         // 残机
         offerIngotToBlockRecipe(exporter, ModItems.BOMB_FRAGMENT, ModItems.BOMB);
+        createShaped(RecipeCategory.MISC, ModItems.BOMB, 2)
+                .pattern("XXX")
+                .pattern("X#X")
+                .pattern("XXX")
+                .input('X', ModBlocks.POINT_BLOCK)
+                .input('#', ModItems.BOMB_FRAGMENT)
+                .criterion("has_bomb_fragment", conditionsFromItem(ModItems.BOMB_FRAGMENT))
+                .offerTo(exporter, getRecipeName(ModItems.BOMB) + "_copy");
 
         // 空白角色卡
         createShaped(RecipeCategory.MISC, ModItems.ROLE_CARD)
@@ -115,6 +141,7 @@ public class ModRecipeGenerator extends RecipeGenerator {
         this.generateWoodCreator(ModBlocks.SPIRITUAL);
         this.generateWoodCreator(MIBlocks.LEMON);
         this.generateWoodCreator(MIBlocks.GINKGO);
+        this.generateDecorativeBlock();
 
         this.generateWorkBlock();
         this.generateOrb();
@@ -249,7 +276,7 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .criterion("has_chili", conditionsFromItem(MIItems.CHILI))
                 .offerTo(exporter, getRecipeName(MIItems.CREAM));
 
-        offerSmelting(List.of(MIItems.BLACK_PORK, MIItems.WILD_BOAR_MEAT), RecipeCategory.MISC, Items.COOKED_PORKCHOP, 0.7F, 250, "food");
+        offerSmelting(List.of(MIItems.BLACK_PORK, MIItems.WILD_BOAR_MEAT), RecipeCategory.MISC, Items.COOKED_PORKCHOP, 0.7F, 160, "food");
 
 //        createShaped(RecipeCategory.FOOD, MIItems.FLOWERS)
 //                .pattern("##")
@@ -257,6 +284,10 @@ public class ModRecipeGenerator extends RecipeGenerator {
 //                .input('#', ItemTags.FLOWERS)
 //                .criterion("has_wheat", conditionsFromItem(Items.WHEAT))
 //                .offerTo(exporter, getRecipeName(MIItems.FLOUR));
+    }
+
+    private void generateDecorativeBlock() {
+        ModBlocks.ICE_SCALES.offerRecipe(this, ModItems.ICE_SCALES);
     }
 
     private void generateMusicBlock() {
@@ -407,7 +438,8 @@ public class ModRecipeGenerator extends RecipeGenerator {
     }
 
     private void generateMagicIce() {
-
+        offerSmelting(List.of(ModBlocks.MAGIC_ICE_BLOCK.asItem()), RecipeCategory.MISC, ModItems.ICE_SCALES, 0.7F, 140, "silver_ingot");
+        offerBlasting(List.of(ModBlocks.MAGIC_ICE_BLOCK.asItem()), RecipeCategory.MISC, ModItems.ICE_SCALES, 0.7F, 70, "silver_ingot");
         // 魔法冰
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.MAGIC_ICE_BLOCK)
                 .pattern("XXX")
@@ -490,16 +522,67 @@ public class ModRecipeGenerator extends RecipeGenerator {
                 .input('Y', Items.OAK_SLAB)
                 .criterion("always", conditionsFromItem(Items.AIR))
                 .offerTo(exporter, getRecipeName(MIBlocks.STEAMER));
-
-        // 能量罩
-        createShaped(RecipeCategory.DECORATIONS, MIBlocks.COOKTOP)
-                .pattern("YYY")
+        createShaped(RecipeCategory.DECORATIONS, MIBlocks.ITEM_DISPLAY)
                 .pattern("YXY")
-                .pattern("YYY")
-                .input('X', Items.FURNACE)
-                .input('Y', Items.BRICKS)
+                .pattern(" Y ")
+                .input('X', Items.ITEM_FRAME)
+                .input('Y', Items.QUARTZ)
                 .criterion("always", conditionsFromItem(Items.AIR))
-                .offerTo(exporter, getRecipeName(MIBlocks.COOKTOP));
+                .offerTo(exporter, getRecipeName(MIBlocks.ITEM_DISPLAY));
+
+        this.offerMIUpgradeRecipes();
+//        // 能量罩
+//        createShaped(RecipeCategory.DECORATIONS, MIBlocks.COOKTOP)
+//                .pattern("YYY")
+//                .pattern("YXY")
+//                .pattern("YYY")
+//                .input('X', Items.FURNACE)
+//                .input('Y', Items.BRICKS)
+//                .criterion("always", conditionsFromItem(Items.AIR))
+//                .offerTo(exporter, getRecipeName(MIBlocks.COOKTOP));
+    }
+
+    private void offerMIUpgradeRecipes() {
+        Map<Block, Block> mystiaUpgrade = new Object2ObjectOpenHashMap<>();
+        mystiaUpgrade.put(MIBlocks.COOKING_POT, MIBlocks.MYSTIA_COOKING_POT);
+        mystiaUpgrade.put(MIBlocks.CUTTING_BOARD, MIBlocks.MYSTIA_CUTTING_BOARD);
+        mystiaUpgrade.put(MIBlocks.FRYING_PAN, MIBlocks.MYSTIA_FRYING_PAN);
+        mystiaUpgrade.put(MIBlocks.GRILL, MIBlocks.MYSTIA_GRILL);
+        mystiaUpgrade.put(MIBlocks.STEAMER, MIBlocks.MYSTIA_STEAMER);
+        this.offerUpgradeRecipes(mystiaUpgrade, Items.FEATHER);
+
+        Map<Block, Block> superUpgrade = new Object2ObjectOpenHashMap<>();
+        superUpgrade.put(MIBlocks.COOKING_POT, MIBlocks.SUPER_COOKING_POT);
+        superUpgrade.put(MIBlocks.CUTTING_BOARD, MIBlocks.SUPER_CUTTING_BOARD);
+        superUpgrade.put(MIBlocks.FRYING_PAN, MIBlocks.SUPER_FRYING_PAN);
+        superUpgrade.put(MIBlocks.GRILL, MIBlocks.SUPER_GRILL);
+        superUpgrade.put(MIBlocks.STEAMER, MIBlocks.SUPER_STEAMER);
+        this.offerUpgradeRecipes(superUpgrade, Items.GOLD_INGOT);
+
+        Map<Block, Block> extremeUpgrade = new Object2ObjectOpenHashMap<>();
+        extremeUpgrade.put(MIBlocks.COOKING_POT, MIBlocks.EXTREME_COOKING_POT);
+        extremeUpgrade.put(MIBlocks.CUTTING_BOARD, MIBlocks.EXTREME_CUTTING_BOARD);
+        extremeUpgrade.put(MIBlocks.FRYING_PAN, MIBlocks.EXTREME_FRYING_PAN);
+        extremeUpgrade.put(MIBlocks.GRILL, MIBlocks.EXTREME_GRILL);
+        extremeUpgrade.put(MIBlocks.STEAMER, MIBlocks.EXTREME_STEAMER);
+        this.offerUpgradeRecipes(extremeUpgrade, Items.DIAMOND);
+
+    }
+
+    private void offerUpgradeRecipes(Map<Block, Block> blockBlockMap, Item upgradeMaterial) {
+        Set<Map.Entry<Block, Block>> entries = blockBlockMap.entrySet();
+        for (Map.Entry<Block, Block> entry : entries) {
+            Block key = entry.getKey();
+            Block value = entry.getValue();
+            createShaped(RecipeCategory.DECORATIONS, value)
+                    .pattern("YYY")
+                    .pattern("YXY")
+                    .pattern("YYY")
+                    .input('X', key)
+                    .input('Y', upgradeMaterial)
+                    .criterion("always", conditionsFromItem(Items.AIR))
+                    .offerTo(exporter, getRecipeName(value));
+        }
     }
 
     private void offerSwordRecipe(RecipeExporter exporter, Item result, Item ingot) {

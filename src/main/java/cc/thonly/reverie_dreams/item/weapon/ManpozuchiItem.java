@@ -56,6 +56,35 @@ public class ManpozuchiItem extends BasicPolymerPickaxeItem {
     }
 
     @Override
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        boolean isSneaking = user.isSneaking();
+        World world = user.getWorld();
+        if (!world.isClient() && isSneaking && user instanceof ServerPlayerEntity player) {
+            ItemStack stackInHand = player.getStackInHand(hand);
+            AttributeContainer attributes = entity.getAttributes();
+            EntityAttributeInstance attributeInstance = attributes.getCustomInstance(EntityAttributes.SCALE);
+            if (attributeInstance == null) {
+                return ActionResult.PASS;
+            }
+            ILivingEntity lePlayerImpl = (ILivingEntity) entity;
+            double state = lePlayerImpl.getManpozuchiUsingState();
+            if (state >= 0.2) {
+                attributeInstance.setBaseValue(state);
+                lePlayerImpl.setManpozuchiUsingState(state - 0.1);
+            } else {
+                attributeInstance.setBaseValue(1.0);
+                lePlayerImpl.setManpozuchiUsingState(1.0);
+            }
+            if (!user.isInCreativeMode()) {
+                stackInHand.damage(1, user);
+            }
+            user.swingHand(hand);
+            return ActionResult.SUCCESS_SERVER;
+        }
+        return ActionResult.SUCCESS;
+    }
+
+    @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         boolean isSneaking = user.isSneaking();
         if (!world.isClient() && isSneaking && user instanceof ServerPlayerEntity player) {

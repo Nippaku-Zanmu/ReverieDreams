@@ -7,7 +7,7 @@ import cc.thonly.reverie_dreams.block.ModBlocks;
 import cc.thonly.reverie_dreams.data.ModTags;
 import cc.thonly.reverie_dreams.item.ModItems;
 import cc.thonly.reverie_dreams.item.base.*;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -21,10 +21,7 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
@@ -59,6 +56,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         addAll.accept(ItemTags.AXES, BasicPolymerAxeItem.ITEMS);
         addAll.accept(ItemTags.SHOVELS, BasicPolymerShovelItem.ITEMS);
         addAll.accept(ItemTags.HOES, BasicPolymerHoeItem.ITEMS);
+        addAll.accept(ItemTags.TRIDENT_ENCHANTABLE, List.of(ModItems.NUE_TRIDENT));
 
         // === 盔甲类 Tag ===
         addAll.accept(ItemTags.HEAD_ARMOR, BasicPolymerArmorItem.HEAD_ITEMS);

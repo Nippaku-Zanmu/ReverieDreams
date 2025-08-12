@@ -1,6 +1,6 @@
 package cc.thonly.reverie_dreams.mixin.registry;
 
-import cc.thonly.reverie_dreams.datafixer.ModDataFixer;
+import cc.thonly.reverie_dreams.datafixer.DataFixerContentManager;
 import cc.thonly.reverie_dreams.interfaces.SimpleRegistrySetter;
 import net.fabricmc.fabric.api.event.registry.FabricRegistry;
 import net.minecraft.registry.MutableRegistry;
@@ -33,7 +33,7 @@ public abstract class SimpleRegistryMixin<T> implements SimpleRegistrySetter, Mu
 
     @Inject(method = "freeze", at = @At("HEAD"))
     public void onFreeze(CallbackInfoReturnable<Registry<T>> cir) {
-        for (Map.Entry<Registry<?>, Map<Identifier, Identifier>> registryMapEntry : ModDataFixer.ENTRIES.entrySet()) {
+        for (Map.Entry<Registry<?>, Map<Identifier, Identifier>> registryMapEntry : DataFixerContentManager.ENTRIES.entrySet()) {
             Registry<?> key = registryMapEntry.getKey();
             FabricRegistry fabricRegistry = this;
             if (key.equals(fabricRegistry)) {

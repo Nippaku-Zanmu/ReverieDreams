@@ -54,7 +54,7 @@ public class BasicPolymerFenceBlock extends FenceBlock implements FactoryBlock, 
 
     @Override
     public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {
-        return new BasicPolymerFenceBlock.Model(initialBlockState, this.getIdentifier());
+        return new Model(initialBlockState, this.getIdentifier());
     }
 
     public static final class Model extends BlockModel {

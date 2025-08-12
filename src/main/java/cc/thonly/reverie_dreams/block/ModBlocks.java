@@ -39,6 +39,7 @@ public class ModBlocks {
     public static final Block MAGIC_ICE_BLOCK = registerCopyBlock(new MagicIceBlock("magic_ice", Blocks.ICE, AbstractBlock.Settings.copy(Blocks.BLUE_ICE)));
     public static final Block POINT_BLOCK = registerBlock(new BasicPolymerBlock("point_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));
     public static final Block POWER_BLOCK = registerBlock(new BasicPolymerBlock("power_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.STONE)));
+    public static final DecorativeBlockCreator ICE_SCALES = DecorativeBlockCreator.create("ice_scales_block").build();
     public static final Block SILVER_ORE = registerBlock(new BasicPolymerBlock("silver_ore", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.IRON_ORE)));
     public static final Block DEEPSLATE_SILVER_ORE = registerBlock(new BasicPolymerBlock("deepslate_silver_ore", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE)));
     public static final Block SILVER_BLOCK = registerBlock(new BasicPolymerBlock("silver_block", BlockModelType.FULL_BLOCK, AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
@@ -55,7 +56,7 @@ public class ModBlocks {
     public static final Block MARISA_HAT_BLOCK = registerBlock(new MarisaHatBlock("marisa_hat", new Vec3d(0, 0, 0), AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)), new Item.Settings().maxCount(1).component(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.HEAD).swappable(false).build()));
 
     public static void registerBlocks() {
-        BlockModels.registerModels();
+
 //        SPIRITUAL_BLOCKS.put(BlockTypeTag.STRIPPED_OAK_LOG, ModBlocks.SPIRITUAL_OAK_LOG);
     }
 

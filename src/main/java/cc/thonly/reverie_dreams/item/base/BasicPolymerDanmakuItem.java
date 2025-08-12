@@ -9,9 +9,11 @@ import lombok.ToString;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
@@ -33,15 +35,36 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
     public static final Integer DEFAULT_COUNT = 3;
 
     public BasicPolymerDanmakuItem(String path, Settings settings, Item item) {
-        super(path, settings.maxCount(1), item != null ? item : Items.BLAZE_POWDER);
+        super(path, settings.maxCount(1), item != null ? item : Items.BLAZE_ROD);
     }
 
     public BasicPolymerDanmakuItem(Identifier identifier, Settings settings, Item item) {
-        super(identifier, settings.maxCount(1), item != null ? item : Items.BLAZE_POWDER);
+        super(identifier, settings.maxCount(1), item != null ? item : Items.BLAZE_ROD);
     }
 
     public BasicPolymerDanmakuItem(String path, Settings settings) {
-        this(path, settings.maxCount(1), Items.BLAZE_POWDER);
+        this(path, settings.maxCount(1), Items.BLAZE_ROD);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        if (!context.getWorld().isClient()) {
+            use((ServerWorld) context.getWorld(),
+                    (PlayerEntity) context.getPlayer(),
+                    context.getHand());
+        }
+        return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        World world = user.getWorld();
+        if (!world.isClient()) {
+            use((ServerWorld) world,
+                    user,
+                    hand);
+        }
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -85,5 +108,5 @@ public abstract class BasicPolymerDanmakuItem extends BasicPolymerItem implement
         textConsumer.accept(Text.empty().append(Text.translatable("item.tooltip.base_type")).append(Text.translatable(Identifier.of(templateType).toTranslationKey())));
     }
 
-    public abstract void shoot(ServerWorld serverWorld, PlayerEntity user, Hand hand);
+    public abstract void shoot(ServerWorld serverWorld, LivingEntity user, Hand hand);
 }

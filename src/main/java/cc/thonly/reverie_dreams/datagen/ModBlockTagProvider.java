@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.tag.ProvidedTagBuilder;
@@ -64,6 +65,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         ProvidedTagBuilder<Block, Block> hoeMineables = valueLookupBuilder(BlockTags.HOE_MINEABLE);
         ProvidedTagBuilder<Block, Block> pickaxeMineables = valueLookupBuilder(BlockTags.PICKAXE_MINEABLE);
         ProvidedTagBuilder<Block, Block> shovelMineables = valueLookupBuilder(BlockTags.SHOVEL_MINEABLE);
+        ProvidedTagBuilder<Block, Block> ores = valueLookupBuilder(ConventionalBlockTags.ORES);
 
         for (Fumo instance : Fumos.getView()) {
             fumo.add(instance.block());
@@ -85,7 +87,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         pickaxeMineables.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
         pickaxeMineables.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
         pickaxeMineables.add(ModBlocks.GENSOKYO_ALTAR);
-        pickaxeMineables.add(MIBlocks.COOKTOP);
+//        pickaxeMineables.add(MIBlocks.COOKTOP);
         ModBlocks.SPIRITUAL.stream().forEach(axeMineables::add);
         MIBlocks.LEMON.stream().forEach(axeMineables::add);
         MIBlocks.GINKGO.stream().forEach(axeMineables::add);
@@ -96,6 +98,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         hoeMineables.add(ModBlocks.POWER_BLOCK);
         hoeMineables.add(ModBlocks.POINT_BLOCK);
         sliver.add(ModBlocks.SILVER_BLOCK, ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
+        ores.add(ModBlocks.SILVER_ORE, ModBlocks.DEEPSLATE_SILVER_ORE);
+        ores.add(ModBlocks.ORB_ORE, ModBlocks.DEEPSLATE_ORB_ORE);
+
+        pickaxeMineables.add(ModBlocks.ICE_SCALES.block(), ModBlocks.ICE_SCALES.slab(), ModBlocks.ICE_SCALES.stair());
 
         minTools.add(Blocks.BEDROCK);
         empty.add(Blocks.BEDROCK);

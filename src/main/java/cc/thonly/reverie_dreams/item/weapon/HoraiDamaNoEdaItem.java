@@ -33,9 +33,9 @@ public class HoraiDamaNoEdaItem extends BasicPolymerSwordItem {
             float pitch = user.getPitch();
             float yaw = user.getYaw();
             DelayedTask.repeat(world.getServer(), 3, 5, () -> {
-                DanmakuEntity center = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw, 1.4f, 0f, 0.0f, 1.5f);
-                DanmakuEntity left = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw - 10, 1.4f, 0f, 0.0f, 1.5f);
-                DanmakuEntity right = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw+ 10, 1.4f, 0f, 0.0f, 1.5f);
+                DanmakuEntity center = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw, 1.4f, 0f, 0.0f, 0.8f);
+                DanmakuEntity left = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw - 10, 1.4f, 0f, 0.0f, 0.8f);
+                DanmakuEntity right = DanmakuTrajectory.spawnByItemStack(serverWorld, user, user.getX(), user.getY(), user.getZ(), DanmakuTypes.random(DanmakuTypes.FIREBALL), pitch, yaw+ 10, 1.4f, 0f, 0.0f, 0.8f);
 
                 center.playSound(SoundEventInit.FIRE, 1.0f, 1.0f);
             });

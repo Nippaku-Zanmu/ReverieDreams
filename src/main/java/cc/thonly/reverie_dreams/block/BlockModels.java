@@ -15,7 +15,11 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlockModels {
+    public static final List<Item> ITEMS = new ArrayList<>();
     public static final Block EMPTY_TRANSPARENT_TRIPWIRE = registerEmpty(new EmptyBlock(Touhou.id("empty_transparent_tripwire"), TransparentTripWire.TRANSPARENT_TRIPWIRE, AbstractBlock.Settings.create()));
     public static final Block EMPTY_TRIPWIRE_FLAT = registerEmpty(new EmptyBlock(Touhou.id("empty_tripwire_flat"), TransparentFlatTripWire.TRANSPARENT_FLAT_TRIPIWIRE, AbstractBlock.Settings.create()));
     public static final Block EMPTY_TRANSPARENT_PLANT_WATERLOGGED = registerEmpty(new EmptyBlock(Touhou.id("empty_transparent_plant_waterlogged"), TransparentPlantWatterlogged.TRANSPARENT_WATTERLOGGED, AbstractBlock.Settings.create()));
@@ -27,6 +31,7 @@ public class BlockModels {
     public static Block registerEmpty(IdentifierGetter block) {
         block = (IdentifierGetter) Registry.register(Registries.BLOCK, block.getIdentifier(), (Block) block);
         Item blockItem = MIItems.registerItem(new BasicBlockItem(block.getIdentifier(), (Block) block, new Item.Settings()));;
+        ITEMS.add(blockItem);
         return (Block) block;
     }
 }

@@ -1,7 +1,7 @@
 package cc.thonly.reverie_dreams.mixin.server;
 
-import cc.thonly.reverie_dreams.trading_card.ITradingCardPlayer;
-import cc.thonly.reverie_dreams.trading_card.TradingCardManager;
+import cc.thonly.reverie_dreams.world.trading_card.ITradingCardPlayer;
+import cc.thonly.reverie_dreams.world.trading_card.TradingCardManager;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.common.SyncedClientOptions;

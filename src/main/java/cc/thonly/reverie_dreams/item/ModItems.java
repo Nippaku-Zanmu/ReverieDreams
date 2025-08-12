@@ -82,7 +82,8 @@ public class ModItems {
     public static final Item FUMO_LICENSE = registerItem(new FumoLicenseItem("fumo_license", new Item.Settings()));
     public static final Item CURSED_DECOY_DOLl = registerItem(new CursedDecoyDollItem("cursed_decoy_doll", new Item.Settings()));
     public static final Item VAISRAVANAS_PAGODA = registerItem(new VaisravanasPagodaItem("vaisravanas_pagoda", new Item.Settings()));
-
+    public static final Item DREAM_PILLOW = registerItem(new DreamPillowItem("dream_pillow", new Item.Settings().maxDamage(4)));
+    
     // 武器
     public static final Item HAKUREI_CANE = registerItem(new HakureiCane("hakurei_cane", 0, 0, new Item.Settings()));
     public static final Item BAGUA_FURNACE = registerItem(new BaguaFurnace("bagua_furnace", new Item.Settings()));
@@ -104,7 +105,7 @@ public class ModItems {
     public static final Item VIOLIN = registerItem(new MusicalInstrumentItem("violin", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.FLUTE)));
     public static final Item KEYBOARD = registerItem(new MusicalInstrumentItem("keyboard", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.PLING)));
     public static final Item TRUMPET = registerItem(new MusicalInstrumentItem("trumpet", new Item.Settings().component(ModDataComponentTypes.NOTE_TYPE, NoteBlockInstrument.DIDGERIDOO)));
-    public static final Item DEATH_SCYTHE = registerItem(new DeathScytheItem("death_scythe", 0,0, new Item.Settings()));
+    public static final Item DEATH_SCYTHE = registerItem(new DeathScytheItem("death_scythe", 0, 0, new Item.Settings()));
 
     // 银装备
     public static final Item RAW_SILVER = registerItem(new BasicItem("raw_silver", new Item.Settings()));

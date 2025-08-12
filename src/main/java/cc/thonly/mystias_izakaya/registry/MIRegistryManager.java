@@ -1,8 +1,9 @@
 package cc.thonly.mystias_izakaya.registry;
 
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
+import cc.thonly.mystias_izakaya.component.CraftingConflict;
 import cc.thonly.mystias_izakaya.component.FoodProperty;
-import cc.thonly.mystias_izakaya.impl.FoodPropertyCallback;
+import cc.thonly.mystias_izakaya.api.FoodPropertyCallback;
 import cc.thonly.reverie_dreams.registry.RegistryManager;
 import cc.thonly.reverie_dreams.registry.StandaloneRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,11 @@ public class MIRegistryManager extends RegistryManager {
     public static final StandaloneRegistry<FoodProperty> FOOD_PROPERTY = ofEntry(FoodProperty.class, MystiasIzakaya.id("food_property"))
             .codec(FoodProperty.CODEC)
             .reloadable(FoodProperties::reload)
-            .build(FoodProperties::bootstrap)
-            ;
+            .build(FoodProperties::bootstrap);
+    public static final StandaloneRegistry<CraftingConflict> CRAFTING_CONFLICT = ofEntry(CraftingConflict.class, MystiasIzakaya.id("crafting_conflict"))
+            .codec(CraftingConflict.CODEC)
+            .reloadable(CraftingConflict::reload)
+            .build(CraftingConflict::bootstrap);
 
     public static void bootstrap() {
         FOOD_PROPERTY.apply();
@@ -26,7 +30,7 @@ public class MIRegistryManager extends RegistryManager {
             }
             if (property.is(FoodProperties.SPICY)) {
                 user.setOnFire(true);
-                user.setFireTicks(2*20);
+                user.setFireTicks(2 * 20);
             }
             if (property.is(FoodProperties.BIZARRE)) {
                 user.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 15 * 20, 1));

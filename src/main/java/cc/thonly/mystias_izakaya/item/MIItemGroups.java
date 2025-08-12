@@ -3,7 +3,7 @@ package cc.thonly.mystias_izakaya.item;
 import cc.thonly.mystias_izakaya.MystiasIzakaya;
 import cc.thonly.mystias_izakaya.block.MIBlocks;
 import cc.thonly.reverie_dreams.block.WoodCreator;
-import cc.thonly.reverie_dreams.util.PolymerCropCreator;
+import cc.thonly.reverie_dreams.block.PolymerCropCreator;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -23,7 +23,7 @@ public class MIItemGroups {
     public static final RegistryKey<ItemGroup> SEEDS_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), MystiasIzakaya.id("seeds_item_group"));
     public static final RegistryKey<ItemGroup> FOOD_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), MystiasIzakaya.id("food_item_group"));
     public static final ItemGroup KITCHENWARE_ITEM_GROUP = PolymerItemGroupUtils.builder()
-            .icon(() -> new ItemStack(MIBlocks.COOKING_POT))
+            .icon(() -> new ItemStack(MIItems.MYSTIA_ICON))
             .displayName(Text.translatable("item_group.kitchenware_item_group"))
             .build();
     public static final ItemGroup INGREDIENT_ITEM_GROUP = PolymerItemGroupUtils.builder()
@@ -53,7 +53,28 @@ public class MIItemGroups {
             itemGroup.add(MIBlocks.FRYING_PAN);
             itemGroup.add(MIBlocks.GRILL);
             itemGroup.add(MIBlocks.STEAMER);
-            itemGroup.add(MIBlocks.COOKTOP);
+
+            itemGroup.add(MIBlocks.MYSTIA_COOKING_POT);
+            itemGroup.add(MIBlocks.MYSTIA_CUTTING_BOARD);
+            itemGroup.add(MIBlocks.MYSTIA_FRYING_PAN);
+            itemGroup.add(MIBlocks.MYSTIA_GRILL);
+            itemGroup.add(MIBlocks.MYSTIA_STEAMER);
+
+            itemGroup.add(MIBlocks.SUPER_COOKING_POT);
+            itemGroup.add(MIBlocks.SUPER_CUTTING_BOARD);
+            itemGroup.add(MIBlocks.SUPER_FRYING_PAN);
+            itemGroup.add(MIBlocks.SUPER_GRILL);
+            itemGroup.add(MIBlocks.SUPER_STEAMER);
+
+            itemGroup.add(MIBlocks.EXTREME_COOKING_POT);
+            itemGroup.add(MIBlocks.EXTREME_CUTTING_BOARD);
+            itemGroup.add(MIBlocks.EXTREME_FRYING_PAN);
+            itemGroup.add(MIBlocks.EXTREME_GRILL);
+            itemGroup.add(MIBlocks.EXTREME_STEAMER);
+
+            itemGroup.add(MIBlocks.ITEM_DISPLAY);
+
+//            itemGroup.add(MIBlocks.COOKTOP);
         });
         ItemGroupEvents.modifyEntriesEvent(INGREDIENT_ITEM_GROUP_KEY).register(itemGroup -> {
             for (Item item : MIItems.INGREDIENTS) {

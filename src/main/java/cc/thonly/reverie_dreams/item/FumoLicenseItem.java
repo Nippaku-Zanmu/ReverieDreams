@@ -2,12 +2,14 @@ package cc.thonly.reverie_dreams.item;
 
 import cc.thonly.reverie_dreams.entity.villager.FumoSellerVillager;
 import cc.thonly.reverie_dreams.item.base.BasicPolymerItem;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -17,6 +19,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.function.Consumer;
 
 public class FumoLicenseItem extends BasicPolymerItem {
     public FumoLicenseItem(String path, Settings settings) {
@@ -52,5 +56,11 @@ public class FumoLicenseItem extends BasicPolymerItem {
             return ActionResult.SUCCESS_SERVER;
         }
         return ActionResult.FAIL;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+        textConsumer.accept(Text.translatable("item.tooltip.use.villager"));
     }
 }
