@@ -1,6 +1,8 @@
 package cc.thonly.reverie_dreams.entity.ai.goal;
 
 import cc.thonly.reverie_dreams.entity.npc.NPCEntityImpl;
+import cc.thonly.reverie_dreams.entity.skin.RoleSkin;
+import cc.thonly.reverie_dreams.entity.skin.RoleSkins;
 import cc.thonly.reverie_dreams.interfaces.IItemStack;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -13,6 +15,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -27,10 +30,12 @@ public class EatGoal extends Goal {
     }
 
 
-
     @Override
     public boolean canStart() {
-        return maid.getNutrition() < 20;
+        if (RoleSkins.YUYUKO.get().equals(this.maid.getSkin())){
+            return maid.getNutrition() < 20;
+        }
+        return (maid.getNutrition() < 20 && maid.getHealth() < 20) || maid.getNutrition() < 10;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class EatGoal extends Goal {
     public void tick() {
         dealyTick--;
         ServerWorld world = (ServerWorld) maid.getWorld();
-        if (dealyTick<=0){
+        if (dealyTick <= 0) {
             stop();
             return;
         }
@@ -64,7 +69,8 @@ public class EatGoal extends Goal {
                     , world.random.nextGaussian() * 0.05
             );
             //干饭声音
-            if (dealyTick%3==0){
+            if (dealyTick % 3 == 0) {
+                maid.swingHand(Hand.MAIN_HAND);
                 world.playSound(
                         null,
                         maid.getX(),
@@ -76,7 +82,7 @@ public class EatGoal extends Goal {
                         MathHelper.nextBetween(world.random, 0.9F, 1.0F)
                 );
             }
-        }else findFood();
+        } else findFood();
         super.tick();
     }
 
@@ -91,7 +97,8 @@ public class EatGoal extends Goal {
         //重置槽位/延迟 避免重复吃 我不知道为啥他会调用2次stop
         super.stop();
     }
-    private boolean findFood(){
+
+    private boolean findFood() {
         Integer slot = maid.getInventory().findSlot(stack -> ((IItemStack) (Object) stack).isFood());
         if (slot == null) {
             this.slot = -1;
