@@ -10,6 +10,7 @@ import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
@@ -72,7 +73,7 @@ public class NPCEatFoodDispalyGoal extends MoveToTargetPosGoal {
                 ComponentMap components = item.getItemStack().getComponents();
                 FoodComponent foodComponent = components.get(DataComponentTypes.FOOD);
                 if (foodComponent != null) {
-
+                    maid.swingHand(Hand.MAIN_HAND);
                     int nutritionValue = foodComponent.nutrition();
                     int saturationValue = Math.round(foodComponent.saturation());
                     maid.setNutrition(maid.getNutrition() + nutritionValue);
