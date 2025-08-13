@@ -20,12 +20,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.EnumSet;
+
 public class EatGoal extends Goal {
     private final NPCEntityImpl maid;
     int slot = -1;
     int dealyTick = 0;
 
     public EatGoal(NPCEntityImpl maid) {
+//        this.setControls(EnumSet.of(Goal.Control.MOVE));
         this.maid = maid;
     }
 
